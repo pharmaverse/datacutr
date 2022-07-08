@@ -22,20 +22,25 @@
 special_dm_cut <- function(dataset_dm,
                    dataset_cut = dcut ,
                    cut_var = TEMP_DCUTDT,
-                   dthcut_var = TEMP_DMDT) {
+                   dthcut_var = TEMP_DTHDT) {
 
-  dthcut_var <- assert_symbol(enquo(dthcut_var))
-  assert_data_frame(dataset_dm,
-                    required_vars = vars(USUBJID,dthcut_var))
-  assert_data_frame(dataset_cut,
-                    required_vars = admiral:::quo_c(vars(USUBJID), cut_var))
+  # dthcut_var <- assert_symbol(enquo(dthcut_var))
+  # assert_data_frame(dataset_dm,
+  #                   required_vars = vars(USUBJID,dthcut_var))
+  # assert_data_frame(dataset_cut,
+  #                   required_vars = admiral:::quo_c(vars(USUBJID), cut_var))
 
-  dcut <- dataset_cut %>%
-    mutate(TEMP_DCUTDT = DCUTDT) %>%
-    subset(select = c(USUBJID, TEMP_DCUTDT))
+  dataset_updatedth <- dataset_dm %>%
+    mutate(DTHFL = case_when(
+      dthcut_var>cut_var & DTHFL=="Y" ~ "",
+      TRUE ~ DTHFL
+    ))
 
-  dataset <- dataset_sdtm %>%
-    left_join(dcut, by = "USUBJID")
-
-  dataset
+  dataset_updatedth
 }
+
+# chk <- special_dm_cut(dataset_dm=dm_tempdt,
+#                dataset_cut=dcut,
+#                cut_var="TEMP_DCUTDT",
+#                dthcut_var="TEMP_DTHDT") %>%
+#   select(USUBJID,TEMP_DCUTDT,TEMP_DTHDT,DTHDTC,DTHFL)
