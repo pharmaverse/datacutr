@@ -11,8 +11,9 @@
 #' @export
 #'
 #' @examples
-#' dcut <-  data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d", "UXYZ123e"),
-#'                     DCUTDTC=c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30", "2022-06"))
+#' dcut <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d", "UXYZ123e"),
+#'         DCUTDTC=c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30",
+#'                  "2022-06"))
 #' dcut$DCUTDTC <- as.character(dcut$DCUTDTC)
 #' dcut_final <- impute_dcutdtc(dsin=dcut, varin=DCUTDTC, varout=DCUTDT)
 
