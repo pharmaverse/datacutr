@@ -24,9 +24,9 @@ ds_select <- ds %>%
   # filter(DSTERM=="RANDOMIZATION") %>%
   filter(DSTERM!="PROTOCOL COMPLETED") %>%
   select(USUBJID, DSSTDTC) %>%
-  group_by(USUBJID) %>%
-  filter(row_number()==1) %>%
-  ungroup()
+  # group_by(USUBJID) %>%
+  # filter(row_number()==1) %>%
+  # ungroup()
 
 # Assign DCUTDTC in ISO format --------------------------------------------
 dcutdate <- "2014-10-20T23:59:59"
@@ -107,17 +107,17 @@ FUNCTION_SDTMVCUT(XXXX)
 FUNCTION_PATIENTCUT(XXXX)
 FUNCTION_create_sdtmv_datetime(XXXX)
 
-dm_ptcut <- pt_cut(dataset_sdtm=dm,
-                   dataset_cut = dcut ,
-                   cut_var = DCUTDT,
-                   cut_type = "cut")
-
-dm_tempdt <- dm_ptcut %>%
-  mutate(DTHDT = case_when(
-    DTHDTC!="" ~ str_c(DTHDTC,"T00:00:00")
-  )) %>%
-  mutate(TEMP_DTHDT=ymd_hms(DTHDT)) %>%
-  select(-DTHDT)
+# dm_ptcut <- pt_cut(dataset_sdtm=dm,
+#                    dataset_cut = dcut ,
+#                    cut_var = DCUTDT,
+#                    cut_type = "cut")
+#
+# dm_tempdt <- dm_ptcut %>%
+#   mutate(DTHDT = case_when(
+#     DTHDTC!="" ~ str_c(DTHDTC,"T00:00:00")
+#   )) %>%
+#   mutate(TEMP_DTHDT=ymd_hms(DTHDT)) %>%
+#   select(-DTHDT)
 
 FUNCTION_SPECIALDM(XXXX)
 
