@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • datacutr</title>
+<title>Imputes Partial Dates in DCUTDTC — impute_dcutdtc • datacutr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,7 +52,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Imputes Partial Dates in DCUTDTC — impute_dcutdtc" />
+<meta property="og:description" content="Imputes partial dates in DCUTDTC variable, created within the datacut process." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -72,7 +73,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -142,258 +143,47 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Imputes Partial Dates in DCUTDTC</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/admiraltemplate/blob/main/R/impute_dcutdtc.R'><code>R/impute_dcutdtc.R</code></a></small>
+    <div class="hidden name"><code>impute_dcutdtc.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Imputes partial dates in DCUTDTC variable, created within the datacut process.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>impute_dcutdtc</span>(<span class='no'>dsin</span>, <span class='no'>varin</span>, <span class='no'>varout</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-hello-and-welcome" class="hasAnchor"><a href="#section-hello-and-welcome" class="anchor"></a>Hello and Welcome</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-hello" class="hasAnchor"><a href="#section-hello" class="anchor"></a>Hello</h3>
-          <p class="section-desc"><p>General example functions</p></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="hello_admiral.html">hello_admiral()</a></code> </p>
-        </td>
-        <td><p>Derive Extension Example</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-derivations" class="hasAnchor"><a href="#section-derivations" class="anchor"></a>Derivations</h2>
-          <p class="section-desc"><p>Derivations add one or more variables or parameters to the input dataset and return the extended dataset.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-computations" class="hasAnchor"><a href="#section-computations" class="anchor"></a>Computations</h2>
-          <p class="section-desc"><p>Computations expect vectors as input and return a vector</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-cdisc-hierarchy" class="hasAnchor"><a href="#section-cdisc-hierarchy" class="anchor"></a>CDISC Hierarchy</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-adxx" class="hasAnchor"><a href="#section-adxx" class="anchor"></a>ADXX</h3>
-          <p class="section-desc"><p>ADXX specific functions</p></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-other-keywords" class="hasAnchor"><a href="#section-other-keywords" class="anchor"></a>Other Keywords</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-timing" class="hasAnchor"><a href="#section-timing" class="anchor"></a>Timing</h3>
-          <p class="section-desc"><p>Function related to timing, e.g., deriving dates, imputing dates, converting dates, deriving duration, …</p></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="hello_admiral.html">hello_admiral()</a></code> </p>
-        </td>
-        <td><p>Derive Extension Example</p></td>
-      </tr>
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-source-specifications" class="hasAnchor"><a href="#section-source-specifications" class="anchor"></a>Source Specifications</h3>
-          <p class="section-desc"><p>Classes defining sources for derivations where variables or observations from more than one dataset are considered, e.g., like in <code>derive_var_lstalvdt()</code></p></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-pre-defined-time-to-event-sources" class="hasAnchor"><a href="#section-pre-defined-time-to-event-sources" class="anchor"></a>Pre-Defined Time-to-Event Sources</h3>
-          <p class="section-desc"><p><code>tte_source</code> objects defined by {admiral} that can be used as input for <code>derive_param_tte()</code></p></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-adam-datasets" class="hasAnchor"><a href="#section-adam-datasets" class="anchor"></a>ADaM Datasets</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-user-utilities" class="hasAnchor"><a href="#section-user-utilities" class="anchor"></a>User Utilities</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-developer-utilities" class="hasAnchor"><a href="#section-developer-utilities" class="anchor"></a>Developer Utilities</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-assertions" class="hasAnchor"><a href="#section-assertions" class="anchor"></a>Assertions</h3>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="pt_cut.html">pt_cut()</a></code> </p>
-        </td>
-        <td><p>Patient Cut</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sdtm_cut.html">sdtm_cut()</a></code> </p>
-        </td>
-        <td><p>xxSTDTC or xxDTC Cut</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="special_dm_cut.html">special_dm_cut()</a></code> </p>
-        </td>
-        <td><p>Special DM Cut</p></td>
-      </tr>
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-checks" class="hasAnchor"><a href="#section-checks" class="anchor"></a>Checks</h3>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-warnings" class="hasAnchor"><a href="#section-warnings" class="anchor"></a>Warnings</h3>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      
-      <tr>
-        <th colspan="2">
-          <h3 id="section-various" class="hasAnchor"><a href="#section-various" class="anchor"></a>Various</h3>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>dsin</th>
+      <td><p>Name of input dataframe</p></td>
+    </tr>
+    <tr>
+      <th>varin</th>
+      <td><p>Name of input datacut date variable</p></td>
+    </tr>
+    <tr>
+      <th>varout</th>
+      <td><p>Name of imputed output variable</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns the input dataframe, with the additional of one extra variable (varout) which is the imputed version of varin.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"UXYZ123a"</span>, <span class='st'>"UXYZ123b"</span>, <span class='st'>"UXYZ123c"</span>, <span class='st'>"UXYZ123d"</span>, <span class='st'>"UXYZ123e"</span>),
+        <span class='kw'>DCUTDTC</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2022-06-23"</span>, <span class='st'>"2022-06-23T16"</span>, <span class='st'>"2022-06-23T16:57"</span>, <span class='st'>"2022-06-23T16:57:30"</span>,
+                 <span class='st'>"2022-06"</span>))
+<span class='no'>dcut</span>$<span class='no'>DCUTDTC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>dcut</span>$<span class='no'>DCUTDTC</span>)
+<span class='no'>dcut_final</span> <span class='kw'>&lt;-</span> <span class='fu'>impute_dcutdtc</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>dcut</span>, <span class='kw'>varin</span><span class='kw'>=</span><span class='no'>DCUTDTC</span>, <span class='kw'>varout</span><span class='kw'>=</span><span class='no'>DCUTDT</span>)</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

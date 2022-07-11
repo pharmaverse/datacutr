@@ -177,6 +177,9 @@
 
     <p>Returns the input dataframe, with the additional of one extra variable (varout) which is the imputed version of varin.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>ex</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>admiral.test</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/admiral.test/man/admiral_ex.html'>admiral_ex</a></span>
+<span class='no'>ex</span> <span class='kw'>&lt;-</span> <span class='fu'>select</span>(<span class='no'>ex</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>USUBJID</span>, <span class='no'>EXSTDTC</span>))</div><div class='output co'>#&gt; <span class='error'>Error in select(ex, c(USUBJID, EXSTDTC)): could not find function "select"</span></div><div class='input'><span class='no'>temp_ex</span> <span class='kw'>&lt;-</span> <span class='fu'>impute_sdtm</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>ex</span>, <span class='kw'>varin</span><span class='kw'>=</span><span class='no'>EXSTDTC</span>, <span class='kw'>varout</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_EXSTDTC</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
