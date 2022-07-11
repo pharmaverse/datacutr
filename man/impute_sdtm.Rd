@@ -19,3 +19,8 @@ Returns the input dataframe, with the additional of one extra variable (varout) 
 \description{
 Imputes partial dates in SDTM variables as part of the datacut process.
 }
+\examples{
+ex <- admiral.test::admiral_ex
+ex <- select(ex, c(USUBJID, EXSTDTC))
+temp_ex <- impute_sdtm(dsin=ex, varin=EXSTDTC, varout=DCUT_TEMP_EXSTDTC)
+}
