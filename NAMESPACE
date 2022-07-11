@@ -2,9 +2,11 @@
 
 export(drop_temp_vars)
 export(hello_admiral)
+export(impute_dcutdtc)
 export(impute_sdtm)
 export(pt_cut)
 export(sdtm_cut)
+export(special_dm_cut)
 importFrom(admiral,derive_vars_dy)
 importFrom(assertthat,"on_failure<-")
 importFrom(assertthat,assert_that)
