@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>xxSTDTC or xxDTC Cut — sdtm_cut • datacutr</title>
+<title>Special DM Cut — special_dm_cut • datacutr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="xxSTDTC or xxDTC Cut — sdtm_cut" />
-<meta property="og:description" content="Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable" />
+<meta property="og:title" content="Special DM Cut — special_dm_cut" />
+<meta property="og:description" content="Clears death information within DM if death occurred after datacut date" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -142,65 +142,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>xxSTDTC or xxDTC Cut</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/admiraltemplate/blob/main/R/sdtm_cut.R'><code>R/sdtm_cut.R</code></a></small>
-    <div class="hidden name"><code>sdtm_cut.Rd</code></div>
+    <h1>Special DM Cut</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/admiraltemplate/blob/main/R/special_dm_cut.R'><code>R/special_dm_cut.R</code></a></small>
+    <div class="hidden name"><code>special_dm_cut.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable</p>
+    <p>Clears death information within DM if death occurred after datacut date</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sdtm_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='no'>sdtm_date_var</span>, <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>TEMP_DCUTDT</span>, <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"cut"</span>)</pre>
+    <pre class="usage"><span class='fu'>special_dm_cut</span>(
+  <span class='no'>dataset_dm</span>,
+  <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>,
+  <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>TEMP_DCUTDT</span>,
+  <span class='kw'>dthcut_var</span> <span class='kw'>=</span> <span class='no'>TEMP_DTHDT</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset_sdtm</th>
-      <td><p>Input SDTMv dataset</p></td>
+      <th>dataset_dm</th>
+      <td><p>Input DM SDTMv dataset</p></td>
     </tr>
     <tr>
-      <th>sdtm_date_var</th>
-      <td><p>Input date variable found in the <code>dataset_sdtmv</code> dataset</p></td>
+      <th>dataset_cut</th>
+      <td><p>Input datacut dataset, default is <code>dcut</code></p></td>
     </tr>
     <tr>
       <th>cut_var</th>
-      <td><p>Datacut date variable, default is <code>TEMP_DCUTDT</code></p></td>
+      <td><p>Datacut date variable found in the <code>dataset_cut</code> dataset, default is <code>TEMP_DCUTDT</code></p></td>
     </tr>
     <tr>
-      <th>cut_type</th>
-      <td><p>Set to either "cut" or "drop", "cut" will keep all the records before the datacut in
-the output dataset, "drop" will keep all the records which occur after and would be dropped, default is
-"cut"</p></td>
+      <th>dthcut_var</th>
+      <td><p>Death date variable (in date format) found in the <code>dataset_dm</code> dataset, default is <code>TEMP_DMDT</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataset containing either the records kept or removed after applying the datacut</p>
+    <p>A dataset with death information removed if death occurred after data cut</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)
+    <pre class="examples"><div class='input'>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_dm"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ae"</span>)
-
-<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_dm</span>
-<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ae</span>
-<span class='co'>#'</span>
-<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='no'>dm</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>RACE</span> <span class='kw'>==</span> <span class='st'>"BLACK OR AFRICAN AMERICAN"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>USUBJID</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
-
-<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>ae</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pt_cut.html'>pt_cut</a></span>(<span class='no'>.</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>DCUT_TEMP_AESTDT</span> <span class='kw'>&lt;-</span> <span class='no'>AESTDTC</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>sdtm_cut</span>(<span class='kw'>dataset_sdtm</span> <span class='kw'>=</span> <span class='no'>.</span>,
-           <span class='kw'>sdtm_date_var</span> <span class='kw'>=</span> <span class='no'>AESTDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
