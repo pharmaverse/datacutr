@@ -6,54 +6,18 @@ template:
       index_name: pharmaverse
 repo:
   url:
-    home: https://github.com/pharmaverse/admiraltemplate
-    source: https://github.com/pharmaverse/admiraltemplate/blob/main/
-    issue: https://github.com/pharmaverse/admiraltemplate/issues/
+    home: https://github.com/pharmaverse/datacutr
+    source: https://github.com/pharmaverse/datacutr/blob/main/
+    issue: https://github.com/pharmaverse/datacutr/issues/
     user: https://github.com/
 news:
   cran_dates: false
 reference:
-- title: Hello and Welcome
-- subtitle: Hello
-  desc: General example functions
-  contents:
-  - has_keyword('hello')
 - title: Derivations
   desc: Derivations add one or more variables or parameters to the input
         dataset and return the extended dataset.
 - contents:
-  - starts_with("derive")
-
-- title: Computations
-  desc: Computations expect vectors as input and return a vector
-  contents:
-  - has_keyword('computation')
-
-- title: CDISC Hierarchy
-- subtitle: ADXX
-  desc: ADXX specific functions
-  contents:
-  - has_keyword('adxx')
-
-- title: Other Keywords
-- subtitle: Timing
-  desc: Function related to timing, e.g., deriving dates, imputing dates, converting dates, deriving duration, ...
-  contents:
-  - has_keyword('timing')
-
-- subtitle: Source Specifications
-  desc: Classes defining sources for derivations where variables or observations from more than one dataset are considered, e.g., like in `derive_var_lstalvdt()`
-  contents:
-  - has_keyword('source_specifications')
-
-- subtitle: Pre-Defined Time-to-Event Sources
-  desc: '`tte_source` objects defined by {admiral} that can be used as input for `derive_param_tte()`'
-  contents:
-  - has_keyword('tte_source')
-
-- title: ADaM Datasets
-- contents:
-  - adxx
+  - has_keyword('derive')
 
 - title: User Utilities
 - contents:
@@ -77,4 +41,3 @@ articles:
 - title: User Guides
   navbar: User Guides
   contents:
-  - adxx

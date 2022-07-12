@@ -1,4 +1,4 @@
 library(testthat)
-library(admiralext)
+library(datacutr)
 
-test_check("admiralext")
+test_check("datacutr")

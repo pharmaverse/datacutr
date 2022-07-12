@@ -14,7 +14,8 @@ sdtm_cut(dataset_sdtm, sdtm_date_var, cut_var = TEMP_DCUTDT, cut_type = "cut")
 \item{cut_var}{Datacut date variable, default is \code{TEMP_DCUTDT}}
 
 \item{cut_type}{Set to either "cut" or "drop", "cut" will keep all the records before the datacut in
-the output dataset, "drop" will keep all the records which occur after and would be dropped}
+the output dataset, "drop" will keep all the records which occur after and would be dropped, default is
+"cut"}
 }
 \value{
 A dataset containing either the records kept or removed after applying the datacut
@@ -23,10 +24,29 @@ A dataset containing either the records kept or removed after applying the datac
 Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable
 }
 \examples{
+library(dplyr)
+library(admiral.test)
+library(admiral)
 
+data("admiral_dm")
+data("admiral_ae")
+
+dm <- admiral_dm
+ae <- admiral_ae
+#'
+dcut <- dm \%>\%
+  filter(RACE == "BLACK OR AFRICAN AMERICAN") \%>\%
+  select(USUBJID) \%>\%
+  mutate(DCUTDT = "2013-01-01", DCUTDESC = "Clinical Cutoff Date")
+
+ae <- ae \%>\%
+  pt_cut(.) \%>\%
+  mutate(DCUT_TEMP_AESTDT <- AESTDTC) \%>\%
+  sdtm_cut(dataset_sdtm = .,
+           sdtm_date_var = AESTDTC)
 
 }
 \author{
 Alana Harris
 }
-\keyword{assertion}
+\keyword{derive}
