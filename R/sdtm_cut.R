@@ -27,7 +27,7 @@
 #'
 #' dm <- admiral_dm
 #' ae <- admiral_ae
-#' #'
+#'
 #' dcut <- dm %>%
 #'   filter(RACE == "BLACK OR AFRICAN AMERICAN") %>%
 #'   select(USUBJID) %>%
@@ -38,7 +38,6 @@
 #'   mutate(DCUT_TEMP_AESTDT <- AESTDTC) %>%
 #'   sdtm_cut(dataset_sdtm = .,
 #'            sdtm_date_var = AESTDTC)
-#'
 
 sdtm_cut <- function(dataset_sdtm,
                      sdtm_date_var,
