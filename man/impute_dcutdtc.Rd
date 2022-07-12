@@ -26,3 +26,4 @@ dcut <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d", "UX
 dcut$DCUTDTC <- as.character(dcut$DCUTDTC)
 dcut_final <- impute_dcutdtc(dsin=dcut, varin=DCUTDTC, varout=DCUTDT)
 }
+\keyword{derive}

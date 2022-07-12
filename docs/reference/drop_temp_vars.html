@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>xxSTDTC or xxDTC Cut — sdtm_cut • datacutr</title>
+<title>Drops Temporary Variables From a Dataset — drop_temp_vars • datacutr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,10 @@
 
 
 
-<meta property="og:title" content="xxSTDTC or xxDTC Cut — sdtm_cut" />
-<meta property="og:description" content="Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable" />
+<meta property="og:title" content="Drops Temporary Variables From a Dataset — drop_temp_vars" />
+<meta property="og:description" content="Drops all the temporary variables (variables beginning with TEMP_) from the input dataset.
+It also allows the user to specify whether or not to drop the temporary variables needed throughout the
+datacut process (variables beginning with DCUT_TEMP_)." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -142,66 +144,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>xxSTDTC or xxDTC Cut</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/sdtm_cut.R'><code>R/sdtm_cut.R</code></a></small>
-    <div class="hidden name"><code>sdtm_cut.Rd</code></div>
+    <h1>Drops Temporary Variables From a Dataset</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/drop_temp_vars.R'><code>R/drop_temp_vars.R</code></a></small>
+    <div class="hidden name"><code>drop_temp_vars.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable</p>
+    <p>Drops all the temporary variables (variables beginning with TEMP_) from the input dataset.
+It also allows the user to specify whether or not to drop the temporary variables needed throughout the
+datacut process (variables beginning with DCUT_TEMP_).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sdtm_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='no'>sdtm_date_var</span>, <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>TEMP_DCUTDT</span>, <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"cut"</span>)</pre>
+    <pre class="usage"><span class='fu'>drop_temp_vars</span>(<span class='no'>dsin</span>, <span class='kw'>drop_dcut_temp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset_sdtm</th>
-      <td><p>Input SDTMv dataset</p></td>
+      <th>dsin</th>
+      <td><p>Name of input dataframe</p></td>
     </tr>
     <tr>
-      <th>sdtm_date_var</th>
-      <td><p>Input date variable found in the <code>dataset_sdtmv</code> dataset</p></td>
-    </tr>
-    <tr>
-      <th>cut_var</th>
-      <td><p>Datacut date variable, default is <code>TEMP_DCUTDT</code></p></td>
-    </tr>
-    <tr>
-      <th>cut_type</th>
-      <td><p>Set to either "cut" or "drop", "cut" will keep all the records before the datacut in
-the output dataset, "drop" will keep all the records which occur after and would be dropped, default is
-"cut"</p></td>
+      <th>drop_dcut_temp</th>
+      <td><p>Whether or not to drop variables beginning with DCUT_TEMP_ (TRUE/FALSE).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataset containing either the records kept or removed after applying the datacut</p>
+    <p>Returns the input dataframe, excluding the temporary variables.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The idea of this function is that, when used throughout the datacut process, drop_dcut_temp would
+always be set to FALSE until the very end of the datacut process, in which case, drop_dcut_temp would be set
+to TRUE.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)
-
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_dm"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ae"</span>)
-
-<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_dm</span>
-<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ae</span>
-<span class='co'>#'</span>
-<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='no'>dm</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>RACE</span> <span class='kw'>==</span> <span class='st'>"BLACK OR AFRICAN AMERICAN"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>USUBJID</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
-
-<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>ae</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pt_cut.html'>pt_cut</a></span>(<span class='no'>.</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>DCUT_TEMP_AESTDT</span> <span class='kw'>&lt;-</span> <span class='no'>AESTDTC</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>sdtm_cut</span>(<span class='kw'>dataset_sdtm</span> <span class='kw'>=</span> <span class='no'>.</span>,
-           <span class='kw'>sdtm_date_var</span> <span class='kw'>=</span> <span class='no'>AESTDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>test</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>), <span class='kw'>TEMP_XYZ</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>), <span class='kw'>DCUT_TEMP_XYZ</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>))
+<span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>)                           <span class='co'># Drops temp_ and dcut_temp_ variables</span></div><div class='output co'>#&gt;   USUBJID
+#&gt; 1        </div><div class='input'><span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>, <span class='kw'>drop_dcut_temp</span><span class='kw'>=</span><span class='st'>"TRUE"</span>)    <span class='co'># Drops temp_ and dcut_temp_ variables</span></div><div class='output co'>#&gt;   USUBJID
+#&gt; 1        </div><div class='input'><span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>, <span class='kw'>drop_dcut_temp</span><span class='kw'>=</span><span class='st'>"FALSE"</span>)   <span class='co'># Drops temp_ variables</span></div><div class='output co'>#&gt;   USUBJID DCUT_TEMP_XYZ
+#&gt; 1                      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
