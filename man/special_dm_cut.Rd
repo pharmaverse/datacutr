@@ -33,4 +33,4 @@ Clears death information within DM if death occurred after datacut date
 \author{
 Tim Barnett
 }
-\keyword{assertion}
+\keyword{derive}

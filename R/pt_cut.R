@@ -14,7 +14,7 @@
 #'
 #' @export
 #'
-#' @keywords assertion
+#' @keywords derive
 #'
 #' @examples
 #' library(dplyr)

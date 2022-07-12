@@ -10,6 +10,8 @@
 #'
 #' @export
 #'
+#' @keywords derive
+#'
 #' @examples
 #' ex <- admiral.test::admiral_ex
 #' ex <- select(ex, c(USUBJID, EXSTDTC))

@@ -61,4 +61,4 @@ vs <- pt_cut(vs)
 \author{
 Alana Harris
 }
-\keyword{assertion}
+\keyword{derive}
