@@ -10,6 +10,8 @@
 #'
 #' @export
 #'
+#' @keywords derive
+#'
 #' @examples
 #' dcut <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d", "UXYZ123e"),
 #'         DCUTDTC=c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30",

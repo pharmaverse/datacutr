@@ -118,7 +118,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/pharmaverse/admiraltemplate">
+  <a href="https://github.com/pharmaverse/datacutr">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -143,7 +143,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Patient Cut</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/admiraltemplate/blob/main/R/pt_cut.R'><code>R/pt_cut.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/pt_cut.R'><code>R/pt_cut.R</code></a></small>
     <div class="hidden name"><code>pt_cut.Rd</code></div>
     </div>
 
@@ -185,31 +185,16 @@
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lubridate</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘lubridate’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    date</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>rlang</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>purrr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:rlang’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    %@%, as_function, flatten, flatten_chr, flatten_dbl, flatten_int,</span>
-#&gt; <span class='message'>    flatten_lgl, flatten_raw, invoke, list_along, modify, prepend,</span>
-#&gt; <span class='message'>    splice</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘admiral’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter_if</span></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_dm"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ds"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ex"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ae"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_vs"</span>)
 
 <span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_dm</span>
-<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ds</span>
-<span class='no'>ex</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ex</span>
 <span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ae</span>
-<span class='no'>vs</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_vs</span>
 
 <span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='no'>dm</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>RACE</span> <span class='kw'>==</span> <span class='st'>"BLACK OR AFRICAN AMERICAN"</span>) <span class='kw'>%&gt;%</span>
@@ -217,9 +202,7 @@
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
 
 <span class='no'>ae_keep</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>ae_drop</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>,
-                  <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"drop"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>dm</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ds</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>ex</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ex</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>vs</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>vs</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'>
-
-</div></pre>
+                  <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"drop"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

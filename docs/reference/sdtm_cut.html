@@ -118,7 +118,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/pharmaverse/admiraltemplate">
+  <a href="https://github.com/pharmaverse/datacutr">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -143,7 +143,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>xxSTDTC or xxDTC Cut</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/admiraltemplate/blob/main/R/sdtm_cut.R'><code>R/sdtm_cut.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/sdtm_cut.R'><code>R/sdtm_cut.R</code></a></small>
     <div class="hidden name"><code>sdtm_cut.Rd</code></div>
     </div>
 
@@ -171,7 +171,8 @@
     <tr>
       <th>cut_type</th>
       <td><p>Set to either "cut" or "drop", "cut" will keep all the records before the datacut in
-the output dataset, "drop" will keep all the records which occur after and would be dropped</p></td>
+the output dataset, "drop" will keep all the records which occur after and would be dropped, default is
+"cut"</p></td>
     </tr>
     </table>
 
@@ -180,9 +181,26 @@ the output dataset, "drop" will keep all the records which occur after and would
     <p>A dataset containing either the records kept or removed after applying the datacut</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)
 
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_dm"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ae"</span>)
+
+<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_dm</span>
+<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ae</span>
+
+<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='no'>dm</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>RACE</span> <span class='kw'>==</span> <span class='st'>"BLACK OR AFRICAN AMERICAN"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>USUBJID</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
+
+<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>ae</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pt_cut.html'>pt_cut</a></span>(<span class='no'>.</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>DCUT_TEMP_AESTDT</span> <span class='kw'>&lt;-</span> <span class='no'>AESTDTC</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>sdtm_cut</span>(<span class='kw'>dataset_sdtm</span> <span class='kw'>=</span> <span class='no'>.</span>,
+           <span class='kw'>sdtm_date_var</span> <span class='kw'>=</span> <span class='no'>AESTDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

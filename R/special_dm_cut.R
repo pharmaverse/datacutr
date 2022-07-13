@@ -13,7 +13,7 @@
 #'
 #' @export
 #'
-#' @keywords assertion
+#' @keywords derive
 #'
 #' @examples
 #'

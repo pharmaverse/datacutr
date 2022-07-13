@@ -33,7 +33,7 @@ data("admiral_ae")
 
 dm <- admiral_dm
 ae <- admiral_ae
-#'
+
 dcut <- dm \%>\%
   filter(RACE == "BLACK OR AFRICAN AMERICAN") \%>\%
   select(USUBJID) \%>\%
@@ -44,9 +44,8 @@ ae <- ae \%>\%
   mutate(DCUT_TEMP_AESTDT <- AESTDTC) \%>\%
   sdtm_cut(dataset_sdtm = .,
            sdtm_date_var = AESTDTC)
-
 }
 \author{
 Alana Harris
 }
-\keyword{assertion}
+\keyword{derive}

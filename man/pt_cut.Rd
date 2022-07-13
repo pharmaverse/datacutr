@@ -24,23 +24,14 @@ Apply a patient cut and add a datacut date variable (TEMP_DCUTDT) to an SDTMv da
 }
 \examples{
 library(dplyr)
-library(lubridate)
 library(admiral.test)
-library(rlang)
-library(purrr)
 library(admiral)
 
 data("admiral_dm")
-data("admiral_ds")
-data("admiral_ex")
 data("admiral_ae")
-data("admiral_vs")
 
 dm <- admiral_dm
-ds <- admiral_ds
-ex <- admiral_ex
 ae <- admiral_ae
-vs <- admiral_vs
 
 dcut <- dm \%>\%
   filter(RACE == "BLACK OR AFRICAN AMERICAN") \%>\%
@@ -50,15 +41,8 @@ dcut <- dm \%>\%
 ae_keep <- pt_cut(ae)
 ae_drop <- pt_cut(ae,
                   cut_type = "drop")
-dm <- pt_cut(dm)
-ds <- pt_cut(ds)
-ex <- pt_cut(ex)
-ae <- pt_cut(ae)
-vs <- pt_cut(vs)
-
-
 }
 \author{
 Alana Harris
 }
-\keyword{assertion}
+\keyword{derive}
