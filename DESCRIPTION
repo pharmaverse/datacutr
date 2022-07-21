@@ -16,33 +16,17 @@ RoxygenNote: 7.1.2
 Depends: R (>= 3.5)
 Imports:
     admiral,
-    assertthat,
     dplyr,
     lubridate,
     magrittr,
-    purrr,
-    rlang,
-    stringr,
-    hms,
-    tidyr,
-    tidyselect,
-    lifecycle
+    rlang
 Suggests:
     admiral.test,
     devtools,
-    diffdf,
-    lintr,
     pkgdown,
     testthat,
     knitr,
-    methods,
-    miniUI,
     rmarkdown,
     roxygen2,
-    spelling,
-    styler,
-    tibble,
-    usethis,
-    covr,
-    DT
+    usethis
 VignetteBuilder: knitr
