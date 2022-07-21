@@ -14,10 +14,6 @@
 #' @export
 #'
 #' @keywords derive
-#'
-#' @examples
-#'
-#'
 
 special_dm_cut <- function(dataset_dm,
                    dataset_cut = dcut ,
