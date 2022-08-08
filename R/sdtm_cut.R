@@ -46,7 +46,7 @@ sdtm_cut <- function(dataset_sdtm,
   sdtm_date_var <- assert_symbol(enquo(sdtm_date_var))
   cut_var <- assert_symbol(enquo(cut_var))
   assert_data_frame(dataset_sdtm,
-                    required_vars = admiral:::quo_c(cut_var, sdtm_date_var))
+                    required_vars = quo_c(cut_var, sdtm_date_var))
   assert_character_scalar(cut_type,
                           values = c("cut", "drop"),
                           case_sensitive = FALSE)

@@ -45,7 +45,7 @@ pt_cut <- function(dataset_sdtm,
   assert_data_frame(dataset_sdtm,
                     required_vars = vars(USUBJID))
   assert_data_frame(dataset_cut,
-                    required_vars = admiral:::quo_c(vars(USUBJID), cut_var))
+                    required_vars = quo_c(vars(USUBJID), cut_var))
   assert_character_scalar(cut_type,
                           values = c("cut", "drop"),
                           case_sensitive = FALSE)
