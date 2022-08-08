@@ -201,8 +201,8 @@
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>USUBJID</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
 
-<span class='no'>ae_keep</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>ae_drop</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>,
-                  <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"drop"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div></pre>
+<span class='no'>ae_keep</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>)</div><div class='output co'>#&gt; <span class='error'>Error: `required_vars` must be a list of unquoted variable names, e.g. `vars(USUBJID, VISIT)`</span></div><div class='input'><span class='no'>ae_drop</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>,
+                  <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"drop"</span>)</div><div class='output co'>#&gt; <span class='error'>Error: `required_vars` must be a list of unquoted variable names, e.g. `vars(USUBJID, VISIT)`</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

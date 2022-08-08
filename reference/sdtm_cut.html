@@ -200,7 +200,7 @@ the output dataset, "drop" will keep all the records which occur after and would
   <span class='fu'><a href='pt_cut.html'>pt_cut</a></span>(<span class='no'>.</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>DCUT_TEMP_AESTDT</span> <span class='kw'>&lt;-</span> <span class='no'>AESTDTC</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>sdtm_cut</span>(<span class='kw'>dataset_sdtm</span> <span class='kw'>=</span> <span class='no'>.</span>,
-           <span class='kw'>sdtm_date_var</span> <span class='kw'>=</span> <span class='no'>AESTDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div></pre>
+           <span class='kw'>sdtm_date_var</span> <span class='kw'>=</span> <span class='no'>AESTDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error: `required_vars` must be a list of unquoted variable names, e.g. `vars(USUBJID, VISIT)`</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
