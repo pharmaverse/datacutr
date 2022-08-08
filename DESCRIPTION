@@ -28,5 +28,6 @@ Suggests:
     knitr,
     rmarkdown,
     roxygen2,
-    usethis
+    usethis, 
+    purrr
 VignetteBuilder: knitr
