@@ -53,7 +53,9 @@
 
 
 <meta property="og:title" content="xxSTDTC or xxDTC Cut — sdtm_cut" />
-<meta property="og:description" content="Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable" />
+<meta property="og:description" content="Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. A flag TEMP_DCUT_REMOVE is added to the dataset
+to indicate the observations that would be removed when the cut is applied. Note that this function applies a patient level
+datacut at the same time." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -148,10 +150,12 @@
     </div>
 
     <div class="ref-description">
-    <p>Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable</p>
+    <p>Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. A flag <code>TEMP_DCUT_REMOVE</code> is added to the dataset
+to indicate the observations that would be removed when the cut is applied. Note that this function applies a patient level
+datacut at the same time.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sdtm_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='no'>sdtm_date_var</span>, <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>TEMP_DCUTDT</span>, <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"cut"</span>)</pre>
+    <pre class="usage"><span class='fu'>sdtm_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='no'>sdtm_date_var</span>, <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>, <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>DCUTDT</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,25 +169,22 @@
       <td><p>Input date variable found in the <code>dataset_sdtmv</code> dataset</p></td>
     </tr>
     <tr>
-      <th>cut_var</th>
-      <td><p>Datacut date variable, default is <code>TEMP_DCUTDT</code></p></td>
+      <th>dataset_cut</th>
+      <td><p>Input datacut dataset, default is <code>dcut</code></p></td>
     </tr>
     <tr>
-      <th>cut_type</th>
-      <td><p>Set to either "cut" or "drop", "cut" will keep all the records before the datacut in
-the output dataset, "drop" will keep all the records which occur after and would be dropped, default is
-"cut"</p></td>
+      <th>cut_var</th>
+      <td><p>Datacut date variable, default is <code>DCUTDT</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataset containing either the records kept or removed after applying the datacut</p>
+    <p>Input dataset plus a flag <code>TEMP_DCUT_REMOVE</code> to indicate which observations would be dropped when a datacut is applied</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_dm"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ae"</span>)
@@ -196,11 +197,9 @@ the output dataset, "drop" will keep all the records which occur after and would
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>USUBJID</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
 
-<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>ae</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pt_cut.html'>pt_cut</a></span>(<span class='no'>.</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>DCUT_TEMP_AESTDT</span> <span class='kw'>&lt;-</span> <span class='no'>AESTDTC</span>) <span class='kw'>%&gt;%</span>
+<span class='no'>ae_out</span> <span class='kw'>&lt;-</span> <span class='no'>ae</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>sdtm_cut</span>(<span class='kw'>dataset_sdtm</span> <span class='kw'>=</span> <span class='no'>.</span>,
-           <span class='kw'>sdtm_date_var</span> <span class='kw'>=</span> <span class='no'>AESTDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error: `required_vars` must be a list of unquoted variable names, e.g. `vars(USUBJID, VISIT)`</span></div></pre>
+           <span class='kw'>sdtm_date_var</span> <span class='kw'>=</span> <span class='no'>AESTDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

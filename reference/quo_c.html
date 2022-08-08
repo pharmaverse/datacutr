@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Patient Cut — pt_cut • datacutr</title>
+<title>Concatenate One or More Quosure(s) — quo_c • datacutr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Patient Cut — pt_cut" />
-<meta property="og:description" content="Apply a patient cut and add a datacut date variable (TEMP_DCUTDT) to an SDTMv dataset" />
+<meta property="og:title" content="Concatenate One or More Quosure(s) — quo_c" />
+<meta property="og:description" content="Concatenate One or More Quosure(s)" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -142,67 +142,81 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Patient Cut</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/pt_cut.R'><code>R/pt_cut.R</code></a></small>
-    <div class="hidden name"><code>pt_cut.Rd</code></div>
+    <h1>Concatenate One or More Quosure(s)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/dev_utils.R'><code>R/dev_utils.R</code></a></small>
+    <div class="hidden name"><code>quo_c.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply a patient cut and add a datacut date variable (TEMP_DCUTDT) to an SDTMv dataset</p>
+    <p>Concatenate One or More Quosure(s)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pt_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>, <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>DCUTDT</span>, <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"cut"</span>)</pre>
+    <pre class="usage"><span class='fu'>quo_c</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset_sdtm</th>
-      <td><p>Input SDTMv dataset</p></td>
-    </tr>
-    <tr>
-      <th>dataset_cut</th>
-      <td><p>Input datacut dataset, default is <code>dcut</code></p></td>
-    </tr>
-    <tr>
-      <th>cut_var</th>
-      <td><p>Datacut date variable found in the <code>dataset_cut</code> dataset, default is <code>DCUTDT</code></p></td>
-    </tr>
-    <tr>
-      <th>cut_type</th>
-      <td><p>Set to either "cut" or "drop", "cut" will keep all the patients that are in the datacut dataset
-"drop" will keep all the patients that are dropped by applying the patient cut, default is "cut"</p></td>
+      <th>...</th>
+      <td><p>One or more objects of class <code>quosure</code> or <code>quosures</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataset containing either the records kept or removed after applying the datacut</p>
+    <p>An object of class <code>quosures</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘admiral’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter_if</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_dm"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ae"</span>)
-
-<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_dm</span>
-<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ae</span>
-
-<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='no'>dm</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>RACE</span> <span class='kw'>==</span> <span class='st'>"BLACK OR AFRICAN AMERICAN"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>USUBJID</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
-
-<span class='no'>ae_keep</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div><div class='input'><span class='no'>ae_drop</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>,
-                  <span class='kw'>cut_type</span> <span class='kw'>=</span> <span class='st'>"drop"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>quo_c</span>(<span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quo</a></span>(<span class='no'>USUBJID</span>))</div><div class='output co'>#&gt; &lt;list_of&lt;quosure&gt;&gt;
+#&gt; 
+#&gt; [[1]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^USUBJID
+#&gt; env:  0x5606dbc9df38
+#&gt; </div><div class='input'><span class='fu'>quo_c</span>(<span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quo</a></span>(<span class='no'>STUDYID</span>), <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quo</a></span>(<span class='no'>USUBJID</span>))</div><div class='output co'>#&gt; &lt;list_of&lt;quosure&gt;&gt;
+#&gt; 
+#&gt; [[1]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^STUDYID
+#&gt; env:  0x5606dbc9df38
+#&gt; 
+#&gt; [[2]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^USUBJID
+#&gt; env:  0x5606dbc9df38
+#&gt; </div><div class='input'><span class='fu'>quo_c</span>(<span class='fu'>vars</span>(<span class='no'>USUBJID</span>, <span class='no'>ADTM</span>))</div><div class='output co'>#&gt; &lt;list_of&lt;quosure&gt;&gt;
+#&gt; 
+#&gt; [[1]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^USUBJID
+#&gt; env:  0x5606dbc9df38
+#&gt; 
+#&gt; [[2]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^ADTM
+#&gt; env:  0x5606dbc9df38
+#&gt; </div><div class='input'><span class='fu'>quo_c</span>(<span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quo</a></span>(<span class='no'>BASETYPE</span>), <span class='fu'>vars</span>(<span class='no'>USUBJID</span>, <span class='no'>PARAM</span>), <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quo</a></span>(<span class='no'>ADTM</span>))</div><div class='output co'>#&gt; &lt;list_of&lt;quosure&gt;&gt;
+#&gt; 
+#&gt; [[1]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^BASETYPE
+#&gt; env:  0x5606dbc9df38
+#&gt; 
+#&gt; [[2]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^USUBJID
+#&gt; env:  0x5606dbc9df38
+#&gt; 
+#&gt; [[3]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^PARAM
+#&gt; env:  0x5606dbc9df38
+#&gt; 
+#&gt; [[4]]
+#&gt; &lt;quosure&gt;
+#&gt; expr: ^ADTM
+#&gt; env:  0x5606dbc9df38
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
