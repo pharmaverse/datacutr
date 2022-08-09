@@ -1,0 +1,120 @@
+---
+title: "Writing Vignettes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Writing Vignettes}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This guidance ensures consistency across the vignettes in the `{datacutr}` package in terms of content, structure and code execution. 
+As a general rule, the vignette workflow defined in [r-pkgs.org](https://r-pkgs.org/vignettes.html) is followed.
+
+
+# Metadata
+
+Each vignette in `{datacutr}` should start with the following metadata.
+
+```
+---
+title: "<Title>"
+output:  rmarkdown::html_vignette:
+vignette: >
+  %\VignetteIndexEntry{<Title>}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+```
+
+The `<Title>` of the vignette should be meaningful. 
+
+# Markdown
+
+## Default Options
+
+If any chunks are used within the vignette, the following options should be set after the metadata 
+to ensure that the chunks are rendered consistently across all vignettes.
+
+    `r ''````{r setup, include=FALSE}
+    knitr::opts_chunk$set(
+      collapse = TRUE,
+      comment = "#>"
+    )
+    ```
+
+
+## Format Sections
+
+### Table of Contents
+
+Headings must be title case and start from Heading 1:
+
+```
+# Heading 1
+This is the description of my first section.
+
+## Heading 1.1
+This is the description of my first sub-section within my first section.
+
+## Heading 1.2
+This is the description of my second sub-section within my first section.
+
+```
+
+The first section gives a brief introduction of the vignette. The last sub-section 
+of the introduction should describe the packages required to run the `{admiral}` functions. 
+The `{admiral}` package should be described first.
+
+```
+# Introduction
+
+This is the introduction of my vignette.
+
+## Required Packages
+```
+
+    `r ''````{r, warning=FALSE, message=FALSE}
+    library(admiral)
+    # <all packages used in the vignette>
+    ```
+
+The `warning=FALSE` and `message=FALSE` options are there to prevent the usual messages:
+
+<span style="color: red;font-family: textmate, monospace; font-size = 10pt;" >Attaching package: 'xxxx'</br>The following objects are masked from 'package:yyyyy'</br>  fun1, fun2</span>
+
+### Conventions
+
+#### General Conventions
+
++ Any new vignette must be added to the `_pkgdown.yml` file in the relevant section.
+
++ Any variable name, dataset name, function, argument name must be quoted with backticks: e.g.
+
+
+```
+  The `date` parameter of the `derive_my_var()` function expects a date variable, e.g., `ADT`.
+```
+
++ Functions must also end with `()`.
+
++ Variables and datasets name are expected to be uppercase.
+
++ All the codes must be described, executed and the output result displayed once the code is executed.
+Use:
+ 
+
+      `r ''````{r}
+      #<code>
+      ```
+
++ Any output created must clearly show what the function has derived. 
+It should at least show the variables/records used as input to the function and the derived 
+variables/records. If a dataset must be displayed, it will be formatted using the `dataset_vignette()`
+function so that it is displayed consistently across the vignettes

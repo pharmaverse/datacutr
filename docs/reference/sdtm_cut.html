@@ -54,8 +54,8 @@
 
 <meta property="og:title" content="xxSTDTC or xxDTC Cut — sdtm_cut" />
 <meta property="og:description" content="Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. A flag TEMP_DCUT_REMOVE is added to the dataset
-to indicate the observations that would be removed when the cut is applied.
-Note that this function applies a patient level datacut at the same time." />
+to indicate the observations that would be removed when the cut is applied. Note that this function applies a patient level
+datacut at the same time." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -101,6 +101,9 @@ Note that this function applies a patient level datacut at the same time." />
   </a>
 </li>
 <li>
+  <a href="../articles/datacutr.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -112,6 +115,32 @@ Note that this function applies a patient level datacut at the same time." />
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
     <li class="dropdown-header">User Guides</li>
+    <li>
+      <a href="../articles/faq.html">FAQ</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Developer Guides</li>
+    <li>
+      <a href="../articles/contribution_model.html">Contribution to {datacutr}</a>
+    </li>
+    <li>
+      <a href="../articles/development_process.html">Development Process</a>
+    </li>
+    <li>
+      <a href="../articles/programming_strategy.html">Programming Strategy</a>
+    </li>
+    <li>
+      <a href="../articles/git_usage.html">Guidance for git and GitHub Usage</a>
+    </li>
+    <li>
+      <a href="../articles/writing_vignettes.html">Writing Vignettes</a>
+    </li>
+    <li>
+      <a href="../articles/pr_review_guidance.html">Pull Request Review Guidance</a>
+    </li>
+    <li>
+      <a href="../articles/unit_test_guidance.html">Unit Test Guidance</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -151,8 +180,8 @@ Note that this function applies a patient level datacut at the same time." />
 
     <div class="ref-description">
     <p>Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. A flag <code>TEMP_DCUT_REMOVE</code> is added to the dataset
-to indicate the observations that would be removed when the cut is applied.
-Note that this function applies a patient level datacut at the same time.</p>
+to indicate the observations that would be removed when the cut is applied. Note that this function applies a patient level
+datacut at the same time.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sdtm_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='no'>sdtm_date_var</span>, <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>, <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>DCUTDT</span>)</pre>
