@@ -101,6 +101,9 @@ datacut process (variables beginning with DCUT_TEMP_)." />
   </a>
 </li>
 <li>
+  <a href="../articles/datacutr.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -112,6 +115,32 @@ datacut process (variables beginning with DCUT_TEMP_)." />
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
     <li class="dropdown-header">User Guides</li>
+    <li>
+      <a href="../articles/faq.html">FAQ</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Developer Guides</li>
+    <li>
+      <a href="../articles/contribution_model.html">Contribution to {datacutr}</a>
+    </li>
+    <li>
+      <a href="../articles/development_process.html">Development Process</a>
+    </li>
+    <li>
+      <a href="../articles/programming_strategy.html">Programming Strategy</a>
+    </li>
+    <li>
+      <a href="../articles/git_usage.html">Guidance for git and GitHub Usage</a>
+    </li>
+    <li>
+      <a href="../articles/writing_vignettes.html">Writing Vignettes</a>
+    </li>
+    <li>
+      <a href="../articles/pr_review_guidance.html">Pull Request Review Guidance</a>
+    </li>
+    <li>
+      <a href="../articles/unit_test_guidance.html">Unit Test Guidance</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -182,8 +211,8 @@ to TRUE.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>test</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>), <span class='kw'>TEMP_XYZ</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>), <span class='kw'>DCUT_TEMP_XYZ</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>))
 <span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>)                           <span class='co'># Drops temp_ and dcut_temp_ variables</span></div><div class='output co'>#&gt;   USUBJID
-#&gt; 1        </div><div class='input'><span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>, <span class='kw'>drop_dcut_temp</span><span class='kw'>=</span><span class='st'>"TRUE"</span>)    <span class='co'># Drops temp_ and dcut_temp_ variables</span></div><div class='output co'>#&gt;   USUBJID
-#&gt; 1        </div><div class='input'><span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>, <span class='kw'>drop_dcut_temp</span><span class='kw'>=</span><span class='st'>"FALSE"</span>)   <span class='co'># Drops temp_ variables</span></div><div class='output co'>#&gt;   USUBJID DCUT_TEMP_XYZ
+#&gt; 1        </div><div class='input'><span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>, <span class='kw'>drop_dcut_temp</span><span class='kw'>=</span><span class='fl'>TRUE</span>)    <span class='co'># Drops temp_ and dcut_temp_ variables</span></div><div class='output co'>#&gt;   USUBJID
+#&gt; 1        </div><div class='input'><span class='fu'>drop_temp_vars</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>test</span>, <span class='kw'>drop_dcut_temp</span><span class='kw'>=</span><span class='fl'>FALSE</span>)   <span class='co'># Drops temp_ variables</span></div><div class='output co'>#&gt;   USUBJID DCUT_TEMP_XYZ
 #&gt; 1                      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
