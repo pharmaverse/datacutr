@@ -24,9 +24,10 @@ Suggests:
     admiral.test,
     devtools,
     pkgdown,
-    testthat,
+    testthat (>= 3.0.0),
     knitr,
     rmarkdown,
     roxygen2,
     usethis
 VignetteBuilder: knitr
+Config/testthat/edition: 3
