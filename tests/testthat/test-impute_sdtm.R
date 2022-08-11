@@ -41,7 +41,7 @@ expected3 <- data.frame(USUBJID = rep(c("U1234567"), 7),
                         EXSTDTC = c("2022-08-10T15:13:301", "2022-08-10T15:13:", "2022-08-10T15:", "2022-08-10T", "2022-08-", "2022-", ""),
                         DCUT_TEMP_EXSTDTC = ymd_hms(rep(c(""), 7)))
 
-test_that("Dates in incorrect format or missing dates are set to NA", {
+test_that("Dates in incorrect format or missing dates are always set to NA", {
   expect_equal(
     impute_sdtm(dsin=input3, varin=EXSTDTC, varout=DCUT_TEMP_EXSTDTC),
     expected3
