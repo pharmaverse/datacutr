@@ -20,8 +20,8 @@
 #' @examples
 #' test <-  data.frame(USUBJID=c(""), TEMP_XYZ=c(""), DCUT_TEMP_XYZ=c(""))
 #' drop_temp_vars(dsin=test)                           # Drops temp_ and dcut_temp_ variables
-#' drop_temp_vars(dsin=test, drop_dcut_temp="TRUE")    # Drops temp_ and dcut_temp_ variables
-#' drop_temp_vars(dsin=test, drop_dcut_temp="FALSE")   # Drops temp_ variables
+#' drop_temp_vars(dsin=test, drop_dcut_temp=TRUE)    # Drops temp_ and dcut_temp_ variables
+#' drop_temp_vars(dsin=test, drop_dcut_temp=FALSE)   # Drops temp_ variables
 
 drop_temp_vars <- function(dsin, drop_dcut_temp = TRUE){
 

@@ -98,6 +98,9 @@
   </a>
 </li>
 <li>
+  <a href="articles/datacutr.html">Get started</a>
+</li>
+<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,6 +112,32 @@
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
     <li class="dropdown-header">User Guides</li>
+    <li>
+      <a href="articles/faq.html">FAQ</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Developer Guides</li>
+    <li>
+      <a href="articles/contribution_model.html">Contribution to {datacutr}</a>
+    </li>
+    <li>
+      <a href="articles/development_process.html">Development Process</a>
+    </li>
+    <li>
+      <a href="articles/programming_strategy.html">Programming Strategy</a>
+    </li>
+    <li>
+      <a href="articles/git_usage.html">Guidance for git and GitHub Usage</a>
+    </li>
+    <li>
+      <a href="articles/writing_vignettes.html">Writing Vignettes</a>
+    </li>
+    <li>
+      <a href="articles/pr_review_guidance.html">Pull Request Review Guidance</a>
+    </li>
+    <li>
+      <a href="articles/unit_test_guidance.html">Unit Test Guidance</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -145,7 +174,7 @@
     </div>
 
 
-<p>Thank you for your Pull Request! We have developed this task checklist from the <a href="https://pharmaverse.github.io/admiral/articles/development_process.html">Development Process Guide</a> to help with the final steps of the process. Completing the below tasks helps to ensure our reviewers can maximize their time on your code as well as making sure the admiral codebase remains robust and consistent.</p>
+<p>Thank you for your Pull Request! We have developed this task checklist from the <a href="https://pharmaverse.github.io/datacutr/articles/development_process.html">Development Process Guide</a> to help with the final steps of the process. Completing the below tasks helps to ensure our reviewers can maximize their time on your code as well as making sure the datacutr codebase remains robust and consistent.</p>
 <p>Please check off each taskbox as an acknowledgment that you completed the task or check off that it is not relevant to your Pull Request. This checklist is part of the Github Action workflows and the Pull Request will not be merged into the <code>devel</code> branch until you have checked off each task.</p>
 <ul class="task-list">
 <li>
@@ -157,11 +186,11 @@ Place Closes #<insert_issue_number> into the beginning of your Pull Request Titl
 Code is formatted according to the <a href="https://style.tidyverse.org/">tidyverse style guide</a>. Run <code><a href="https://rdrr.io/pkg/styler/man/style_file.html">styler::style_file()</a></code> to style R and Rmd files</li>
 <li>
 <input type="checkbox" disabled>
-Updated relevant unit tests or have written new unit tests - See <a href="https://pharmaverse.github.io/admiral/articles/unit_test_guidance.html#writing-unit-tests-in-admiral-">Unit Test Guide</a>
+Updated relevant unit tests or have written new unit tests - See <a href="https://pharmaverse.github.io/datacutr/articles/unit_test_guidance.html#writing-unit-tests-in-datacutr-">Unit Test Guide</a>
 </li>
 <li>
 <input type="checkbox" disabled>
-If you removed/replaced any function and/or function parameters, did you fully follow the <a href="https://pharmaverse.github.io/admiral/articles/programming_strategy.html#deprecation-1">deprecation guidance</a>?</li>
+If you removed/replaced any function and/or function parameters, did you fully follow the <a href="https://pharmaverse.github.io/datacutr/articles/programming_strategy.html#deprecation-1">deprecation guidance</a>?</li>
 <li>
 <input type="checkbox" disabled>
 Update to all relevant roxygen headers and examples</li>
@@ -176,7 +205,7 @@ Address any updates needed for vignettes and/or templates</li>
 Update <code>NEWS.md</code> if the changes pertain to a user-facing function (i.e. it has an <code>@export</code> tag) or documentation aimed at users (rather than developers)</li>
 <li>
 <input type="checkbox" disabled>
-Build admiral site <code><a href="https://pkgdown.r-lib.org/reference/build_site.html">pkgdown::build_site()</a></code> and check that all affected examples are displayed correctly and that all new functions occur on the “<a href="https://pharmaverse.github.io/admiral/reference/index.html">Reference</a>” page.</li>
+Build datacutr site <code><a href="https://pkgdown.r-lib.org/reference/build_site.html">pkgdown::build_site()</a></code> and check that all affected examples are displayed correctly and that all new functions occur on the “<a href="https://pharmaverse.github.io/datacutr/reference/index.html">Reference</a>” page.</li>
 <li>
 <input type="checkbox" disabled>
 Address or fix all lintr warnings and errors - <code><a href="https://rdrr.io/pkg/lintr/man/lint_package.html">lintr::lint_package()</a></code>

@@ -4,7 +4,7 @@
 \alias{pt_cut}
 \title{Patient Cut}
 \usage{
-pt_cut(dataset_sdtm, dataset_cut = dcut, cut_var = DCUTDT, cut_type = "cut")
+pt_cut(dataset_sdtm, dataset_cut = dcut, cut_var = DCUTDT)
 }
 \arguments{
 \item{dataset_sdtm}{Input SDTMv dataset}
@@ -12,51 +12,29 @@ pt_cut(dataset_sdtm, dataset_cut = dcut, cut_var = DCUTDT, cut_type = "cut")
 \item{dataset_cut}{Input datacut dataset, default is \code{dcut}}
 
 \item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{DCUTDT}}
-
-\item{cut_type}{Set to either "cut" or "drop", "cut" will keep all the patients that are in the datacut dataset
-"drop" will keep all the patients that are dropped by applying the patient cut, default is "cut"}
 }
 \value{
-A dataset containing either the records kept or removed after applying the datacut
+Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be dropped when a patient level datacut is applied
 }
 \description{
-Apply a patient cut and add a datacut date variable (TEMP_DCUTDT) to an SDTMv dataset
+Use to apply a datacut a patient cut to an SDTMv dataset
 }
 \examples{
 library(dplyr)
-library(lubridate)
 library(admiral.test)
-library(rlang)
-library(purrr)
-library(admiral)
 
 data("admiral_dm")
-data("admiral_ds")
-data("admiral_ex")
 data("admiral_ae")
-data("admiral_vs")
 
 dm <- admiral_dm
-ds <- admiral_ds
-ex <- admiral_ex
 ae <- admiral_ae
-vs <- admiral_vs
 
 dcut <- dm \%>\%
   filter(RACE == "BLACK OR AFRICAN AMERICAN") \%>\%
   select(USUBJID) \%>\%
   mutate(DCUTDT = "2013-01-01", DCUTDESC = "Clinical Cutoff Date")
 
-ae_keep <- pt_cut(ae)
-ae_drop <- pt_cut(ae,
-                  cut_type = "drop")
-dm <- pt_cut(dm)
-ds <- pt_cut(ds)
-ex <- pt_cut(ex)
-ae <- pt_cut(ae)
-vs <- pt_cut(vs)
-
-
+ae_out <- pt_cut(ae)
 }
 \author{
 Alana Harris

@@ -27,12 +27,6 @@ reference:
 - subtitle: Assertions
 - contents:
   - has_keyword("assertion")
-- subtitle: Checks
-- contents:
-  - has_keyword("check")
-- subtitle: Warnings
-- contents:
-  - has_keyword("warning")
 - subtitle: Various
 - contents:
   - has_keyword("dev_utility")
@@ -41,3 +35,16 @@ articles:
 - title: User Guides
   navbar: User Guides
   contents:
+  - datacutr
+  - faq
+
+- title: Developer Guides
+  navbar: Developer Guides
+  contents:
+  - contribution_model
+  - development_process
+  - programming_strategy
+  - git_usage
+  - writing_vignettes
+  - pr_review_guidance
+  - unit_test_guidance

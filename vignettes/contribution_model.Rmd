@@ -1,0 +1,53 @@
+---
+title: "Contribution to {datacutr}"
+output: 
+  rmarkdown::html_vignette
+    
+vignette: >
+  %\VignetteIndexEntry{Contribution to {datcutr}}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction 
+
+This vignette gives you an overview of the anticipated contribution model.
+The goal is to enable users of `{datcutr}` to contribute and test the contribution model for `{datcutr}`. Adjustments might be made over time.
+ 
+A `{datacutr}` Slack channel will be set up here (link to be added)
+
+# Basics
+ * For each new contribution, the user creates an issue on the issue tab on [GitHub](https://github.com/pharmaverse/datcutr/issues) to put it in our backlog. 
+ 
+ * Familiarize yourself with our [programming strategy](programming_strategy.html), guidance for [GitHub usage](git_usage.html) and [unit testing](unit_test_guidance.html).
+
+ * All [created issues](https://github.com/pharmaverse/datcutr/issues) will be reviewed within the next sprint and the creator will receive an initial feedback via a comment. Someone from the core development team will then triage new issues by assigning the appropriate labels (such as “user request” so we can easily identify new requests).
+ 
+ * Issues are meant to be taken on by users from the Pharma programming
+ community and not exclusively by the `{datacutr}` team from Roche.
+
+# Contribution Model
+
+Type 1 Contribution with Code: 
+
+ * First, the user creates an issue or comments on an existing issue to notify that they’d like to contribute code.
+ 
+ * Follow our [development process](development_process.html) step-by-step guide.
+ 
+ * We advise to contact an `{datacutr}` core development team directly via the `{datacutr}` Slack channel (link to be added).
+
+
+Type 2 Contribution without Code: 
+
+ * User creates an issue and ideally contacts an `{datcutr}` team member via the `{datacutr}` Slack channel (link to be added).
+ 
+ * The `{datacutr}` core development team will contact the issue creator as soon as possible to discuss further details.
+
+
+

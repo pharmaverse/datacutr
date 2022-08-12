@@ -4,47 +4,43 @@
 \alias{sdtm_cut}
 \title{xxSTDTC or xxDTC Cut}
 \usage{
-sdtm_cut(dataset_sdtm, sdtm_date_var, cut_var = TEMP_DCUTDT, cut_type = "cut")
+sdtm_cut(dataset_sdtm, sdtm_date_var, dataset_cut = dcut, cut_var = DCUTDT)
 }
 \arguments{
 \item{dataset_sdtm}{Input SDTMv dataset}
 
 \item{sdtm_date_var}{Input date variable found in the \code{dataset_sdtmv} dataset}
 
-\item{cut_var}{Datacut date variable, default is \code{TEMP_DCUTDT}}
+\item{dataset_cut}{Input datacut dataset, default is \code{dcut}}
 
-\item{cut_type}{Set to either "cut" or "drop", "cut" will keep all the records before the datacut in
-the output dataset, "drop" will keep all the records which occur after and would be dropped, default is
-"cut"}
+\item{cut_var}{Datacut date variable, default is \code{DCUTDT}}
 }
 \value{
-A dataset containing either the records kept or removed after applying the datacut
+Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be dropped when a datacut is applied
 }
 \description{
-Apply a datacut to either an xxSTDTC or xxDTC SDTM date variable
+Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. A flag \code{TEMP_DCUT_REMOVE} is added to the dataset
+to indicate the observations that would be removed when the cut is applied. Note that this function applies a patient level
+datacut at the same time.
 }
 \examples{
 library(dplyr)
 library(admiral.test)
-library(admiral)
 
 data("admiral_dm")
 data("admiral_ae")
 
 dm <- admiral_dm
 ae <- admiral_ae
-#'
+
 dcut <- dm \%>\%
   filter(RACE == "BLACK OR AFRICAN AMERICAN") \%>\%
   select(USUBJID) \%>\%
   mutate(DCUTDT = "2013-01-01", DCUTDESC = "Clinical Cutoff Date")
 
-ae <- ae \%>\%
-  pt_cut(.) \%>\%
-  mutate(DCUT_TEMP_AESTDT <- AESTDTC) \%>\%
+ae_out <- ae \%>\%
   sdtm_cut(dataset_sdtm = .,
            sdtm_date_var = AESTDTC)
-
 }
 \author{
 Alana Harris

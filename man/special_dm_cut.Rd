@@ -26,10 +26,6 @@ A dataset with death information removed if death occurred after data cut
 \description{
 Clears death information within DM if death occurred after datacut date
 }
-\examples{
-
-
-}
 \author{
 Tim Barnett
 }
