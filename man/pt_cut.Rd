@@ -4,14 +4,12 @@
 \alias{pt_cut}
 \title{Patient Cut}
 \usage{
-pt_cut(dataset_sdtm, dataset_cut = dcut, cut_var = DCUTDT)
+pt_cut(dataset_sdtm, dataset_cut = dcut)
 }
 \arguments{
 \item{dataset_sdtm}{Input SDTMv dataset}
 
 \item{dataset_cut}{Input datacut dataset, default is \code{dcut}}
-
-\item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{DCUTDT}}
 }
 \value{
 Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be dropped when a patient level datacut is applied
@@ -20,19 +18,22 @@ Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations
 Use to apply a datacut a patient cut to an SDTMv dataset
 }
 \examples{
-library(dplyr)
-library(admiral.test)
+dcut <- tribble(
+ ~USUBJID, ~DCUTDT,
+ "subject1", "2020-02-20T23:59:59",
+ "subject2", "2020-02-20T23:59:59",
+ "subject4", "2020-02-20T23:59:59"
+ )
 
-data("admiral_dm")
-data("admiral_ae")
-
-dm <- admiral_dm
-ae <- admiral_ae
-
-dcut <- dm \%>\%
-  filter(RACE == "BLACK OR AFRICAN AMERICAN") \%>\%
-  select(USUBJID) \%>\%
-  mutate(DCUTDT = "2013-01-01", DCUTDESC = "Clinical Cutoff Date")
+ae <- tribble(
+ ~USUBJID, ~AESEQ, ~DCUT_TEMP_AESTDTC,
+ "subject1", 1, "2020-01-02T00:00:00",
+ "subject1", 2, "2020-08-31T00:00:00",
+ "subject1", 3, "2020-10-10T00:00:00",
+ "subject2", 2, "2020-02-20T00:00:00",
+ "subject3", 1, "2020-03-02T00:00:00",
+ "subject4", 1, "2020-11-02T00:00:00"
+ )
 
 ae_out <- pt_cut(ae)
 }
