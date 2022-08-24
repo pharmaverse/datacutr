@@ -1,13 +1,13 @@
 #' xxSTDTC or xxDTC Cut
 #'
-#' Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. A flag `TEMP_DCUT_REMOVE` is added to the dataset
-#' to indicate the observations that would be removed when the cut is applied. Note that this function applies a patient level
-#' datacut at the same time.
+#' Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from the datacut dataset is merged on
+#' to the input SDTMv dataset and renamed to `TEMP_DCUT_DCUTDT`. A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the
+#' observations that would be removed when the cut is applied. Note that this function applies a patient level datacut at the same time.
 #'
 #' @param dataset_sdtm Input SDTMv dataset
 #' @param sdtm_date_var Input date variable found in the `dataset_sdtmv` dataset
-#' @param dataset_cut Input datacut dataset, default is `dcut`
-#' @param cut_var Datacut date variable, default is `DCUTDT`
+#' @param dataset_cut Input datacut dataset
+#' @param cut_var Datacut date variable
 #'
 #' @author Alana Harris
 #'
@@ -18,28 +18,33 @@
 #' @keywords derive
 #'
 #' @examples
-#' library(dplyr)
-#' library(admiral.test)
+#' dcut <- tibble::tribble(
+#'  ~USUBJID, ~DCUTDT,
+#'  "subject1", "2020-02-20T23:59:59",
+#'  "subject2", "2020-02-20T23:59:59",
+#'  "subject4", "2020-02-20T23:59:59"
+#'  )
 #'
-#' data("admiral_dm")
-#' data("admiral_ae")
+#' ae <- tibble::tribble(
+#'  ~USUBJID, ~AESEQ, ~AESTDTC,
+#'  "subject1", 1, "2020-01-02T00:00:00",
+#'  "subject1", 2, "2020-08-31T00:00:00",
+#'  "subject1", 3, "2020-10-10T00:00:00",
+#'  "subject2", 2, "2020-02-20T00:00:00",
+#'  "subject3", 1, "2020-03-02T00:00:00",
+#'  "subject4", 1, "2020-11-02T00:00:00",
+#'  "subject4", 2, ""
+#'  )
 #'
-#' dm <- admiral_dm
-#' ae <- admiral_ae
-#'
-#' dcut <- dm %>%
-#'   filter(RACE == "BLACK OR AFRICAN AMERICAN") %>%
-#'   select(USUBJID) %>%
-#'   mutate(DCUTDT = "2013-01-01", DCUTDESC = "Clinical Cutoff Date")
-#'
-#' ae_out <- ae %>%
-#'   sdtm_cut(dataset_sdtm = .,
-#'            sdtm_date_var = AESTDTC)
+#' ae_out <- sdtm_cut(dataset_sdtm = ae,
+#'                    sdtm_date_var = AESTDTC,
+#'                    dataset_cut = dcut,
+#'                    cut_var = DCUTDT)
 
 sdtm_cut <- function(dataset_sdtm,
                      sdtm_date_var,
-                     dataset_cut = dcut,
-                     cut_var = DCUTDT) {
+                     dataset_cut,
+                     cut_var) {
   sdtm_date_var <- assert_symbol(enquo(sdtm_date_var))
   cut_var <- assert_symbol(enquo(cut_var))
   assert_data_frame(dataset_sdtm,
@@ -49,19 +54,20 @@ sdtm_cut <- function(dataset_sdtm,
 
 
   dcut <- dataset_cut %>%
-    subset(select = c(USUBJID, DCUTDT))
+    mutate(DCUT_TEMP_DCUTDT = !!cut_var) %>%
+    subset(select = c(USUBJID, DCUT_TEMP_DCUTDT))
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 
   dataset_sdtm_pt <- dataset_sdtm %>%
+    impute_sdtm(dsin = ., varin = !!sdtm_date_var, varout = DCUT_TEMP_SDTM_DATE) %>%
     left_join(x = .,
               y = dcut,
               by = "USUBJID")
 
   # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse((!!sdtm_date_var > !!cut_var) | is.na(!!cut_var), 'Y', '')) %>%
-    select(-!!cut_var)
+    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDT) | is.na(DCUT_TEMP_DCUTDT), 'Y', NA))
 
   dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp="FALSE")
 

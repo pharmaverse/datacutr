@@ -26,7 +26,7 @@ dcut <- tibble::tribble(
  )
 
 ae <- tibble::tribble(
- ~USUBJID, ~AESEQ, ~DCUT_TEMP_AESTDTC,
+ ~USUBJID, ~AESEQ, ~AESTDTC,
  "subject1", 1, "2020-01-02T00:00:00",
  "subject1", 2, "2020-08-31T00:00:00",
  "subject1", 3, "2020-10-10T00:00:00",

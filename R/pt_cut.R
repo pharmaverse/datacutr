@@ -22,7 +22,7 @@
 #'  )
 #'
 #' ae <- tibble::tribble(
-#'  ~USUBJID, ~AESEQ, ~DCUT_TEMP_AESTDTC,
+#'  ~USUBJID, ~AESEQ, ~AESTDTC,
 #'  "subject1", 1, "2020-01-02T00:00:00",
 #'  "subject1", 2, "2020-08-31T00:00:00",
 #'  "subject1", 3, "2020-10-10T00:00:00",
@@ -55,7 +55,7 @@ pt_cut <- function(dataset_sdtm,
 
   # Flag records to be removed - patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), 'Y', ''))
+    mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), 'Y', NA))
 
   dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp="FALSE")
 

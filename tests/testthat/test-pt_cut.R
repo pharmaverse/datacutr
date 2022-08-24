@@ -20,12 +20,12 @@ input_dcut <- tibble::tribble(
 
 expected_ae <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_REMOVE,
-  "my_study", "subject1", 1, "2020-01-02", "",
-  "my_study", "subject1", 2, "2020-08-31", "",
-  "my_study", "subject1", 3, "2020-10-10", "",
-  "my_study", "subject2", 2, "2020-02-20", "",
+  "my_study", "subject1", 1, "2020-01-02", NA,
+  "my_study", "subject1", 2, "2020-08-31", NA,
+  "my_study", "subject1", 3, "2020-10-10", NA,
+  "my_study", "subject2", 2, "2020-02-20", NA,
   "my_study", "subject3", 1, "2020-03-02", "Y",
-  "my_study", "subject4", 1, "2020-11-02", ""
+  "my_study", "subject4", 1, "2020-11-02", NA
 )
 
 test_that("The one patient not in DCUT is flagged to be removed", {
@@ -51,9 +51,9 @@ expected_ae2 <- tibble::tribble(
   "my_study", "subject1", 1, "2020-01-02", "Y",
   "my_study", "subject1", 2, "2020-08-31", "Y",
   "my_study", "subject1", 3, "2020-10-10", "Y",
-  "my_study", "subject2", 2, "2020-02-20", "",
+  "my_study", "subject2", 2, "2020-02-20", NA,
   "my_study", "subject3", 1, "2020-03-02", "Y",
-  "my_study", "subject4", 1, "2020-11-02", ""
+  "my_study", "subject4", 1, "2020-11-02", NA
 )
 
 test_that("The multiple patients not in DCUT are flagged to be removed", {
@@ -106,12 +106,12 @@ input_dcut4 <- tibble::tribble(
 
 expected_ae4 <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_REMOVE,
-  "my_study", "subject1", 1, "2020-01-02", "",
-  "my_study", "subject1", 2, "2020-08-31", "",
-  "my_study", "subject1", 3, "2020-10-10", "",
-  "my_study", "subject2", 2, "2020-02-20", "",
-  "my_study", "subject3", 1, "2020-03-02", "",
-  "my_study", "subject4", 1, "2020-11-02", ""
+  "my_study", "subject1", 1, "2020-01-02", NA,
+  "my_study", "subject1", 2, "2020-08-31", NA,
+  "my_study", "subject1", 3, "2020-10-10", NA,
+  "my_study", "subject2", 2, "2020-02-20", NA,
+  "my_study", "subject3", 1, "2020-03-02", NA,
+  "my_study", "subject4", 1, "2020-11-02", NA
 )
 
 test_that("If all patients in DCUT match the dataset then no records are flagged to be removed", {
