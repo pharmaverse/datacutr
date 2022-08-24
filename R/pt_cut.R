@@ -14,14 +14,14 @@
 #' @keywords derive
 #'
 #' @examples
-#' dcut <- tribble(
+#' dcut <- tibble::tribble(
 #'  ~USUBJID, ~DCUTDT,
 #'  "subject1", "2020-02-20T23:59:59",
 #'  "subject2", "2020-02-20T23:59:59",
 #'  "subject4", "2020-02-20T23:59:59"
 #'  )
 #'
-#' ae <- tribble(
+#' ae <- tibble::tribble(
 #'  ~USUBJID, ~AESEQ, ~DCUT_TEMP_AESTDTC,
 #'  "subject1", 1, "2020-01-02T00:00:00",
 #'  "subject1", 2, "2020-08-31T00:00:00",

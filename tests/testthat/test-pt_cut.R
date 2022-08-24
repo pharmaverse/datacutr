@@ -1,6 +1,6 @@
 # Test 1 - one patient not in DCUT is flagged to be removed
 
-input_ae <- tribble(
+input_ae <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
   "my_study", "subject1", 1, "2020-01-02",
   "my_study", "subject1", 2, "2020-08-31",
@@ -10,7 +10,7 @@ input_ae <- tribble(
   "my_study", "subject4", 1, "2020-11-02"
 )
 
-input_dcut <- tribble(
+input_dcut <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~DCUTDT,
   "my_study", "subject1", "2020-02-20",
   "my_study", "subject2", "2020-02-20",
@@ -18,7 +18,7 @@ input_dcut <- tribble(
 )
 
 
-expected_ae <- tribble(
+expected_ae <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2020-01-02", "",
   "my_study", "subject1", 2, "2020-08-31", "",
@@ -39,14 +39,14 @@ test_that("The one patient not in DCUT is flagged to be removed", {
 
 # Test 2 - multiple patients not in DCUT are flagged to be removed
 
-input_dcut2 <- tribble(
+input_dcut2 <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~DCUTDT,
   "my_study", "subject2", "2020-02-20",
   "my_study", "subject4", "2020-02-20"
 )
 
 
-expected_ae2 <- tribble(
+expected_ae2 <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2020-01-02", "Y",
   "my_study", "subject1", 2, "2020-08-31", "Y",
@@ -67,14 +67,14 @@ test_that("The multiple patients not in DCUT are flagged to be removed", {
 
 # Test 3 - no patients match in DCUT, all records should be flagged
 
-input_dcut3 <- tribble(
+input_dcut3 <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~DCUTDT,
   "my_study", "subject5", "2020-02-20",
   "my_study", "subject6", "2020-02-20",
 )
 
 
-expected_ae3 <- tribble(
+expected_ae3 <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2020-01-02", "Y",
   "my_study", "subject1", 2, "2020-08-31", "Y",
@@ -95,7 +95,7 @@ test_that("If no patients in DCUT match the dataset then all records are flagged
 
 # Test 4 - all patients in DCUT are in dataset, no records should be flagged
 
-input_dcut4 <- tribble(
+input_dcut4 <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~DCUTDT,
   "my_study", "subject1", "2020-02-20",
   "my_study", "subject2", "2020-02-20",
@@ -104,7 +104,7 @@ input_dcut4 <- tribble(
 )
 
 
-expected_ae4 <- tribble(
+expected_ae4 <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2020-01-02", "",
   "my_study", "subject1", 2, "2020-08-31", "",
