@@ -3,7 +3,7 @@
 #' Use to apply a datacut a patient cut to an SDTMv dataset
 #'
 #' @param dataset_sdtm Input SDTMv dataset
-#' @param dataset_cut Input datacut dataset, default is `dcut`
+#' @param dataset_cut Input datacut dataset, e.g. dcut
 #'
 #' @author Alana Harris
 #'
@@ -31,10 +31,11 @@
 #'  "subject4", 1, "2020-11-02T00:00:00"
 #'  )
 #'
-#' ae_out <- pt_cut(ae)
+#' ae_out <- pt_cut(dataset_sdtm = ae,
+#'                  dataset_cut = dcut)
 
 pt_cut <- function(dataset_sdtm,
-                   dataset_cut = dcut) {
+                   dataset_cut) {
 
   assert_data_frame(dataset_sdtm,
                     required_vars = vars(USUBJID))

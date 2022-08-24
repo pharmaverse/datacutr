@@ -4,12 +4,12 @@
 \alias{pt_cut}
 \title{Patient Cut}
 \usage{
-pt_cut(dataset_sdtm, dataset_cut = dcut)
+pt_cut(dataset_sdtm, dataset_cut)
 }
 \arguments{
 \item{dataset_sdtm}{Input SDTMv dataset}
 
-\item{dataset_cut}{Input datacut dataset, default is \code{dcut}}
+\item{dataset_cut}{Input datacut dataset, e.g. dcut}
 }
 \value{
 Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be dropped when a patient level datacut is applied
@@ -18,14 +18,14 @@ Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations
 Use to apply a datacut a patient cut to an SDTMv dataset
 }
 \examples{
-dcut <- tribble(
+dcut <- tibble::tribble(
  ~USUBJID, ~DCUTDT,
  "subject1", "2020-02-20T23:59:59",
  "subject2", "2020-02-20T23:59:59",
  "subject4", "2020-02-20T23:59:59"
  )
 
-ae <- tribble(
+ae <- tibble::tribble(
  ~USUBJID, ~AESEQ, ~DCUT_TEMP_AESTDTC,
  "subject1", 1, "2020-01-02T00:00:00",
  "subject1", 2, "2020-08-31T00:00:00",
@@ -35,7 +35,8 @@ ae <- tribble(
  "subject4", 1, "2020-11-02T00:00:00"
  )
 
-ae_out <- pt_cut(ae)
+ae_out <- pt_cut(dataset_sdtm = ae,
+                 dataset_cut = dcut)
 }
 \author{
 Alana Harris
