@@ -3,11 +3,11 @@ library(dplyr)
 library(stringr)
 library(lubridate)
 
-test_that("special_dm_cut Test 1: <Explanation of the test>", {
+test_that("special_dm_cut Test 1: Test outcomes", {
 
   subj <- c("01-701-1015","01-701-1023","01-701-1028","01-701-1033","01-701-1047","01-701-1057","01-701-1097","01-701-1111","01-701-1115","01-701-1118")
   cutdt <- c("2014-10-20T23:59:59")
-  dthdtclist <- c("","2014-10-20","2014-10-21","2014-10-19","2014-10-31","2025-10-20","2002-10-20","","2014","2014-11-20")
+  dthdtclist <- c("","2014-10-20","2014-10-21","2014-10-19","2014-10-31","2025-10-20","2002-10-20","","","2014-11-20")
   dthflglist <- c("","Y","Y","Y","Y","Y","Y","Y","Y","")
 
   dcut <- data.frame(USUBJID=subj,
@@ -21,12 +21,16 @@ test_that("special_dm_cut Test 1: <Explanation of the test>", {
     mutate(DTHDT = ymd(DTHDTC)) %>%
     as_tibble()
 
-  expected_output <- mutate(dm_temp, )
+  exp_resultlist <- c("","Y","","Y","","","Y","Y","Y","")
+  expected_output <- data.frame(dm,
+                                exp_resultlist)
 
-  expect_dfs_equal(speci <- al_dm_cut(dataset_dm=dm_temp,
+
+  testthat::expect_equal(special_dm_cut(dataset_dm=dm,
                                   dataset_cut=dcut,
                                   cut_var=DCUTDT,
-                                  dthcut_var=DCUT_TEMP_DTHDT)
-                   , expected_output)
+                                  dthcut_var=DTHDT),
+               expected_output)
+
 
 })
