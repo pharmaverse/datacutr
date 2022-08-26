@@ -14,11 +14,12 @@
 #' @keywords derive
 #'
 #' @examples
+#' library(lubridate)
 #' dcut <- tibble::tribble(
 #'  ~USUBJID, ~DCUTDT,
-#'  "subject1", "2020-02-20T23:59:59",
-#'  "subject2", "2020-02-20T23:59:59",
-#'  "subject4", "2020-02-20T23:59:59"
+#'  "subject1", ymd_hms("2020-10-11T23:59:59"),
+#'  "subject2", ymd_hms("2020-10-11T23:59:59"),
+#'  "subject4", ymd_hms("2020-10-11T23:59:59")
 #'  )
 #'
 #' ae <- tibble::tribble(
