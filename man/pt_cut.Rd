@@ -18,11 +18,12 @@ Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations
 Use to apply a datacut a patient cut to an SDTMv dataset
 }
 \examples{
+library(lubridate)
 dcut <- tibble::tribble(
  ~USUBJID, ~DCUTDT,
- "subject1", "2020-02-20T23:59:59",
- "subject2", "2020-02-20T23:59:59",
- "subject4", "2020-02-20T23:59:59"
+ "subject1", ymd_hms("2020-10-11T23:59:59"),
+ "subject2", ymd_hms("2020-10-11T23:59:59"),
+ "subject4", ymd_hms("2020-10-11T23:59:59")
  )
 
 ae <- tibble::tribble(

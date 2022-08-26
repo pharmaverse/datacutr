@@ -216,15 +216,15 @@
     <pre class="examples"><div class='input'>
 
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:lubridate’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stringr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lubridate</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘lubridate’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    date</span></div><div class='input'><span class='no'>subj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"01-701-1015"</span>,<span class='st'>"01-701-1023"</span>,<span class='st'>"01-701-1028"</span>,<span class='st'>"01-701-1033"</span>,<span class='st'>"01-701-1047"</span>,<span class='st'>"01-701-1057"</span>,<span class='st'>"01-701-1097"</span>,<span class='st'>"01-701-1111"</span>,<span class='st'>"01-701-1115"</span>,<span class='st'>"01-701-1118"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lubridate</span>)
+<span class='no'>subj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"01-701-1015"</span>,<span class='st'>"01-701-1023"</span>,<span class='st'>"01-701-1028"</span>,<span class='st'>"01-701-1033"</span>,<span class='st'>"01-701-1047"</span>,<span class='st'>"01-701-1057"</span>,<span class='st'>"01-701-1097"</span>,<span class='st'>"01-701-1111"</span>,<span class='st'>"01-701-1115"</span>,<span class='st'>"01-701-1118"</span>)
 <span class='no'>cutdt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2014-10-20T23:59:59"</span>)
 <span class='no'>dthdtclist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>,<span class='st'>"2014-10-20"</span>,<span class='st'>"2014-10-21"</span>,<span class='st'>"2013"</span>,<span class='st'>"2014-10"</span>,<span class='st'>"2014-11"</span>,<span class='st'>"2014-09"</span>,<span class='st'>""</span>,<span class='st'>""</span>,<span class='st'>"2014-11-20"</span>)
 <span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='no'>subj</span>,<span class='kw'>DCUTDTC</span><span class='kw'>=</span><span class='no'>cutdt</span>) <span class='kw'>%&gt;%</span>
