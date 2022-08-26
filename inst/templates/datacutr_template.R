@@ -5,12 +5,11 @@
 # Input: xx, xx, xx
 
 library(admiral.test) # To be removed
-
 library(dplyr)
 library(stringr)
 library(lubridate)
 
-###########################################################################
+##########################################################################
 # Create DCUT ------------------------------------------------------------
 
 # Read in DS
@@ -31,50 +30,71 @@ FUNCTION_CREATE_DCUT(ds_source,
 # Runs impute_dcutdtc to create DCUTDT
 # Runs imputation function on DSSTDTC - impute_sdtm
 
+# Dummy dcut dataset for purpose of running code - to be removed
+dm <- admiral_dm
+dcut <- dm %>%
+        subset(., AGE<70) %>%
+        select(USUBJID) %>%
+        mutate(DCUTDTC = "2020-01-01") %>%
+        impute_dcutdtc(dsin=., varin=DCUTDTC, varout=DCUTDT)
+
 
 ##########################################################################
 # Example construct applying cut -----------------------------------------
 
+# Read in data - include DM, AE, LB, VS, TS, TA.......
 dm <- admiral_dm # Change for example tibbles for cut process
-# Include AE, LB, VS, TS, TA.......
+ae <- admiral_ae
+vs <- admiral_vs
+lb <- admiral_lb
+ts <- admiral_ts
+sv <- admiral_sv
+ex <- admiral_ex
 
 
 # Provide cut approaches --------------------------------------------------
-patient_cut <- c("ta","tv")
-date_cut <- c("ae","STDTC")
-            c("lb","DTC")
+patient_cut <- c("sv", "ex")
 
-# stdtc_cut <- c("AE","DS") - Not used?
-# dtc_cut <- c("LB","VS")
+date_cut <- rbind(c("ae", "AESTDTC"),
+                  c("vs", "VSDTC"),
+                  c("lb", "LBDTC"))
+
+
 
 # Conduct Patient-Level Cut ----------------------------------------------
 # Outputs flagging of patients to drop from analysis
 # Applies to patient_cut list
-
-lapply(pt_cut(dataset_sdtm,
-              dataset_cut = dcut)
-       )
-
 # Inputs:
-# Selected SDTMv for patient cut
-# Selected DCUT reference
+#    Selected SDTMv for patient cut
+#    Selected DCUT reference
 # Outputs:
-# Patient cut flagging (DCUT_TEMP_REMOVE)
+#    Patient cut flagging (DCUT_TEMP_REMOVE)
+
+for (i in 1:length(patient_cut)) {
+  assign(noquote(patient_cut[i]), pt_cut(dataset_sdtm = get(patient_cut[i]),
+                                         dataset_cut = dcut))
+}
+
+
 
 # Conduct xxSTDTC or xxDTC Cut ---------------------------------------------------
-
 # Create new list based on xxSTDTC to create stdtc_dateref
-
-lapply(sdtm_cut(dataset_sdtm,
-                sdtm_date_var,
-                dataset_cut = dcut,
-                cut_var = DCUTDT)
-       )
 # Outputs:
-# Use impute_sdtm to create temp_date eg. DCUT_TEMP_AESTDT version of AESTDTC
-# Adds DCUTDT from reference dcut as DCUT_TEMP_DCUTDT and also applies manually the patient cut flagging (DCUT_TEMP_REMOVE)
+#    Use impute_sdtm to create temp_date eg. DCUT_TEMP_AESTDT version of AESTDTC
+#    Adds DCUTDT from reference dcut as DCUT_TEMP_DCUTDT and also applies manually the patient cut flagging (DCUT_TEMP_REMOVE)
 
-# Special FA CUT - New DCUT_TEMP_FAXDTC cmobo of STDTC and DTC - TO BE DEMONSTRATED OR FUNCTION?
+
+for (i in 1:nrow(date_cut)) {
+  assign(noquote(date_cut[i,1]), sdtm_cut(dataset_sdtm = get(date_cut[i,1]),
+                                          sdtm_date_var = !!as.symbol(date_cut[i,2]),
+                                          dataset_cut = dcut,
+                                          cut_var = DCUTDT))
+}
+
+
+
+# Special FA CUT - --------------------------------------------------------------
+# New DCUT_TEMP_FAXDTC cmobo of STDTC and DTC - TO BE DEMONSTRATED OR FUNCTION?
 sdtm_cut(dataset_sdtm=FA,
          sdtm_date_var=DCUT_TEMP_FAXDTC,
          dataset_cut = dcut,
