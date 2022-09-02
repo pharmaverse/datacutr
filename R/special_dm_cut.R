@@ -35,30 +35,30 @@
 #'   as_tibble() %>%
 #'   mutate(DTHDTC=as.character(DTHDTC))
 #'
-#' dm_ptcut <- pt_cut(dm,dcut) %>%
-#'   mutate(DCUTDT=TEMP_DCUTDT)
-#'   dm_temp <- impute_sdtm(dm_ptcut,DTHDTC,DCUT_TEMP_DTHDT)
-#'
-#' chk <- special_dm_cut(dataset_dm=dm_temp,
+#'   special_dm_cut(dataset_dm=dm,
 #'                       dataset_cut=dcut,
 #'                       cut_var=DCUTDT,
-#'                       dthcut_var=DCUT_TEMP_DTHDT)
+#'                       dthcut_var=DTHDTC)
 
 special_dm_cut <- function(dataset_dm,
                    dataset_cut = dcut ,
-                   cut_var = TEMP_DCUTDT,
-                   dthcut_var = TEMP_DTHDT) {
+                   cut_var = DCUTDT,
+                   dthcut_var = DTHDTC) {
 
   cut_var <- assert_symbol(enquo(cut_var))
   dthcut_var <- assert_symbol(enquo(dthcut_var))
 
-  dataset_updatedth <- dataset_dm %>%
-    mutate(DCUT_TEMP_DTHFL = case_when(
-      !!dthcut_var>!!cut_var ~ "",
-      TRUE ~ DTHFL
+  dm_temp <- dm %>%
+    impute_sdtm(DTHDTC,DCUT_TEMP_DTHDT) %>%
+    inner_join((dcut %>% select(USUBJID,DCUT_TEMP_DCUTDT=DCUTDT)),
+                by="USUBJID")
+
+  dataset_updatedth <- dm_temp %>%
+    mutate(DCUT_TEMP_DTHCHANGE = case_when(
+      DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDT ~ "Y",
+      TRUE ~ ""
     ))
 
   dataset_updatedth
 }
-
 
