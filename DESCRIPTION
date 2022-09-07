@@ -16,10 +16,13 @@ RoxygenNote: 7.1.2
 Depends: R (>= 3.5)
 Imports:
     admiral,
+    assertthat,
     dplyr,
     lubridate,
     magrittr,
-    rlang
+    rlang, 
+    purrr, 
+    tibble
 Suggests:
     admiral.test,
     devtools,
@@ -28,7 +31,6 @@ Suggests:
     knitr,
     rmarkdown,
     roxygen2,
-    usethis, 
-    purrr
+    usethis
 VignetteBuilder: knitr
 Config/testthat/edition: 3

@@ -180,7 +180,7 @@
     <p>Use to apply a datacut a patient cut to an SDTMv dataset</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pt_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>, <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>DCUTDT</span>)</pre>
+    <pre class="usage"><span class='fu'>pt_cut</span>(<span class='no'>dataset_sdtm</span>, <span class='no'>dataset_cut</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,11 +191,7 @@
     </tr>
     <tr>
       <th>dataset_cut</th>
-      <td><p>Input datacut dataset, default is <code>dcut</code></p></td>
-    </tr>
-    <tr>
-      <th>cut_var</th>
-      <td><p>Datacut date variable found in the <code>dataset_cut</code> dataset, default is <code>DCUTDT</code></p></td>
+      <td><p>Input datacut dataset, e.g. dcut</p></td>
     </tr>
     </table>
 
@@ -204,25 +200,28 @@
     <p>Input dataset plus a flag <code>TEMP_DCUT_REMOVE</code> to indicate which observations would be dropped when a patient level datacut is applied</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lubridate</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘lubridate’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral.test</span>)
+#&gt; <span class='message'>    date</span></div><div class='input'><span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
+ ~<span class='no'>USUBJID</span>, ~<span class='no'>DCUTDT</span>,
+ <span class='st'>"subject1"</span>, <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>(<span class='st'>"2020-10-11T23:59:59"</span>),
+ <span class='st'>"subject2"</span>, <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>(<span class='st'>"2020-10-11T23:59:59"</span>),
+ <span class='st'>"subject4"</span>, <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>(<span class='st'>"2020-10-11T23:59:59"</span>)
+ )
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_dm"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"admiral_ae"</span>)
+<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
+ ~<span class='no'>USUBJID</span>, ~<span class='no'>AESEQ</span>, ~<span class='no'>AESTDTC</span>,
+ <span class='st'>"subject1"</span>, <span class='fl'>1</span>, <span class='st'>"2020-01-02T00:00:00"</span>,
+ <span class='st'>"subject1"</span>, <span class='fl'>2</span>, <span class='st'>"2020-08-31T00:00:00"</span>,
+ <span class='st'>"subject1"</span>, <span class='fl'>3</span>, <span class='st'>"2020-10-10T00:00:00"</span>,
+ <span class='st'>"subject2"</span>, <span class='fl'>2</span>, <span class='st'>"2020-02-20T00:00:00"</span>,
+ <span class='st'>"subject3"</span>, <span class='fl'>1</span>, <span class='st'>"2020-03-02T00:00:00"</span>,
+ <span class='st'>"subject4"</span>, <span class='fl'>1</span>, <span class='st'>"2020-11-02T00:00:00"</span>
+ )
 
-<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_dm</span>
-<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='no'>admiral_ae</span>
-
-<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='no'>dm</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>RACE</span> <span class='kw'>==</span> <span class='st'>"BLACK OR AFRICAN AMERICAN"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>USUBJID</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='st'>"2013-01-01"</span>, <span class='kw'>DCUTDESC</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)
-
-<span class='no'>ae_out</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='no'>ae</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dcut' not found</span></div></pre>
+<span class='no'>ae_out</span> <span class='kw'>&lt;-</span> <span class='fu'>pt_cut</span>(<span class='kw'>dataset_sdtm</span> <span class='kw'>=</span> <span class='no'>ae</span>,
+                 <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

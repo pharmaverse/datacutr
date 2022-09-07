@@ -18,8 +18,8 @@ Concatenate One or More Quosure(s)
 \examples{
 quo_c(rlang::quo(USUBJID))
 quo_c(rlang::quo(STUDYID), rlang::quo(USUBJID))
-quo_c(vars(USUBJID, ADTM))
-quo_c(rlang::quo(BASETYPE), vars(USUBJID, PARAM), rlang::quo(ADTM))
+quo_c(dplyr::vars(USUBJID, ADTM))
+quo_c(rlang::quo(BASETYPE), dplyr::vars(USUBJID, PARAM), rlang::quo(ADTM))
 }
 \author{
 Thomas Neitmann

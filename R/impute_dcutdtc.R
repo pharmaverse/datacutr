@@ -13,25 +13,26 @@
 #' @keywords derive
 #'
 #' @examples
-#' dcut <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d", "UXYZ123e"),
-#'         DCUTDTC=c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30",
-#'                  "2022-06"))
-#' dcut$DCUTDTC <- as.character(dcut$DCUTDTC)
+#' dcut <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
+#'         DCUTDTC=c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30"))
 #' dcut_final <- impute_dcutdtc(dsin=dcut, varin=DCUTDTC, varout=DCUTDT)
 
 impute_dcutdtc <- function(dsin, varin, varout){
 
+  # Assertion to check that all DCUTDTC values are at least a complete date
+  assert_that(all(nchar(as.character(dsin$DCUTDTC)) %in% c(10, 13, 16, 19)))
+
   # Handle input values for use in tidyverse
   varin <- enquo(varin)
-  varout <- dplyr::quo_name(enquo(varout))
+  varout <- quo_name(enquo(varout))
 
   # Impute character datacut date and convert to datetime object
   out <- dsin %>%
     mutate(TEMP_DTC = case_when(
-      nchar(!!varin) == 10 ~ paste0(trimws(!!varin), "T23:59:59"),
-      nchar(!!varin) == 13 ~ paste0(trimws(!!varin), ":59:59"),
-      nchar(!!varin) == 16 ~ paste0(trimws(!!varin), ":59"),
-      nchar(!!varin) == 19 ~ !!varin,
+      nchar(as.character(!!varin)) == 10 ~ paste0(trimws(as.character(!!varin)), "T23:59:59"),
+      nchar(as.character(!!varin)) == 13 ~ paste0(trimws(as.character(!!varin)), ":59:59"),
+      nchar(as.character(!!varin)) == 16 ~ paste0(trimws(as.character(!!varin)), ":59"),
+      nchar(as.character(!!varin)) == 19 ~ as.character(!!varin),
       TRUE ~ ""
     )) %>%
     mutate(!!varout := ymd_hms(TEMP_DTC))

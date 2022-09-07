@@ -4,8 +4,7 @@
 #
 # Input: xx, xx, xx
 
-library(admiral)
-library(admiral.test) # Contains example datasets from the CDISC pilot project
+library(admiral.test) # To be removed
 
 library(dplyr)
 library(stringr)
@@ -15,111 +14,97 @@ library(lubridate)
 # Create DCUT ------------------------------------------------------------
 
 # Read in DS
-ds <- admiral_ds
+ds <- admiral_ds  # To be updated to test tibble
 
-# Filter DS as appropriate, default DSTERM="RANDOMIZATION" but may differ ----
-# Select USUBJID, DSSTDTC
-
-ds_select <- ds %>%
-  # filter(DSTERM=="RANDOMIZATION") %>%
-  filter(DSTERM!="PROTOCOL COMPLETED") %>%
-  select(USUBJID, DSSTDTC) %>%
-  # group_by(USUBJID) %>%
-  # filter(row_number()==1) %>%
-  # ungroup()
-
-# Assign DCUTDTC in ISO format --------------------------------------------
-dcutdate <- "2014-10-20T23:59:59"
-ds_addcut <- ds_select %>%
-  mutate(DCUTDTC=dcutdate)
-
-# Create DCUTDT -----------------------------------------------------------
-# Impute time if not given
-FUNCTION_create_dcut_datetime(XXXX)
-
-ds_adddtcut <- ds_addcut %>%
-  mutate(DCUTDT = ymd_hms(DCUTDTC))
-
-# Create new temp var for date of DSSTDTC --------------------------------
-FUNCTION_create_sdtmv_datetime(XXXX)
-
-ds_dtc <- ds_adddtcut %>%
-  mutate(TEMP_DSSDT = ymd_hms(str_c(DSSTDTC,"T00:00:00")))
-
-# Remove records from DS where DSSTDTC is after cut DCUTDTC --------------
-FUNCTION_PATIENTCUT(XXXX)
-
-ds_cut <- ds_dtc %>%
-  filter(TEMP_DSSDT<=DCUTDT)
-
-# Assign DCUTDESC --------------------------------------------------------
-dcutdesc <- "Primary Analysis Cut"
-ds_adddesc <- ds_cut %>%
-  mutate(DCUTDESC=dcutdesc)
-
-# Return dataframe with USUBJID, DCUTDTC, DCUTDT and DCUTDESC ------------
-dcut <- ds_adddesc %>%
-  select(USUBJID,DCUTDTC,DCUTDT,DCUTDESC)
+# Outputs DCUT with patients USUBJID, DCUTDTC, DCUTDT and DCUTDESC
+FUNCTION_CREATE_DCUT(ds_source,
+                     ds_condition,
+                     dsstdtc_input,
+                     dcutdtc_value,
+                     dcutdesc_value,
+                     dcutname_out)
+# Inputs include
+# DS source
+# Date of datacut
+# Description of datacut
+# Checks to ensure no duplicate USUBJID in file
+# Runs impute_dcutdtc to create DCUTDT
+# Runs imputation function on DSSTDTC - impute_sdtm
 
 
 ##########################################################################
 # Example construct applying cut -----------------------------------------
 
-dm <- admiral_dm
+dm <- admiral_dm # Change for example tibbles for cut process
+# Include AE, LB, VS, TS, TA.......
 
 
 # Provide cut approaches --------------------------------------------------
-patient_cut <- c("YI","TV")
-stdtc_cut <- c("AE","DS")
-dtc_cut <- c("LB","VS")
+patient_cut <- c("ta","tv")
+date_cut <- c("ae","STDTC")
+            c("lb","DTC")
+
+# stdtc_cut <- c("AE","DS") - Not used?
+# dtc_cut <- c("LB","VS")
 
 # Conduct Patient-Level Cut ----------------------------------------------
-# output cut dataset plus records removed dataset
+# Outputs flagging of patients to drop from analysis
+# Applies to patient_cut list
 
-lapply(patient_cut,FUNCTION_PATIENTCUT) # Probably this approach
+lapply(pt_cut(dataset_sdtm,
+              dataset_cut = dcut)
+       )
 
-# Conduct xxSTDTC Cut ---------------------------------------------------
-# output cut dataset plus records removed dataset
-FUNCTION_create_sdtmv_datetime(XXXX)
+# Inputs:
+# Selected SDTMv for patient cut
+# Selected DCUT reference
+# Outputs:
+# Patient cut flagging (DCUT_TEMP_REMOVE)
 
-FUNCTION_PATIENTCUT(XXXX)
-FUNCTION_SDTMVCUT(XXXX)
+# Conduct xxSTDTC or xxDTC Cut ---------------------------------------------------
 
-# Conduct xxDTC Cut -----------------------------------------------------
-# output cut dataset plus records removed dataset
-FUNCTION_create_sdtmv_datetime(XXXX)
+# Create new list based on xxSTDTC to create stdtc_dateref
 
-FUNCTION_PATIENTCUT(XXXX)
-FUNCTION_SDTMVCUT(XXXX)
+lapply(sdtm_cut(dataset_sdtm,
+                sdtm_date_var,
+                dataset_cut = dcut,
+                cut_var = DCUTDT)
+       )
+# Outputs:
+# Use impute_sdtm to create temp_date eg. DCUT_TEMP_AESTDT version of AESTDTC
+# Adds DCUTDT from reference dcut as DCUT_TEMP_DCUTDT and also applies manually the patient cut flagging (DCUT_TEMP_REMOVE)
 
-# Special approach for FA -------------------------------------------------
+# Special FA CUT - New DCUT_TEMP_FAXDTC cmobo of STDTC and DTC - TO BE DEMONSTRATED OR FUNCTION?
+sdtm_cut(dataset_sdtm=FA,
+         sdtm_date_var=DCUT_TEMP_FAXDTC,
+         dataset_cut = dcut,
+         cut_var = DCUTDT)
+
 # Cuts on FASTDTC or FADTC depending on populated fields
-FUNCTION_select_date(XXXX)
+# Use sdtm_cut
 
-FUNCTION_create_sdtmv_datetime(XXXX)
-
-FUNCTION_PATIENTCUT(XXXX)
-FUNCTION_SDTMVCUT(XXXX)
 
 # Conduct DM special cut ------------------------------------------------------
-# output cut dataset plus records removed dataset (plus records altered dataset)
+# Outputs flagging of patients and obs to update from analysis
+# Merges on DCUTDT & flags patients to drop
+# Flags obs with DEATH date after DCUTDT
 
-FUNCTION_PATIENTCUT(XXXX)
-FUNCTION_create_sdtmv_datetime(XXXX)
+special_dm_cut(dataset_dm = DM,
+               dataset_cut = dcut,
+               cut_var = DCUTDT,
+               dthcut_var = DTHDTC)
+# Outputs:
+# DCUT_TEMP_DTHDT created by impute_sdtm function
+# Patient cut applied whilst adding on DCUT_TEMP_DCUTDT
+# DCUT_TEMP_DTHCHANGE flag
 
-# dm_ptcut <- pt_cut(dataset_sdtm=dm,
-#                    dataset_cut = dcut ,
-#                    cut_var = DCUTDT,
-#                    cut_type = "cut")
-#
-# dm_tempdt <- dm_ptcut %>%
-#   mutate(DTHDT = case_when(
-#     DTHDTC!="" ~ str_c(DTHDTC,"T00:00:00")
-#   )) %>%
-#   mutate(TEMP_DTHDT=ymd_hms(DTHDT)) %>%
-#   select(-DTHDT)
+# Apply the cut ------------------------------------------------------
+# Creates datesets with all flagged obs removed
+# Updates DM flags if applicable
+FUNCTION_MARKDOWN(dataset_sdtm_list,
+                  report_name)
+lapply(FUNCTION_CUT(dataset_sdtm))
 
-FUNCTION_SPECIALDM(XXXX)
-
-# Create report of cut applied and result -------------------------------------
-FUNCTION_MARKDOWNREPORT(XXXX)
+# Creates cut versions of data - where do they write to? Do we need to write somewhere physical?
+# Drops temporary variables DCUT_TEMP_xxx
+# Creates overall report

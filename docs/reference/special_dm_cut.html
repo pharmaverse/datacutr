@@ -212,6 +212,38 @@
 
     <p>A dataset with death information removed if death occurred after data cut</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:lubridate’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>stringr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lubridate</span>)
+<span class='no'>subj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"01-701-1015"</span>,<span class='st'>"01-701-1023"</span>,<span class='st'>"01-701-1028"</span>,<span class='st'>"01-701-1033"</span>,<span class='st'>"01-701-1047"</span>,<span class='st'>"01-701-1057"</span>,<span class='st'>"01-701-1097"</span>,<span class='st'>"01-701-1111"</span>,<span class='st'>"01-701-1115"</span>,<span class='st'>"01-701-1118"</span>)
+<span class='no'>cutdt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2014-10-20T23:59:59"</span>)
+<span class='no'>dthdtclist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>""</span>,<span class='st'>"2014-10-20"</span>,<span class='st'>"2014-10-21"</span>,<span class='st'>"2013"</span>,<span class='st'>"2014-10"</span>,<span class='st'>"2014-11"</span>,<span class='st'>"2014-09"</span>,<span class='st'>""</span>,<span class='st'>""</span>,<span class='st'>"2014-11-20"</span>)
+<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='no'>subj</span>,<span class='kw'>DCUTDTC</span><span class='kw'>=</span><span class='no'>cutdt</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>(<span class='no'>DCUTDTC</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>as_tibble</a></span>()
+<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='no'>subj</span>,<span class='kw'>DTHDTC</span><span class='kw'>=</span><span class='no'>dthdtclist</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DTHFL</span><span class='kw'>=</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span>(
+    <span class='no'>DTHDTC</span><span class='kw'>!=</span><span class='st'>""</span> ~ <span class='st'>"Y"</span>,
+    <span class='fl'>TRUE</span> ~ <span class='st'>""</span>
+  )) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DTHDTC</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>DTHDTC</span>))
+
+<span class='no'>dm_ptcut</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pt_cut.html'>pt_cut</a></span>(<span class='no'>dm</span>,<span class='no'>dcut</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span><span class='kw'>=</span><span class='no'>TEMP_DCUTDT</span>)</div><div class='output co'>#&gt; <span class='error'>Error: object 'TEMP_DCUTDT' not found</span></div><div class='input'>  <span class='no'>dm_temp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='impute_sdtm.html'>impute_sdtm</a></span>(<span class='no'>dm_ptcut</span>,<span class='no'>DTHDTC</span>,<span class='no'>DCUT_TEMP_DTHDT</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'dm_ptcut' not found</span></div><div class='input'>
+<span class='no'>chk</span> <span class='kw'>&lt;-</span> <span class='fu'>special_dm_cut</span>(<span class='kw'>dataset_dm</span><span class='kw'>=</span><span class='no'>dm_temp</span>,
+                      <span class='kw'>dataset_cut</span><span class='kw'>=</span><span class='no'>dcut</span>,
+                      <span class='kw'>cut_var</span><span class='kw'>=</span><span class='no'>DCUTDT</span>,
+                      <span class='kw'>dthcut_var</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_DTHDT</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'dm_temp' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
