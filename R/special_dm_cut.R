@@ -56,7 +56,7 @@ special_dm_cut <- function(dataset_dm,
   dataset_updatedth <- dm_temp %>%
     mutate(DCUT_TEMP_DTHCHANGE = case_when(
       DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDT ~ "Y",
-      TRUE ~ ""
+      TRUE ~ as.character(NA)
     ))
 
   dataset_updatedth
