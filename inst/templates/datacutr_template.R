@@ -11,31 +11,21 @@ library(lubridate)
 
 ##########################################################################
 # Create DCUT ------------------------------------------------------------
-
-# Read in DS
-ds <- admiral_ds  # To be updated to test tibble
-
-# Outputs DCUT with patients USUBJID, DCUTDTC, DCUTDT and DCUTDESC
-FUNCTION_CREATE_DCUT(ds_source,
-                     ds_condition,
-                     dsstdtc_input,
-                     dcutdtc_value,
-                     dcutdesc_value,
-                     dcutname_out)
 # Inputs include
 # DS source
 # Date of datacut
 # Description of datacut
-# Checks to ensure no duplicate USUBJID in file
+# Checks to ensure no duplicate USUBJID in file (not added yet!)
 # Runs impute_dcutdtc to create DCUTDT
-# Runs imputation function on DSSTDTC - impute_sdtm
+
+# Read in DS
+ds <- admiral_ds  # To be updated to test tibble
 
 # Dummy dcut dataset for purpose of running code - to be removed
-dm <- admiral_dm
-dcut <- dm %>%
-        subset(., AGE<70) %>%
-        select(USUBJID) %>%
-        mutate(DCUTDTC = "2020-01-01") %>%
+dcut <- dcut <- create_dcut(dataset_ds = ds,
+                            filter = DSDECOD == "ADVERSE EVENT",
+                            cut_date = "2022-01-01",
+                            cut_description = "Clinical Cutoff Date")%>%
         impute_dcutdtc(dsin=., varin=DCUTDTC, varout=DCUTDT)
 
 
