@@ -19,8 +19,10 @@ test_that("special_dm_cut Test 1: Test outcomes", {
     "01-701-1118", "2014-11-20",  "",    "Y",                  NA, "2014-10-20T23:59:59",
   ) %>%
     mutate(DCUT_TEMP_DCUTDT = ymd_hms(DCUTDTC)) %>%
-    mutate(DCUT_TEMP_DTHDT = if_else(DTHDTC!="",ymd_hms(str_c(DTHDTC,"T00:00:00")),as.POSIXct(NA))) %>%
-    select(USUBJID,DTHDTC,DTHFL,DCUT_TEMP_REMOVE,DCUT_TEMP_DTHDT,DCUT_TEMP_DCUTDT,DCUT_TEMP_DTHCHANGE)
+    mutate(DCUT_TEMP_DTHDTC = if_else(DTHDTC!="",str_c(DTHDTC,"T00:00:00"),"")) %>%
+    mutate(DCUT_TEMP_DTHDT = ymd_hms(DCUT_TEMP_DTHDTC)) %>%
+    select(USUBJID,DTHDTC,DTHFL,DCUT_TEMP_REMOVE,DCUT_TEMP_DTHDT,
+           DCUT_TEMP_DCUTDT,DCUT_TEMP_DTHCHANGE)
 
   dm <- dm_expect[1:3]
 
