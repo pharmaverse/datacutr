@@ -53,11 +53,20 @@ ex <- admiral_ex
 
 
 # Provide cut approaches --------------------------------------------------
-patient_cut <- c("sv", "ex")
+patient_cut <- list(sv = sv,
+                    ex = ex)
 
-date_cut <- rbind(c("ae", "AESTDTC"),
-                  c("vs", "VSDTC"),
-                  c("lb", "LBDTC"))
+date_cut <- list(ae = c(ae, var = "AESTDTC"),
+                 vs = c(vs, var = "VSDTC"),
+                 lb = c(lb, var = "LBDTC"))
+
+
+# Old Code
+# patient_cut <- c("sv", "ex")
+#
+# date_cut <- rbind(c("ae", "AESTDTC"),
+#                   c("vs", "VSDTC"),
+#                   c("lb", "LBDTC"))
 
 
 
@@ -70,11 +79,20 @@ date_cut <- rbind(c("ae", "AESTDTC"),
 # Outputs:
 #    Patient cut flagging (DCUT_TEMP_REMOVE)
 
-for (i in 1:length(patient_cut)) {
-  assign(noquote(patient_cut[i]), pt_cut(dataset_sdtm = get(patient_cut[i]),
-                                         dataset_cut = dcut))
-}
 
+doutlist <- lapply(patient_cut,function(x){
+  pt_cut(dataset_sdtm = x[1], dataset_cut = dcut)
+})
+
+list2env(doutlist, envir = globalenv())
+
+# Doesn't work since x[1] is a list and function expects a data frame?
+
+# Old Code
+# for (i in 1:length(patient_cut)) {
+#   assign(noquote(patient_cut[i]), pt_cut(dataset_sdtm = get(patient_cut[i]),
+#                                          dataset_cut = dcut))
+# }
 
 
 # Conduct xxSTDTC or xxDTC Cut ---------------------------------------------------
@@ -84,14 +102,24 @@ for (i in 1:length(patient_cut)) {
 #    Adds DCUTDT from reference dcut as DCUT_TEMP_DCUTDT and also applies manually the patient cut flagging (DCUT_TEMP_REMOVE)
 
 
-for (i in 1:nrow(date_cut)) {
-  assign(noquote(date_cut[i,1]), sdtm_cut(dataset_sdtm = get(date_cut[i,1]),
-                                          sdtm_date_var = !!as.symbol(date_cut[i,2]),
-                                          dataset_cut = dcut,
-                                          cut_var = DCUTDT))
-}
+doutlist <- lapply(date_cut,function(x){
+  sdtm_cut(dataset_sdtm = x[1],
+           sdtm_date_var = x[2],
+           dataset_cut = dcut,
+           cut_var = DCUTDT)
+})
 
+list2env(doutlist, envir = globalenv())
 
+# Not picking up date variable? Not sure this picks out the list elements correctly?
+
+#Old Code
+# for (i in 1:nrow(date_cut)) {
+#   assign(noquote(date_cut[i,1]), sdtm_cut(dataset_sdtm = get(date_cut[i,1]),
+#                                           sdtm_date_var = !!as.symbol(date_cut[i,2]),
+#                                           dataset_cut = dcut,
+#                                           cut_var = DCUTDT))
+# }
 
 # Special FA CUT - --------------------------------------------------------------
 # New DCUT_TEMP_FAXDTC cmobo of STDTC and DTC - TO BE DEMONSTRATED OR FUNCTION?
