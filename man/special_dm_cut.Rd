@@ -7,8 +7,8 @@
 special_dm_cut(
   dataset_dm,
   dataset_cut = dcut,
-  cut_var = TEMP_DCUTDT,
-  dthcut_var = TEMP_DTHDT
+  cut_var = DCUTDT,
+  dthcut_var = DTHDTC
 )
 }
 \arguments{
@@ -46,14 +46,10 @@ dm <- data.frame(USUBJID=subj,DTHDTC=dthdtclist) \%>\%
   as_tibble() \%>\%
   mutate(DTHDTC=as.character(DTHDTC))
 
-dm_ptcut <- pt_cut(dm,dcut) \%>\%
-  mutate(DCUTDT=TEMP_DCUTDT)
-  dm_temp <- impute_sdtm(dm_ptcut,DTHDTC,DCUT_TEMP_DTHDT)
-
-chk <- special_dm_cut(dataset_dm=dm_temp,
+  special_dm_cut(dataset_dm=dm,
                       dataset_cut=dcut,
                       cut_var=DCUTDT,
-                      dthcut_var=DCUT_TEMP_DTHDT)
+                      dthcut_var=DTHDTC)
 }
 \author{
 Tim Barnett
