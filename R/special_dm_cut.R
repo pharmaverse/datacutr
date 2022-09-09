@@ -19,21 +19,20 @@
 #'
 #'
 #' library(dplyr)
-#' library(stringr)
 #' library(lubridate)
-#' subj <- c("01-701-1015","01-701-1023","01-701-1028","01-701-1033","01-701-1047","01-701-1057","01-701-1097","01-701-1111","01-701-1115","01-701-1118")
-#' cutdt <- c("2014-10-20T23:59:59")
-#' dthdtclist <- c("","2014-10-20","2014-10-21","2013","2014-10","2014-11","2014-09","","","2014-11-20")
-#' dcut <- data.frame(USUBJID=subj,DCUTDTC=cutdt) %>%
-#'   mutate(DCUTDT = ymd_hms(DCUTDTC)) %>%
-#'   as_tibble()
-#' dm <- data.frame(USUBJID=subj,DTHDTC=dthdtclist) %>%
-#'   mutate(DTHFL=case_when(
-#'     DTHDTC!="" ~ "Y",
-#'     TRUE ~ ""
-#'   )) %>%
-#'   as_tibble() %>%
-#'   mutate(DTHDTC=as.character(DTHDTC))
+#'
+#' dcut <- tibble::tribble(
+#' ~USUBJID, ~DCUTDTC,
+#' "01-701-1015", "2014-10-20T23:59:59",
+#' "01-701-1023", "2014-10-20T23:59:59",
+#' ) %>%
+#'   mutate(DCUTDT = ymd_hms(DCUTDTC))
+#'
+#' dm <- tibble::tribble(
+#' ~USUBJID, ~DTHDTC, ~DTHFL,
+#' "01-701-1015", "2014-10-20", "Y",
+#' "01-701-1023", "2014-10-21", "Y",
+#' )
 #'
 #'   special_dm_cut(dataset_dm=dm,
 #'                       dataset_cut=dcut,
@@ -49,8 +48,7 @@ special_dm_cut <- function(dataset_dm,
   dthcut_var <- assert_symbol(enquo(dthcut_var))
 
   dm_temp <- pt_cut(dataset_sdtm=dm,
-                    dataset_cut=dcut,
-                    cut_var=DCUTDT) %>%
+                    dataset_cut=dcut) %>%
              impute_sdtm(DTHDTC,DCUT_TEMP_DTHDT) %>%
              left_join((dcut %>% select(USUBJID,DCUT_TEMP_DCUTDT=DCUTDT)),
                         by="USUBJID")
@@ -58,7 +56,7 @@ special_dm_cut <- function(dataset_dm,
   dataset_updatedth <- dm_temp %>%
     mutate(DCUT_TEMP_DTHCHANGE = case_when(
       DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDT ~ "Y",
-      TRUE ~ ""
+      TRUE ~ as.character(NA)
     ))
 
   dataset_updatedth
