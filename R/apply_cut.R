@@ -13,6 +13,9 @@
 #' @keywords derive
 #'
 #' @examples
+#' ae <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
+#'                  DCUT_TEMP_REMOVE=c("Y", "", "NA", NA))
+#' ae_final <- apply_cut(dsin=ae, dcutvar=DCUT_TEMP_REMOVE)
 
 apply_cut <- function(dsin, dcutvar){
 
@@ -28,4 +31,3 @@ apply_cut <- function(dsin, dcutvar){
 
   return(out_final)
 }
-
