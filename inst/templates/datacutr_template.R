@@ -137,11 +137,14 @@ special_dm_cut(dataset_dm = DM,
 # DCUT_TEMP_DTHCHANGE flag
 
 # Apply the cut ------------------------------------------------------
-# Creates datesets with all flagged obs removed
-# Updates DM flags if applicable
+# Produce markdown report of what records will be dropped from each SDTM domain
 FUNCTION_MARKDOWN(dataset_sdtm_list,
                   report_name)
-lapply(FUNCTION_CUT(dataset_sdtm))
+
+# Creates datesets with all flagged obs removed
+# Updates DM flags if applicable
+apply_cut(dsin=ae,
+          dcutvar=DCUT_TEMP_REMOVE)
 
 # Creates cut versions of data - where do they write to? Do we need to write somewhere physical?
 # Drops temporary variables DCUT_TEMP_xxx
