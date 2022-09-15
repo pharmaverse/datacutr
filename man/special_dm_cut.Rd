@@ -7,8 +7,8 @@
 special_dm_cut(
   dataset_dm,
   dataset_cut = dcut,
-  cut_var = TEMP_DCUTDT,
-  dthcut_var = TEMP_DTHDT
+  cut_var = DCUTDT,
+  dthcut_var = DTHDTC
 )
 }
 \arguments{
@@ -30,30 +30,25 @@ Clears death information within DM if death occurred after datacut date
 
 
 library(dplyr)
-library(stringr)
 library(lubridate)
-subj <- c("01-701-1015","01-701-1023","01-701-1028","01-701-1033","01-701-1047","01-701-1057","01-701-1097","01-701-1111","01-701-1115","01-701-1118")
-cutdt <- c("2014-10-20T23:59:59")
-dthdtclist <- c("","2014-10-20","2014-10-21","2013","2014-10","2014-11","2014-09","","","2014-11-20")
-dcut <- data.frame(USUBJID=subj,DCUTDTC=cutdt) \%>\%
-  mutate(DCUTDT = ymd_hms(DCUTDTC)) \%>\%
-  as_tibble()
-dm <- data.frame(USUBJID=subj,DTHDTC=dthdtclist) \%>\%
-  mutate(DTHFL=case_when(
-    DTHDTC!="" ~ "Y",
-    TRUE ~ ""
-  )) \%>\%
-  as_tibble() \%>\%
-  mutate(DTHDTC=as.character(DTHDTC))
 
-dm_ptcut <- pt_cut(dm,dcut) \%>\%
-  mutate(DCUTDT=TEMP_DCUTDT)
-  dm_temp <- impute_sdtm(dm_ptcut,DTHDTC,DCUT_TEMP_DTHDT)
+dcut <- tibble::tribble(
+~USUBJID, ~DCUTDTC,
+"01-701-1015", "2014-10-20T23:59:59",
+"01-701-1023", "2014-10-20T23:59:59",
+) \%>\%
+  mutate(DCUTDT = ymd_hms(DCUTDTC))
 
-chk <- special_dm_cut(dataset_dm=dm_temp,
+dm <- tibble::tribble(
+~USUBJID, ~DTHDTC, ~DTHFL,
+"01-701-1015", "2014-10-20", "Y",
+"01-701-1023", "2014-10-21", "Y",
+)
+
+  special_dm_cut(dataset_dm=dm,
                       dataset_cut=dcut,
                       cut_var=DCUTDT,
-                      dthcut_var=DCUT_TEMP_DTHDT)
+                      dthcut_var=DTHDTC)
 }
 \author{
 Tim Barnett

@@ -183,8 +183,8 @@
     <pre class="usage"><span class='fu'>special_dm_cut</span>(
   <span class='no'>dataset_dm</span>,
   <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>,
-  <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>TEMP_DCUTDT</span>,
-  <span class='kw'>dthcut_var</span> <span class='kw'>=</span> <span class='no'>TEMP_DTHDT</span>
+  <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>DCUTDT</span>,
+  <span class='kw'>dthcut_var</span> <span class='kw'>=</span> <span class='no'>DTHDTC</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -218,7 +218,9 @@
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:lubridate’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:admiral’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter_if</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
@@ -238,12 +240,10 @@
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DTHDTC</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>DTHDTC</span>))
 
-<span class='no'>dm_ptcut</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pt_cut.html'>pt_cut</a></span>(<span class='no'>dm</span>,<span class='no'>dcut</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span><span class='kw'>=</span><span class='no'>TEMP_DCUTDT</span>)</div><div class='output co'>#&gt; <span class='error'>Error: object 'TEMP_DCUTDT' not found</span></div><div class='input'>  <span class='no'>dm_temp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='impute_sdtm.html'>impute_sdtm</a></span>(<span class='no'>dm_ptcut</span>,<span class='no'>DTHDTC</span>,<span class='no'>DCUT_TEMP_DTHDT</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'dm_ptcut' not found</span></div><div class='input'>
-<span class='no'>chk</span> <span class='kw'>&lt;-</span> <span class='fu'>special_dm_cut</span>(<span class='kw'>dataset_dm</span><span class='kw'>=</span><span class='no'>dm_temp</span>,
+  <span class='fu'>special_dm_cut</span>(<span class='kw'>dataset_dm</span><span class='kw'>=</span><span class='no'>dm</span>,
                       <span class='kw'>dataset_cut</span><span class='kw'>=</span><span class='no'>dcut</span>,
                       <span class='kw'>cut_var</span><span class='kw'>=</span><span class='no'>DCUTDT</span>,
-                      <span class='kw'>dthcut_var</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_DTHDT</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'dm_temp' not found</span></div></pre>
+                      <span class='kw'>dthcut_var</span><span class='kw'>=</span><span class='no'>DTHDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error in pt_cut(dataset_sdtm = dm, dataset_cut = dcut, cut_var = DCUTDT): unused argument (cut_var = DCUTDT)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
