@@ -22,11 +22,7 @@ Use to create a datacut dataset containing the variables \code{USUBJID}, \code{D
 \examples{
 library(admiral)
 ds <- tibble::tribble(
-<<<<<<< HEAD
  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
-=======
- ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSDTC,
->>>>>>> c70cb0b6f8bc2f05a94ba4a469986b14351377f8
  "subject1", 1, "INFORMED CONSENT",      "2020-06-23",
  "subject1", 2, "RANDOMIZATION",         "2020-08-22",
  "subject1", 3, "WITHDRAWAL BY SUBJECT", "2020-05-01",
@@ -36,17 +32,10 @@ ds <- tibble::tribble(
  "subject4", 2, "RANDOMIZATION",         "2023-01-01"
 )
 
-<<<<<<< HEAD
 temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
 
 dcut <- create_dcut(dataset_ds = temp_ds,
                    filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSTDTC,
-=======
-temp_ds <- impute_sdtm(dsin=ds, varin=DSSDTC, varout=DCUT_TEMP_DSSDTC)
-
-dcut <- create_dcut(dataset_ds = temp_ds,
-                   filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSDTC,
->>>>>>> c70cb0b6f8bc2f05a94ba4a469986b14351377f8
                    cut_date = "2022-01-01",
                    cut_description = "Clinical Cutoff Date")
 }
