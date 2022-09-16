@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Special DM Cut — special_dm_cut • datacutr</title>
+<title>Applies the datacut — apply_cut • datacutr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Special DM Cut — special_dm_cut" />
-<meta property="og:description" content="Clears death information within DM if death occurred after datacut date" />
+<meta property="og:title" content="Applies the datacut — apply_cut" />
+<meta property="og:description" content="Applies the datacut based on the flagging variable created by pt_cut and sdtm_cut functions." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -171,78 +171,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Special DM Cut</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/special_dm_cut.R'><code>R/special_dm_cut.R</code></a></small>
-    <div class="hidden name"><code>special_dm_cut.Rd</code></div>
+    <h1>Applies the datacut</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/apply_cut.R'><code>R/apply_cut.R</code></a></small>
+    <div class="hidden name"><code>apply_cut.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Clears death information within DM if death occurred after datacut date</p>
+    <p>Applies the datacut based on the flagging variable created by pt_cut and sdtm_cut functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>special_dm_cut</span>(
-  <span class='no'>dataset_dm</span>,
-  <span class='kw'>dataset_cut</span> <span class='kw'>=</span> <span class='no'>dcut</span>,
-  <span class='kw'>cut_var</span> <span class='kw'>=</span> <span class='no'>DCUTDT</span>,
-  <span class='kw'>dthcut_var</span> <span class='kw'>=</span> <span class='no'>DTHDTC</span>
-)</pre>
+    <pre class="usage"><span class='fu'>apply_cut</span>(<span class='no'>dsin</span>, <span class='no'>dcutvar</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset_dm</th>
-      <td><p>Input DM SDTMv dataset</p></td>
+      <th>dsin</th>
+      <td><p>Name of input dataframe</p></td>
     </tr>
     <tr>
-      <th>dataset_cut</th>
-      <td><p>Input datacut dataset, default is <code>dcut</code></p></td>
-    </tr>
-    <tr>
-      <th>cut_var</th>
-      <td><p>Datacut date variable found in the <code>dataset_cut</code> dataset, default is <code>TEMP_DCUTDT</code></p></td>
-    </tr>
-    <tr>
-      <th>dthcut_var</th>
-      <td><p>Death date variable (in date format) found in the <code>dataset_dm</code> dataset, default is <code>TEMP_DMDT</code></p></td>
+      <th>dcutvar</th>
+      <td><p>Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataset with death information removed if death occurred after data cut</p>
+    <p>Returns the input dataframe, excluding any rows in which the dcutvar is flagged as "Y". Also removes any
+variables with the "DCUT_TEMP" prefix.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:lubridate’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:admiral’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter_if</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lubridate</span>)
-
-<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-~<span class='no'>USUBJID</span>, ~<span class='no'>DCUTDTC</span>,
-<span class='st'>"01-701-1015"</span>, <span class='st'>"2014-10-20T23:59:59"</span>,
-<span class='st'>"01-701-1023"</span>, <span class='st'>"2014-10-20T23:59:59"</span>,
-) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>DCUTDT</span> <span class='kw'>=</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>(<span class='no'>DCUTDTC</span>))
-
-<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-~<span class='no'>USUBJID</span>, ~<span class='no'>DTHDTC</span>, ~<span class='no'>DTHFL</span>,
-<span class='st'>"01-701-1015"</span>, <span class='st'>"2014-10-20"</span>, <span class='st'>"Y"</span>,
-<span class='st'>"01-701-1023"</span>, <span class='st'>"2014-10-21"</span>, <span class='st'>"Y"</span>,
-)
-
-  <span class='fu'>special_dm_cut</span>(<span class='kw'>dataset_dm</span><span class='kw'>=</span><span class='no'>dm</span>,
-                      <span class='kw'>dataset_cut</span><span class='kw'>=</span><span class='no'>dcut</span>,
-                      <span class='kw'>cut_var</span><span class='kw'>=</span><span class='no'>DCUTDT</span>,
-                      <span class='kw'>dthcut_var</span><span class='kw'>=</span><span class='no'>DTHDTC</span>)</div><div class='output co'>#&gt; <span class='error'>Error in is.data.frame(arg): object 'dm' not found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"UXYZ123a"</span>, <span class='st'>"UXYZ123b"</span>, <span class='st'>"UXYZ123c"</span>, <span class='st'>"UXYZ123d"</span>),
+                 <span class='kw'>DCUT_TEMP_REMOVE</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Y"</span>, <span class='st'>""</span>, <span class='st'>"NA"</span>, <span class='fl'>NA</span>))
+<span class='no'>ae_final</span> <span class='kw'>&lt;-</span> <span class='fu'>apply_cut</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>ae</span>, <span class='kw'>dcutvar</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_REMOVE</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

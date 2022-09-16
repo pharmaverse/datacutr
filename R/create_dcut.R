@@ -1,10 +1,6 @@
 #' Create DCUT dataset
 #'
-<<<<<<< HEAD
 #' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDT`, `DCUTDESC`.
-=======
-#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDESC`.
->>>>>>> f1701f6ba845d5d8984ee652f3f51e3814103ce4
 #'
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
@@ -21,7 +17,7 @@
 #' @examples
 #'library(admiral)
 #'ds <- tibble::tribble(
-#'  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSDTC,
+#'  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
 #'  "subject1", 1, "INFORMED CONSENT",      "2020-06-23",
 #'  "subject1", 2, "RANDOMIZATION",         "2020-08-22",
 #'  "subject1", 3, "WITHDRAWAL BY SUBJECT", "2020-05-01",
@@ -31,10 +27,10 @@
 #'  "subject4", 2, "RANDOMIZATION",         "2023-01-01"
 #')
 #'
-#'temp_ds <- impute_sdtm(dsin=ds, varin=DSSDTC, varout=DCUT_TEMP_DSSDTC)
+#'temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
 #'
 #'dcut <- create_dcut(dataset_ds = temp_ds,
-#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSDTC,
+#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSTDTC,
 #'                    cut_date = "2022-01-01",
 #'                    cut_description = "Clinical Cutoff Date")
 
