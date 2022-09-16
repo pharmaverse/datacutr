@@ -1,10 +1,6 @@
 #' Create DCUT dataset
 #'
-<<<<<<< HEAD
 #' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDT`, `DCUTDESC`.
-=======
-#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDESC`.
->>>>>>> f1701f6ba845d5d8984ee652f3f51e3814103ce4
 #'
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
