@@ -206,7 +206,7 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>admiral</span>)
 <span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
- ~<span class='no'>USUBJID</span>, ~<span class='no'>DSSEQ</span>, ~<span class='no'>DSDECOD</span>, ~<span class='no'>DSSDTC</span>,
+ ~<span class='no'>USUBJID</span>, ~<span class='no'>DSSEQ</span>, ~<span class='no'>DSDECOD</span>, ~<span class='no'>DSSTDTC</span>,
  <span class='st'>"subject1"</span>, <span class='fl'>1</span>, <span class='st'>"INFORMED CONSENT"</span>,      <span class='st'>"2020-06-23"</span>,
  <span class='st'>"subject1"</span>, <span class='fl'>2</span>, <span class='st'>"RANDOMIZATION"</span>,         <span class='st'>"2020-08-22"</span>,
  <span class='st'>"subject1"</span>, <span class='fl'>3</span>, <span class='st'>"WITHDRAWAL BY SUBJECT"</span>, <span class='st'>"2020-05-01"</span>,
@@ -216,10 +216,10 @@
  <span class='st'>"subject4"</span>, <span class='fl'>2</span>, <span class='st'>"RANDOMIZATION"</span>,         <span class='st'>"2023-01-01"</span>
 )
 
-<span class='no'>temp_ds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='impute_sdtm.html'>impute_sdtm</a></span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>ds</span>, <span class='kw'>varin</span><span class='kw'>=</span><span class='no'>DSSDTC</span>, <span class='kw'>varout</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_DSSDTC</span>)
+<span class='no'>temp_ds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='impute_sdtm.html'>impute_sdtm</a></span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>ds</span>, <span class='kw'>varin</span><span class='kw'>=</span><span class='no'>DSSTDTC</span>, <span class='kw'>varout</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_DSSTDTC</span>)
 
 <span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='fu'>create_dcut</span>(<span class='kw'>dataset_ds</span> <span class='kw'>=</span> <span class='no'>temp_ds</span>,
-                   <span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>DSDECOD</span> <span class='kw'>==</span> <span class='st'>"RANDOMIZATION"</span> <span class='kw'>&amp;</span> <span class='no'>DCUTDT</span><span class='kw'>&gt;=</span><span class='no'>DCUT_TEMP_DSSDTC</span>,
+                   <span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>DSDECOD</span> <span class='kw'>==</span> <span class='st'>"RANDOMIZATION"</span> <span class='kw'>&amp;</span> <span class='no'>DCUTDT</span><span class='kw'>&gt;=</span><span class='no'>DCUT_TEMP_DSSTDTC</span>,
                    <span class='kw'>cut_date</span> <span class='kw'>=</span> <span class='st'>"2022-01-01"</span>,
                    <span class='kw'>cut_description</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)</div></pre>
   </div>

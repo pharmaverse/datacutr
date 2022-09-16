@@ -17,7 +17,7 @@
 #' @examples
 #'library(admiral)
 #'ds <- tibble::tribble(
-#'  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSDTC,
+#'  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
 #'  "subject1", 1, "INFORMED CONSENT",      "2020-06-23",
 #'  "subject1", 2, "RANDOMIZATION",         "2020-08-22",
 #'  "subject1", 3, "WITHDRAWAL BY SUBJECT", "2020-05-01",
@@ -27,10 +27,10 @@
 #'  "subject4", 2, "RANDOMIZATION",         "2023-01-01"
 #')
 #'
-#'temp_ds <- impute_sdtm(dsin=ds, varin=DSSDTC, varout=DCUT_TEMP_DSSDTC)
+#'temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
 #'
 #'dcut <- create_dcut(dataset_ds = temp_ds,
-#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSDTC,
+#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSTDTC,
 #'                    cut_date = "2022-01-01",
 #'                    cut_description = "Clinical Cutoff Date")
 
@@ -53,4 +53,6 @@ create_dcut <- function(dataset_ds,
     subset(select = c(USUBJID, DCUTDTC, DCUTDT, DCUTDESC))
   dataset
 }
+
+
 
