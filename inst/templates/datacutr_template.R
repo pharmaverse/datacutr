@@ -20,13 +20,13 @@ library(lubridate)
 
 # Read in DS
 ds <- admiral_ds  # To be updated to test tibble
+temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
 
 # Dummy dcut dataset for purpose of running code - to be removed
-dcut <- dcut <- create_dcut(dataset_ds = ds,
-                            filter = DSDECOD == "ADVERSE EVENT",
-                            cut_date = "2022-01-01",
-                            cut_description = "Clinical Cutoff Date")%>%
-        impute_dcutdtc(dsin=., varin=DCUTDTC, varout=DCUTDT)
+dcut <- create_dcut(dataset_ds = temp_ds,
+                    filter = DSDECOD == "ADVERSE EVENT" & DCUTDT>=DCUT_TEMP_DSSTDTC,
+                    cut_date = "2022-01-01",
+                    cut_description = "Clinical Cutoff Date")
 
 
 ##########################################################################
