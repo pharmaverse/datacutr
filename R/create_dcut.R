@@ -1,6 +1,6 @@
 #' Create DCUT dataset
 #'
-#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDESC`.
+#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDT`, `DCUTDESC`.
 #'
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
@@ -15,22 +15,25 @@
 #' @keywords derive
 #'
 #' @examples
-#' library(admiral)
-#' ds <- tibble::tribble(
-#'  ~USUBJID, ~DSSEQ, ~DSDECOD,
-#'  "subject1", 1, "INFORMED CONSENT",
-#'  "subject1", 2, "RANDOMIZATION",
-#'  "subject1", 3, "WITHDRAWAL BY SUBJECT",
-#'  "subject2", 1, "INFORMED CONSENT",
-#'  "subject3", 1, "INFORMED CONSENT",
-#'  "subject4", 1, "INFORMED CONSENT",
-#'  "subject4", 2, "RANDOMIZATION"
-#'  )
+#'library(admiral)
+#'ds <- tibble::tribble(
+#'  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSDTC,
+#'  "subject1", 1, "INFORMED CONSENT",      "2020-06-23",
+#'  "subject1", 2, "RANDOMIZATION",         "2020-08-22",
+#'  "subject1", 3, "WITHDRAWAL BY SUBJECT", "2020-05-01",
+#'  "subject2", 1, "INFORMED CONSENT",      "2020-07-13",
+#'  "subject3", 1, "INFORMED CONSENT",      "2020-06-03",
+#'  "subject4", 1, "INFORMED CONSENT",      "2021-01-01",
+#'  "subject4", 2, "RANDOMIZATION",         "2023-01-01"
+#')
 #'
-#'  dcut <- create_dcut(dataset_ds = ds,
-#'                      filter = DSDECOD == "RANDOMIZATION",
-#'                      cut_date = "2022-01-01",
-#'                      cut_description = "Clinical Cutoff Date")
+#'temp_ds <- impute_sdtm(dsin=ds, varin=DSSDTC, varout=DCUT_TEMP_DSSDTC)
+#'
+#'dcut <- create_dcut(dataset_ds = temp_ds,
+#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSDTC,
+#'                    cut_date = "2022-01-01",
+#'                    cut_description = "Clinical Cutoff Date")
+
 
 create_dcut <- function(dataset_ds,
                         filter,
@@ -43,10 +46,11 @@ create_dcut <- function(dataset_ds,
   filter <- assert_filter_cond(enquo(filter), optional = TRUE)
 
   dataset <- dataset_ds %>%
-    filter_if(filter) %>%
     mutate(DCUTDTC = cut_date) %>%
     mutate(DCUTDESC = cut_description) %>%
-    subset(select = c(USUBJID, DCUTDTC, DCUTDESC))
-
+    impute_dcutdtc(dsin=., varin=DCUTDTC, varout=DCUTDT) %>%
+    filter_if(filter) %>%
+    subset(select = c(USUBJID, DCUTDTC, DCUTDT, DCUTDESC))
   dataset
 }
+
