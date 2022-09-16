@@ -57,3 +57,4 @@ create_dcut <- function(dataset_ds,
     subset(select = c(USUBJID, DCUTDTC, DCUTDT, DCUTDESC))
   dataset
 }
+
