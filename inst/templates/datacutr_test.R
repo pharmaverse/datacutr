@@ -80,7 +80,7 @@ fa <- sdtm_cut(dataset_sdtm=fa,
 
 # Conduct DM special cut for DTH flags ------------------------------------------------------
 
-dm <- special_dm_cut(dataset_dm = DM,
+dm <- special_dm_cut(dataset_dm = dm,
                dataset_cut = dcut,
                cut_var = DCUTDT,
                dthcut_var = DTHDTC)
