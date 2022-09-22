@@ -5,6 +5,7 @@
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
 #' @param cut_date Datacut date, e.g. "2022-10-22"
+#' @param cut_description Datacut date description, e.g. "Clinical Cut Off Date"
 #'
 #' @author Alana Harris
 #'
@@ -15,7 +16,6 @@
 #' @keywords derive
 #'
 #' @examples
-#'library(admiral)
 #'ds <- tibble::tribble(
 #'  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
 #'  "subject1", 1, "INFORMED CONSENT",      "2020-06-23",
