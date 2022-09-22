@@ -2,25 +2,39 @@
 % Please edit documentation in R/apply_cut.R
 \name{apply_cut}
 \alias{apply_cut}
-\title{Applies the datacut}
+\title{Applies the datacut based on the flagging variables created by pt_cut, sdtm_cut and special_dm_cut functions.}
 \usage{
-apply_cut(dsin, dcutvar)
+apply_cut(dsin, dcutvar, dthchangevar)
 }
 \arguments{
 \item{dsin}{Name of input dataframe}
 
 \item{dcutvar}{Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)}
+
+\item{dthchangevar}{Name of input death after datacut flagging variable (created by special_dm_cut function)}
 }
 \value{
-Returns the input dataframe, excluding any rows in which the dcutvar is flagged as "Y". Also removes any
-variables with the "DCUT_TEMP" prefix.
+Returns the input dataframe, excluding any rows in which the dcutvar is flagged as "Y". DTHDTC and DTHFL are
+set to missing for any records where dthchangevar is flagged as "Y" and any variables with the "DCUT_TEMP" prefix
+are removed.
 }
 \description{
-Applies the datacut based on the flagging variable created by pt_cut and sdtm_cut functions.
+Removes any records where the datacut flagging variable (created by the pt_cut and sdtm_cut functions)
+is marked as "Y". Also, overwrites the death variables (DTHDTC and DTHFL) if the death after datacut flagging variable
+(created by special_dm_cut function) is marked as "Y".
 }
 \examples{
+
 ae <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
                  DCUT_TEMP_REMOVE=c("Y", "", "NA", NA))
-ae_final <- apply_cut(dsin=ae, dcutvar=DCUT_TEMP_REMOVE)
+ae_final <- apply_cut(dsin=ae, dcutvar=DCUT_TEMP_REMOVE, dthchangevar=DCUT_TEMP_DTHCHANGE)
+
+dm <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123b"),
+                 DTHDTC=c("2014-10-20", "2014-10-21", "2013-09-08"),
+                 DTHFL=c("Y", "Y", "Y"),
+                 DCUT_TEMP_REMOVE=c(NA, NA, "Y"),
+                 DCUT_TEMP_DTHCHANGE=c(NA, "Y", ""))
+dm_final <- apply_cut(dsin=dm, dcutvar=DCUT_TEMP_REMOVE, dthchangevar=DCUT_TEMP_DTHCHANGE)
+
 }
 \keyword{derive}
