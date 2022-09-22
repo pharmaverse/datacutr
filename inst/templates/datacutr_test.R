@@ -90,36 +90,18 @@ dm <- special_dm_cut(dataset_dm = DM,
 # FUNCTION_MARKDOWN(dataset_sdtm_list,
 #                   report_name)
 
-all_cut <- c(patient_cut,date_cut[,1],fa)
+# Create list of all domains
+all_cut <- c(patient_cut, date_cut[,1], "fa", "dm")
 
 # Creates datasets with all flagged obs removed
 # Updates DM flags if applicable
-# for (i in 1:length(all_cut)) {
-#   assign(noquote(all_cut[i]),
-#          apply_cut(dsin = get(all_cut[i]),
-#                 dcutvar = DCUT_TEMP_REMOVE))
-# }
-ae_cut <- apply_cut(dsin=ae,
-          dcutvar=DCUT_TEMP_REMOVE)
-lb_cut <- apply_cut(dsin=lb,
-          dcutvar=DCUT_TEMP_REMOVE)
-fa_cut <- apply_cut(dsin=fa,
-          dcutvar=DCUT_TEMP_REMOVE)
-sc_cut <- apply_cut(dsin=sc,
-          dcutvar=DCUT_TEMP_REMOVE)
+for (i in 1:length(all_cut)) {
+  assign(noquote(all_cut[i]),
+         apply_cut(dsin = get(all_cut[i]),
+                dcutvar = DCUT_TEMP_REMOVE,
+                dthchangevar = DCUT_TEMP_DTHCHANGE))
+}
 
-# Cut DM separately due to updating DM fields for DTH
-dm_cut <- dm %>%
-  mutate(DTHFL = case_when(
-    DCUT_TEMP_DTHCHANGE=="Y" ~ "",
-    TRUE                     ~ DTHFL
-  )) %>%
-  mutate(DTHDTC = case_when(
-    DCUT_TEMP_DTHCHANGE=="Y" ~ "",
-    TRUE                     ~ DTHDTC
-  )) %>%
-  apply_cut(dsin=.,
-            dcutvar=DCUT_TEMP_REMOVE)
 
 # Compare with SAS utility #################################################
 cut_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SDTMv_testarea/work/work_datacutr_test/outdata_cut"
@@ -133,8 +115,8 @@ dm_ent <- rice_read(paste0(cut_path,"/dm.sas7bdat"))
 
 library(diffdf)
 diffdf(dcut_ent,dcut, keys = "USUBJID")
-diffdf(ae_ent,ae_cut, keys = c("USUBJID","AESTDTC","AESEQ"))
-diffdf(lb_ent,lb_cut, keys = c("USUBJID","LBDTC","LBSEQ"))
-diffdf(fa_ent,fa_cut, keys = c("USUBJID","FASTDTC","FADTC","FASEQ"))
-diffdf(sc_ent,sc_cut, keys = c("USUBJID","SCSEQ"))
-diffdf(dm_ent,dm_cut, keys = c("USUBJID"))
+diffdf(ae_ent,ae, keys = c("USUBJID","AESTDTC","AESEQ"))
+diffdf(lb_ent,lb, keys = c("USUBJID","LBDTC","LBSEQ"))
+diffdf(fa_ent,fa, keys = c("USUBJID","FASTDTC","FADTC","FASEQ"))
+diffdf(sc_ent,sc, keys = c("USUBJID","SCSEQ"))
+diffdf(dm_ent,dm, keys = c("USUBJID"))
