@@ -52,7 +52,7 @@ special_dm_cut <- function(dataset_dm,
   dm_temp <- pt_cut(dataset_sdtm=dataset_dm,
                     dataset_cut=dataset_cut) %>%
              impute_sdtm(DTHDTC,DCUT_TEMP_DTHDT) %>%
-             left_join((dcut %>% select(USUBJID,DCUT_TEMP_DCUTDT=DCUTDT)),
+             left_join((dataset_cut %>% select(USUBJID,DCUT_TEMP_DCUTDT=DCUTDT)),
                         by="USUBJID")
 
   dataset_updatedth <- dm_temp %>%
