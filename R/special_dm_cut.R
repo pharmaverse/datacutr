@@ -47,8 +47,10 @@ special_dm_cut <- function(dataset_dm,
   cut_var <- assert_symbol(enquo(cut_var))
   dthcut_var <- assert_symbol(enquo(dthcut_var))
 
-  dm_temp <- pt_cut(dataset_sdtm=dm,
-                    dataset_cut=dcut) %>%
+  attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
+
+  dm_temp <- pt_cut(dataset_sdtm=dataset_dm,
+                    dataset_cut=dataset_cut) %>%
              impute_sdtm(DTHDTC,DCUT_TEMP_DTHDT) %>%
              left_join((dcut %>% select(USUBJID,DCUT_TEMP_DCUTDT=DCUTDT)),
                         by="USUBJID")
