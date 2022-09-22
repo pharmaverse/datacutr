@@ -12,6 +12,8 @@ create_dcut(dataset_ds, filter, cut_date, cut_description)
 \item{filter}{Condition to filter patients in DS, should give 1 row per patient}
 
 \item{cut_date}{Datacut date, e.g. "2022-10-22"}
+
+\item{cut_description}{Datacut date description, e.g. "Clinical Cut Off Date"}
 }
 \value{
 Datacut dataset
@@ -20,7 +22,6 @@ Datacut dataset
 Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDT}, \code{DCUTDESC}.
 }
 \examples{
-library(admiral)
 ds <- tibble::tribble(
  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
  "subject1", 1, "INFORMED CONSENT",      "2020-06-23",
