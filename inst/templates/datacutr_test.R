@@ -4,7 +4,7 @@
 #
 # Input: xx, xx, xx
 
-library(admiral)
+library(admiraldev)
 library(rice)
 
 ent_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SDTMv_testarea/work/work_datacutr_test/outdata_prod"
@@ -12,7 +12,7 @@ ent_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SD
 ##########################################################################
 # Create DCUT ------------------------------------------------------------
 
-# Read in DS
+# Read in DS and create temporary datetime variable
 ds <- rice_read(paste0(ent_path,"/ds.sas7bdat"))
 
 ds_temp <- ds %>%
@@ -26,7 +26,7 @@ dcut <- create_dcut(dataset_ds = ds_temp,
                             cut_description = "Interim Analysis")
 
 
-# Read in data
+# Read in SDTM source data ---------------------------------------------
 dm <- rice_read(paste0(ent_path,"/dm.sas7bdat"),prolong=TRUE)
 ae <- rice_read(paste0(ent_path,"/ae.sas7bdat"),prolong=TRUE)
 lb <- rice_read(paste0(ent_path,"/lb.sas7bdat"),prolong=TRUE)
@@ -35,10 +35,10 @@ sc <- rice_read(paste0(ent_path,"/sc.sas7bdat"))
 
 # Provide cut approaches --------------------------------------------------
 
-# Patient cut
+# Patient cut - cut applied will only be for patients existing in DCUT
 patient_cut <- c("sc")
 
-# Date cut
+# Date cut - cut applied will be both for patients existing in DCUT, and date cut against DCUTDT
 date_cut <- rbind(c("ae", "AESTDTC"),
                   c("lb", "LBDTC"))
 
@@ -78,7 +78,7 @@ fa <- sdtm_cut(dataset_sdtm=fa,
          cut_var = DCUTDT)
 
 
-# Conduct DM special cut for DTH flags ------------------------------------------------------
+# Conduct DM special cut for DTH flags after DCUTDT ------------------------------
 
 dm <- special_dm_cut(dataset_dm = dm,
                dataset_cut = dcut,
@@ -102,8 +102,8 @@ for (i in 1:length(all_cut)) {
                 dthchangevar = DCUT_TEMP_DTHCHANGE))
 }
 
-
-# Compare with SAS utility #################################################
+##############################################################################################
+# Compare with SAS utility macro on entimICE #################################################
 cut_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SDTMv_testarea/work/work_datacutr_test/outdata_cut"
 
 dcut_ent <- rice_read(paste0(cut_path,"/dcut.sas7bdat"), prolong=TRUE)
@@ -114,9 +114,9 @@ sc_ent <- rice_read(paste0(cut_path,"/sc.sas7bdat"), prolong=TRUE)
 dm_ent <- rice_read(paste0(cut_path,"/dm.sas7bdat"))
 
 library(diffdf)
-diffdf(dcut_ent,dcut, keys = "USUBJID")
-diffdf(ae_ent,ae, keys = c("USUBJID","AESTDTC","AESEQ"))
-diffdf(lb_ent,lb, keys = c("USUBJID","LBDTC","LBSEQ"))
-diffdf(fa_ent,fa, keys = c("USUBJID","FASTDTC","FADTC","FASEQ"))
-diffdf(sc_ent,sc, keys = c("USUBJID","SCSEQ"))
-diffdf(dm_ent,dm, keys = c("USUBJID"))
+diffdf(dcut_ent, dcut, keys = "USUBJID")
+diffdf(ae_ent, ae, keys = c("USUBJID","AESTDTC","AESEQ"))
+diffdf(lb_ent, lb, keys = c("USUBJID","LBDTC","LBSEQ"))
+diffdf(fa_ent, fa, keys = c("USUBJID","FASTDTC","FADTC","FASEQ"))
+diffdf(sc_ent, sc, keys = c("USUBJID","SCSEQ"))
+diffdf(dm_ent, dm, keys = c("USUBJID"))
