@@ -4,7 +4,6 @@
 #
 # Input: xx, xx, xx
 
-library(admiraldev)
 library(rice)
 
 ent_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SDTMv_testarea/work/work_datacutr_test/outdata_prod"
