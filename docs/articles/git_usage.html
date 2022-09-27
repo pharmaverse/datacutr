@@ -184,7 +184,7 @@ The name of the branch must be prefixed with the issue number and be meaningful,
 </li>
 <li>Be Sure to Pull down newly created branch into RStudio</li>
 </ul>
-<p><img src="github_feature_branch.png" width="722"></p>
+<p><img src="github_feature_branch.png"><!-- --></p>
 </div>
 <div id="commits-from-the-terminal-in-rstudio" class="section level3">
 <h3 class="hasAnchor">
@@ -196,7 +196,7 @@ The name of the branch must be prefixed with the issue number and be meaningful,
 <h3 class="hasAnchor">
 <a href="#commits-from-the-git-tab-in-rstudio" class="anchor"></a>Commits from the Git Tab in RStudio</h3>
 <p>You can also make use of the Git Tab within RStudio to commit your changes. A benefit of using this Tab is being able to see your changes to the file with red and green highlighting. Just like in the terminal, start the message with the issue number and add a meaningful and succinct sentence. Hit the Commit button and then Push up to GitHub.</p>
-<p><img src="github_committ.png" width="1003"></p>
+<p><img src="github_committ.png"><!-- --></p>
 <p><strong>NOTE:</strong> Placing the issue number in your commit message allows new developers to quickly find discussion surrounding your issue. When pushed to GitHub the issue number will hyperlink to the issue tracker. A powerful tool for discussion.</p>
 </div>
 </div>
@@ -207,9 +207,9 @@ The name of the branch must be prefixed with the issue number and be meaningful,
 <p>Once all changes are committed, push the updated branch to GitHub:<br><code>git push -u origin &lt;branch_name&gt;</code></p>
 <p>In GitHub, under <strong>Pull requests</strong>, the user will either have a “Compare and pull request” button and/or a “Create Pull Request”. The first button will be created for you if GitHub detects recent changes you have made. The branch to merge with must be the <code>devel</code> branch (base = <code>devel</code>) and the compare branch is the new branch to merge - as shown in the below picture. Please <strong>pay close attention</strong> to the branch you are merging into!</p>
 <p>The issue must be linked to the pull request in the “Development” field of the Pull Request.</p>
-<p><img src="github_linked_issues_dark.png" width="1134"></p>
+<p><img src="github_linked_issues_dark.png"><!-- --></p>
 <p>Once you have completed the Pull Request you will see all committed changes are then available for the reviewer. A reviewer must be specified in the Pull Request. It is recommended to write a brief summary to your reviewers so they can quickly come up to speed on your Pull Request. Pictures are nice too, which are easy to do in GitHub! Use any Screen Capture software and Copy and Paste into your summary.</p>
-<p><img src="github_create_pr.png" width="1081"></p>
+<p><img src="github_create_pr.png"><!-- --></p>
 <div id="reviewingclosing-an-issue" class="section level3">
 <h3 class="hasAnchor">
 <a href="#reviewingclosing-an-issue" class="anchor"></a>Reviewing/Closing an Issue</h3>
@@ -220,7 +220,7 @@ The name of the branch must be prefixed with the issue number and be meaningful,
 </ul>
 <p>Once the review is completed, the reviewer will merge the Pull Request and the feature branch will automatically be deleted.</p>
 <p>After merging the Pull Request the corresponding issue must be moved to the “Done” column on the “datacutr core board” by the developer. <strong>The issue must not be closed</strong>. It will be closed automatically once the <code>devel</code> branch is merged into the <code>main</code> branch.</p>
-<p><img src="github_done.png" width="1068"></p>
+<p><img src="github_done.png"><!-- --></p>
 </div>
 <div id="solving-merge-conflicts-in-the-terminal-on-rstudio" class="section level3">
 <h3 class="hasAnchor">
@@ -240,7 +240,7 @@ git push</code></pre>
 <h3 class="hasAnchor">
 <a href="#solving-merge-conflicts-in-github" class="anchor"></a>Solving Merge Conflicts in GitHub</h3>
 <p>For simple merge conflicts, developers can make use of the GitHub interface to solve them. GitHub will show the number of conflicts between the two branches. In the below image, GitHub has found 3 conflicts, but we only display the first one. Just like in the terminal, GitHub will make use of the <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> to highlight the conflicting sections. You will need to make the decision on whether to keep the code from the base or the feature branch. Once you have decided, go into the code and remove the section you no longer wish to keep. Be sure to remove the <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> as well! Once you work through the conflicts you will mark as <strong>Resolved and Commit your changes</strong>. It is recommended to pull your branch back down to RStudio to make sure no untoward effects have happen to your branch.</p>
-<p><img src="github_conflicts.png" width="983"></p>
+<p><img src="github_conflicts.png"><!-- --></p>
 </div>
 </div>
 <div id="useful-git-commands" class="section level2">
