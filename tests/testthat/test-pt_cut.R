@@ -11,7 +11,7 @@ input_ae <- tibble::tribble(
 )
 
 input_dcut <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject1", ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject2", ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject4", ymd_hms("2020-10-11T23:59:59")
@@ -40,7 +40,7 @@ test_that("The one patient not in DCUT is flagged to be removed", {
 # Test 2 - multiple patients not in DCUT are flagged to be removed
 
 input_dcut2 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject2", ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject4", ymd_hms("2020-10-11T23:59:59")
 )
@@ -68,7 +68,7 @@ test_that("The multiple patients not in DCUT are flagged to be removed", {
 # Test 3 - no patients match in DCUT, all records should be flagged
 
 input_dcut3 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject5", ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject6", ymd_hms("2020-10-11T23:59:59"),
 )
@@ -96,7 +96,7 @@ test_that("If no patients in DCUT match the dataset then all records are flagged
 # Test 4 - all patients in DCUT are in dataset, no records should be flagged
 
 input_dcut4 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject1", ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject2", ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject3", ymd_hms("2020-10-11T23:59:59"),

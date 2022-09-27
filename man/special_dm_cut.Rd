@@ -4,19 +4,14 @@
 \alias{special_dm_cut}
 \title{Special DM Cut}
 \usage{
-special_dm_cut(
-  dataset_dm,
-  dataset_cut = dcut,
-  cut_var = DCUTDT,
-  dthcut_var = DTHDTC
-)
+special_dm_cut(dataset_dm, dataset_cut, cut_var = DCUTDTM, dthcut_var = DTHDTC)
 }
 \arguments{
 \item{dataset_dm}{Input DM SDTMv dataset}
 
-\item{dataset_cut}{Input datacut dataset, default is \code{dcut}}
+\item{dataset_cut}{Input datacut dataset}
 
-\item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{TEMP_DCUTDT}}
+\item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{TEMP_DCUTDTM}}
 
 \item{dthcut_var}{Death date variable (in date format) found in the \code{dataset_dm} dataset, default is \code{TEMP_DMDT}}
 }
@@ -37,7 +32,7 @@ dcut <- tibble::tribble(
 "01-701-1015", "2014-10-20T23:59:59",
 "01-701-1023", "2014-10-20T23:59:59",
 ) \%>\%
-  mutate(DCUTDT = ymd_hms(DCUTDTC))
+  mutate(DCUTDTM = ymd_hms(DCUTDTC))
 
 dm <- tibble::tribble(
 ~USUBJID, ~DTHDTC, ~DTHFL,
@@ -47,7 +42,7 @@ dm <- tibble::tribble(
 
   special_dm_cut(dataset_dm=dm,
                       dataset_cut=dcut,
-                      cut_var=DCUTDT,
+                      cut_var=DCUTDTM,
                       dthcut_var=DTHDTC)
 }
 \author{

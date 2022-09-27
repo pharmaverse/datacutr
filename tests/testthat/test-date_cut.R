@@ -11,7 +11,7 @@ input_ae <- tibble::tribble(
 )
 
 input_dcut <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject1",  ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject2",  ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject4",  ymd_hms("2020-10-11T23:59:59")
@@ -19,7 +19,7 @@ input_dcut <- tibble::tribble(
 
 
 expected_ae <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDT, ~DCUT_TEMP_REMOVE,
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDTM, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2020-01-02", ymd_hms("2020-01-02T00:00:00"), ymd_hms("2020-10-11T23:59:59"), NA,
   "my_study", "subject1", 2, "2020-08-31", ymd_hms("2020-08-31T00:00:00"), ymd_hms("2020-10-11T23:59:59"), NA,
   "my_study", "subject1", 3, "2020-10-10", ymd_hms("2020-10-10T00:00:00"), ymd_hms("2020-10-11T23:59:59"), NA,
@@ -30,10 +30,10 @@ expected_ae <- tibble::tribble(
 
 test_that("One observation is after cut and one patient not in DCUT is flagged to be removed", {
   expect_equal(
-    sdtm_cut(dataset_sdtm = input_ae,
+    date_cut(dataset_sdtm = input_ae,
              sdtm_date_var = AESTDTC,
              dataset_cut = input_dcut,
-             cut_var = DCUTDT),
+             cut_var = DCUTDTM),
     expected_ae
   )
 })
@@ -52,7 +52,7 @@ input_ae2 <- tibble::tribble(
 )
 
 input_dcut2 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject1",  ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject2",  ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject3",  ymd_hms("2020-10-11T23:59:59"),
@@ -61,7 +61,7 @@ input_dcut2 <- tibble::tribble(
 
 
 expected_ae2 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDT, ~DCUT_TEMP_REMOVE,
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDTM, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2020-12",             ymd_hms("2020-12-01T00:00:00"), ymd_hms("2020-10-11T23:59:59"), "Y",
   "my_study", "subject1", 2, "2020-08-31",          ymd_hms("2020-08-31T00:00:00"), ymd_hms("2020-10-11T23:59:59"), NA,
   "my_study", "subject1", 3, "2020-10-10T13:03",    ymd_hms("2020-10-10T13:03:00"), ymd_hms("2020-10-11T23:59:59"), NA,
@@ -72,10 +72,10 @@ expected_ae2 <- tibble::tribble(
 
 test_that("One observations is after cut and partial/missing dates in SDTMv dataset", {
   expect_equal(
-    sdtm_cut(dataset_sdtm = input_ae2,
+    date_cut(dataset_sdtm = input_ae2,
              sdtm_date_var = AESTDTC,
              dataset_cut = input_dcut2,
-             cut_var = DCUTDT),
+             cut_var = DCUTDTM),
     expected_ae2
   )
 })
@@ -89,7 +89,7 @@ input_ae3 <- tibble::tribble(
 )
 
 input_dcut3 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject1",  ymd_hms("2020-01-02T23:59:59"),
   "my_study", "subject2",  ymd_hms("2020-01-02T23:59:59"),
   "my_study", "subject4",  ymd_hms("2020-01-02T23:59:59")
@@ -97,16 +97,16 @@ input_dcut3 <- tibble::tribble(
 
 
 expected_ae3 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDT, ~DCUT_TEMP_REMOVE,
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDTM, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2020-01-02T23:59:59", ymd_hms("2020-01-02T23:59:59"), ymd_hms("2020-01-02T23:59:59"), NA
 )
 
 test_that("Datacut date and SDTMv date are the same, extra patients in DCUT", {
   expect_equal(
-    sdtm_cut(dataset_sdtm = input_ae3,
+    date_cut(dataset_sdtm = input_ae3,
              sdtm_date_var = AESTDTC,
              dataset_cut = input_dcut3,
-             cut_var = DCUTDT),
+             cut_var = DCUTDTM),
     expected_ae3
   )
 })
@@ -124,7 +124,7 @@ input_ae4 <- tibble::tribble(
 )
 
 input_dcut4 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DCUTDT,
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
   "my_study", "subject1",  ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject2",  ymd_hms("2020-10-11T23:59:59"),
   "my_study", "subject3",  ymd_hms("2020-10-11T23:59:59")
@@ -132,7 +132,7 @@ input_dcut4 <- tibble::tribble(
 
 
 expected_ae4 <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDT, ~DCUT_TEMP_REMOVE,
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDTM, ~DCUT_TEMP_REMOVE,
   "my_study", "subject1", 1, "2021-01-02", ymd_hms("2021-01-02T00:00:00"), ymd_hms("2020-10-11T23:59:59"), "Y",
   "my_study", "subject1", 2, "2021-08-31", ymd_hms("2021-08-31T00:00:00"), ymd_hms("2020-10-11T23:59:59"), "Y",
   "my_study", "subject1", 3, "2021-10-10", ymd_hms("2021-10-10T00:00:00"), ymd_hms("2020-10-11T23:59:59"), "Y",
@@ -142,10 +142,10 @@ expected_ae4 <- tibble::tribble(
 
 test_that("All SDTMv dates are after datacut date", {
   expect_equal(
-    sdtm_cut(dataset_sdtm = input_ae4,
+    date_cut(dataset_sdtm = input_ae4,
              sdtm_date_var = AESTDTC,
              dataset_cut = input_dcut4,
-             cut_var = DCUTDT),
+             cut_var = DCUTDTM),
     expected_ae4
   )
 })
