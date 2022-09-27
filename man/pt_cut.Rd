@@ -20,7 +20,7 @@ Use to apply a datacut a patient cut to an SDTMv dataset
 \examples{
 library(lubridate)
 dcut <- tibble::tribble(
- ~USUBJID, ~DCUTDT,
+ ~USUBJID, ~DCUTDTM,
  "subject1", ymd_hms("2020-10-11T23:59:59"),
  "subject2", ymd_hms("2020-10-11T23:59:59"),
  "subject4", ymd_hms("2020-10-11T23:59:59")

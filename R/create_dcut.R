@@ -1,6 +1,6 @@
 #' Create DCUT dataset
 #'
-#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDT`, `DCUTDESC`.
+#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDTM`, `DCUTDESC`.
 #'
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
@@ -30,7 +30,7 @@
 #'temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
 #'
 #'dcut <- create_dcut(dataset_ds = temp_ds,
-#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSTDTC,
+#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDTM>=DCUT_TEMP_DSSTDTC,
 #'                    cut_date = "2022-01-01",
 #'                    cut_description = "Clinical Cutoff Date")
 
@@ -48,9 +48,9 @@ create_dcut <- function(dataset_ds,
   dataset <- dataset_ds %>%
     mutate(DCUTDTC = cut_date) %>%
     mutate(DCUTDESC = cut_description) %>%
-    impute_dcutdtc(dsin=., varin=DCUTDTC, varout=DCUTDT) %>%
+    impute_dcutdtc(dsin=., varin=DCUTDTC, varout=DCUTDTM) %>%
     filter_if(filter) %>%
-    subset(select = c(USUBJID, DCUTDTC, DCUTDT, DCUTDESC))
+    subset(select = c(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC))
   dataset
 }
 

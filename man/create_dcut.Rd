@@ -19,7 +19,7 @@ create_dcut(dataset_ds, filter, cut_date, cut_description)
 Datacut dataset
 }
 \description{
-Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDT}, \code{DCUTDESC}.
+Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDTM}, \code{DCUTDESC}.
 }
 \examples{
 ds <- tibble::tribble(
@@ -36,7 +36,7 @@ ds <- tibble::tribble(
 temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
 
 dcut <- create_dcut(dataset_ds = temp_ds,
-                   filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSTDTC,
+                   filter = DSDECOD == "RANDOMIZATION" & DCUTDTM>=DCUT_TEMP_DSSTDTC,
                    cut_date = "2022-01-01",
                    cut_description = "Clinical Cutoff Date")
 }

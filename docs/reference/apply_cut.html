@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Applies the datacut — apply_cut • datacutr</title>
+<title>Applies the datacut based on the flagging variables created by pt_cut, sdtm_cut and special_dm_cut functions. — apply_cut • datacutr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,10 @@
 
 
 
-<meta property="og:title" content="Applies the datacut — apply_cut" />
-<meta property="og:description" content="Applies the datacut based on the flagging variable created by pt_cut and sdtm_cut functions." />
+<meta property="og:title" content="Applies the datacut based on the flagging variables created by pt_cut, sdtm_cut and special_dm_cut functions. — apply_cut" />
+<meta property="og:description" content="Removes any records where the datacut flagging variable (created by the pt_cut and sdtm_cut functions)
+is marked as &quot;Y&quot;. Also, overwrites the death variables (DTHDTC and DTHFL) if the death after datacut flagging variable
+(created by special_dm_cut function) is marked as &quot;Y&quot;." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -171,16 +173,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Applies the datacut</h1>
+    <h1>Applies the datacut based on the flagging variables created by pt_cut, sdtm_cut and special_dm_cut functions.</h1>
     <small class="dont-index">Source: <a href='https://github.com/pharmaverse/datacutr/blob/main/R/apply_cut.R'><code>R/apply_cut.R</code></a></small>
     <div class="hidden name"><code>apply_cut.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Applies the datacut based on the flagging variable created by pt_cut and sdtm_cut functions.</p>
+    <p>Removes any records where the datacut flagging variable (created by the pt_cut and sdtm_cut functions)
+is marked as "Y". Also, overwrites the death variables (DTHDTC and DTHFL) if the death after datacut flagging variable
+(created by special_dm_cut function) is marked as "Y".</p>
     </div>
 
-    <pre class="usage"><span class='fu'>apply_cut</span>(<span class='no'>dsin</span>, <span class='no'>dcutvar</span>)</pre>
+    <pre class="usage"><span class='fu'>apply_cut</span>(<span class='no'>dsin</span>, <span class='no'>dcutvar</span>, <span class='no'>dthchangevar</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,17 +197,30 @@
       <th>dcutvar</th>
       <td><p>Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)</p></td>
     </tr>
+    <tr>
+      <th>dthchangevar</th>
+      <td><p>Name of input death after datacut flagging variable (created by special_dm_cut function)</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the input dataframe, excluding any rows in which the dcutvar is flagged as "Y". Also removes any
-variables with the "DCUT_TEMP" prefix.</p>
+    <p>Returns the input dataframe, excluding any rows in which the dcutvar is flagged as "Y". DTHDTC and DTHFL are
+set to missing for any records where dthchangevar is flagged as "Y" and any variables with the "DCUT_TEMP" prefix
+are removed.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"UXYZ123a"</span>, <span class='st'>"UXYZ123b"</span>, <span class='st'>"UXYZ123c"</span>, <span class='st'>"UXYZ123d"</span>),
+    <pre class="examples"><div class='input'>
+<span class='no'>ae</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"UXYZ123a"</span>, <span class='st'>"UXYZ123b"</span>, <span class='st'>"UXYZ123c"</span>, <span class='st'>"UXYZ123d"</span>),
                  <span class='kw'>DCUT_TEMP_REMOVE</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Y"</span>, <span class='st'>""</span>, <span class='st'>"NA"</span>, <span class='fl'>NA</span>))
-<span class='no'>ae_final</span> <span class='kw'>&lt;-</span> <span class='fu'>apply_cut</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>ae</span>, <span class='kw'>dcutvar</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_REMOVE</span>)</div></pre>
+<span class='no'>ae_final</span> <span class='kw'>&lt;-</span> <span class='fu'>apply_cut</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>ae</span>, <span class='kw'>dcutvar</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_REMOVE</span>, <span class='kw'>dthchangevar</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_DTHCHANGE</span>)
+
+<span class='no'>dm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>USUBJID</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"UXYZ123a"</span>, <span class='st'>"UXYZ123b"</span>, <span class='st'>"UXYZ123b"</span>),
+                 <span class='kw'>DTHDTC</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2014-10-20"</span>, <span class='st'>"2014-10-21"</span>, <span class='st'>"2013-09-08"</span>),
+                 <span class='kw'>DTHFL</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Y"</span>, <span class='st'>"Y"</span>, <span class='st'>"Y"</span>),
+                 <span class='kw'>DCUT_TEMP_REMOVE</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='st'>"Y"</span>),
+                 <span class='kw'>DCUT_TEMP_DTHCHANGE</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='st'>"Y"</span>, <span class='st'>""</span>))
+<span class='no'>dm_final</span> <span class='kw'>&lt;-</span> <span class='fu'>apply_cut</span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>dm</span>, <span class='kw'>dcutvar</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_REMOVE</span>, <span class='kw'>dthchangevar</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_DTHCHANGE</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
