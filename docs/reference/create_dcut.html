@@ -180,7 +180,18 @@
     <p>Use to create a datacut dataset containing the variables <code>USUBJID</code>, <code>DCUTDTC</code>, <code>DCUTDTM</code>, <code>DCUTDESC</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_dcut</span>(<span class='no'>dataset_ds</span>, <span class='no'>ds_date_var</span>, <span class='no'>filter</span>, <span class='no'>cut_date</span>, <span class='no'>cut_description</span>)</pre>
+    <pre class="usage"><<<<<<< HEAD
+create_dcut(dataset_ds, ds_date_var, filter, cut_date, cut_description)
+=======
+create_dcut(
+  dataset_ds,
+  ds_date_var,
+  ds_date_var_imp,
+  filter,
+  cut_date,
+  cut_description
+)
+>>>>>>> 849dcad8f4f30bf48b92b9956506e5a7bdc2a1b3</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,6 +203,10 @@
     <tr>
       <th>ds_date_var</th>
       <td><p>Character date variable in the DS SDTMv to be imputed</p></td>
+    </tr>
+    <tr>
+      <th>ds_date_var_imp</th>
+      <td><p>Name to give the variable containing the imputed <code>ds_date_var</code></p></td>
     </tr>
     <tr>
       <th>filter</th>
@@ -212,22 +227,7 @@
     <p>Datacut dataset</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
- ~<span class='no'>USUBJID</span>, ~<span class='no'>DSSEQ</span>, ~<span class='no'>DSDECOD</span>, ~<span class='no'>DSSTDTC</span>,
- <span class='st'>"subject1"</span>, <span class='fl'>1</span>, <span class='st'>"INFORMED CONSENT"</span>,      <span class='st'>"2020-06-23"</span>,
- <span class='st'>"subject1"</span>, <span class='fl'>2</span>, <span class='st'>"RANDOMIZATION"</span>,         <span class='st'>"2020-08-22"</span>,
- <span class='st'>"subject1"</span>, <span class='fl'>3</span>, <span class='st'>"WITHDRAWAL BY SUBJECT"</span>, <span class='st'>"2020-05-01"</span>,
- <span class='st'>"subject2"</span>, <span class='fl'>1</span>, <span class='st'>"INFORMED CONSENT"</span>,      <span class='st'>"2020-07-13"</span>,
- <span class='st'>"subject3"</span>, <span class='fl'>1</span>, <span class='st'>"INFORMED CONSENT"</span>,      <span class='st'>"2020-06-03"</span>,
- <span class='st'>"subject4"</span>, <span class='fl'>1</span>, <span class='st'>"INFORMED CONSENT"</span>,      <span class='st'>"2021-01-01"</span>,
- <span class='st'>"subject4"</span>, <span class='fl'>2</span>, <span class='st'>"RANDOMIZATION"</span>,         <span class='st'>"2023-01-01"</span>
-)
-
-<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='fu'>create_dcut</span>(<span class='kw'>dataset_ds</span> <span class='kw'>=</span> <span class='no'>ds</span>,
-                   <span class='kw'>ds_date_var</span> <span class='kw'>=</span> <span class='no'>DSSTDTC</span>,
-                   <span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>DSDECOD</span> <span class='kw'>==</span> <span class='st'>"RANDOMIZATION"</span>,
-                   <span class='kw'>cut_date</span> <span class='kw'>=</span> <span class='st'>"2022-01-01"</span>,
-                   <span class='kw'>cut_description</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)</div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
