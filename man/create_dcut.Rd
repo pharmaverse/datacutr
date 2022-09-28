@@ -4,23 +4,26 @@
 \alias{create_dcut}
 \title{Create DCUT dataset}
 \usage{
-create_dcut(dataset_ds, filter, cut_date, cut_description)
+create_dcut(dataset_ds, ds_date_var, filter, cut_date, cut_description)
 }
 \arguments{
 \item{dataset_ds}{Input DS SDTMv dataset}
 
+\item{ds_date_var}{Character date variable in the DS SDTMv to be imputed}
+
 \item{filter}{Condition to filter patients in DS, should give 1 row per patient}
 
 \item{cut_date}{Datacut date, e.g. "2022-10-22"}
+
+\item{cut_description}{Datacut date description, e.g. "Clinical Cut Off Date"}
 }
 \value{
 Datacut dataset
 }
 \description{
-Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDT}, \code{DCUTDESC}.
+Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDTM}, \code{DCUTDESC}.
 }
 \examples{
-library(admiral)
 ds <- tibble::tribble(
  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
  "subject1", 1, "INFORMED CONSENT",      "2020-06-23",
@@ -32,10 +35,9 @@ ds <- tibble::tribble(
  "subject4", 2, "RANDOMIZATION",         "2023-01-01"
 )
 
-temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
-
-dcut <- create_dcut(dataset_ds = temp_ds,
-                   filter = DSDECOD == "RANDOMIZATION" & DCUTDT>=DCUT_TEMP_DSSTDTC,
+dcut <- create_dcut(dataset_ds = ds,
+                   ds_date_var = DSSTDTC,
+                   filter = DSDECOD == "RANDOMIZATION",
                    cut_date = "2022-01-01",
                    cut_description = "Clinical Cutoff Date")
 }

@@ -3,8 +3,8 @@
 #' Clears death information within DM if death occurred after datacut date
 #'
 #' @param dataset_dm Input DM SDTMv dataset
-#' @param dataset_cut Input datacut dataset, default is `dcut`
-#' @param cut_var Datacut date variable found in the `dataset_cut` dataset, default is `TEMP_DCUTDT`
+#' @param dataset_cut Input datacut dataset
+#' @param cut_var Datacut date variable found in the `dataset_cut` dataset, default is `TEMP_DCUTDTM`
 #' @param dthcut_var Death date variable (in date format) found in the `dataset_dm` dataset, default is `TEMP_DMDT`
 #'
 #' @author Tim Barnett
@@ -26,7 +26,7 @@
 #' "01-701-1015", "2014-10-20T23:59:59",
 #' "01-701-1023", "2014-10-20T23:59:59",
 #' ) %>%
-#'   mutate(DCUTDT = ymd_hms(DCUTDTC))
+#'   mutate(DCUTDTM = ymd_hms(DCUTDTC))
 #'
 #' dm <- tibble::tribble(
 #' ~USUBJID, ~DTHDTC, ~DTHFL,
@@ -36,12 +36,12 @@
 #'
 #'   special_dm_cut(dataset_dm=dm,
 #'                       dataset_cut=dcut,
-#'                       cut_var=DCUTDT,
+#'                       cut_var=DCUTDTM,
 #'                       dthcut_var=DTHDTC)
 
 special_dm_cut <- function(dataset_dm,
-                   dataset_cut = dcut ,
-                   cut_var = DCUTDT,
+                   dataset_cut,
+                   cut_var = DCUTDTM,
                    dthcut_var = DTHDTC) {
 
   cut_var <- assert_symbol(enquo(cut_var))
@@ -49,15 +49,15 @@ special_dm_cut <- function(dataset_dm,
 
   attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
 
-  dm_temp <- pt_cut(dataset_sdtm=dm,
-                    dataset_cut=dcut) %>%
+  dm_temp <- pt_cut(dataset_sdtm=dataset_dm,
+                    dataset_cut=dataset_cut) %>%
              impute_sdtm(DTHDTC,DCUT_TEMP_DTHDT) %>%
-             left_join((dcut %>% select(USUBJID,DCUT_TEMP_DCUTDT=DCUTDT)),
+             left_join((dataset_cut %>% select(USUBJID,DCUT_TEMP_DCUTDTM=DCUTDTM)),
                         by="USUBJID")
 
   dataset_updatedth <- dm_temp %>%
     mutate(DCUT_TEMP_DTHCHANGE = case_when(
-      DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDT ~ "Y",
+      DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDTM ~ "Y",
       TRUE ~ as.character(NA)
     ))
 

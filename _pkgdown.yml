@@ -23,14 +23,6 @@ reference:
 - contents:
   - has_keyword("user_utility")
 
-- title: Developer Utilities
-- subtitle: Assertions
-- contents:
-  - has_keyword("assertion")
-- subtitle: Various
-- contents:
-  - has_keyword("dev_utility")
-
 articles:
 - title: User Guides
   navbar: User Guides
