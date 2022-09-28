@@ -16,5 +16,6 @@ globalVariables(c(
   "TEMP_FLAG",
   "dcut",
   ".",
-  "USUBJID"
+  "USUBJID",
+  "DCUT_TEMP_DATE"
 ))

@@ -180,7 +180,7 @@
     <p>Use to create a datacut dataset containing the variables <code>USUBJID</code>, <code>DCUTDTC</code>, <code>DCUTDTM</code>, <code>DCUTDESC</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_dcut</span>(<span class='no'>dataset_ds</span>, <span class='no'>filter</span>, <span class='no'>cut_date</span>, <span class='no'>cut_description</span>)</pre>
+    <pre class="usage"><span class='fu'>create_dcut</span>(<span class='no'>dataset_ds</span>, <span class='no'>ds_date_var</span>, <span class='no'>filter</span>, <span class='no'>cut_date</span>, <span class='no'>cut_description</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -188,6 +188,10 @@
     <tr>
       <th>dataset_ds</th>
       <td><p>Input DS SDTMv dataset</p></td>
+    </tr>
+    <tr>
+      <th>ds_date_var</th>
+      <td><p>Character date variable in the DS SDTMv to be imputed</p></td>
     </tr>
     <tr>
       <th>filter</th>
@@ -219,10 +223,9 @@
  <span class='st'>"subject4"</span>, <span class='fl'>2</span>, <span class='st'>"RANDOMIZATION"</span>,         <span class='st'>"2023-01-01"</span>
 )
 
-<span class='no'>temp_ds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='impute_sdtm.html'>impute_sdtm</a></span>(<span class='kw'>dsin</span><span class='kw'>=</span><span class='no'>ds</span>, <span class='kw'>varin</span><span class='kw'>=</span><span class='no'>DSSTDTC</span>, <span class='kw'>varout</span><span class='kw'>=</span><span class='no'>DCUT_TEMP_DSSTDTC</span>)
-
-<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='fu'>create_dcut</span>(<span class='kw'>dataset_ds</span> <span class='kw'>=</span> <span class='no'>temp_ds</span>,
-                   <span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>DSDECOD</span> <span class='kw'>==</span> <span class='st'>"RANDOMIZATION"</span> <span class='kw'>&amp;</span> <span class='no'>DCUTDTM</span><span class='kw'>&gt;=</span><span class='no'>DCUT_TEMP_DSSTDTC</span>,
+<span class='no'>dcut</span> <span class='kw'>&lt;-</span> <span class='fu'>create_dcut</span>(<span class='kw'>dataset_ds</span> <span class='kw'>=</span> <span class='no'>ds</span>,
+                   <span class='kw'>ds_date_var</span> <span class='kw'>=</span> <span class='no'>DSSTDTC</span>,
+                   <span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>DSDECOD</span> <span class='kw'>==</span> <span class='st'>"RANDOMIZATION"</span>,
                    <span class='kw'>cut_date</span> <span class='kw'>=</span> <span class='st'>"2022-01-01"</span>,
                    <span class='kw'>cut_description</span> <span class='kw'>=</span> <span class='st'>"Clinical Cutoff Date"</span>)</div></pre>
   </div>

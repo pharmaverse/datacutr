@@ -3,6 +3,7 @@
 #' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDTM`, `DCUTDESC`.
 #'
 #' @param dataset_ds Input DS SDTMv dataset
+#' @param ds_date_var Character date variable in the DS SDTMv to be imputed
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
 #' @param cut_date Datacut date, e.g. "2022-10-22"
 #' @param cut_description Datacut date description, e.g. "Clinical Cut Off Date"
@@ -27,28 +28,30 @@
 #'  "subject4", 2, "RANDOMIZATION",         "2023-01-01"
 #')
 #'
-#'temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
-#'
-#'dcut <- create_dcut(dataset_ds = temp_ds,
-#'                    filter = DSDECOD == "RANDOMIZATION" & DCUTDTM>=DCUT_TEMP_DSSTDTC,
+#'dcut <- create_dcut(dataset_ds = ds,
+#'                    ds_date_var = DSSTDTC,
+#'                    filter = DSDECOD == "RANDOMIZATION",
 #'                    cut_date = "2022-01-01",
 #'                    cut_description = "Clinical Cutoff Date")
 
 
 create_dcut <- function(dataset_ds,
+                        ds_date_var,
                         filter,
                         cut_date,
                         cut_description) {
 
   assert_data_frame(dataset_ds,
                     required_vars = quo_c(vars(USUBJID)))
-
+  ds_date_var <- assert_symbol(enquo(ds_date_var))
   filter <- assert_filter_cond(enquo(filter), optional = TRUE)
 
   dataset <- dataset_ds %>%
+    impute_sdtm(dsin=., varin=!!ds_date_var, varout=DCUT_TEMP_DATE)%>%
     mutate(DCUTDTC = cut_date) %>%
     mutate(DCUTDESC = cut_description) %>%
     impute_dcutdtc(dsin=., varin=DCUTDTC, varout=DCUTDTM) %>%
+    filter(., DCUTDTM>=DCUT_TEMP_DATE) %>%
     filter_if(filter) %>%
     subset(select = c(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC))
   dataset
