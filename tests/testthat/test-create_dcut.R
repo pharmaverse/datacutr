@@ -20,8 +20,7 @@ test_that("One observation in DCUT", {
   expect_equal(
     create_dcut(dataset_ds = input_ds,
                 ds_date_var = DSSTDTC,
-                ds_date_var_imp = DCUT_TEMP_DSSTDTM,
-                filter = DSDECOD == "RANDOMIZATION" & DCUTDTM>=DCUT_TEMP_DSSTDTM,
+                filter = DSDECOD == "RANDOMIZATION",
                 cut_date = "2022-01-01",
                 cut_description = "Clinical Cutoff Date"),
     expected_dcut
