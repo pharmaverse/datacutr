@@ -1,7 +1,7 @@
 #' xxSTDTC or xxDTC Cut
 #'
 #' Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from the datacut dataset is merged on
-#' to the input SDTMv dataset and renamed to `TEMP_DCUT_DCUTDT`. A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the
+#' to the input SDTMv dataset and renamed to `TEMP_DCUT_DCUTDTM`. A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the
 #' observations that would be removed when the cut is applied. Note that this function applies a patient level datacut at the same time.
 #'
 #' @param dataset_sdtm Input SDTMv dataset
@@ -20,7 +20,7 @@
 #' @examples
 #' library(lubridate)
 #' dcut <- tibble::tribble(
-#'  ~USUBJID, ~DCUTDT,
+#'  ~USUBJID, ~DCUTDTM,
 #'  "subject1", ymd_hms("2020-10-11T23:59:59"),
 #'  "subject2", ymd_hms("2020-10-11T23:59:59"),
 #'  "subject4", ymd_hms("2020-10-11T23:59:59")
@@ -37,12 +37,12 @@
 #'  "subject4", 2, ""
 #'  )
 #'
-#' ae_out <- sdtm_cut(dataset_sdtm = ae,
+#' ae_out <- date_cut(dataset_sdtm = ae,
 #'                    sdtm_date_var = AESTDTC,
 #'                    dataset_cut = dcut,
-#'                    cut_var = DCUTDT)
+#'                    cut_var = DCUTDTM)
 
-sdtm_cut <- function(dataset_sdtm,
+date_cut <- function(dataset_sdtm,
                      sdtm_date_var,
                      dataset_cut,
                      cut_var) {
@@ -55,8 +55,8 @@ sdtm_cut <- function(dataset_sdtm,
 
 
   dcut <- dataset_cut %>%
-    mutate(DCUT_TEMP_DCUTDT = !!cut_var) %>%
-    subset(select = c(USUBJID, DCUT_TEMP_DCUTDT))
+    mutate(DCUT_TEMP_DCUTDTM = !!cut_var) %>%
+    subset(select = c(USUBJID, DCUT_TEMP_DCUTDTM))
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 
@@ -68,7 +68,7 @@ sdtm_cut <- function(dataset_sdtm,
 
   # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDT) | is.na(DCUT_TEMP_DCUTDT), 'Y', NA))
+    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) | is.na(DCUT_TEMP_DCUTDTM), 'Y', NA))
 
   dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp="FALSE")
 

@@ -31,6 +31,7 @@ Suggests:
     knitr,
     rmarkdown,
     roxygen2,
-    usethis
+    usethis, 
+    stringr
 VignetteBuilder: knitr
 Config/testthat/edition: 3

@@ -1,6 +1,5 @@
-
-library(dplyr)
 library(stringr)
+library(dplyr)
 library(lubridate)
 
 test_that("special_dm_cut Test 1: Test outcomes", {
@@ -18,11 +17,11 @@ test_that("special_dm_cut Test 1: Test outcomes", {
     "01-701-1115",           "", "Y",    NA,                  "Y", NA,
     "01-701-1118", "2014-11-20",  "",    "Y",                  NA, "2014-10-20T23:59:59",
   ) %>%
-    mutate(DCUT_TEMP_DCUTDT = ymd_hms(DCUTDTC)) %>%
+    mutate(DCUT_TEMP_DCUTDTM = ymd_hms(DCUTDTC)) %>%
     mutate(DCUT_TEMP_DTHDTC = if_else(DTHDTC!="",str_c(DTHDTC,"T00:00:00"),"")) %>%
     mutate(DCUT_TEMP_DTHDT = ymd_hms(DCUT_TEMP_DTHDTC)) %>%
     select(USUBJID,DTHDTC,DTHFL,DCUT_TEMP_REMOVE,DCUT_TEMP_DTHDT,
-           DCUT_TEMP_DCUTDT,DCUT_TEMP_DTHCHANGE)
+           DCUT_TEMP_DCUTDTM,DCUT_TEMP_DTHCHANGE)
 
   dm <- dm_expect[1:3]
 
@@ -38,13 +37,12 @@ test_that("special_dm_cut Test 1: Test outcomes", {
     "01-701-1111", "2014-10-20T23:59:59",
     "01-701-1118", "2014-10-20T23:59:59",
   ) %>%
-    mutate(DCUTDT = ymd_hms(DCUTDTC))
+    mutate(DCUTDTM = ymd_hms(DCUTDTC))
 
   testthat::expect_equal(special_dm_cut(dataset_dm=dm,
                                   dataset_cut=dcut,
-                                  cut_var=DCUTDT,
+                                  cut_var=DCUTDTM,
                                   dthcut_var=DTHDTC),
                dm_expect)
-
 
 })
