@@ -1,8 +1,8 @@
 #' @title Applies the datacut based on the flagging variables created by pt_cut, sdtm_cut and special_dm_cut functions.
 #'
 #' @description Removes any records where the datacut flagging variable (created by the pt_cut and sdtm_cut functions)
-#' is marked as "Y". Also, overwrites the death variables (DTHDTC and DTHFL) if the death after datacut flagging variable
-#' (created by special_dm_cut function) is marked as "Y".
+#' is marked as "Y". Also, sets the death variables (DTHDTC and DTHFL) to missing if the death after datacut flagging variable
+#' (created by the special_dm_cut function) is marked as "Y".
 #'
 #' @param dsin Name of input dataframe
 #' @param dcutvar Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)
@@ -48,6 +48,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar){
           as.character(!!dthchangevar)=="Y" ~ "",
           TRUE                              ~ as.character(DTHFL)
         ))
+      attributes(out$DTHFL)$label <- attributes(dsin$DTHFL)$label
     }
     if(any(names(dsin) == "DTHDTC")){
       out <- out %>%
@@ -55,6 +56,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar){
           as.character(!!dthchangevar)=="Y" ~ "",
           TRUE                              ~ as.character(DTHDTC)
         ))
+      attributes(out$DTHDTC)$label <- attributes(dsin$DTHDTC)$label
     }
   }
 
