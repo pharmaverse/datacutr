@@ -48,6 +48,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar){
           as.character(!!dthchangevar)=="Y" ~ "",
           TRUE                              ~ as.character(DTHFL)
         ))
+      attributes(out$DTHFL)$label <- attributes(dsin$DTHFL)$label
     }
     if(any(names(dsin) == "DTHDTC")){
       out <- out %>%
@@ -55,6 +56,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar){
           as.character(!!dthchangevar)=="Y" ~ "",
           TRUE                              ~ as.character(DTHDTC)
         ))
+      attributes(out$DTHDTC)$label <- attributes(dsin$DTHDTC)$label
     }
   }
 
