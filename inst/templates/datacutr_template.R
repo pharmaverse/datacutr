@@ -16,15 +16,16 @@ library(lubridate)
 # Date of datacut
 # Description of datacut
 # Checks to ensure no duplicate USUBJID in file (not added yet!)
-# Runs impute_dcutdtc to create DCUTDT
+# Runs impute_dcutdtc to create DCUTDTM
 
 # Read in DS
 ds <- admiral_ds  # To be updated to test tibble
-temp_ds <- impute_sdtm(dsin=ds, varin=DSSTDTC, varout=DCUT_TEMP_DSSTDTC)
 
 # Dummy dcut dataset for purpose of running code - to be removed
-dcut <- create_dcut(dataset_ds = temp_ds,
-                    filter = DSDECOD == "ADVERSE EVENT" & DCUTDT>=DCUT_TEMP_DSSTDTC,
+dcut <- create_dcut(dataset_ds = ds,
+                    ds_date_var = DSSTDTC,
+                    ds_date_var_imp = DCUT_TEMP_DSSTDTM,
+                    filter = DSDECOD == "ADVERSE EVENT" & DCUTDTM>=DCUT_TEMP_DSSTDTM,
                     cut_date = "2022-01-01",
                     cut_description = "Clinical Cutoff Date")
 
@@ -89,14 +90,14 @@ list2env(doutlist, envir = globalenv())
 # Create new list based on xxSTDTC to create stdtc_dateref
 # Outputs:
 #    Use impute_sdtm to create temp_date eg. DCUT_TEMP_AESTDT version of AESTDTC
-#    Adds DCUTDT from reference dcut as DCUT_TEMP_DCUTDT and also applies manually the patient cut flagging (DCUT_TEMP_REMOVE)
+#    Adds DCUTDTM from reference dcut as DCUT_TEMP_DCUTDTM and also applies manually the patient cut flagging (DCUT_TEMP_REMOVE)
 
 
 doutlist <- lapply(date_cut,function(x){
   sdtm_cut(dataset_sdtm = x[1],
            sdtm_date_var = x[2],
            dataset_cut = dcut,
-           cut_var = DCUTDT)
+           cut_var = DCUTDTM)
 })
 
 list2env(doutlist, envir = globalenv())
@@ -116,7 +117,7 @@ list2env(doutlist, envir = globalenv())
 sdtm_cut(dataset_sdtm=FA,
          sdtm_date_var=DCUT_TEMP_FAXDTC,
          dataset_cut = dcut,
-         cut_var = DCUTDT)
+         cut_var = DCUTDTM)
 
 # Cuts on FASTDTC or FADTC depending on populated fields
 # Use sdtm_cut
@@ -124,16 +125,16 @@ sdtm_cut(dataset_sdtm=FA,
 
 # Conduct DM special cut ------------------------------------------------------
 # Outputs flagging of patients and obs to update from analysis
-# Merges on DCUTDT & flags patients to drop
-# Flags obs with DEATH date after DCUTDT
+# Merges on DCUTDTM & flags patients to drop
+# Flags obs with DEATH date after DCUTDTM
 
 special_dm_cut(dataset_dm = DM,
                dataset_cut = dcut,
-               cut_var = DCUTDT,
+               cut_var = DCUTDTM,
                dthcut_var = DTHDTC)
 # Outputs:
 # DCUT_TEMP_DTHDT created by impute_sdtm function
-# Patient cut applied whilst adding on DCUT_TEMP_DCUTDT
+# Patient cut applied whilst adding on DCUT_TEMP_DCUTDTM
 # DCUT_TEMP_DTHCHANGE flag
 
 # Apply the cut ------------------------------------------------------

@@ -14,13 +14,11 @@ ent_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SD
 # Read in DS and create temporary datetime variable
 ds <- rice_read(paste0(ent_path,"/ds.sas7bdat"))
 
-ds_temp <- ds %>%
-  impute_sdtm(varin=DSSTDTC,
-              varout=DCUT_TEMP_DSSDT)
-
 # Create DCUT base datacut dataset
 dcut <- create_dcut(dataset_ds = ds_temp,
-                            filter = DSDECOD == "RANDOMIZED" & DCUTDT>=DCUT_TEMP_DSSDT,
+                            ds_date_var = DSSTDTC,
+                            ds_date_var_imp = DCUT_TEMP_DSSTDTM,
+                            filter = DSDECOD == "RANDOMIZED" & DCUTDTM>=DCUT_TEMP_DSSTDTM,
                             cut_date = "2020-05-29",
                             cut_description = "Interim Analysis")
 
@@ -37,7 +35,7 @@ sc <- rice_read(paste0(ent_path,"/sc.sas7bdat"))
 # Patient cut - cut applied will only be for patients existing in DCUT
 patient_cut <- c("sc")
 
-# Date cut - cut applied will be both for patients existing in DCUT, and date cut against DCUTDT
+# Date cut - cut applied will be both for patients existing in DCUT, and date cut against DCUTDTM
 date_cut <- rbind(c("ae", "AESTDTC"),
                   c("lb", "LBDTC"))
 
@@ -59,7 +57,7 @@ for (i in 1:nrow(date_cut)) {
          sdtm_cut(dataset_sdtm = get(date_cut[i,1]),
                   sdtm_date_var = !!as.symbol(date_cut[i,2]),
                   dataset_cut = dcut,
-                  cut_var = DCUTDT))
+                  cut_var = DCUTDTM))
 }
 
 # Special FA CUT to cut on either xxSTDTC or xxDTC depending on data ------------
@@ -74,14 +72,14 @@ fa <- fa %>%
 fa <- sdtm_cut(dataset_sdtm=fa,
          sdtm_date_var=DCUT_TEMP_FAXDTC,
          dataset_cut = dcut,
-         cut_var = DCUTDT)
+         cut_var = DCUTDTM)
 
 
-# Conduct DM special cut for DTH flags after DCUTDT ------------------------------
+# Conduct DM special cut for DTH flags after DCUTDTM ------------------------------
 
 dm <- special_dm_cut(dataset_dm = dm,
                dataset_cut = dcut,
-               cut_var = DCUTDT,
+               cut_var = DCUTDTM,
                dthcut_var = DTHDTC)
 
 # Apply the cut ------------------------------------------------------
