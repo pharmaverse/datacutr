@@ -17,8 +17,7 @@ ds <- rice_read(paste0(ent_path,"/ds.sas7bdat"))
 # Create DCUT base datacut dataset
 dcut <- create_dcut(dataset_ds = ds_temp,
                             ds_date_var = DSSTDTC,
-                            ds_date_var_imp = DCUT_TEMP_DSSTDTM,
-                            filter = DSDECOD == "RANDOMIZED" & DCUTDTM>=DCUT_TEMP_DSSTDTM,
+                            filter = DSDECOD == "RANDOMIZED",
                             cut_date = "2020-05-29",
                             cut_description = "Interim Analysis")
 

@@ -24,8 +24,7 @@ ds <- admiral_ds  # To be updated to test tibble
 # Dummy dcut dataset for purpose of running code - to be removed
 dcut <- create_dcut(dataset_ds = ds,
                     ds_date_var = DSSTDTC,
-                    ds_date_var_imp = DCUT_TEMP_DSSTDTM,
-                    filter = DSDECOD == "ADVERSE EVENT" & DCUTDTM>=DCUT_TEMP_DSSTDTM,
+                    filter = DSDECOD == "ADVERSE EVENT",
                     cut_date = "2022-01-01",
                     cut_description = "Clinical Cutoff Date")
 
