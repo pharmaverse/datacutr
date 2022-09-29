@@ -25,6 +25,11 @@
 
 drop_temp_vars <- function(dsin, drop_dcut_temp = TRUE){
 
+  # Check if dataframe exists and that drop_dcut_temp is true or false
+  assert_data_frame(dsin)
+  assert_that(is.logical(drop_dcut_temp),
+              msg="drop_dcut_temp must be either TRUE or FALSE")
+
   out <- dsin %>%
     select(-starts_with("TEMP_"))
 
