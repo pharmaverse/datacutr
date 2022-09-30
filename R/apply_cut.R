@@ -1,15 +1,14 @@
-#' @title Applies the datacut based on the flagging variables created by pt_cut, sdtm_cut and special_dm_cut functions.
+#' @title Applies the datacut based on the datacut flagging variables
 #'
-#' @description Removes any records where the datacut flagging variable (created by the pt_cut and sdtm_cut functions)
-#' is marked as "Y". Also, sets the death variables (DTHDTC and DTHFL) to missing if the death after datacut flagging variable
-#' (created by the special_dm_cut function) is marked as "Y".
+#' @description Removes any records where the datacut flagging variable is marked as "Y". Also, sets the death variables
+#' (DTHDTC and DTHFL) to missing if the death after datacut flagging variable is marked as "Y".
 #'
 #' @param dsin Name of input dataframe
 #' @param dcutvar Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)
 #' @param dthchangevar Name of input death after datacut flagging variable (created by special_dm_cut function)
 #'
-#' @return Returns the input dataframe, excluding any rows in which the dcutvar is flagged as "Y". DTHDTC and DTHFL are
-#' set to missing for any records where dthchangevar is flagged as "Y" and any variables with the "DCUT_TEMP" prefix
+#' @return Returns the input dataframe, excluding any rows in which dcutvar is flagged as "Y". DTHDTC and DTHFL are
+#' set to missing for any records where dthchangevar is flagged as "Y". Any variables with the "DCUT_TEMP" prefix
 #' are removed.
 #'
 #' @export

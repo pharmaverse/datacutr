@@ -70,7 +70,7 @@ date_cut <- function(dataset_sdtm,
   dataset <- dataset_sdtm_pt %>%
     mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) | is.na(DCUT_TEMP_DCUTDTM), 'Y', NA))
 
-  dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp="FALSE")
+  dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp=FALSE)
 
   dataset
 }
