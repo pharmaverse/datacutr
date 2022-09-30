@@ -58,7 +58,7 @@ pt_cut <- function(dataset_sdtm,
   dataset <- dataset_sdtm_pt %>%
     mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), 'Y', NA))
 
-  dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp="FALSE")
+  dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp=FALSE)
 
   dataset
 }

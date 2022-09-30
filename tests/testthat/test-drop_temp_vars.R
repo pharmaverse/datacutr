@@ -37,4 +37,6 @@ test_that("still works even if resulting dataset would have no columns left", {
   )
 })
 
+expect_error(drop_temp_vars(dsin = testdf, drop_dcut_temp="FALSE"),
+             regexp="drop_dcut_temp must be either TRUE or FALSE")
 

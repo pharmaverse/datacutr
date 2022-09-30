@@ -1,15 +1,14 @@
-#' @title Applies the datacut based on the flagging variables created by pt_cut, sdtm_cut and special_dm_cut functions.
+#' @title Applies the datacut based on the datacut flagging variables
 #'
-#' @description Removes any records where the datacut flagging variable (created by the pt_cut and sdtm_cut functions)
-#' is marked as "Y". Also, sets the death variables (DTHDTC and DTHFL) to missing if the death after datacut flagging variable
-#' (created by the special_dm_cut function) is marked as "Y".
+#' @description Removes any records where the datacut flagging variable is marked as "Y". Also, sets the death variables
+#' (DTHDTC and DTHFL) to missing if the death after datacut flagging variable is marked as "Y".
 #'
 #' @param dsin Name of input dataframe
 #' @param dcutvar Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)
 #' @param dthchangevar Name of input death after datacut flagging variable (created by special_dm_cut function)
 #'
-#' @return Returns the input dataframe, excluding any rows in which the dcutvar is flagged as "Y". DTHDTC and DTHFL are
-#' set to missing for any records where dthchangevar is flagged as "Y" and any variables with the "DCUT_TEMP" prefix
+#' @return Returns the input dataframe, excluding any rows in which dcutvar is flagged as "Y". DTHDTC and DTHFL are
+#' set to missing for any records where dthchangevar is flagged as "Y". Any variables with the "DCUT_TEMP" prefix
 #' are removed.
 #'
 #' @export
@@ -33,8 +32,12 @@
 apply_cut <- function(dsin, dcutvar, dthchangevar){
 
   # Handle input values for use in tidyverse
-  dcutvar <- enquo(dcutvar)
+  dcutvar <- assert_symbol(enquo(dcutvar))
   dthchangevar <- enquo(dthchangevar)
+
+  # Check if dataframe exists and whether required variables exists within them
+  assert_data_frame(dsin,
+                    required_vars = quo_c(dcutvar))
 
   # Remove any rows where datacut flagging variable (dcutvar) is "Y"
   out <- dsin %>%
@@ -42,6 +45,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar){
 
   # Overwrite death variables if death change variable (dthchangevar) is "Y"
   if(any(names(dsin) == quo_name(dthchangevar))){
+    assert_symbol(dthchangevar)
     if(any(names(dsin) == "DTHFL")){
       out <- out %>%
         mutate(DTHFL = case_when(
@@ -61,7 +65,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar){
   }
 
   # Drop temporary variables
-  out_final <- drop_temp_vars(dsin=out, drop_dcut_temp="TRUE")
+  out_final <- drop_temp_vars(dsin=out, drop_dcut_temp=TRUE)
 
   return(out_final)
 }

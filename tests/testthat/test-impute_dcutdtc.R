@@ -37,6 +37,6 @@ input3 <- data.frame(USUBJID = rep(c("U1234567"), 8),
                      DCUTDTC = c("2022-08-10T15:13:301", "2022-08-10T15:13:", "2022-08-10T15:", "2022-08-10T", "2022-08", "2022", "", NA))
 
 expect_error(impute_dcutdtc(dsin=input3, varin=DCUTDTC, varout=DCUTDTM),
-             regexp="Elements 1, 2, 3, 4, 5, 6, 7, 8")
+             regexp="The datacut date must be at least a complete date")
 
 

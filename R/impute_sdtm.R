@@ -20,8 +20,12 @@
 impute_sdtm <- function(dsin, varin, varout){
 
   # Handle input values for use in tidyverse
-  varin <- enquo(varin)
-  varout <- quo_name(enquo(varout))
+  varin <- assert_symbol(enquo(varin))
+  varout <- quo_name(assert_symbol(enquo(varout)))
+
+  # Check if dataframe exists and whether required variables exists within them
+  assert_data_frame(dsin,
+                    required_vars = quo_c(varin))
 
   # Impute character SDTM dates and convert to datetime object
   out <- dsin %>%
@@ -38,7 +42,7 @@ impute_sdtm <- function(dsin, varin, varout){
     mutate(!!varout := ymd_hms(TEMP_DTC))
 
   # Drop temporary variables
-  out_final <- drop_temp_vars(dsin=out, drop_dcut_temp="FALSE")
+  out_final <- drop_temp_vars(dsin=out, drop_dcut_temp=FALSE)
 
   return(out_final)
 }
