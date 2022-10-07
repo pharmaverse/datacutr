@@ -15,19 +15,21 @@ ent_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SD
 ds <- rice_read(paste0(ent_path,"/ds.sas7bdat"))
 
 # Create DCUT base datacut dataset
-dcut <- create_dcut(dataset_ds = ds_temp,
+dcut <- create_dcut(dataset_ds = ds,
                             ds_date_var = DSSTDTC,
+                    ds_date_var_imp = DCUT_TEMP_DSSTDTM,
                             filter = DSDECOD == "RANDOMIZED",
                             cut_date = "2020-05-29",
                             cut_description = "Interim Analysis")
 
 
 # Read in SDTM source data ---------------------------------------------
-dm <- rice_read(paste0(ent_path,"/dm.sas7bdat"),prolong=TRUE)
-ae <- rice_read(paste0(ent_path,"/ae.sas7bdat"),prolong=TRUE)
-lb <- rice_read(paste0(ent_path,"/lb.sas7bdat"),prolong=TRUE)
-fa <- rice_read(paste0(ent_path,"/fa.sas7bdat"),prolong=TRUE)
-sc <- rice_read(paste0(ent_path,"/sc.sas7bdat"))
+source_data <- rice_read(
+  paste0(
+    ent_path, "/", c("dm", "ae", "lb", "fa", "sc"), ".sas7bdat"
+  )
+)
+
 
 # Provide cut approaches --------------------------------------------------
 
@@ -41,42 +43,35 @@ date_cut <- rbind(c("ae", "AESTDTC"),
 # Conduct Patient-Level Cut ----------------------------------------------
 
 # Code loop
-for (i in 1:length(patient_cut)) {
-  assign(noquote(patient_cut[i]),
-         pt_cut(dataset_sdtm = get(patient_cut[i]),
-                dataset_cut = dcut))
-}
+
+patient_cut_data <- lapply(
+  source_data["sc"], pt_cut, dataset_cut = dcut
+)
 
 
-# Conduct xxSTDTC or xxDTC Cut ---------------------------------------------------
-
-# Code loop
-for (i in 1:nrow(date_cut)) {
-  assign(noquote(date_cut[i,1]),
-         sdtm_cut(dataset_sdtm = get(date_cut[i,1]),
-                  sdtm_date_var = !!as.symbol(date_cut[i,2]),
-                  dataset_cut = dcut,
-                  cut_var = DCUTDTM))
-}
-
-# Special FA CUT to cut on either xxSTDTC or xxDTC depending on data ------------
-
-fa <- fa %>%
+source_data$fa <- source_data$fa %>%
   mutate(DCUT_TEMP_FAXDTC = case_when(
     FASTDTC!="" ~ FASTDTC,
     FADTC!=""   ~ FADTC,
     TRUE        ~ as.character(NA)
   ))
 
-fa <- sdtm_cut(dataset_sdtm=fa,
-         sdtm_date_var=DCUT_TEMP_FAXDTC,
-         dataset_cut = dcut,
-         cut_var = DCUTDTM)
+
+# Conduct xxSTDTC or xxDTC Cut ---------------------------------------------------
+date_cut_data <- purrr::map2(
+  source_data[c("ae", "lb", "fa")],
+  dplyr::quos(AESTDTC, LBDTC, DCUT_TEMP_FAXDTC),
+  date_cut,
+  dataset_cut = dcut,
+  cut_var = DCUTDTM
+
+)
+
 
 
 # Conduct DM special cut for DTH flags after DCUTDTM ------------------------------
 
-dm <- special_dm_cut(dataset_dm = dm,
+dm_cut <- special_dm_cut(dataset_dm = dm,
                dataset_cut = dcut,
                cut_var = DCUTDTM,
                dthcut_var = DTHDTC)
@@ -89,30 +84,56 @@ dm <- special_dm_cut(dataset_dm = dm,
 # Create list of all domains
 all_cut <- c(patient_cut, date_cut[,1], "fa", "dm")
 
+
+
 # Creates datasets with all flagged obs removed
 # Updates DM flags if applicable
-for (i in 1:length(all_cut)) {
-  assign(noquote(all_cut[i]),
-         apply_cut(dsin = get(all_cut[i]),
-                dcutvar = DCUT_TEMP_REMOVE,
-                dthchangevar = DCUT_TEMP_DTHCHANGE))
-}
+
+cut_data <- purrr::map(
+  c(patient_cut_data, date_cut_data,  list(dm = dm_cut)),
+  apply_cut,
+  dcutvar = DCUT_TEMP_REMOVE,
+  dthchangevar = DCUT_TEMP_DTHCHANGE
+)
+
+
 
 ##############################################################################################
 # Compare with SAS utility macro on entimICE #################################################
 cut_path <- "root/clinical_studies/RO4877533/CDT30169/CA42481/data_processing/SDTMv_testarea/work/work_datacutr_test/outdata_cut"
 
-dcut_ent <- rice_read(paste0(cut_path,"/dcut.sas7bdat"), prolong=TRUE)
-ae_ent <- rice_read(paste0(cut_path,"/ae.sas7bdat"), prolong=TRUE)
-lb_ent <- rice_read(paste0(cut_path,"/lb.sas7bdat"), prolong=TRUE)
-fa_ent <- rice_read(paste0(cut_path,"/fa.sas7bdat"), prolong=TRUE)
-sc_ent <- rice_read(paste0(cut_path,"/sc.sas7bdat"), prolong=TRUE)
-dm_ent <- rice_read(paste0(cut_path,"/dm.sas7bdat"))
+compare_cut <- rice_read(
+  paste0(
+    cut_path, "/", c("dcut","sc", "ae", "lb", "fa", "dm"), ".sas7bdat"
+  )
+)
+
+
 
 library(diffdf)
-diffdf(dcut_ent, dcut, keys = "USUBJID")
-diffdf(ae_ent, ae, keys = c("USUBJID","AESTDTC","AESEQ"))
-diffdf(lb_ent, lb, keys = c("USUBJID","LBDTC","LBSEQ"))
-diffdf(fa_ent, fa, keys = c("USUBJID","FASTDTC","FADTC","FASEQ"))
-diffdf(sc_ent, sc, keys = c("USUBJID","SCSEQ"))
-diffdf(dm_ent, dm, keys = c("USUBJID"))
+
+comps <- purrr::pmap(
+  list(compare_cut,
+  c(
+    list(dcut = dcut), cut_data)
+  ,
+  list(
+    "USUBJID",
+    c("USUBJID","SCSEQ"),
+    c("USUBJID","AESTDTC","AESEQ"),
+    c("USUBJID","LBDTC","LBSEQ"),
+    c("USUBJID","FASTDTC","FADTC","FASEQ"),
+    "USUBJID"
+
+  )),
+  diffdf
+
+)
+
+
+#' if we want to extract all of the cut datasets as variables, we can do
+#'
+list2env(cut_data, envir = globalenv())
+
+
+
