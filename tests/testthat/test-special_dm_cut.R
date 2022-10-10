@@ -41,8 +41,7 @@ test_that("special_dm_cut Test 1: Test outcomes", {
 
   testthat::expect_equal(special_dm_cut(dataset_dm=dm,
                                   dataset_cut=dcut,
-                                  cut_var=DCUTDTM,
-                                  dthcut_var=DTHDTC),
+                                  cut_var=DCUTDTM),
                dm_expect)
 
 })
