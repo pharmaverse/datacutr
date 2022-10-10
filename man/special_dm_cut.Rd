@@ -2,21 +2,19 @@
 % Please edit documentation in R/special_dm_cut.R
 \name{special_dm_cut}
 \alias{special_dm_cut}
-\title{Special DM Cut}
+\title{Special DM Cut to reset Death variable information past cut date}
 \usage{
-special_dm_cut(dataset_dm, dataset_cut, cut_var = DCUTDTM, dthcut_var = DTHDTC)
+special_dm_cut(dataset_dm, dataset_cut, cut_var = DCUTDTM)
 }
 \arguments{
 \item{dataset_dm}{Input DM SDTMv dataset}
 
 \item{dataset_cut}{Input datacut dataset}
 
-\item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{TEMP_DCUTDTM}}
-
-\item{dthcut_var}{Death date variable (in date format) found in the \code{dataset_dm} dataset, default is \code{TEMP_DMDT}}
+\item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{DCUTDTM}}
 }
 \value{
-A dataset with death information removed if death occurred after data cut
+A dataset with death information flagged if death occurred after data cut
 }
 \description{
 Clears death information within DM if death occurred after datacut date
@@ -42,8 +40,7 @@ dm <- tibble::tribble(
 
   special_dm_cut(dataset_dm=dm,
                       dataset_cut=dcut,
-                      cut_var=DCUTDTM,
-                      dthcut_var=DTHDTC)
+                      cut_var=DCUTDTM)
 }
 \author{
 Tim Barnett

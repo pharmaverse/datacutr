@@ -1,0 +1,20 @@
+---
+title: "Wrapper Function Approach"
+output: 
+  rmarkdown::html_vignette
+    
+vignette: >
+  %\VignetteIndexEntry{Wrapper Function Approach}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+
