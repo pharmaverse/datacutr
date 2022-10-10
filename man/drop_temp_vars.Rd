@@ -16,13 +16,12 @@ Returns the input dataframe, excluding the temporary variables.
 }
 \description{
 Drops all the temporary variables (variables beginning with TEMP_) from the input dataset.
-It also allows the user to specify whether or not to drop the temporary variables needed throughout the
+Also allows the user to specify whether or not to drop the temporary variables needed throughout the
 datacut process (variables beginning with DCUT_TEMP_).
 }
 \details{
-The idea of this function is that, when used throughout the datacut process, drop_dcut_temp would
-always be set to FALSE until the very end of the datacut process, in which case, drop_dcut_temp would be set
-to TRUE.
+The idea is that, when used throughout the datacut process, drop_dcut_temp would always be set
+to FALSE until the very end of the datacut process, in which case, drop_dcut_temp would be set to TRUE.
 }
 \examples{
 test <-  data.frame(USUBJID=c(""), TEMP_XYZ=c(""), DCUT_TEMP_XYZ=c(""))
