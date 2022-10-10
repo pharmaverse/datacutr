@@ -1,9 +1,9 @@
 template:
+  bootstrap: 5
   params:
     bootswatch: flatly
-    docsearch:
-      api_key: 2d4895759f79e89d6eb1c3b990bca6d8
-      index_name: pharmaverse
+search:
+  exclude: ['news/index.html']
 repo:
   url:
     home: https://github.com/pharmaverse/datacutr
@@ -23,20 +23,29 @@ reference:
 - contents:
   - has_keyword("user_utility")
 
-articles:
-- title: User Guides
-  navbar: User Guides
-  contents:
-  - datacutr
-  - faq
-
-- title: Developer Guides
-  navbar: Developer Guides
-  contents:
-  - contribution_model
-  - development_process
-  - programming_strategy
-  - git_usage
-  - writing_vignettes
-  - pr_review_guidance
-  - unit_test_guidance
+navbar:
+  structure:
+    left: [getstarted, reference, articles, community, news]
+  components:
+    getstarted:
+      text: Get Started
+      href: articles/datacutr.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    community:
+      text: Community
+      menu:
+      - text: Contribute to datacutr
+        href: articles/contribution_model.html
+      - text: Welcome to the Pharmaverse
+        href: https://pharmaverse.org/
+    articles:
+      text: User Guides
+      menu:
+      - text: Wrapper Function Approach
+        href: articles/wrapper.html
+      - text: Modular Approach
+        href: articles/modular.html
+      - text: Applying a Variable Cut
+        href: articles/variable_cut.html
