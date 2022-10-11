@@ -34,12 +34,12 @@
 #' )
 #'
 #'   special_dm_cut(dataset_dm=dm,
-#'                       dataset_cut=dcut,
-#'                       cut_var=DCUTDTM)
+#'                  dataset_cut=dcut,
+#'                  cut_var=DCUTDTM)
 
 special_dm_cut <- function(dataset_dm,
-                   dataset_cut,
-                   cut_var = DCUTDTM) {
+                           dataset_cut,
+                           cut_var = DCUTDTM) {
 
   cut_var <- assert_symbol(enquo(cut_var))
 
@@ -52,7 +52,7 @@ special_dm_cut <- function(dataset_dm,
   dm_temp <- pt_cut(dataset_sdtm=dataset_dm,
                     dataset_cut=dataset_cut) %>%
              impute_sdtm(DTHDTC,DCUT_TEMP_DTHDT) %>%
-             left_join((dataset_cut %>% select(USUBJID,DCUT_TEMP_DCUTDTM=DCUTDTM)),
+             left_join((dataset_cut %>% select(USUBJID,DCUT_TEMP_DCUTDTM=!!cut_var)),
                         by="USUBJID")
 
   # Flag records with Death Date after Cut date
