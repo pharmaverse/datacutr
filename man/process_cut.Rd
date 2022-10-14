@@ -4,27 +4,62 @@
 \alias{process_cut}
 \title{Wrapper function to prepare and apply the datacut}
 \usage{
-process_cut(dataset_cut, cut_var, patient_cut, date_cut, special_dm)
+process_cut(
+  source_sdtm_data,
+  patient_cut_lst,
+  date_cut_lst,
+  date_cut_var_lst,
+  dataset_cut,
+  cut_var,
+  special_dm = TRUE,
+  dthcut_var
+)
 }
 \arguments{
+\item{source_sdtm_data}{A list of uncut SDTM dataframes}
+
+\item{patient_cut_lst}{A vector of quoted SDTM domain names in which a patient cut should be applied}
+
+\item{date_cut_lst}{A vector of quoted SDTM domain names in which a date cut should be applied}
+
+\item{date_cut_var_lst}{A vector of quoted SDTM date variables used to carry out the date cut for each SDTM domain. Note
+that the order must be consistent with the order that the domains are listed in date_cut_lst.}
+
 \item{dataset_cut}{Input datacut dataset, e.g. dcut}
 
-\item{cut_var}{Datacut date variable, e.g. DCUTDTM}
+\item{cut_var}{Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM}
 
-\item{patient_cut}{A vector of quoted SDTM domain names in which a patient cut will be applied}
+\item{special_dm}{A logical input indicating whether the "special dm cut" should be performed. Note that, if TRUE, there
+is no need to specify dm in patient_cut_lst or date_cut_lst.}
 
-\item{date_cut}{A dataframe where column 1 is the SDTM domain names in which a date cut will be applied. Column 2 is the associated SDTM date variable used to carry out the date cut.}
-
-\item{special_dm}{A logical input indicating whether the "special dm cut" should be performed.}
+\item{dthcut_var}{Death date variable (in date format) found in dm. Only required if special_dm is TRUE.}
 }
 \value{
-Returns all input SDTM datasets after performing the selected datacut on each domain.
+Returns a list of all input SDTM datasets after performing the selected datacut on each domain.
 }
 \description{
-Loops through all input SDTM datasets, applies the selected type of datacut, based on the selected
-SDTM date variable, and outputs the resulting datasets
+Applies the selected type of datacut on each SDTM dataset based on the selected SDTM date variable,
+and outputs the resulting cut datasets. It also provides an option to perform a "special" cut on the
+demography (dm) domain in which any deaths occurring after the datacut date will be removed.
 }
 \examples{
-test <- 1
+dcut <- data.frame(USUBJID=factor(c("a", "b"), levels=c("a", "b", "c")), DCUTDTC=c("2022-02-17", "2022-02-17")) \%>\%
+  impute_dcutdtc(DCUTDTC, DCUTDTM)
+sc <- data.frame(USUBJID=c("a", "a", "b", "c"))
+ae <- data.frame(USUBJID=c("a", "a", "b", "c"),
+                 AESTDTC=c("2022-02-16", "2022-02-18", "2022-02-16", "2022-02-16"))
+dm <- data.frame(USUBJID=c("a", "b", "c"),
+                 DTHDTC=c("2022-02-14", "2022-02-22", "2022-02-16"),
+                 DTHFL=c("Y", "Y", "Y"))
+source_data <- list(sc=sc, ae=ae, dm=dm)
+
+process_cut(source_sdtm_data = source_data,
+            patient_cut_lst = c("sc"),
+            date_cut_lst = c("ae"),
+            date_cut_var_lst = c("AESTDTC"),
+            dataset_cut = dcut,
+            cut_var = DCUTDTM,
+            special_dm=TRUE,
+            dthcut_var = DTHDTC)
 }
 \keyword{derive}
