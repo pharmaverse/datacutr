@@ -11,8 +11,7 @@ process_cut(
   date_cut_var_lst,
   dataset_cut,
   cut_var,
-  special_dm = TRUE,
-  dthcut_var
+  special_dm = TRUE
 )
 }
 \arguments{
@@ -31,8 +30,6 @@ that the order must be consistent with the order that the domains are listed in 
 
 \item{special_dm}{A logical input indicating whether the "special dm cut" should be performed. Note that, if TRUE, there
 is no need to specify dm in patient_cut_lst or date_cut_lst.}
-
-\item{dthcut_var}{Death date variable (in date format) found in dm. Only required if special_dm is TRUE.}
 }
 \value{
 Returns a list of all input SDTM datasets after performing the selected datacut on each domain.
@@ -43,7 +40,8 @@ and outputs the resulting cut datasets. It also provides an option to perform a 
 demography (dm) domain in which any deaths occurring after the datacut date will be removed.
 }
 \examples{
-dcut <- data.frame(USUBJID=factor(c("a", "b"), levels=c("a", "b", "c")), DCUTDTC=c("2022-02-17", "2022-02-17")) \%>\%
+dcut <- data.frame(USUBJID=factor(c("a", "b"), levels=c("a", "b", "c")),
+DCUTDTC=c("2022-02-17", "2022-02-17")) \%>\%
   impute_dcutdtc(DCUTDTC, DCUTDTM)
 sc <- data.frame(USUBJID=c("a", "a", "b", "c"))
 ae <- data.frame(USUBJID=c("a", "a", "b", "c"),
@@ -59,7 +57,6 @@ process_cut(source_sdtm_data = source_data,
             date_cut_var_lst = c("AESTDTC"),
             dataset_cut = dcut,
             cut_var = DCUTDTM,
-            special_dm=TRUE,
-            dthcut_var = DTHDTC)
+            special_dm=TRUE)
 }
 \keyword{derive}
