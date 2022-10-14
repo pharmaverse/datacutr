@@ -13,7 +13,6 @@
 #' @param cut_var Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM
 #' @param special_dm A logical input indicating whether the "special dm cut" should be performed. Note that, if TRUE, there
 #' is no need to specify dm in patient_cut_lst or date_cut_lst.
-#' @param dthcut_var Death date variable (in date format) found in dm. Only required if special_dm is TRUE.
 #'
 #' @return Returns a list of all input SDTM datasets after performing the selected datacut on each domain.
 #'
@@ -39,8 +38,7 @@
 #'             date_cut_var_lst = c("AESTDTC"),
 #'             dataset_cut = dcut,
 #'             cut_var = DCUTDTM,
-#'             special_dm=TRUE,
-#'             dthcut_var = DTHDTC)
+#'             special_dm=TRUE)
 
 process_cut <- function(source_sdtm_data,
                             patient_cut_lst,
@@ -48,8 +46,7 @@ process_cut <- function(source_sdtm_data,
                             date_cut_var_lst,
                             dataset_cut,
                             cut_var,
-                            special_dm=TRUE,
-                            dthcut_var){
+                            special_dm=TRUE){
 
   #  Assertions for input parameters -----------------------------------------------
 
@@ -94,13 +91,11 @@ process_cut <- function(source_sdtm_data,
   if(special_dm){
 
     # Assertions for special dm cut
-    dthcut_var <- assert_symbol(enquo(dthcut_var))
-    assert_data_frame(source_sdtm_data[["dm"]], required_vars = quo_c(vars(USUBJID), dthcut_var))
+    assert_data_frame(source_sdtm_data[["dm"]], required_vars = quo_c(vars(USUBJID)))
 
     dm_cut <- special_dm_cut(dataset_dm = source_sdtm_data[["dm"]],
                              dataset_cut = dataset_cut,
-                             cut_var = cut_var,
-                             dthcut_var = !!dthcut_var)
+                             cut_var = !!cut_var)
 
     # Append the cut dm dataset to the list of SDTM datasets
     all_cut <- c(list(dm = dm_cut), all_cut)

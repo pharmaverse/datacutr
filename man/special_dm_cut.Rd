@@ -39,8 +39,8 @@ dm <- tibble::tribble(
 )
 
   special_dm_cut(dataset_dm=dm,
-                      dataset_cut=dcut,
-                      cut_var=DCUTDTM)
+                 dataset_cut=dcut,
+                 cut_var=DCUTDTM)
 }
 \author{
 Tim Barnett
