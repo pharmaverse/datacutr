@@ -6,9 +6,9 @@
 \usage{
 process_cut(
   source_sdtm_data,
-  patient_cut_lst,
-  date_cut_lst,
-  date_cut_var_lst,
+  patient_cut_v,
+  date_cut_m,
+  no_cut_v,
   dataset_cut,
   cut_var,
   special_dm = TRUE
@@ -17,12 +17,12 @@ process_cut(
 \arguments{
 \item{source_sdtm_data}{A list of uncut SDTM dataframes}
 
-\item{patient_cut_lst}{A vector of quoted SDTM domain names in which a patient cut should be applied}
+\item{patient_cut_v}{A vector of quoted SDTM domain names in which a patient cut should be applied}
 
-\item{date_cut_lst}{A vector of quoted SDTM domain names in which a date cut should be applied}
+\item{date_cut_m}{A 2 column matrix, where the first column is the quoted SDTM domain names in which a date cut should be applied
+and the second column is the quoted SDTM date variables used to carry out the date cut for each SDTM domain.}
 
-\item{date_cut_var_lst}{A vector of quoted SDTM date variables used to carry out the date cut for each SDTM domain. Note
-that the order must be consistent with the order that the domains are listed in date_cut_lst.}
+\item{no_cut_v}{A vector of quoted SDTM domain names in which no cut should be applied}
 
 \item{dataset_cut}{Input datacut dataset, e.g. dcut}
 
@@ -41,20 +41,21 @@ demography (dm) domain in which any deaths occurring after the datacut date will
 }
 \examples{
 dcut <- data.frame(USUBJID=factor(c("a", "b"), levels=c("a", "b", "c")),
-DCUTDTC=c("2022-02-17", "2022-02-17")) \%>\%
+                   DCUTDTC=c("2022-02-17", "2022-02-17")) \%>\%
   impute_dcutdtc(DCUTDTC, DCUTDTM)
 sc <- data.frame(USUBJID=c("a", "a", "b", "c"))
+ts <- data.frame(USUBJID=c("a", "a", "b", "c"))
 ae <- data.frame(USUBJID=c("a", "a", "b", "c"),
                  AESTDTC=c("2022-02-16", "2022-02-18", "2022-02-16", "2022-02-16"))
 dm <- data.frame(USUBJID=c("a", "b", "c"),
                  DTHDTC=c("2022-02-14", "2022-02-22", "2022-02-16"),
                  DTHFL=c("Y", "Y", "Y"))
-source_data <- list(sc=sc, ae=ae, dm=dm)
+source_data <- list(sc=sc, ae=ae, dm=dm, ts=ts)
 
 process_cut(source_sdtm_data = source_data,
-            patient_cut_lst = c("sc"),
-            date_cut_lst = c("ae"),
-            date_cut_var_lst = c("AESTDTC"),
+            patient_cut_v = c("sc"),
+            date_cut_m = rbind(c("ae", "AESTDTC")),
+            no_cut_v = c("ts"),
             dataset_cut = dcut,
             cut_var = DCUTDTM,
             special_dm=TRUE)
