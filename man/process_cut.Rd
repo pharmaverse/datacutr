@@ -29,10 +29,10 @@ and the second column is the quoted SDTM date variables used to carry out the da
 \item{cut_var}{Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM}
 
 \item{special_dm}{A logical input indicating whether the "special dm cut" should be performed. Note that, if TRUE, there
-is no need to specify dm in patient_cut_lst or date_cut_lst.}
+is no need to specify dm in patient_cut_v, date_cut_m or no_cut_v}
 }
 \value{
-Returns a list of all input SDTM datasets after performing the selected datacut on each domain.
+Returns a list of all input SDTM datasets, plus the DCUT dataset, after performing the selected datacut on each domain.
 }
 \description{
 Applies the selected type of datacut on each SDTM dataset based on the selected SDTM date variable,
