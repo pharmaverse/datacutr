@@ -77,9 +77,9 @@ demography (dm) domain in which any deaths occurring after the datacut date will
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">process_cut</span><span class="op">(</span>
   <span class="va">source_sdtm_data</span>,
-  <span class="va">patient_cut_lst</span>,
-  <span class="va">date_cut_lst</span>,
-  <span class="va">date_cut_var_lst</span>,
+  <span class="va">patient_cut_v</span>,
+  <span class="va">date_cut_m</span>,
+  <span class="va">no_cut_v</span>,
   <span class="va">dataset_cut</span>,
   <span class="va">cut_var</span>,
   special_dm <span class="op">=</span> <span class="cn">TRUE</span>
@@ -90,44 +90,56 @@ demography (dm) domain in which any deaths occurring after the datacut date will
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>source_sdtm_data</dt>
 <dd><p>A list of uncut SDTM dataframes</p></dd>
-<dt>patient_cut_lst</dt>
+<dt>patient_cut_v</dt>
 <dd><p>A vector of quoted SDTM domain names in which a patient cut should be applied</p></dd>
-<dt>date_cut_lst</dt>
-<dd><p>A vector of quoted SDTM domain names in which a date cut should be applied</p></dd>
-<dt>date_cut_var_lst</dt>
-<dd><p>A vector of quoted SDTM date variables used to carry out the date cut for each SDTM domain. Note
-that the order must be consistent with the order that the domains are listed in date_cut_lst.</p></dd>
+<dt>date_cut_m</dt>
+<dd><p>A 2 column matrix, where the first column is the quoted SDTM domain names in which a date cut should be applied
+and the second column is the quoted SDTM date variables used to carry out the date cut for each SDTM domain.</p></dd>
+<dt>no_cut_v</dt>
+<dd><p>A vector of quoted SDTM domain names in which no cut should be applied</p></dd>
 <dt>dataset_cut</dt>
 <dd><p>Input datacut dataset, e.g. dcut</p></dd>
 <dt>cut_var</dt>
 <dd><p>Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM</p></dd>
 <dt>special_dm</dt>
 <dd><p>A logical input indicating whether the "special dm cut" should be performed. Note that, if TRUE, there
-is no need to specify dm in patient_cut_lst or date_cut_lst.</p></dd>
+is no need to specify dm in patient_cut_v, date_cut_m or no_cut_v</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Returns a list of all input SDTM datasets after performing the selected datacut on each domain.</p>
+    <p>Returns a list of all input SDTM datasets, plus the DCUT dataset, after performing the selected datacut on each domain.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dcut</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">DCUTDTC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-02-17"</span>, <span class="st">"2022-02-17"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="http://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:lubridate’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, union</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     filter, lag</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
+<span class="r-in"><span class="va">dcut</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">                   DCUTDTC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-02-17"</span>, <span class="st">"2022-02-17"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="impute_dcutdtc.html">impute_dcutdtc</a></span><span class="op">(</span><span class="va">DCUTDTC</span>, <span class="va">DCUTDTM</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.frame(USUBJID = factor(c("a", "b"), levels = c("a", "b",     "c")), DCUTDTC = c("2022-02-17", "2022-02-17")) %&gt;% impute_dcutdtc(DCUTDTC,     DCUTDTM):</span> could not find function "%&gt;%"</span>
 <span class="r-in"><span class="va">sc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">ae</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
 <span class="r-in">                 AESTDTC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-02-16"</span>, <span class="st">"2022-02-18"</span>, <span class="st">"2022-02-16"</span>, <span class="st">"2022-02-16"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
 <span class="r-in">                 DTHDTC<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-02-14"</span>, <span class="st">"2022-02-22"</span>, <span class="st">"2022-02-16"</span><span class="op">)</span>,</span>
 <span class="r-in">                 DTHFL<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Y"</span>, <span class="st">"Y"</span>, <span class="st">"Y"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">source_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sc<span class="op">=</span><span class="va">sc</span>, ae<span class="op">=</span><span class="va">ae</span>, dm<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">source_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sc<span class="op">=</span><span class="va">sc</span>, ae<span class="op">=</span><span class="va">ae</span>, dm<span class="op">=</span><span class="va">dm</span>, ts<span class="op">=</span><span class="va">ts</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">process_cut</span><span class="op">(</span>source_sdtm_data <span class="op">=</span> <span class="va">source_data</span>,</span>
-<span class="r-in">            patient_cut_lst <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sc"</span><span class="op">)</span>,</span>
-<span class="r-in">            date_cut_lst <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ae"</span><span class="op">)</span>,</span>
-<span class="r-in">            date_cut_var_lst <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AESTDTC"</span><span class="op">)</span>,</span>
+<span class="r-in">            patient_cut_v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sc"</span><span class="op">)</span>,</span>
+<span class="r-in">            date_cut_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ae"</span>, <span class="st">"AESTDTC"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">            no_cut_v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ts"</span><span class="op">)</span>,</span>
 <span class="r-in">            dataset_cut <span class="op">=</span> <span class="va">dcut</span>,</span>
 <span class="r-in">            cut_var <span class="op">=</span> <span class="va">DCUTDTM</span>,</span>
 <span class="r-in">            special_dm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>

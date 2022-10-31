@@ -3,7 +3,7 @@ Type: Package
 Title: Datacut in R
 Version: 0.0.1
 Authors@R: c(
-    person("Tim", "Barnett", email = "timothy.barnettt@roche.com", role = c("aut", "cre")), 
+    person("Tim", "Barnett", email = "timothy.barnett@roche.com", role = c("aut", "cre")), 
     person("Nathan", "Rees", email = "nathan.rees@roche.com", role = c("aut")), 
     person("Alana", "Harris", email = "alana.harris@roche.com", role = c("aut")))
 Description: A toolbox for applying a datacut to SDTMv.
@@ -22,7 +22,8 @@ Imports:
     magrittr,
     rlang, 
     purrr, 
-    tibble
+    tibble, 
+    here
 Suggests:
     admiral.test,
     devtools,

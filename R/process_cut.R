@@ -21,6 +21,7 @@
 #' @keywords derive
 #'
 #' @examples
+#' library("dplyr")
 #' dcut <- data.frame(USUBJID=factor(c("a", "b"), levels=c("a", "b", "c")),
 #'                    DCUTDTC=c("2022-02-17", "2022-02-17")) %>%
 #'   impute_dcutdtc(DCUTDTC, DCUTDTM)
