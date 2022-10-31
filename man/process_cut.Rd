@@ -41,24 +41,32 @@ demography (dm) domain in which any deaths occurring after the datacut date will
 }
 \examples{
 library("dplyr")
-dcut <- data.frame(USUBJID=factor(c("a", "b"), levels=c("a", "b", "c")),
-                   DCUTDTC=c("2022-02-17", "2022-02-17")) \%>\%
+dcut <- data.frame(
+  USUBJID = factor(c("a", "b"), levels = c("a", "b", "c")),
+  DCUTDTC = c("2022-02-17", "2022-02-17")
+) \%>\%
   impute_dcutdtc(DCUTDTC, DCUTDTM)
-sc <- data.frame(USUBJID=c("a", "a", "b", "c"))
-ts <- data.frame(USUBJID=c("a", "a", "b", "c"))
-ae <- data.frame(USUBJID=c("a", "a", "b", "c"),
-                 AESTDTC=c("2022-02-16", "2022-02-18", "2022-02-16", "2022-02-16"))
-dm <- data.frame(USUBJID=c("a", "b", "c"),
-                 DTHDTC=c("2022-02-14", "2022-02-22", "2022-02-16"),
-                 DTHFL=c("Y", "Y", "Y"))
-source_data <- list(sc=sc, ae=ae, dm=dm, ts=ts)
+sc <- data.frame(USUBJID = c("a", "a", "b", "c"))
+ts <- data.frame(USUBJID = c("a", "a", "b", "c"))
+ae <- data.frame(
+  USUBJID = c("a", "a", "b", "c"),
+  AESTDTC = c("2022-02-16", "2022-02-18", "2022-02-16", "2022-02-16")
+)
+dm <- data.frame(
+  USUBJID = c("a", "b", "c"),
+  DTHDTC = c("2022-02-14", "2022-02-22", "2022-02-16"),
+  DTHFL = c("Y", "Y", "Y")
+)
+source_data <- list(sc = sc, ae = ae, dm = dm, ts = ts)
 
-process_cut(source_sdtm_data = source_data,
-            patient_cut_v = c("sc"),
-            date_cut_m = rbind(c("ae", "AESTDTC")),
-            no_cut_v = c("ts"),
-            dataset_cut = dcut,
-            cut_var = DCUTDTM,
-            special_dm=TRUE)
+process_cut(
+  source_sdtm_data = source_data,
+  patient_cut_v = c("sc"),
+  date_cut_m = rbind(c("ae", "AESTDTC")),
+  no_cut_v = c("ts"),
+  dataset_cut = dcut,
+  cut_var = DCUTDTM,
+  special_dm = TRUE
+)
 }
 \keyword{derive}

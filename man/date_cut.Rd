@@ -26,27 +26,29 @@ observations that would be removed when the cut is applied. Note that this funct
 \examples{
 library(lubridate)
 dcut <- tibble::tribble(
- ~USUBJID, ~DCUTDTM,
- "subject1", ymd_hms("2020-10-11T23:59:59"),
- "subject2", ymd_hms("2020-10-11T23:59:59"),
- "subject4", ymd_hms("2020-10-11T23:59:59")
- )
+  ~USUBJID, ~DCUTDTM,
+  "subject1", ymd_hms("2020-10-11T23:59:59"),
+  "subject2", ymd_hms("2020-10-11T23:59:59"),
+  "subject4", ymd_hms("2020-10-11T23:59:59")
+)
 
 ae <- tibble::tribble(
- ~USUBJID, ~AESEQ, ~AESTDTC,
- "subject1", 1, "2020-01-02T00:00:00",
- "subject1", 2, "2020-08-31T00:00:00",
- "subject1", 3, "2020-10-10T00:00:00",
- "subject2", 2, "2020-02-20T00:00:00",
- "subject3", 1, "2020-03-02T00:00:00",
- "subject4", 1, "2020-11-02T00:00:00",
- "subject4", 2, ""
- )
+  ~USUBJID, ~AESEQ, ~AESTDTC,
+  "subject1", 1, "2020-01-02T00:00:00",
+  "subject1", 2, "2020-08-31T00:00:00",
+  "subject1", 3, "2020-10-10T00:00:00",
+  "subject2", 2, "2020-02-20T00:00:00",
+  "subject3", 1, "2020-03-02T00:00:00",
+  "subject4", 1, "2020-11-02T00:00:00",
+  "subject4", 2, ""
+)
 
-ae_out <- date_cut(dataset_sdtm = ae,
-                   sdtm_date_var = AESTDTC,
-                   dataset_cut = dcut,
-                   cut_var = DCUTDTM)
+ae_out <- date_cut(
+  dataset_sdtm = ae,
+  sdtm_date_var = AESTDTC,
+  dataset_cut = dcut,
+  cut_var = DCUTDTM
+)
 }
 \author{
 Alana Harris

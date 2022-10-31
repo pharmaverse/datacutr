@@ -22,6 +22,6 @@ Imputes partial dates in SDTM variables as part of the datacut process.
 \examples{
 ex <- admiral.test::admiral_ex
 ex <- dplyr::select(ex, c(USUBJID, EXSTDTC))
-temp_ex <- impute_sdtm(dsin=ex, varin=EXSTDTC, varout=DCUT_TEMP_EXSTDTC)
+temp_ex <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
 }
 \keyword{derive}

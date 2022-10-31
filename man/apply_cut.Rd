@@ -24,16 +24,19 @@ Removes any records where the datacut flagging variable is marked as "Y". Also, 
 }
 \examples{
 
-ae <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
-                 DCUT_TEMP_REMOVE=c("Y", "", "NA", NA))
-ae_final <- apply_cut(dsin=ae, dcutvar=DCUT_TEMP_REMOVE, dthchangevar=DCUT_TEMP_DTHCHANGE)
+ae <- data.frame(
+  USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
+  DCUT_TEMP_REMOVE = c("Y", "", "NA", NA)
+)
+ae_final <- apply_cut(dsin = ae, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
 
-dm <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123b"),
-                 DTHDTC=c("2014-10-20", "2014-10-21", "2013-09-08"),
-                 DTHFL=c("Y", "Y", "Y"),
-                 DCUT_TEMP_REMOVE=c(NA, NA, "Y"),
-                 DCUT_TEMP_DTHCHANGE=c(NA, "Y", ""))
-dm_final <- apply_cut(dsin=dm, dcutvar=DCUT_TEMP_REMOVE, dthchangevar=DCUT_TEMP_DTHCHANGE)
-
+dm <- data.frame(
+  USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123b"),
+  DTHDTC = c("2014-10-20", "2014-10-21", "2013-09-08"),
+  DTHFL = c("Y", "Y", "Y"),
+  DCUT_TEMP_REMOVE = c(NA, NA, "Y"),
+  DCUT_TEMP_DTHCHANGE = c(NA, "Y", "")
+)
+dm_final <- apply_cut(dsin = dm, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
 }
 \keyword{derive}

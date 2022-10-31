@@ -26,21 +26,23 @@ library(dplyr)
 library(lubridate)
 
 dcut <- tibble::tribble(
-~USUBJID, ~DCUTDTC,
-"01-701-1015", "2014-10-20T23:59:59",
-"01-701-1023", "2014-10-20T23:59:59",
+  ~USUBJID, ~DCUTDTC,
+  "01-701-1015", "2014-10-20T23:59:59",
+  "01-701-1023", "2014-10-20T23:59:59",
 ) \%>\%
   mutate(DCUTDTM = ymd_hms(DCUTDTC))
 
 dm <- tibble::tribble(
-~USUBJID, ~DTHDTC, ~DTHFL,
-"01-701-1015", "2014-10-20", "Y",
-"01-701-1023", "2014-10-21", "Y",
+  ~USUBJID, ~DTHDTC, ~DTHFL,
+  "01-701-1015", "2014-10-20", "Y",
+  "01-701-1023", "2014-10-21", "Y",
 )
 
-  special_dm_cut(dataset_dm=dm,
-                 dataset_cut=dcut,
-                 cut_var=DCUTDTM)
+special_dm_cut(
+  dataset_dm = dm,
+  dataset_cut = dcut,
+  cut_var = DCUTDTM
+)
 }
 \author{
 Tim Barnett
