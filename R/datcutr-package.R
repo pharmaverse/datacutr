@@ -7,4 +7,5 @@
 #' @importFrom admiraldev assert_symbol assert_data_frame assert_character_scalar assert_filter_cond filter_if quo_c
 #' @importFrom assertthat assert_that
 #' @importFrom tibble tribble
+#' @importFrom here here
 "_PACKAGE"

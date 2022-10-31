@@ -17,5 +17,8 @@ globalVariables(c(
   "dcut",
   ".",
   "USUBJID",
-  "DCUT_TEMP_DATE"
+  "DCUT_TEMP_DATE",
+  "source_data",
+  "DCUT_TEMP_REMOVE",
+  "DCUT_TEMP_DTHCHANGE"
 ))

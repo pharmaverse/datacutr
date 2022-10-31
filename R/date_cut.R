@@ -20,28 +20,29 @@
 #' @examples
 #' library(lubridate)
 #' dcut <- tibble::tribble(
-#'  ~USUBJID, ~DCUTDTM,
-#'  "subject1", ymd_hms("2020-10-11T23:59:59"),
-#'  "subject2", ymd_hms("2020-10-11T23:59:59"),
-#'  "subject4", ymd_hms("2020-10-11T23:59:59")
-#'  )
+#'   ~USUBJID, ~DCUTDTM,
+#'   "subject1", ymd_hms("2020-10-11T23:59:59"),
+#'   "subject2", ymd_hms("2020-10-11T23:59:59"),
+#'   "subject4", ymd_hms("2020-10-11T23:59:59")
+#' )
 #'
 #' ae <- tibble::tribble(
-#'  ~USUBJID, ~AESEQ, ~AESTDTC,
-#'  "subject1", 1, "2020-01-02T00:00:00",
-#'  "subject1", 2, "2020-08-31T00:00:00",
-#'  "subject1", 3, "2020-10-10T00:00:00",
-#'  "subject2", 2, "2020-02-20T00:00:00",
-#'  "subject3", 1, "2020-03-02T00:00:00",
-#'  "subject4", 1, "2020-11-02T00:00:00",
-#'  "subject4", 2, ""
-#'  )
+#'   ~USUBJID, ~AESEQ, ~AESTDTC,
+#'   "subject1", 1, "2020-01-02T00:00:00",
+#'   "subject1", 2, "2020-08-31T00:00:00",
+#'   "subject1", 3, "2020-10-10T00:00:00",
+#'   "subject2", 2, "2020-02-20T00:00:00",
+#'   "subject3", 1, "2020-03-02T00:00:00",
+#'   "subject4", 1, "2020-11-02T00:00:00",
+#'   "subject4", 2, ""
+#' )
 #'
-#' ae_out <- date_cut(dataset_sdtm = ae,
-#'                    sdtm_date_var = AESTDTC,
-#'                    dataset_cut = dcut,
-#'                    cut_var = DCUTDTM)
-
+#' ae_out <- date_cut(
+#'   dataset_sdtm = ae,
+#'   sdtm_date_var = AESTDTC,
+#'   dataset_cut = dcut,
+#'   cut_var = DCUTDTM
+#' )
 date_cut <- function(dataset_sdtm,
                      sdtm_date_var,
                      dataset_cut,
@@ -49,9 +50,11 @@ date_cut <- function(dataset_sdtm,
   sdtm_date_var <- assert_symbol(enquo(sdtm_date_var))
   cut_var <- assert_symbol(enquo(cut_var))
   assert_data_frame(dataset_sdtm,
-                    required_vars = quo_c(vars(USUBJID), sdtm_date_var))
+    required_vars = quo_c(vars(USUBJID), sdtm_date_var)
+  )
   assert_data_frame(dataset_cut,
-                    required_vars = quo_c(vars(USUBJID), cut_var))
+    required_vars = quo_c(vars(USUBJID), cut_var)
+  )
 
 
   dcut <- dataset_cut %>%
@@ -62,15 +65,17 @@ date_cut <- function(dataset_sdtm,
 
   dataset_sdtm_pt <- dataset_sdtm %>%
     impute_sdtm(dsin = ., varin = !!sdtm_date_var, varout = DCUT_TEMP_SDTM_DATE) %>%
-    left_join(x = .,
-              y = dcut,
-              by = "USUBJID")
+    left_join(
+      x = .,
+      y = dcut,
+      by = "USUBJID"
+    )
 
   # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) | is.na(DCUT_TEMP_DCUTDTM), 'Y', NA))
+    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) | is.na(DCUT_TEMP_DCUTDTM), "Y", NA))
 
-  dataset <- drop_temp_vars(dsin=dataset, drop_dcut_temp=FALSE)
+  dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
 
   dataset
 }

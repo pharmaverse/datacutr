@@ -17,19 +17,21 @@
 #'
 #' @examples
 #'
-#' ae <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
-#'                  DCUT_TEMP_REMOVE=c("Y", "", "NA", NA))
-#' ae_final <- apply_cut(dsin=ae, dcutvar=DCUT_TEMP_REMOVE, dthchangevar=DCUT_TEMP_DTHCHANGE)
+#' ae <- data.frame(
+#'   USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
+#'   DCUT_TEMP_REMOVE = c("Y", "", "NA", NA)
+#' )
+#' ae_final <- apply_cut(dsin = ae, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
 #'
-#' dm <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123b"),
-#'                  DTHDTC=c("2014-10-20", "2014-10-21", "2013-09-08"),
-#'                  DTHFL=c("Y", "Y", "Y"),
-#'                  DCUT_TEMP_REMOVE=c(NA, NA, "Y"),
-#'                  DCUT_TEMP_DTHCHANGE=c(NA, "Y", ""))
-#' dm_final <- apply_cut(dsin=dm, dcutvar=DCUT_TEMP_REMOVE, dthchangevar=DCUT_TEMP_DTHCHANGE)
-#'
-
-apply_cut <- function(dsin, dcutvar, dthchangevar){
+#' dm <- data.frame(
+#'   USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123b"),
+#'   DTHDTC = c("2014-10-20", "2014-10-21", "2013-09-08"),
+#'   DTHFL = c("Y", "Y", "Y"),
+#'   DCUT_TEMP_REMOVE = c(NA, NA, "Y"),
+#'   DCUT_TEMP_DTHCHANGE = c(NA, "Y", "")
+#' )
+#' dm_final <- apply_cut(dsin = dm, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
+apply_cut <- function(dsin, dcutvar, dthchangevar) {
 
   # Handle input values for use in tidyverse
   dcutvar <- assert_symbol(enquo(dcutvar))
@@ -37,35 +39,36 @@ apply_cut <- function(dsin, dcutvar, dthchangevar){
 
   # Check if dataframe exists and whether required variables exists within them
   assert_data_frame(dsin,
-                    required_vars = quo_c(dcutvar))
+    required_vars = quo_c(dcutvar)
+  )
 
   # Remove any rows where datacut flagging variable (dcutvar) is "Y"
   out <- dsin %>%
     filter(is.na(!!dcutvar) | !!dcutvar != "Y")
 
   # Overwrite death variables if death change variable (dthchangevar) is "Y"
-  if(any(names(dsin) == quo_name(dthchangevar))){
+  if (any(names(dsin) == quo_name(dthchangevar))) {
     assert_symbol(dthchangevar)
-    if(any(names(dsin) == "DTHFL")){
+    if (any(names(dsin) == "DTHFL")) {
       out <- out %>%
         mutate(DTHFL = case_when(
-          as.character(!!dthchangevar)=="Y" ~ "",
-          TRUE                              ~ as.character(DTHFL)
+          as.character(!!dthchangevar) == "Y" ~ "",
+          TRUE ~ as.character(DTHFL)
         ))
       attributes(out$DTHFL)$label <- attributes(dsin$DTHFL)$label
     }
-    if(any(names(dsin) == "DTHDTC")){
+    if (any(names(dsin) == "DTHDTC")) {
       out <- out %>%
         mutate(DTHDTC = case_when(
-          as.character(!!dthchangevar)=="Y" ~ "",
-          TRUE                              ~ as.character(DTHDTC)
+          as.character(!!dthchangevar) == "Y" ~ "",
+          TRUE ~ as.character(DTHDTC)
         ))
       attributes(out$DTHDTC)$label <- attributes(dsin$DTHDTC)$label
     }
   }
 
   # Drop temporary variables
-  out_final <- drop_temp_vars(dsin=out, drop_dcut_temp=TRUE)
+  out_final <- drop_temp_vars(dsin = out, drop_dcut_temp = TRUE)
 
   return(out_final)
 }

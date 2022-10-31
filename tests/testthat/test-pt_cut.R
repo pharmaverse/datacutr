@@ -30,8 +30,10 @@ expected_ae <- tibble::tribble(
 
 test_that("The one patient not in DCUT is flagged to be removed", {
   expect_equal(
-    pt_cut(dataset_sdtm = input_ae,
-           dataset_cut = input_dcut),
+    pt_cut(
+      dataset_sdtm = input_ae,
+      dataset_cut = input_dcut
+    ),
     expected_ae
   )
 })
@@ -58,8 +60,10 @@ expected_ae2 <- tibble::tribble(
 
 test_that("The multiple patients not in DCUT are flagged to be removed", {
   expect_equal(
-    pt_cut(dataset_sdtm = input_ae,
-           dataset_cut = input_dcut2),
+    pt_cut(
+      dataset_sdtm = input_ae,
+      dataset_cut = input_dcut2
+    ),
     expected_ae2
   )
 })
@@ -86,8 +90,10 @@ expected_ae3 <- tibble::tribble(
 
 test_that("If no patients in DCUT match the dataset then all records are flagged to be removed", {
   expect_equal(
-    pt_cut(dataset_sdtm = input_ae,
-           dataset_cut = input_dcut3),
+    pt_cut(
+      dataset_sdtm = input_ae,
+      dataset_cut = input_dcut3
+    ),
     expected_ae3
   )
 })
@@ -116,10 +122,10 @@ expected_ae4 <- tibble::tribble(
 
 test_that("If all patients in DCUT match the dataset then no records are flagged to be removed", {
   expect_equal(
-    pt_cut(dataset_sdtm = input_ae,
-           dataset_cut = input_dcut4),
+    pt_cut(
+      dataset_sdtm = input_ae,
+      dataset_cut = input_dcut4
+    ),
     expected_ae4
   )
 })
-
-
