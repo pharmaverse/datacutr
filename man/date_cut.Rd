@@ -16,12 +16,15 @@ date_cut(dataset_sdtm, sdtm_date_var, dataset_cut, cut_var)
 \item{cut_var}{Datacut date variable}
 }
 \value{
-Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be dropped when a datacut is applied
+Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be
+dropped when a datacut is applied
 }
 \description{
-Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from the datacut dataset is merged on
-to the input SDTMv dataset and renamed to \code{TEMP_DCUT_DCUTDTM}. A flag \code{TEMP_DCUT_REMOVE} is added to the dataset to indicate the
-observations that would be removed when the cut is applied. Note that this function applies a patient level datacut at the same time.
+Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from
+the datacut dataset is merged on to the input SDTMv dataset and renamed to \code{TEMP_DCUT_DCUTDTM}.
+A flag \code{TEMP_DCUT_REMOVE} is added to the dataset to indicate the observations that would be
+removed when the cut is applied. Note that this function applies a patient level datacut at the
+same time.
 }
 \examples{
 library(lubridate)

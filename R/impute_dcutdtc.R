@@ -6,7 +6,8 @@
 #' @param varin Name of input datacut date variable
 #' @param varout Name of imputed output variable
 #'
-#' @return Returns the input dataframe, with the additional of one extra variable (varout) which is the imputed version of varin.
+#' @return Returns the input dataframe, with the additional of one extra variable (varout) which
+#' is the imputed version of varin.
 #'
 #' @export
 #'
@@ -31,7 +32,8 @@ impute_dcutdtc <- function(dsin, varin, varout) {
 
   # Assertion to check that all DCUTDTC values are at least a complete date
   assert_that(all(nchar(as.character(dsin[[quo_name(varin)]])) %in% c(10, 13, 16, 19)),
-    msg = "The datacut date must be at least a complete date (i.e; must have length of 10, 13, 16 or 19)"
+    msg = "The datacut date must be at least a complete date (i.e; must have length of 10, 13, 16
+    or 19)"
   )
 
   # Impute character datacut date and convert to datetime object

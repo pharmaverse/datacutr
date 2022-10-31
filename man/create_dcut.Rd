@@ -21,7 +21,8 @@ create_dcut(dataset_ds, ds_date_var, filter, cut_date, cut_description)
 Datacut dataset
 }
 \description{
-Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDTM}, \code{DCUTDESC}.
+Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDTM} and
+\code{DCUTDESC}.
 }
 \examples{
 ds <- tibble::tribble(

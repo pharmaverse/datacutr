@@ -1,8 +1,10 @@
 #' xxSTDTC or xxDTC Cut
 #'
-#' Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from the datacut dataset is merged on
-#' to the input SDTMv dataset and renamed to `TEMP_DCUT_DCUTDTM`. A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the
-#' observations that would be removed when the cut is applied. Note that this function applies a patient level datacut at the same time.
+#' Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from
+#' the datacut dataset is merged on to the input SDTMv dataset and renamed to `TEMP_DCUT_DCUTDTM`.
+#' A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the observations that would be
+#' removed when the cut is applied. Note that this function applies a patient level datacut at the
+#' same time.
 #'
 #' @param dataset_sdtm Input SDTMv dataset
 #' @param sdtm_date_var Input date variable found in the `dataset_sdtmv` dataset
@@ -11,7 +13,8 @@
 #'
 #' @author Alana Harris
 #'
-#' @return Input dataset plus a flag `TEMP_DCUT_REMOVE` to indicate which observations would be dropped when a datacut is applied
+#' @return Input dataset plus a flag `TEMP_DCUT_REMOVE` to indicate which observations would be
+#' dropped when a datacut is applied
 #'
 #' @export
 #'
@@ -73,7 +76,8 @@ date_cut <- function(dataset_sdtm,
 
   # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) | is.na(DCUT_TEMP_DCUTDTM), "Y", NA))
+    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) |
+      is.na(DCUT_TEMP_DCUTDTM), "Y", NA))
 
   dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
 

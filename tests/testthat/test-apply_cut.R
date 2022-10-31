@@ -31,7 +31,8 @@ expected2 <- data.frame(
   stringsAsFactors = FALSE
 )
 
-test_that("Test whether DTHDTC and DTHFL are correctly set to missing where DCUT_TEMP_DTHCHANGE='Y'", {
+test_that("Test whether DTHDTC and DTHFL are correctly set to missing where
+          DCUT_TEMP_DTHCHANGE='Y'", {
   expect_equal(
     apply_cut(dsin = input2, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE),
     expected2

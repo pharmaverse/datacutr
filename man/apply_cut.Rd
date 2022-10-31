@@ -11,16 +11,18 @@ apply_cut(dsin, dcutvar, dthchangevar)
 
 \item{dcutvar}{Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)}
 
-\item{dthchangevar}{Name of input death after datacut flagging variable (created by special_dm_cut function)}
+\item{dthchangevar}{Name of input death after datacut flagging variable (created by
+special_dm_cut function)}
 }
 \value{
-Returns the input dataframe, excluding any rows in which dcutvar is flagged as "Y". DTHDTC and DTHFL are
-set to missing for any records where dthchangevar is flagged as "Y". Any variables with the "DCUT_TEMP" prefix
-are removed.
+Returns the input dataframe, excluding any rows in which dcutvar is flagged as "Y".
+DTHDTC and DTHFL are set to missing for any records where dthchangevar is flagged as "Y". Any
+variables with the "DCUT_TEMP" prefix are removed.
 }
 \description{
-Removes any records where the datacut flagging variable is marked as "Y". Also, sets the death variables
-(DTHDTC and DTHFL) to missing if the death after datacut flagging variable is marked as "Y".
+Removes any records where the datacut flagging variable is marked as "Y".
+Also, sets the death variables (DTHDTC and DTHFL) to missing if the death after datacut
+flagging variable is marked as "Y".
 }
 \examples{
 

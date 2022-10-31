@@ -14,7 +14,8 @@ impute_dcutdtc(dsin, varin, varout)
 \item{varout}{Name of imputed output variable}
 }
 \value{
-Returns the input dataframe, with the additional of one extra variable (varout) which is the imputed version of varin.
+Returns the input dataframe, with the additional of one extra variable (varout) which
+is the imputed version of varin.
 }
 \description{
 Imputes partial dates in DCUTDTC variable, created within the datacut process.

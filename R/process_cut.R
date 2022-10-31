@@ -1,20 +1,25 @@
 #' @title Wrapper function to prepare and apply the datacut
 #'
-#' @description Applies the selected type of datacut on each SDTM dataset based on the selected SDTM date variable,
-#' and outputs the resulting cut datasets. It also provides an option to perform a "special" cut on the
-#' demography (dm) domain in which any deaths occurring after the datacut date will be removed.
+#' @description Applies the selected type of datacut on each SDTM dataset based on the selected
+#' SDTM date variable, and outputs the resulting cut datasets. It also provides an option to
+#' perform a "special" cut on the demography (dm) domain in which any deaths occurring after the
+#' datacut date will be removed.
 #'
 #' @param source_sdtm_data A list of uncut SDTM dataframes
-#' @param patient_cut_v A vector of quoted SDTM domain names in which a patient cut should be applied
-#' @param date_cut_m A 2 column matrix, where the first column is the quoted SDTM domain names in which a date cut should be applied
-#' and the second column is the quoted SDTM date variables used to carry out the date cut for each SDTM domain.
+#' @param patient_cut_v A vector of quoted SDTM domain names in which a patient cut should be
+#' applied
+#' @param date_cut_m A 2 column matrix, where the first column is the quoted SDTM domain names in
+#' which a date cut should be applied
+#' and the second column is the quoted SDTM date variables used to carry out the date cut for each
+#' SDTM domain.
 #' @param no_cut_v A vector of quoted SDTM domain names in which no cut should be applied
 #' @param dataset_cut Input datacut dataset, e.g. dcut
 #' @param cut_var Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM
-#' @param special_dm A logical input indicating whether the "special dm cut" should be performed. Note that, if TRUE, there
-#' is no need to specify dm in patient_cut_v, date_cut_m or no_cut_v
+#' @param special_dm A logical input indicating whether the "special dm cut" should be performed.
+#' Note that, if TRUE, there is no need to specify dm in patient_cut_v, date_cut_m or no_cut_v
 #'
-#' @return Returns a list of all input SDTM datasets, plus the DCUT dataset, after performing the selected datacut on each domain.
+#' @return Returns a list of all input SDTM datasets, plus the DCUT dataset, after performing the
+#' selected datacut on each domain.
 #'
 #' @export
 #'
@@ -85,16 +90,23 @@ process_cut <- function(source_sdtm_data,
     msg = "special_dm must be either TRUE or FALSE"
   )
   if (special_dm) {
-    assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")),
-      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v, date_cut_m or no_cut_v"
+    assert_that(setequal(names(source_sdtm_data), c(
+      patient_cut_v, date_cut_m[, 1], no_cut_v,
+      "dm"
+    )),
+    msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+      date_cut_m or no_cut_v"
     )
   } else {
     assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v, date_cut_m or no_cut_v"
+      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+      date_cut_m or no_cut_v"
     )
   }
-  assert_that(length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v))) == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-    msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v, date_cut_m or no_cut_v"
+  assert_that(length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
+  == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
+  msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+    date_cut_m or no_cut_v"
   )
 
   # Conduct Patient-Level Cut ------------------------------------------------------

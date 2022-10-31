@@ -6,7 +6,8 @@
 #' @param varin Name of input SDTM variable
 #' @param varout Name of imputed output variable
 #'
-#' @return Returns the input dataframe, with the additional of one extra variable (varout) which is the imputed version of varin.
+#' @return Returns the input dataframe, with the additional of one extra variable (varout) which
+#' is the imputed version of varin.
 #'
 #' @export
 #'

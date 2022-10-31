@@ -12,7 +12,8 @@ pt_cut(dataset_sdtm, dataset_cut)
 \item{dataset_cut}{Input datacut dataset, e.g. dcut}
 }
 \value{
-Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be dropped when a patient level datacut is applied
+Input dataset plus a flag \code{TEMP_DCUT_REMOVE} to indicate which observations would be
+dropped when a patient level datacut is applied
 }
 \description{
 Use to apply a datacut a patient cut to an SDTMv dataset

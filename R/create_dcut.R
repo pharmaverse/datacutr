@@ -1,6 +1,7 @@
 #' Create DCUT dataset
 #'
-#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDTM`, `DCUTDESC`.
+#' Use to create a datacut dataset containing the variables `USUBJID`, `DCUTDTC`, `DCUTDTM` and
+#' `DCUTDESC`.
 #'
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param ds_date_var Character date variable in the DS SDTMv to be imputed

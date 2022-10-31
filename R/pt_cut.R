@@ -7,7 +7,8 @@
 #'
 #' @author Alana Harris
 #'
-#' @return Input dataset plus a flag `TEMP_DCUT_REMOVE` to indicate which observations would be dropped when a patient level datacut is applied
+#' @return Input dataset plus a flag `TEMP_DCUT_REMOVE` to indicate which observations would be
+#' dropped when a patient level datacut is applied
 #'
 #' @export
 #'
