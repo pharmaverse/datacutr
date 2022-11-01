@@ -38,7 +38,7 @@ The package is currently under development, references and documentation details
 
 Whilst the package is under development please feel free to reach out to one of the core developers: 
 
-* Tim Barnett (Maintainer) - [timothy.barnet@roche.com](timothy.barnet@roche.com)
+* Tim Barnett (Maintainer) - [timothy.barnett@roche.com](timothy.barnett@roche.com)
 * Nathan Rees - [nathan.rees@roche.com](nathan.rees@roche.com)
 * Alana Harris - [alana.harris@roche.com](alana.harris@roche.com)
 

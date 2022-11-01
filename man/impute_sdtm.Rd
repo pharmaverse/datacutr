@@ -14,7 +14,8 @@ impute_sdtm(dsin, varin, varout)
 \item{varout}{Name of imputed output variable}
 }
 \value{
-Returns the input dataframe, with the additional of one extra variable (varout) which is the imputed version of varin.
+Returns the input dataframe, with the additional of one extra variable (varout) which
+is the imputed version of varin.
 }
 \description{
 Imputes partial dates in SDTM variables as part of the datacut process.
@@ -22,6 +23,6 @@ Imputes partial dates in SDTM variables as part of the datacut process.
 \examples{
 ex <- admiral.test::admiral_ex
 ex <- dplyr::select(ex, c(USUBJID, EXSTDTC))
-temp_ex <- impute_sdtm(dsin=ex, varin=EXSTDTC, varout=DCUT_TEMP_EXSTDTC)
+temp_ex <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
 }
 \keyword{derive}

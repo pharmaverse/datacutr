@@ -53,4 +53,3 @@ Support is provided via the `{datacutr}` Slack channel (link to be added).
 
 - [Template scripts](https://github.com/pharmaverse/datacutr/tree/main/inst/templates)
 
-- [Programming Strategy](programming_strategy.html)

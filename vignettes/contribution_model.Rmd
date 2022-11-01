@@ -18,12 +18,12 @@ knitr::opts_chunk$set(
 # Introduction 
 
 This vignette gives you an overview of the anticipated contribution model.
-The goal is to enable users of `{datcutr}` to contribute and test the contribution model for `{datcutr}`. Adjustments might be made over time.
+The goal is to enable users of `{datacutr}` to contribute and test the contribution model for `{datacutr}`. Adjustments might be made over time.
 
 # Basics
- * For each new contribution, the user creates an issue on the issue tab on [GitHub](https://github.com/pharmaverse/datcutr/issues) to put it in our backlog. 
+ * For each new contribution, the user creates an issue on the issue tab on [GitHub](https://github.com/pharmaverse/datacutr/issues) to put it in our backlog. 
  
- * All [created issues](https://github.com/pharmaverse/datcutr/issues) will be reviewed within the next sprint and the creator will receive an initial feedback via a comment. Someone from the core development team will then triage new issues by assigning the appropriate labels (such as “user request” so we can easily identify new requests).
+ * All [created issues](https://github.com/pharmaverse/datacutr/issues) will be reviewed within the next sprint and the creator will receive an initial feedback via a comment. Someone from the core development team will then triage new issues by assigning the appropriate labels (such as “user request” so we can easily identify new requests).
  
  * Issues are meant to be taken on by users from the Pharma programming
  community and not exclusively by the `{datacutr}` team from Roche.
@@ -41,7 +41,7 @@ Type 1 Contribution with Code:
 
 Type 2 Contribution without Code: 
 
- * User creates an issue and ideally contacts an `{datcutr}` team member.
+ * User creates an issue and ideally contacts an `{datacutr}` team member.
  
  * The `{datacutr}` core development team will contact the issue creator as soon as possible to discuss further details.
 

@@ -14,14 +14,17 @@ impute_dcutdtc(dsin, varin, varout)
 \item{varout}{Name of imputed output variable}
 }
 \value{
-Returns the input dataframe, with the additional of one extra variable (varout) which is the imputed version of varin.
+Returns the input dataframe, with the additional of one extra variable (varout) which
+is the imputed version of varin.
 }
 \description{
 Imputes partial dates in DCUTDTC variable, created within the datacut process.
 }
 \examples{
-dcut <- data.frame(USUBJID=c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
-        DCUTDTC=c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30"))
-dcut_final <- impute_dcutdtc(dsin=dcut, varin=DCUTDTC, varout=DCUTDTM)
+dcut <- data.frame(
+  USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
+  DCUTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30")
+)
+dcut_final <- impute_dcutdtc(dsin = dcut, varin = DCUTDTC, varout = DCUTDTM)
 }
 \keyword{derive}

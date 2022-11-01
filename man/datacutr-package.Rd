@@ -11,7 +11,7 @@
 A toolbox for applying a datacut to SDTMv.
 }
 \author{
-\strong{Maintainer}: Tim Barnett \email{timothy.barnettt@roche.com}
+\strong{Maintainer}: Tim Barnett \email{timothy.barnett@roche.com}
 
 Authors:
 \itemize{
