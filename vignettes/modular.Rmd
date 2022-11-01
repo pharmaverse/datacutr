@@ -44,8 +44,8 @@ library(lubridate)
 library(stringr)
 library(purrr)
 
-source(here::here('inst/templates/dummy_data.R'))
-source_data <- list(ds=ds, dm=dm, ae=ae, sc=sc, lb=lb, fa=fa, ts=ts)
+source(here::here("inst/templates/dummy_data.R"))
+source_data <- list(ds = ds, dm = dm, ae = ae, sc = sc, lb = lb, fa = fa, ts = ts)
 ```
 
 ## Create DCUT Dataset {#dcut}
@@ -72,8 +72,8 @@ If any pre-processing of datasets is needed, for example in the case of FA, wher
 ```{r, message=FALSE, warning=FALSE}
 source_data$fa <- source_data$fa %>%
   mutate(DCUT_TEMP_FAXDTC = case_when(
-    FASTDTC!="" ~ FASTDTC,
-    FADTC!=""   ~ FADTC,
+    FASTDTC != "" ~ FASTDTC,
+    FADTC != "" ~ FADTC,
     TRUE        ~ as.character(NA)
   ))
 ```
@@ -88,13 +88,13 @@ dataset_vignette(
 ## Specify Cut Types {#cuttypes}
 We'll next specify the cut types for each dataset (patient cut, date cut or no cut) and in the case of date cut which date variable should be used. 
 ```{r, message=FALSE, warning=FALSE}
-patient_cut_list <- c("sc","ds")
+patient_cut_list <- c("sc", "ds")
 
 date_cut_list <- rbind(c("ae", "AESTDTC"),
                        c("lb", "LBDTC"),
                        c("fa", "DCUT_TEMP_FAXDTC"))
 
-no_cut_list <- list(ts=source_data$ts)
+no_cut_list <- list(ts = source_data$ts)
 ```
 
 ## Patient Cut {#ptcut}
@@ -117,9 +117,9 @@ dataset_vignette(
 Next we'll apply the date cut.
 ```{r, message=FALSE, warning=FALSE}
 date_cut_data <- pmap(
-  .l=list(dataset_sdtm = source_data[date_cut_list[,1]],
-          sdtm_date_var = syms(date_cut_list[,2])),
-  .f=date_cut,
+  .l = list(dataset_sdtm = source_data[date_cut_list[, 1]],
+          sdtm_date_var = syms(date_cut_list[, 2])),
+  .f = date_cut,
   dataset_cut = dcut,
   cut_var = DCUTDTM
 )
@@ -128,7 +128,12 @@ This again adds on temporary flag variables indicating which observations will b
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   date_cut_data$ae,
-  display_vars = vars(USUBJID, AETERM, AESTDTC, DCUT_TEMP_SDTM_DATE, DCUT_TEMP_DCUTDTM, DCUT_TEMP_REMOVE)
+  display_vars = vars(USUBJID,
+         AETERM,
+         AESTDTC,
+         DCUT_TEMP_SDTM_DATE,
+         DCUT_TEMP_DCUTDTM,
+         DCUT_TEMP_REMOVE)
 )
 ```
 
@@ -139,13 +144,18 @@ Then lastly we'll apply the special DM cut which also updates the death related 
 dm_cut <- special_dm_cut(dataset_dm = source_data$dm,
                          dataset_cut = dcut,
                          cut_var = DCUTDTM)
-
 ```
 This adds on temporary variables indicating any death records that would change as a result of applying a datacut:
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   dm_cut,
-  display_vars = vars(USUBJID, DTHFL, DTHDTC, DCUT_TEMP_REMOVE, DCUT_TEMP_DTHDT, DCUT_TEMP_DCUTDTM, DCUT_TEMP_DTHCHANGE)
+  display_vars = vars(USUBJID,
+                      DTHFL,
+                      DTHDTC,
+                      DCUT_TEMP_REMOVE,
+                      DCUT_TEMP_DTHDT,
+                      DCUT_TEMP_DCUTDTM,
+                      DCUT_TEMP_DTHCHANGE)
 )
 ```
 

@@ -26,7 +26,6 @@ First, we will load our packages and example datasets.
 # Load packages
 
 # Read in example SDTMv datasets
-
 ```
 
 # Validation
