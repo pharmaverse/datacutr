@@ -16,7 +16,16 @@ knitr::opts_chunk$set(
 
 # Main Idea
 
-The main idea of `{datacutr}` is...
+The main idea of `{datacutr}` is to provide a standardized approach to applying a datacut to SDTM datasets.  
+The process applied by the package is the following,  
+* create a meta dataset `DCUT` that references all patients to be included within the cut, and the cut date to be used as reference (normally the Clinical Cut-off Date that data has been cleaned to).  
+* using `DCUT` as reference, records can be removed from the SDTM data that are either a) patients not part of the reference `DCUT`, or b) records that can be identified as after the data cut date supplied.  
+
+The package relies on creating lists of SDTM to be processed in specific ways, these include,  
+* No cut - SDTM to remain exactly as source
+* Patient cut - Only Patients identified in source meta `DCUT` are kept, no other exclusion of records is conducted  
+* Date cut - Only Patients identified in source meta `DCUT` are kept, and records identified after the data cut date are removed  
+* Special DM cut - As `DM` contains critical temporal derivations around Deaths that would require update within a data cut, this option allows the user to revert `DM.DTHFL` and `DM.DTHDTC` if death is identified after the data cut date
 
 ## Load Packages and Example Datasets
 
@@ -24,8 +33,6 @@ First, we will load our packages and example datasets.
 
 ```{r, message=FALSE, warning=FALSE}
 # Load packages
-
-# Read in example SDTMv datasets
 ```
 
 # Validation
@@ -35,7 +42,7 @@ the documentation. They are **not validated** yet.
 
 # Starting a Script
 
-`{datacutr}` provides a template R scripts as a starting point. 
+`{datacutr}` provides a template R scripts as a starting point. See specific vignette pages for more details.
 
 # Support
 
