@@ -33,7 +33,6 @@ First, we will load our packages and example datasets.
 
 ```{r, message=FALSE, warning=FALSE}
 # Load packages
-
 ```
 
 # Validation

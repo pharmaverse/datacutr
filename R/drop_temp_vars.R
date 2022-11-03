@@ -31,11 +31,11 @@ drop_temp_vars <- function(dsin, drop_dcut_temp = TRUE) {
   )
 
   out <- dsin %>%
-    select(-starts_with("TEMP_"))
+    select(- starts_with("TEMP_"))
 
   if (drop_dcut_temp) {
     out <- out %>%
-      select(-starts_with("DCUT_TEMP_"))
+      select(- starts_with("DCUT_TEMP_"))
   }
   return(out)
 }

@@ -33,7 +33,7 @@ test_that("still works even if resulting dataset would have no columns left", {
   testdf3 <- data.frame(TEMP_XYZ = c(""))
   expect_equal(
     drop_temp_vars(dsin = testdf3),
-    select(testdf3, -TEMP_XYZ)
+    select(testdf3, - TEMP_XYZ)
   )
 })
 

@@ -4,7 +4,7 @@ library(lubridate)
 
 test_that("special_dm_cut Test 1: Test outcomes", {
   dm_expect <- tibble::tribble(
-    ~USUBJID, ~DTHDTC, ~DTHFL, ~DCUT_TEMP_DTHCHANGE, ~DCUT_TEMP_REMOVE, ~DCUTDTC,
+    ~ USUBJID, ~ DTHDTC, ~ DTHFL, ~ DCUT_TEMP_DTHCHANGE, ~ DCUT_TEMP_REMOVE, ~ DCUTDTC,
     "01-701-1015", "", "", NA, NA, "2014-10-20T23:59:59",
     "01-701-1023", "2014-10-20", "Y", NA, NA, "2014-10-20T23:59:59",
     "01-701-1028", "2014-10-21", "Y", "Y", NA, "2014-10-20T23:59:59",
@@ -27,7 +27,7 @@ test_that("special_dm_cut Test 1: Test outcomes", {
   dm <- dm_expect[1:3]
 
   dcut <- tibble::tribble(
-    ~USUBJID,      ~DCUTDTC,
+    ~ USUBJID, ~ DCUTDTC,
     "01-701-1015", "2014-10-20T23:59:59",
     "01-701-1023", "2014-10-20T23:59:59",
     "01-701-1028", "2014-10-20T23:59:59",
