@@ -91,7 +91,7 @@
 <a class="anchor" aria-label="anchor" href="#datacutr-"></a>
 </h1>
 </div>
-<!-- badges: start --><!-- note: instert badges here when ready --><!-- badges: end --><p>SDTM Cut in R Asset Library</p>
+<!-- badges: start --><!-- note: instert badges here when ready --><!-- badges: end --><p>SDTM Data Cut in R Asset Library</p>
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h2>
@@ -100,23 +100,35 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The package is currently under development, installation details will be added soon.</p>
+<p>The package is not currently available on CRAN, but the latest development version can be installed directly from GitHub using the following code:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pharmaverse/datacutr"</span>, ref <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="main-goal">Main Goal<a class="anchor" aria-label="anchor" href="#main-goal"></a>
 </h2>
-<p>Provide users with an open source, modularized toolbox with which to apply a data cut to SDTM data in R. <em>As opposed to a “run 1 line and all cut SDTM appear” black-box solution.</em></p>
+<p>Provide users with an open source, modularized toolbox with which to apply a data cut to SDTM data in R. <em>As opposed to a “run 1 line and all cut SDTM datasets appear” black-box solution.</em></p>
 <p>One of the key aspects of <code>{datacutr}</code> is its development by the users for the users. It gives an entry point for all to collaborate, co-create and contribute to a consistent approach of cutting SDTM data in R, whilst also allowing flexibility to update to study specific needs where needed.</p>
 </div>
 <div class="section level2">
 <h2 id="scope">Scope<a class="anchor" aria-label="anchor" href="#scope"></a>
 </h2>
-<p>This package works with tabulation data following an SDTMv standard (i.e. no supplemental qualifier domains). The user has the flexibility to choose style of cut applied to the individual domain (either no cut, patient cut, xxSTDTC and xxDTC cut, special DM cut and special FA cut).</p>
+<p>This package works with tabulation data following an SDTMv standard (i.e. no supplemental qualifier domains). The user has the flexibility to select the type of cut applied to each SDTM domain (either no cut, patient cut, date cut, or a special DM cut).</p>
 </div>
 <div class="section level2">
 <h2 id="references-and-documentation">References and Documentation<a class="anchor" aria-label="anchor" href="#references-and-documentation"></a>
 </h2>
-<p>The package is currently under development, references and documentation details will be added soon.</p>
+<ul>
+<li>Please go to <a href="https://pharmaverse.github.io/datacutr/articles/datacutr.html" class="external-link">Get Started</a> section to start using <code>{datacutr}</code>
+</li>
+<li>Please go to <a href="https://pharmaverse.github.io/datacutr/reference/index.html" class="external-link">Function Reference</a> section for a break down of all functions created by <code>{datacutr}</code>
+</li>
+<li>Please see the <a href="https://pharmaverse.github.io/datacutr/articles/contribution_model.html" class="external-link">Contribution Model</a> for how to get involved with making contributions</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
