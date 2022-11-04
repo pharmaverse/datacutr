@@ -33,7 +33,6 @@ First, we will load our packages and example datasets.
 
 ```{r, message=FALSE, warning=FALSE}
 # Load packages
-
 ```
 
 # Validation
@@ -52,5 +51,3 @@ Support is provided via the `{datacutr}` Slack channel (link to be added).
 # See also
 
 - [Template scripts](https://github.com/pharmaverse/datacutr/tree/main/inst/templates)
-
-- [Programming Strategy](programming_strategy.html)

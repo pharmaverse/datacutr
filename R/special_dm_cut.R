@@ -21,39 +21,43 @@
 #' library(lubridate)
 #'
 #' dcut <- tibble::tribble(
-#' ~USUBJID, ~DCUTDTC,
-#' "01-701-1015", "2014-10-20T23:59:59",
-#' "01-701-1023", "2014-10-20T23:59:59",
+#'   ~USUBJID, ~DCUTDTC,
+#'   "01-701-1015", "2014-10-20T23:59:59",
+#'   "01-701-1023", "2014-10-20T23:59:59",
 #' ) %>%
 #'   mutate(DCUTDTM = ymd_hms(DCUTDTC))
 #'
 #' dm <- tibble::tribble(
-#' ~USUBJID, ~DTHDTC, ~DTHFL,
-#' "01-701-1015", "2014-10-20", "Y",
-#' "01-701-1023", "2014-10-21", "Y",
+#'   ~USUBJID, ~DTHDTC, ~DTHFL,
+#'   "01-701-1015", "2014-10-20", "Y",
+#'   "01-701-1023", "2014-10-21", "Y",
 #' )
 #'
-#'   special_dm_cut(dataset_dm=dm,
-#'                  dataset_cut=dcut,
-#'                  cut_var=DCUTDTM)
-
+#' special_dm_cut(
+#'   dataset_dm = dm,
+#'   dataset_cut = dcut,
+#'   cut_var = DCUTDTM
+#' )
 special_dm_cut <- function(dataset_dm,
                            dataset_cut,
                            cut_var = DCUTDTM) {
-
   cut_var <- assert_symbol(enquo(cut_var))
 
   assert_data_frame(dataset_cut,
-                    required_vars = quo_c(vars(USUBJID),cut_var))
+    required_vars = quo_c(vars(USUBJID), cut_var)
+  )
 
   attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
 
   # Merge in DCUT information and impute DCUTDTC to usable date format
-  dm_temp <- pt_cut(dataset_sdtm=dataset_dm,
-                    dataset_cut=dataset_cut) %>%
-             impute_sdtm(DTHDTC,DCUT_TEMP_DTHDT) %>%
-             left_join((dataset_cut %>% select(USUBJID,DCUT_TEMP_DCUTDTM=!!cut_var)),
-                        by="USUBJID")
+  dm_temp <- pt_cut(
+    dataset_sdtm = dataset_dm,
+    dataset_cut = dataset_cut
+  ) %>%
+    impute_sdtm(DTHDTC, DCUT_TEMP_DTHDT) %>%
+    left_join((dataset_cut %>% select(USUBJID, DCUT_TEMP_DCUTDTM = !!cut_var)),
+      by = "USUBJID"
+    )
 
   # Flag records with Death Date after Cut date
   dataset_updatedth <- dm_temp %>%
@@ -64,4 +68,3 @@ special_dm_cut <- function(dataset_dm,
 
   dataset_updatedth
 }
-

@@ -95,35 +95,26 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:lubridate’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, union</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     filter, lag</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">dcut</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in"><span class="op">~</span><span class="va">USUBJID</span>, <span class="op">~</span><span class="va">DCUTDTC</span>,</span>
-<span class="r-in"><span class="st">"01-701-1015"</span>, <span class="st">"2014-10-20T23:59:59"</span>,</span>
-<span class="r-in"><span class="st">"01-701-1023"</span>, <span class="st">"2014-10-20T23:59:59"</span>,</span>
+<span class="r-in">  <span class="op">~</span><span class="va">USUBJID</span>, <span class="op">~</span><span class="va">DCUTDTC</span>,</span>
+<span class="r-in">  <span class="st">"01-701-1015"</span>, <span class="st">"2014-10-20T23:59:59"</span>,</span>
+<span class="r-in">  <span class="st">"01-701-1023"</span>, <span class="st">"2014-10-20T23:59:59"</span>,</span>
 <span class="r-in"><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>DCUTDTM <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html" class="external-link">ymd_hms</a></span><span class="op">(</span><span class="va">DCUTDTC</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in"><span class="op">~</span><span class="va">USUBJID</span>, <span class="op">~</span><span class="va">DTHDTC</span>, <span class="op">~</span><span class="va">DTHFL</span>,</span>
-<span class="r-in"><span class="st">"01-701-1015"</span>, <span class="st">"2014-10-20"</span>, <span class="st">"Y"</span>,</span>
-<span class="r-in"><span class="st">"01-701-1023"</span>, <span class="st">"2014-10-21"</span>, <span class="st">"Y"</span>,</span>
+<span class="r-in">  <span class="op">~</span><span class="va">USUBJID</span>, <span class="op">~</span><span class="va">DTHDTC</span>, <span class="op">~</span><span class="va">DTHFL</span>,</span>
+<span class="r-in">  <span class="st">"01-701-1015"</span>, <span class="st">"2014-10-20"</span>, <span class="st">"Y"</span>,</span>
+<span class="r-in">  <span class="st">"01-701-1023"</span>, <span class="st">"2014-10-21"</span>, <span class="st">"Y"</span>,</span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="fu">special_dm_cut</span><span class="op">(</span>dataset_dm<span class="op">=</span><span class="va">dm</span>,</span>
-<span class="r-in">                 dataset_cut<span class="op">=</span><span class="va">dcut</span>,</span>
-<span class="r-in">                 cut_var<span class="op">=</span><span class="va">DCUTDTM</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">special_dm_cut</span><span class="op">(</span></span>
+<span class="r-in">  dataset_dm <span class="op">=</span> <span class="va">dm</span>,</span>
+<span class="r-in">  dataset_cut <span class="op">=</span> <span class="va">dcut</span>,</span>
+<span class="r-in">  cut_var <span class="op">=</span> <span class="va">DCUTDTM</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># A tibble: 2 x 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   USUBJID DTHDTC DTHFL DCUT_TEMP_REMOVE DCUT_TEMP_DTHDT     DCUT_TEMP_DCUTDTM  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #555555;font-style: italic;">&lt;chr&gt;</span><span>   </span><span style="color: #555555;font-style: italic;">&lt;chr&gt;</span><span>  </span><span style="color: #555555;font-style: italic;">&lt;chr&gt;</span><span> </span><span style="color: #555555;font-style: italic;">&lt;lgl&gt;</span><span>            </span><span style="color: #555555;font-style: italic;">&lt;dttm&gt;</span><span>              </span><span style="color: #555555;font-style: italic;">&lt;dttm&gt;</span><span>             </span></span>
