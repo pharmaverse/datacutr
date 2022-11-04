@@ -47,5 +47,5 @@ navbar:
         href: articles/wrapper.html
       - text: Modular Approach
         href: articles/modular.html
-      - text: Applying a Variable Cut
+      - text: Applying a Variable Date Cut
         href: articles/variable_cut.html
