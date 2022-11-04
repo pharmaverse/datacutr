@@ -4,7 +4,7 @@
 <!-- note: instert badges here when ready -->
 <!-- badges: end -->
 
-SDTM Cut in R Asset Library
+SDTM Data Cut in R Asset Library
 
 ## Purpose
 
@@ -13,12 +13,20 @@ to apply a data cut to SDTM data in R.
 
 ## Installation
 
-The package is currently under development, installation details will be added soon.
+The package is not currently available on CRAN, but the latest development version can be installed directly from GitHub using the following code: 
+
+```r
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+
+remotes::install_github("pharmaverse/datacutr", ref = "devel")
+```
 
 ## Main Goal
 
 Provide users with an open source, modularized toolbox with which to apply a data cut to SDTM data in R. 
-_As opposed to a “run 1 line and all cut SDTM appear” black-box solution._
+_As opposed to a “run 1 line and all cut SDTM datasets appear” black-box solution._
 
 One of the key aspects of `{datacutr}` is its development by the users for the users.
 It gives an entry point for all to collaborate, co-create and contribute to a consistent approach of 
@@ -26,13 +34,13 @@ cutting SDTM data in R, whilst also allowing flexibility to update to study spec
 
 ## Scope
 
-This package works with tabulation data following an SDTMv standard (i.e. no supplemental qualifier domains). The user has 
-the flexibility to choose style of cut applied to the individual domain (either no cut, patient cut, xxSTDTC and xxDTC cut, special DM cut 
-and special FA cut). 
+This package works with tabulation data following an SDTMv standard (i.e. no supplemental qualifier domains). The user has the flexibility to select the type of cut applied to each SDTM domain (either no cut, patient cut, date cut, or a special DM cut). 
 
 ## References and Documentation
 
-The package is currently under development, references and documentation details will be added soon.
+* Please go to [Get Started](https://pharmaverse.github.io/datacutr/articles/datacutr.html) section to start using `{datacutr}`
+* Please go to [Function Reference](https://pharmaverse.github.io/datacutr/reference/index.html) section for a break down of all functions created by `{datacutr}`
+* Please see the [Contribution Model](https://pharmaverse.github.io/datacutr/articles/contribution_model.html) for how to get involved with making contributions
 
 ## Contact
 
