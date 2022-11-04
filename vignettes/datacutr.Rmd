@@ -27,18 +27,12 @@ The package relies on creating lists of SDTM to be processed in specific ways, t
 * Date cut - Only Patients identified in source meta `DCUT` are kept, and records identified after the data cut date are removed  
 * Special DM cut - As `DM` contains critical temporal derivations around Deaths that would require update within a data cut, this option allows the user to revert `DM.DTHFL` and `DM.DTHDTC` if death is identified after the data cut date
 
-## Installation
+## Load Packages and Example Datasets
 
-The package will be available from CRAN and will eventually be installed by running install.packages("datacutr").
-
-To install the latest development version of the package directly from GitHub use the following code:
+First, we will load our packages and example datasets. 
 
 ```{r, message=FALSE, warning=FALSE}
-# if (!requireNamespace("remotes", quietly = TRUE)) {
-#   install.packages("remotes")
-# }
-# 
-# remotes::install_github("pharmaverse/datacutr", ref = "devel")
+# Load packages
 ```
 
 # Validation
@@ -57,4 +51,3 @@ Support is provided via the `{datacutr}` Slack channel (link to be added).
 # See also
 
 - [Template scripts](https://github.com/pharmaverse/datacutr/tree/main/inst/templates)
-
