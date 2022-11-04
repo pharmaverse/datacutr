@@ -86,4 +86,4 @@ dataset_vignette(
 )
 ```
 
-Now that `DCUT` is prepared, the rest of the process follows the same as previously prescribed
+Now that `DCUT` is prepared, the rest of the process follows the same as previously prescribed using either the wrapped function approach [Link](https://pharmaverse.github.io/datacutr/articles/wrapper.html#processcut) or modular approach [Link](https://pharmaverse.github.io/datacutr/articles/modular.html#preprocess)
