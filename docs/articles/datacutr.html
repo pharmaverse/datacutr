@@ -51,9 +51,9 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-user-guides">User Guides</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-user-guides">
-    <a class="dropdown-item" href="../articles/wrapper.html">Wrapper Function Approach</a>
+    <a class="dropdown-item" href="../articles/wrapper.html">Wrapped Approach</a>
     <a class="dropdown-item" href="../articles/modular.html">Modular Approach</a>
-    <a class="dropdown-item" href="../articles/variable_cut.html">Applying a Variable Cut</a>
+    <a class="dropdown-item" href="../articles/variable_cut.html">Applying a Variable Date Cut</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -102,15 +102,20 @@
 <div class="section level2">
 <h2 id="main-idea">Main Idea<a class="anchor" aria-label="anchor" href="#main-idea"></a>
 </h2>
-<p>The main idea of <code>{datacutr}</code> is…</p>
+<p>The main idea of <code>{datacutr}</code> is to provide a standardized approach to applying a datacut to SDTM datasets.<br>
+The process applied by the package is the following,<br>
+* create a meta dataset <code>DCUT</code> that references all patients to be included within the cut, and the cut date to be used as reference (normally the Clinical Cut-off Date that data has been cleaned to).<br>
+* using <code>DCUT</code> as reference, records can be removed from the SDTM data that are either a) patients not part of the reference <code>DCUT</code>, or b) records that can be identified as after the data cut date supplied.</p>
+<p>The package relies on creating lists of SDTM to be processed in specific ways, these include,<br>
+* No cut - SDTM to remain exactly as source * Patient cut - Only Patients identified in source meta <code>DCUT</code> are kept, no other exclusion of records is conducted<br>
+* Date cut - Only Patients identified in source meta <code>DCUT</code> are kept, and records identified after the data cut date are removed<br>
+* Special DM cut - As <code>DM</code> contains critical temporal derivations around Deaths that would require update within a data cut, this option allows the user to revert <code>DM.DTHFL</code> and <code>DM.DTHDTC</code> if death is identified after the data cut date</p>
 <div class="section level3">
 <h3 id="load-packages-and-example-datasets">Load Packages and Example Datasets<a class="anchor" aria-label="anchor" href="#load-packages-and-example-datasets"></a>
 </h3>
 <p>First, we will load our packages and example datasets.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Load packages</span>
-
-<span class="co"># Read in example SDTMv datasets</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># Load packages</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -121,7 +126,7 @@
 <div class="section level2">
 <h2 id="starting-a-script">Starting a Script<a class="anchor" aria-label="anchor" href="#starting-a-script"></a>
 </h2>
-<p><code>{datacutr}</code> provides a template R scripts as a starting point.</p>
+<p><code>{datacutr}</code> provides a template R scripts as a starting point. See specific vignette pages for more details.</p>
 </div>
 <div class="section level2">
 <h2 id="support">Support<a class="anchor" aria-label="anchor" href="#support"></a>

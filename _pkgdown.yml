@@ -43,7 +43,7 @@ navbar:
     articles:
       text: User Guides
       menu:
-      - text: Wrapper Function Approach
+      - text: Wrapped Approach
         href: articles/wrapper.html
       - text: Modular Approach
         href: articles/modular.html

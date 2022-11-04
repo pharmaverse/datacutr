@@ -36,7 +36,7 @@ cut_data <-  process_cut(source_sdtm_data = source_data,
                          no_cut_v = c("ts"),
                          dataset_cut = dcut,
                          cut_var = DCUTDTM,
-                         special_dm=TRUE)
+                         special_dm = TRUE)
 
 
 # Save cut SDTMs to environment -------------------------------------------
