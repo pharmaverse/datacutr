@@ -29,16 +29,16 @@ The package relies on creating lists of SDTM to be processed in specific ways, t
 
 ## Installation
 
-The package is available from CRAN and can be installed by running install.packages("datacutr").
+The package will be available from CRAN and will eventually be installed by running install.packages("datacutr").
 
 To install the latest development version of the package directly from GitHub use the following code:
 
 ```{r, message=FALSE, warning=FALSE}
-if (!requireNamespace("remotes", quietly = TRUE)) {
-  install.packages("remotes")
-}
-
-remotes::install_github("pharmaverse/datacutr", ref = "devel")
+# if (!requireNamespace("remotes", quietly = TRUE)) {
+#   install.packages("remotes")
+# }
+# 
+# remotes::install_github("pharmaverse/datacutr", ref = "devel")
 ```
 
 # Validation
