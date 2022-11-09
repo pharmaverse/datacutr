@@ -7,25 +7,10 @@
     <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/admiral.html</loc>
-  </url>
-  <url>
-    <loc>/articles/adxx.html</loc>
-  </url>
-  <url>
     <loc>/articles/contribution_model.html</loc>
   </url>
   <url>
     <loc>/articles/datacutr.html</loc>
-  </url>
-  <url>
-    <loc>/articles/development_process.html</loc>
-  </url>
-  <url>
-    <loc>/articles/faq.html</loc>
-  </url>
-  <url>
-    <loc>/articles/git_usage.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
@@ -34,22 +19,10 @@
     <loc>/articles/modular.html</loc>
   </url>
   <url>
-    <loc>/articles/pr_review_guidance.html</loc>
-  </url>
-  <url>
-    <loc>/articles/programming_strategy.html</loc>
-  </url>
-  <url>
-    <loc>/articles/unit_test_guidance.html</loc>
-  </url>
-  <url>
     <loc>/articles/variable_cut.html</loc>
   </url>
   <url>
     <loc>/articles/wrapper.html</loc>
-  </url>
-  <url>
-    <loc>/articles/writing_vignettes.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>

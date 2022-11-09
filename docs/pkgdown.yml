@@ -4,9 +4,8 @@ pkgdown_sha: ~
 articles:
   contribution_model: contribution_model.html
   datacutr: datacutr.html
-  faq: faq.html
   modular: modular.html
   variable_cut: variable_cut.html
   wrapper: wrapper.html
-last_built: 2022-11-04T15:41Z
+last_built: 2022-11-09T15:19Z
 

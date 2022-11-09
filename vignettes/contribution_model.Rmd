@@ -34,7 +34,7 @@ Type 1 Contribution with Code:
 
  * First, the user creates an issue or comments on an existing issue to notify that they’d like to contribute code.
  
- * Follow our [development process](development_process.html) step-by-step guide.
+ * Follow the admiraldev [development process](https://pharmaverse.github.io/admiraldev/main/articles/development_process.html) step-by-step guide.
  
  * We advise to contact an `{datacutr}` core development team directly.
 
