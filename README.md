@@ -4,11 +4,11 @@
 <!-- note: instert badges here when ready -->
 <!-- badges: end -->
 
-SDTM Data Cut in R Asset Library
+SDTM Data Cut
 
 ## Purpose
 
-To provide an open source, modularized toolbox that enables the pharmaceutical programming community
+To provide an open source tool that enables the pharmaceutical programming community
 to apply a data cut to SDTM data in R.
 
 ## Installation
@@ -23,18 +23,9 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 remotes::install_github("pharmaverse/datacutr", ref = "devel")
 ```
 
-## Main Goal
-
-Provide users with an open source, modularized toolbox with which to apply a data cut to SDTM data in R. 
-_As opposed to a “run 1 line and all cut SDTM datasets appear” black-box solution._
-
-One of the key aspects of `{datacutr}` is its development by the users for the users.
-It gives an entry point for all to collaborate, co-create and contribute to a consistent approach of 
-cutting SDTM data in R, whilst also allowing flexibility to update to study specific needs where needed. 
-
 ## Scope
 
-This package works with tabulation data following an SDTMv standard (i.e. no supplemental qualifier domains). The user has the flexibility to select the type of cut applied to each SDTM domain (either no cut, patient cut, date cut, or a special DM cut). 
+This package works with tabulation data following an SDTM standard. For ease of processing, the assumption is that supplemental qualifiers have been combined with their parent domain prior to the application of the cut process (sometimes labelled as SDTMv). The user has the flexibility to select the type of cut applied to each SDTM domain (either no cut, patient cut, date cut, or a special DM cut). 
 
 ## References and Documentation
 
