@@ -1,7 +1,9 @@
 # datacutr <!-- note: instert logo here when ready -->
 
 <!-- badges: start -->
+
 <!-- note: instert badges here when ready -->
+
 <!-- badges: end -->
 
 SDTM Data Cut
@@ -13,7 +15,7 @@ to apply a data cut to SDTM data in R.
 
 ## Installation
 
-The package is not currently available on CRAN, but the latest development version can be installed directly from GitHub using the following code: 
+The package is not currently available on CRAN, but the latest development version can be installed directly from GitHub using the following code:
 
 ```r
 if (!requireNamespace("remotes", quietly = TRUE)) {
@@ -25,7 +27,7 @@ remotes::install_github("pharmaverse/datacutr", ref = "devel")
 
 ## Scope
 
-This package works with tabulation data following an SDTM standard. For ease of processing, the assumption is that supplemental qualifiers have been combined with their parent domain prior to the application of the cut process (sometimes labelled as SDTMv). The user has the flexibility to select the type of cut applied to each SDTM domain (either no cut, patient cut, date cut, or a special DM cut). 
+This package works with tabulation data following an SDTM standard. For ease of processing, the assumption is that supplemental qualifiers have been combined with their parent domain prior to the application of the cut process (sometimes labelled as SDTMv). The user has the flexibility to select the type of cut applied to each SDTM domain (either no cut, patient cut, date cut, or a special DM cut).
 
 ## References and Documentation
 
@@ -35,7 +37,7 @@ This package works with tabulation data following an SDTM standard. For ease of 
 
 ## Contact
 
-Whilst the package is under development please feel free to reach out to one of the core developers: 
+Whilst the package is under development please feel free to reach out to one of the core developers:
 
 * Tim Barnett (Maintainer) - [timothy.barnett@roche.com](timothy.barnett@roche.com)
 * Nathan Rees - [nathan.rees@roche.com](nathan.rees@roche.com)
@@ -43,5 +45,5 @@ Whilst the package is under development please feel free to reach out to one of 
 
 Once the package is finalized we will use the following for support and communications between user and developer community:
 
-* [Slack](https://app.slack.com/client/T028PB489D3/C02M8KN8269) - for informal discussions, Q&A and building our user community. If you don't have access, use this [link](https://join.slack.com/t/pharmaverse/shared_invite/zt-yv5atkr4-Np2ytJ6W_QKz_4Olo7Jo9A) to join the pharmaverse Slack workspace
+* [Slack](https://app.slack.com/client/T028PB489D3/C02M8KN8269) - for informal discussions, Q\&A and building our user community. If you don't have access, use this [link](https://join.slack.com/t/pharmaverse/shared_invite/zt-yv5atkr4-Np2ytJ6W_QKz_4Olo7Jo9A) to join the pharmaverse Slack workspace
 * [GitHub Issues](https://github.com/pharmaverse/datacutr/issues) - for direct feedback, enhancement requests or raising bugs
