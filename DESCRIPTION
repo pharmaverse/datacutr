@@ -16,23 +16,29 @@ RoxygenNote: 7.2.0
 Depends: R (>= 3.5)
 Imports:
     admiraldev,
-    assertthat,
-    dplyr,
-    lubridate,
-    magrittr,
-    rlang, 
-    purrr, 
-    tibble, 
-    here
+    assertthat (>= 0.2.1),
+    dplyr (>= 0.8.4),
+    lubridate (>= 1.7.4),
+    magrittr (>= 1.5),
+    purrr (>= 0.3.3),
+    rlang (>= 0.4.4),
+    here, 
+    tibble
 Suggests:
+    stringr,
     admiral.test,
     devtools,
+    lintr,
     pkgdown,
-    testthat (>= 3.0.0),
+    testthat,
     knitr,
+    methods,
+    miniUI,
     rmarkdown,
     roxygen2,
-    usethis, 
-    stringr
+    spelling,
+    styler,
+    usethis,
+    covr,
+    DT
 VignetteBuilder: knitr
-Config/testthat/edition: 3
