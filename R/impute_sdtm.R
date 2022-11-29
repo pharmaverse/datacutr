@@ -18,7 +18,6 @@
 #' ex <- dplyr::select(ex, c(USUBJID, EXSTDTC))
 #' temp_ex <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
 impute_sdtm <- function(dsin, varin, varout) {
-
   # Handle input values for use in tidyverse
   varin <- assert_symbol(enquo(varin))
   varout <- quo_name(assert_symbol(enquo(varout)))

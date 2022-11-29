@@ -61,7 +61,6 @@ process_cut <- function(source_sdtm_data,
                         dataset_cut,
                         cut_var,
                         special_dm = TRUE) {
-
   #  Assertions for input parameters -----------------------------------------------
 
   assert_that(is.list(source_sdtm_data),
@@ -90,11 +89,12 @@ process_cut <- function(source_sdtm_data,
     msg = "special_dm must be either TRUE or FALSE"
   )
   if (special_dm) {
-    assert_that(setequal(names(source_sdtm_data), c(
-      patient_cut_v, date_cut_m[, 1], no_cut_v,
-      "dm"
-    )),
-    msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+    assert_that(
+      setequal(names(source_sdtm_data), c(
+        patient_cut_v, date_cut_m[, 1], no_cut_v,
+        "dm"
+      )),
+      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
       date_cut_m or no_cut_v"
     )
   } else {
@@ -103,9 +103,10 @@ process_cut <- function(source_sdtm_data,
       date_cut_m or no_cut_v"
     )
   }
-  assert_that(length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
-  == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-  msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+  assert_that(
+    length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
+    == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
+    msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
     date_cut_m or no_cut_v"
   )
 
@@ -134,7 +135,6 @@ process_cut <- function(source_sdtm_data,
   # Conduct DM special cut for DTH flags after DCUTDTM ------------------------------
 
   if (special_dm) {
-
     # Assertions for special dm cut
     assert_data_frame(source_sdtm_data[["dm"]], required_vars = quo_c(vars(USUBJID)))
 
