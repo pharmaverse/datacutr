@@ -22,10 +22,10 @@ Imports:
     magrittr (>= 1.5),
     purrr (>= 0.3.3),
     rlang (>= 0.4.4),
-    stringr (>= 1.4.0), 
     here, 
     tibble
 Suggests:
+    stringr,
     admiral.test,
     devtools,
     lintr,
