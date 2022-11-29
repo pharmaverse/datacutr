@@ -20,7 +20,6 @@
 #' )
 #' dcut_final <- impute_dcutdtc(dsin = dcut, varin = DCUTDTC, varout = DCUTDTM)
 impute_dcutdtc <- function(dsin, varin, varout) {
-
   # Handle input values for use in tidyverse
   varin <- assert_symbol(enquo(varin))
   varout <- quo_name(assert_symbol(enquo(varout)))

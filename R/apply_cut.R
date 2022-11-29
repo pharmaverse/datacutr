@@ -34,7 +34,6 @@
 #' )
 #' dm_final <- apply_cut(dsin = dm, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
 apply_cut <- function(dsin, dcutvar, dthchangevar) {
-
   # Handle input values for use in tidyverse
   dcutvar <- assert_symbol(enquo(dcutvar))
   dthchangevar <- enquo(dthchangevar)

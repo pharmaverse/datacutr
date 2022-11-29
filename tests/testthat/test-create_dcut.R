@@ -1,7 +1,7 @@
 # Test 1 - One observation in DCUT
 
 input_ds <- tibble::tribble(
-  ~ USUBJID, ~ DSSEQ, ~ DSDECOD, ~ DSSTDTC,
+  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
   "subject1", 1, "INFORMED CONSENT", "2020-06-23",
   "subject1", 2, "RANDOMIZATION", "2020-08-22",
   "subject1", 3, "WITHDRAWAL BY SUBJECT", "2020-05-01",
@@ -12,7 +12,7 @@ input_ds <- tibble::tribble(
 )
 
 expected_dcut <- tibble::tribble(
-  ~ USUBJID, ~ DCUTDTC, ~ DCUTDTM, ~ DCUTDESC,
+  ~USUBJID, ~DCUTDTC, ~DCUTDTM, ~DCUTDESC,
   "subject1", "2022-01-01", ymd_hms("2022-01-01 23:59:59"), "Clinical Cutoff Date"
 )
 
