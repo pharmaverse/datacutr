@@ -14,7 +14,7 @@ status](https://www.r-pkg.org/badges/version/datacutr)](https://CRAN.R-project.o
 -->
 
 [![Test
-Coverage](https://raw.githubusercontent.com/pharmaverse/admiraltemplate/badges/main/test-coverage.svg)](https://github.com/pharmaverse/admiraltemplate/actions/workflows/code-coverage.yml)
+Coverage](https://raw.githubusercontent.com/pharmaverse/datacutr/badges/main/test-coverage.svg)](https://github.com/pharmaverse/datacutr/actions/workflows/code-coverage.yml)
 
 <!-- badges: end -->
 
