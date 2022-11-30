@@ -5,16 +5,13 @@ SDTM Datacut in R
 <!-- badges: start -->
 
 <!-- note: insert datacutr shield here when ready 
-[<img src="http://pharmaverse.org/shields/admiral.svg">](https://pharmaverse.org) 
 -->
 
 <!-- note: insert CRAN Status here when ready 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/datacutr)](https://CRAN.R-project.org/package=datacutr)
 -->
 
-[![Test
-Coverage](https://raw.githubusercontent.com/pharmaverse/datacutr/badges/main/test-coverage.svg)](https://github.com/pharmaverse/datacutr/actions/workflows/code-coverage.yml)
+<!-- note: insert Test status here when ready 
+-->
 
 <!-- badges: end -->
 
