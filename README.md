@@ -1,12 +1,22 @@
-# datacutr <!-- note: instert logo here when ready -->
+# datacutr <img src="man/figures/logo.png" align="right" width="200" style="margin-left:50px;"/>
+
+SDTM Datacut in R
 
 <!-- badges: start -->
 
-<!-- note: instert badges here when ready -->
+<!-- note: insert datacutr shield here when ready 
+[<img src="http://pharmaverse.org/shields/admiral.svg">](https://pharmaverse.org) 
+-->
+
+<!-- note: insert CRAN Status here when ready 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/datacutr)](https://CRAN.R-project.org/package=datacutr)
+-->
+
+[![Test
+Coverage](https://raw.githubusercontent.com/pharmaverse/admiraltemplate/badges/main/test-coverage.svg)](https://github.com/pharmaverse/admiraltemplate/actions/workflows/code-coverage.yml)
 
 <!-- badges: end -->
-
-SDTM Data Cut
 
 ## Purpose
 

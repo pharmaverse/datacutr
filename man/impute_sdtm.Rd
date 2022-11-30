@@ -21,8 +21,10 @@ is the imputed version of varin.
 Imputes partial dates in SDTM variables as part of the datacut process.
 }
 \examples{
-ex <- admiral.test::admiral_ex
-ex <- dplyr::select(ex, c(USUBJID, EXSTDTC))
+ex <- data.frame(
+  USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
+  EXSTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30")
+)
 temp_ex <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
 }
 \keyword{derive}

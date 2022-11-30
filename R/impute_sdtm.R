@@ -14,8 +14,10 @@
 #' @keywords derive
 #'
 #' @examples
-#' ex <- admiral.test::admiral_ex
-#' ex <- dplyr::select(ex, c(USUBJID, EXSTDTC))
+#' ex <- data.frame(
+#'   USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
+#'   EXSTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30")
+#' )
 #' temp_ex <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
 impute_sdtm <- function(dsin, varin, varout) {
   # Handle input values for use in tidyverse
