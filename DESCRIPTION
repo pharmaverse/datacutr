@@ -26,7 +26,6 @@ Imports:
     tibble
 Suggests:
     stringr,
-    admiral.test,
     devtools,
     lintr,
     pkgdown,
