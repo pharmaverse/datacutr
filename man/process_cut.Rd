@@ -45,7 +45,7 @@ datacut date are removed.
 }
 \examples{
 dcut <- data.frame(
-  USUBJID = factor(c("a", "b"), levels = c("a", "b", "c")),
+  USUBJID = c("a", "b"),
   DCUTDTC = c("2022-02-17", "2022-02-17")
 )
 dcut <- impute_dcutdtc(dcut, DCUTDTC, DCUTDTM)

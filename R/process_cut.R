@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' dcut <- data.frame(
-#'   USUBJID = factor(c("a", "b"), levels = c("a", "b", "c")),
+#'   USUBJID = c("a", "b"),
 #'   DCUTDTC = c("2022-02-17", "2022-02-17")
 #' )
 #' dcut <- impute_dcutdtc(dcut, DCUTDTC, DCUTDTM)
@@ -60,8 +60,8 @@ process_cut <- function(source_sdtm_data,
                         dataset_cut,
                         cut_var,
                         special_dm = TRUE) {
-  #  Assertions for input parameters -----------------------------------------------
 
+  #  Assertions for input parameters -----------------------------------------------
   assert_that(is.list(source_sdtm_data),
     msg = "source_sdtm_data must be a list"
   )
@@ -96,18 +96,24 @@ process_cut <- function(source_sdtm_data,
       msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
       date_cut_m or no_cut_v"
     )
+    assert_that(
+      length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")))
+      == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")),
+      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+    date_cut_m or no_cut_v"
+    )
   } else {
     assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
       msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
       date_cut_m or no_cut_v"
     )
-  }
-  assert_that(
-    length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
-    == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-    msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+    assert_that(
+      length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
+      == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
+      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
     date_cut_m or no_cut_v"
-  )
+    )
+  }
 
   # Conduct Patient-Level Cut ------------------------------------------------------
 
