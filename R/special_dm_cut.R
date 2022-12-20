@@ -59,6 +59,8 @@ special_dm_cut <- function(dataset_dm,
       by = "USUBJID"
     )
 
+  assert_that(is.POSIXt(dm_temp$DCUT_TEMP_DCUTDTM), msg="cut_var is expected to be of date type POSIXt")
+
   # Flag records with Death Date after Cut date
   dataset_updatedth <- dm_temp %>%
     mutate(DCUT_TEMP_DTHCHANGE = case_when(

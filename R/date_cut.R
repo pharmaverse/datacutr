@@ -23,10 +23,10 @@
 #' @examples
 #' library(lubridate)
 #' dcut <- tibble::tribble(
-#'   ~USUBJID, ~DCUTDTM,
-#'   "subject1", ymd_hms("2020-10-11T23:59:59"),
-#'   "subject2", ymd_hms("2020-10-11T23:59:59"),
-#'   "subject4", ymd_hms("2020-10-11T23:59:59")
+#'   ~USUBJID, ~DCUTDTM, ~DCUTDTC,
+#'   "subject1", ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
+#'   "subject2", ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
+#'   "subject4", ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59"
 #' )
 #'
 #' ae <- tibble::tribble(
@@ -63,6 +63,8 @@ date_cut <- function(dataset_sdtm,
   dcut <- dataset_cut %>%
     mutate(DCUT_TEMP_DCUTDTM = !!cut_var) %>%
     subset(select = c(USUBJID, DCUT_TEMP_DCUTDTM))
+
+  assert_that(is.POSIXt(dcut$DCUT_TEMP_DCUTDTM), msg="cut_var is expected to be of date type POSIXt")
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 
