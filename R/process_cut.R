@@ -94,24 +94,25 @@ process_cut <- function(source_sdtm_data,
         "dm"
       )),
       msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-      date_cut_m or no_cut_v"
+             date_cut_m or no_cut_v"
     )
     assert_that(
       length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")))
       == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")),
       msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-    date_cut_m or no_cut_v"
+             date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
+             specify dm in patient_cut_v, date_cut_m or no_cut_v"
     )
   } else {
     assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
       msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-      date_cut_m or no_cut_v"
+             date_cut_m or no_cut_v"
     )
     assert_that(
       length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
       == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
       msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-    date_cut_m or no_cut_v"
+             date_cut_m or no_cut_v."
     )
   }
 

@@ -108,9 +108,9 @@ ts_cut <- tibble::tribble(
 expected <- list(dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
                  ae = ae_cut, lb = lb_cut, ts = ts_cut)
 
-# Test every type of datacut gives the expected result  ------------------------
+# Test every type of datacut gives the expected result, when special_dm=TRUE ------------------------
 
-test_that("Test every type of datacut gives the expected result", {
+test_that("Test every type of datacut gives the expected result, when special_dm=TRUE", {
   expect_equal(
     process_cut(
       source_sdtm_data = source_data,
@@ -126,6 +126,108 @@ test_that("Test every type of datacut gives the expected result", {
     ),
     expected
     )
+})
+
+# Test when a source SDTM dataset is not referenced in any input list  ------------------------------
+
+expect_error(
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("ds"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE
+  ),
+  regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v"
+)
+
+# Test when an input list includes a source SDTM dataset that does not exist  ------------------------
+
+expect_error(
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("sc", "ds", "vs"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE
+  ),
+  regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v"
+)
+
+# Test when a source SDTM dataset is referenced in more than one input list  ------------------------------
+
+expect_error(
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("sc", "ds", "ae"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE
+  ),
+  regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
+             specify dm in patient_cut_v, date_cut_m or no_cut_v"
+)
+
+# Test when special_dm = TRUE and dm is also referenced in an input list  ------------------------------
+
+expect_error(
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("sc", "ds", "dm"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE
+  ),
+  regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
+             specify dm in patient_cut_v, date_cut_m or no_cut_v"
+)
+
+# Test every type of datacut gives the expected result, when special_dm=FALSE ------------------------
+
+# Remove dm from the source data list and expected data list
+source_data["dm"] <- NULL
+expected["dm"] <- NULL
+
+test_that("Test every type of datacut gives the expected result, when special_dm=FALSE", {
+  expect_equal(
+    process_cut(
+      source_sdtm_data = source_data,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(
+        c("ae", "AESTDTC"),
+        c("lb", "LBDTC")
+      ),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = FALSE
+    ),
+    expected
+  )
 })
 
 
