@@ -31,7 +31,7 @@ this wrapped approach may not be suitable if you wish to enable any study or pro
 
 ## Read in Data {#readdata}
 
-To start, all SDTM data to be cut needs to be read into the R environment. These datasets should be stored within a list.
+To start, all SDTM data to be cut needs to be stored within a list.
 
 ```{r, message=FALSE, warning=FALSE}
 library(datacutr)
@@ -41,7 +41,6 @@ library(lubridate)
 library(stringr)
 library(purrr)
 
-source(here::here("inst/templates/dummy_data.R"))
 source_data <- list(ds = ds, dm = dm, ae = ae, sc = sc, lb = lb, fa = fa, ts = ts)
 ```
 

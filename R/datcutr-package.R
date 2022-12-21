@@ -9,5 +9,4 @@
 #' filter_if quo_c
 #' @importFrom assertthat assert_that
 #' @importFrom tibble tribble
-#' @importFrom here here
 "_PACKAGE"

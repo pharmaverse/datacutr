@@ -2,8 +2,6 @@
 
 # Creating data to be cut ------------------------------------------------
 
-library(here)
-source(here("inst/templates/dummy_data.R"))
 source_data <- list(ds = ds, dm = dm, ae = ae, sc = sc, lb = lb, fa = fa, ts = ts)
 
 

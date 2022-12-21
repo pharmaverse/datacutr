@@ -49,7 +49,7 @@ fa <- tibble::tribble(
   "AB12345-005", 5, "2022-12-01", "",
 )
 ts <- tibble::tribble(
-  ~USUBJID, ~TSORRES,
+  ~USUBJID, ~TSVAL,
   "AB12345-001", 1,
   "AB12345-002", 2,
   "AB12345-003", 3,
