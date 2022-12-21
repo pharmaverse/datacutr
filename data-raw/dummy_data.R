@@ -1,4 +1,4 @@
-# Creating dummy data to be cut
+# Creating dummy data to be cut ------------------------------------------------
 
 ds <- tibble::tribble(
   ~USUBJID,     ~DSDECOD,       ~DSSTDTC,
@@ -11,9 +11,9 @@ ds <- tibble::tribble(
 dm <- tibble::tribble(
   ~USUBJID, ~DTHFL, ~DTHDTC,
   "AB12345-001", "Y", "2022-06-01",
-  "AB12345-002", NA, NA,
+  "AB12345-002", "", "",
   "AB12345-003", "Y", "2022-07-01",
-  "AB12345-004", NA, NA,
+  "AB12345-004", "", "",
   "AB12345-005", "Y", "2022-12-01",
 )
 ae <- tibble::tribble(
@@ -42,17 +42,27 @@ lb <- tibble::tribble(
 )
 fa <- tibble::tribble(
   ~USUBJID, ~FAORRES, ~FADTC, ~FASTDTC,
-  "AB12345-001", 1, "2022-06-01", NA,
-  "AB12345-002", 2, NA, "2022-06-30",
-  "AB12345-003", 3, "2022-07-01", NA,
-  "AB12345-004", 4, NA, "2022-05-04",
-  "AB12345-005", 5, "2022-12-01", NA,
+  "AB12345-001", 1, "2022-06-01", "",
+  "AB12345-002", 2, "", "2022-06-30",
+  "AB12345-003", 3, "2022-07-01", "",
+  "AB12345-004", 4, "", "2022-05-04",
+  "AB12345-005", 5, "2022-12-01", "",
 )
 ts <- tibble::tribble(
-  ~USUBJID, ~TSORRES,
+  ~USUBJID, ~TSVAL,
   "AB12345-001", 1,
   "AB12345-002", 2,
   "AB12345-003", 3,
   "AB12345-004", 4,
   "AB12345-005", 5,
 )
+
+# Save data as rda files in /data folder ---------------------------------------
+
+usethis::use_data(ds, overwrite = TRUE)
+usethis::use_data(dm, overwrite = TRUE)
+usethis::use_data(ae, overwrite = TRUE)
+usethis::use_data(sc, overwrite = TRUE)
+usethis::use_data(lb, overwrite = TRUE)
+usethis::use_data(fa, overwrite = TRUE)
+usethis::use_data(ts, overwrite = TRUE)

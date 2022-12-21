@@ -12,16 +12,19 @@ repo:
     user: https://github.com/
 news:
   cran_dates: false
+
 reference:
 - title: Derivations
-  desc: Derivations add one or more variables or parameters to the input
-        dataset and return the extended dataset.
 - contents:
   - has_keyword('derive')
 
 - title: User Utilities
 - contents:
   - has_keyword("user_utility")
+
+- title: Data
+- contents:
+  - has_keyword("data")
 
 navbar:
   structure:
