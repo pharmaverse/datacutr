@@ -49,3 +49,8 @@ navbar:
         href: articles/modular.html
       - text: Applying a Variable Date Cut
         href: articles/variable_cut.html
+      - text: Example Wrapped Approach
+        href: articles/examplewrapped.html
+      - text: Example Modular Approach
+        href: articles/examplemodular.html
+
