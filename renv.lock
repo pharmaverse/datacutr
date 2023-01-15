@@ -65,13 +65,6 @@
       "Repository": "CRAN",
       "Hash": "f3ca785924863b0e4c8cb23b6a5c75a1"
     },
-    "admiraldev": {
-      "Package": "admiraldev",
-      "Version": "0.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "d4ea0e3868e03819b2d3f8aef44729c0"
-    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.1",
@@ -309,13 +302,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "b8bb7aaf248e45bac08ebed86f3a0aa4"
-    },
-    "here": {
-      "Package": "here",
-      "Version": "1.0.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "24b224366f9c2e7534d2344d10d59211"
     },
     "highr": {
       "Package": "highr",
