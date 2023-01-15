@@ -34,7 +34,7 @@ This article describes how to cut study SDTM data using a modular approach to en
 
 ## Read in Data {#readdata}
 
-To start, all SDTM data to be cut needs to be read into the environment. These should be stored in a list.
+To start, all SDTM data to be cut needs to be stored in a list.
 
 ```{r, message=FALSE, warning=FALSE}
 library(datacutr)
@@ -44,7 +44,6 @@ library(lubridate)
 library(stringr)
 library(purrr)
 
-source(here::here("inst/templates/dummy_data.R"))
 source_data <- list(ds = ds, dm = dm, ae = ae, sc = sc, lb = lb, fa = fa, ts = ts)
 ```
 
