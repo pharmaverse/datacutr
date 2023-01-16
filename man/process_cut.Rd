@@ -34,14 +34,14 @@ to carry out the date cut for each SDTMv domain.}
 Note that, if TRUE, there is no need to specify dm in patient_cut_v, date_cut_m or no_cut_v}
 }
 \value{
-Returns a list of all input SDTMv datasets, plus the dataset_cut dataset, after performing the
-selected datacut on each SDTMv domain.
+Returns a list of all input SDTMv datasets, plus the dataset_cut dataset, after
+performing the selected datacut on each SDTMv domain.
 }
 \description{
 Applies the selected type of datacut on each SDTMv dataset based on the chosen
-SDTMv date variable, and outputs the resulting cut datasets as a list. It also provides an option to
-perform a "special" cut on the demography (dm) domain in which any deaths occurring after the
-datacut date are removed.
+SDTMv date variable, and outputs the resulting cut datasets as a list. It also provides an
+option to perform a "special" cut on the demography (dm) domain in which any deaths occurring
+after the datacut date are removed.
 }
 \examples{
 dcut <- data.frame(
@@ -62,7 +62,7 @@ dm <- data.frame(
 )
 source_data <- list(sc = sc, ae = ae, dm = dm, ts = ts)
 
-cut_data <-process_cut(
+cut_data <- process_cut(
   source_sdtm_data = source_data,
   patient_cut_v = c("sc"),
   date_cut_m = rbind(c("ae", "AESTDTC")),
@@ -71,5 +71,6 @@ cut_data <-process_cut(
   cut_var = DCUTDTM,
   special_dm = TRUE
 )
+
 }
 \keyword{derive}

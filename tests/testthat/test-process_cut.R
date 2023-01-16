@@ -15,7 +15,7 @@ dcut <- tibble::tribble(
 # Expected final data --------- ------------------------------------------------
 
 ds_cut <- tibble::tribble(
-  ~USUBJID,     ~DSDECOD,       ~DSSTDTC,
+  ~USUBJID, ~DSDECOD, ~DSSTDTC,
   "AB12345-001", "RANDOMIZATION", "2022-06-01",
   "AB12345-002", "RANDOMIZATION", "2022-06-02",
   "AB12345-003", "RANDOMIZATION", "2022-06-03",
@@ -55,10 +55,12 @@ ts_cut <- tibble::tribble(
 )
 
 # Store all expected data as a list
-expected <- list(dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
-                 ae = ae_cut, lb = lb_cut, ts = ts_cut)
+expected <- list(
+  dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
+  ae = ae_cut, lb = lb_cut, ts = ts_cut
+)
 
-# Test every type of datacut gives the expected result, when special_dm=TRUE ------------------------
+# Test every type of datacut gives the expected result, when special_dm=TRUE -----------
 
 test_that("Test every type of datacut gives the expected result, when special_dm=TRUE", {
   expect_equal(
@@ -75,10 +77,10 @@ test_that("Test every type of datacut gives the expected result, when special_dm
       special_dm = TRUE
     ),
     expected
-    )
+  )
 })
 
-# Test when a source SDTM dataset is not referenced in any input list  ------------------------------
+# Test when a source SDTM dataset is not referenced in any input list -----------
 
 expect_error(
   process_cut(
@@ -97,7 +99,7 @@ expect_error(
              date_cut_m or no_cut_v"
 )
 
-# Test when an input list includes a source SDTM dataset that does not exist  ------------------------
+# Test when an input list includes a source SDTM dataset that does not exist -----------
 
 expect_error(
   process_cut(
@@ -116,7 +118,7 @@ expect_error(
              date_cut_m or no_cut_v"
 )
 
-# Test when a source SDTM dataset is referenced in more than one input list  ------------------------------
+# Test when a source SDTM dataset is referenced in more than one input list -----------
 
 expect_error(
   process_cut(
@@ -136,7 +138,7 @@ expect_error(
              specify dm in patient_cut_v, date_cut_m or no_cut_v"
 )
 
-# Test when special_dm = TRUE and dm is also referenced in an input list  ------------------------------
+# Test when special_dm = TRUE and dm is also referenced in an input list -----------
 
 expect_error(
   process_cut(
@@ -156,7 +158,7 @@ expect_error(
              specify dm in patient_cut_v, date_cut_m or no_cut_v"
 )
 
-# Test every type of datacut gives the expected result, when special_dm=FALSE ------------------------
+# Test every type of datacut gives the expected result, when special_dm=FALSE -----------
 
 # Remove dm from the source data list and expected data list
 source_data["dm"] <- NULL
@@ -179,5 +181,3 @@ test_that("Test every type of datacut gives the expected result, when special_dm
     expected
   )
 })
-
-

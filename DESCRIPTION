@@ -31,12 +31,10 @@ Suggests:
     testthat,
     knitr,
     methods,
-    miniUI,
     rmarkdown,
     roxygen2,
     spelling,
     styler,
     usethis,
-    covr,
-    DT
+    covr
 VignetteBuilder: knitr
