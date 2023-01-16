@@ -60,7 +60,7 @@ expected <- list(
   ae = ae_cut, lb = lb_cut, ts = ts_cut
 )
 
-# Test every type of datacut gives the expected result, when special_dm=TRUE ------------------------
+# Test every type of datacut gives the expected result, when special_dm=TRUE -----------
 
 test_that("Test every type of datacut gives the expected result, when special_dm=TRUE", {
   expect_equal(
@@ -80,7 +80,7 @@ test_that("Test every type of datacut gives the expected result, when special_dm
   )
 })
 
-# Test when a source SDTM dataset is not referenced in any input list  ------------------------------
+# Test when a source SDTM dataset is not referenced in any input list -----------
 
 expect_error(
   process_cut(
@@ -99,7 +99,7 @@ expect_error(
              date_cut_m or no_cut_v"
 )
 
-# Test when an input list includes a source SDTM dataset that does not exist  ------------------------
+# Test when an input list includes a source SDTM dataset that does not exist -----------
 
 expect_error(
   process_cut(
@@ -118,7 +118,7 @@ expect_error(
              date_cut_m or no_cut_v"
 )
 
-# Test when a source SDTM dataset is referenced in more than one input list  ------------------------------
+# Test when a source SDTM dataset is referenced in more than one input list -----------
 
 expect_error(
   process_cut(
@@ -138,7 +138,7 @@ expect_error(
              specify dm in patient_cut_v, date_cut_m or no_cut_v"
 )
 
-# Test when special_dm = TRUE and dm is also referenced in an input list  ------------------------------
+# Test when special_dm = TRUE and dm is also referenced in an input list -----------
 
 expect_error(
   process_cut(
@@ -158,7 +158,7 @@ expect_error(
              specify dm in patient_cut_v, date_cut_m or no_cut_v"
 )
 
-# Test every type of datacut gives the expected result, when special_dm=FALSE ------------------------
+# Test every type of datacut gives the expected result, when special_dm=FALSE -----------
 
 # Remove dm from the source data list and expected data list
 source_data["dm"] <- NULL
