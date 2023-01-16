@@ -43,7 +43,7 @@
 #' )
 #' source_data <- list(sc = sc, ae = ae, dm = dm, ts = ts)
 #'
-#' cut_data <-process_cut(
+#' cut_data <- process_cut(
 #'   source_sdtm_data = source_data,
 #'   patient_cut_v = c("sc"),
 #'   date_cut_m = rbind(c("ae", "AESTDTC")),
@@ -52,7 +52,7 @@
 #'   cut_var = DCUTDTM,
 #'   special_dm = TRUE
 #' )
-
+#'
 process_cut <- function(source_sdtm_data,
                         patient_cut_v,
                         date_cut_m,
@@ -60,7 +60,6 @@ process_cut <- function(source_sdtm_data,
                         dataset_cut,
                         cut_var,
                         special_dm = TRUE) {
-
   #  Assertions for input parameters -----------------------------------------------
   assert_that(is.list(source_sdtm_data),
     msg = "source_sdtm_data must be a list"

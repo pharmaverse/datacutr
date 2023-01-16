@@ -64,7 +64,7 @@ date_cut <- function(dataset_sdtm,
     mutate(DCUT_TEMP_DCUTDTM = !!cut_var) %>%
     subset(select = c(USUBJID, DCUT_TEMP_DCUTDTM))
 
-  assert_that(is.POSIXt(dcut$DCUT_TEMP_DCUTDTM), msg="cut_var is expected to be of date type POSIXt")
+  assert_that(is.POSIXt(dcut$DCUT_TEMP_DCUTDTM), msg = "cut_var is expected to be of date type POSIXt")
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 

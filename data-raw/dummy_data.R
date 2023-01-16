@@ -1,7 +1,7 @@
 # Creating dummy data to be cut ------------------------------------------------
 
 ds <- tibble::tribble(
-  ~USUBJID,     ~DSDECOD,       ~DSSTDTC,
+  ~USUBJID, ~DSDECOD, ~DSSTDTC,
   "AB12345-001", "RANDOMIZATION", "2022-06-01",
   "AB12345-002", "RANDOMIZATION", "2022-06-02",
   "AB12345-003", "RANDOMIZATION", "2022-06-03",

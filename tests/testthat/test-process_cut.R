@@ -15,7 +15,7 @@ dcut <- tibble::tribble(
 # Expected final data --------- ------------------------------------------------
 
 ds_cut <- tibble::tribble(
-  ~USUBJID,     ~DSDECOD,       ~DSSTDTC,
+  ~USUBJID, ~DSDECOD, ~DSSTDTC,
   "AB12345-001", "RANDOMIZATION", "2022-06-01",
   "AB12345-002", "RANDOMIZATION", "2022-06-02",
   "AB12345-003", "RANDOMIZATION", "2022-06-03",
@@ -55,8 +55,10 @@ ts_cut <- tibble::tribble(
 )
 
 # Store all expected data as a list
-expected <- list(dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
-                 ae = ae_cut, lb = lb_cut, ts = ts_cut)
+expected <- list(
+  dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
+  ae = ae_cut, lb = lb_cut, ts = ts_cut
+)
 
 # Test every type of datacut gives the expected result, when special_dm=TRUE ------------------------
 
@@ -75,7 +77,7 @@ test_that("Test every type of datacut gives the expected result, when special_dm
       special_dm = TRUE
     ),
     expected
-    )
+  )
 })
 
 # Test when a source SDTM dataset is not referenced in any input list  ------------------------------
@@ -179,5 +181,3 @@ test_that("Test every type of datacut gives the expected result, when special_dm
     expected
   )
 })
-
-
