@@ -2,16 +2,14 @@
 input <- data.frame(
   USUBJID = rep(c("U1234567"), 6),
   EXSTDTC = c(
-    "2022-08-10T15:13:30", "2022-08-10T15:13", "2022-08-10T15", "2022-08-10", "2022-08",
-    "2022"
+    "2022-08-10T15:13:30", "2022-08-10T15:13", "2022-08-10T15", "2022-08-10", "2022-08", "2022"
   )
 )
 
 expected <- data.frame(
   USUBJID = rep(c("U1234567"), 6),
   EXSTDTC = c(
-    "2022-08-10T15:13:30", "2022-08-10T15:13", "2022-08-10T15", "2022-08-10", "2022-08",
-    "2022"
+    "2022-08-10T15:13:30", "2022-08-10T15:13", "2022-08-10T15", "2022-08-10", "2022-08", "2022"
   ),
   DCUT_TEMP_EXSTDTC = ymd_hms(c(
     "2022-08-10T15:13:30", "2022-08-10T15:13:00", "2022-08-10T15:00:00", "2022-08-10T00:00:00",
@@ -49,25 +47,28 @@ test_that("Imputation of SDTM variables is working correctly when input variable
 
 ### Test with input dates in incorrect formats ###
 input3 <- data.frame(
-  USUBJID = rep(c("U1234567"), 7),
-  EXSTDTC = c(
-    "2022-08-10T15:13:301", "2022-08-10T15:13:", "2022-08-10T15:", "2022-08-10T",
-    "2022-08-", "2022-", ""
-  )
+  USUBJID = c("U1234567"),
+  EXSTDTC = c("2022-08-10T15:13:30/2022-08-11T15:13:30")
 )
 
-expected3 <- data.frame(
-  USUBJID = rep(c("U1234567"), 7),
-  EXSTDTC = c(
-    "2022-08-10T15:13:301", "2022-08-10T15:13:", "2022-08-10T15:", "2022-08-10T",
-    "2022-08-", "2022-", ""
-  ),
-  DCUT_TEMP_EXSTDTC = ymd_hms(rep(c(""), 7))
+expect_warning(impute_sdtm(dsin = input3, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
+               regexp = "Dataset contains incorrect datetime format:"
 )
 
-test_that("Dates in incorrect format or missing dates are always set to NA", {
-  expect_equal(
-    impute_sdtm(dsin = input3, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
-    expected3
-  )
-})
+input4 <- data.frame(
+  USUBJID = c("U1234567"),
+  EXSTDTC = c("2022-08-10T15:")
+)
+
+expect_warning(impute_sdtm(dsin = input4, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
+               regexp = "Dataset contains incorrect datetime format:"
+)
+
+input5 <- data.frame(
+  USUBJID = c("U1234567"),
+  EXSTDTC = c("2022-08-10T")
+)
+
+expect_warning(impute_sdtm(dsin = input5, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
+               regexp = "Dataset contains incorrect datetime format:"
+)

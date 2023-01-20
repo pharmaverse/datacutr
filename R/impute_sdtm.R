@@ -33,6 +33,11 @@ impute_sdtm <- function(dsin, varin, varout) {
     required_vars = quo_c(varin)
   )
 
+  # Check that varin is in ISO 8601 format
+  dtc <- pull(dsin, !!varin)
+  valid_dtc <- is_valid_dtc(dtc)
+  warn_if_invalid_dtc(dtc, valid_dtc)
+
   # Impute character SDTM dates and convert to datetime object
   out <- dsin %>%
     mutate(TEMP_DTC = case_when(

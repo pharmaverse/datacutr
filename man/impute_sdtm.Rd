@@ -2,23 +2,25 @@
 % Please edit documentation in R/impute_sdtm.R
 \name{impute_sdtm}
 \alias{impute_sdtm}
-\title{Imputes Partial Dates in SDTM Variables}
+\title{Imputes Partial Date/Time SDTMv Variables}
 \usage{
 impute_sdtm(dsin, varin, varout)
 }
 \arguments{
-\item{dsin}{Name of input dataframe}
+\item{dsin}{Name of input SDTMv dataframe}
 
-\item{varin}{Name of input SDTM variable}
+\item{varin}{Name of input SDTMv character date/time variable. Note that this date/time variable must be in ISO 8601
+extended format (YYYY-MM-DDThh:mm:ss) and cannot include "fractions of seconds" or "time zones". Any missing components
+must be represented by right truncation, rather than the use of additional hyphens. Date/time intervals are not accepted.}
 
 \item{varout}{Name of imputed output variable}
 }
 \value{
-Returns the input dataframe, with the additional of one extra variable (varout) which
-is the imputed version of varin.
+Returns the input SDTMv dataframe, with the addition of one extra variable (varout) in POSIXct datetime format,
+which is the imputed version of varin.
 }
 \description{
-Imputes partial dates in SDTM variables as part of the datacut process.
+Imputes partial date/time SDTMv variables, as required by the datacut process.
 }
 \examples{
 ex <- data.frame(
