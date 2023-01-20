@@ -66,4 +66,3 @@ the documentation. They are **not validated** yet.
 # Starting a Script
 
 `{datacutr}` provides a template R scripts as a starting point. See [Modular Approach](https://pharmaverse.github.io/datacutr/articles/modular.html) and [Wrapped Approach](https://pharmaverse.github.io/datacutr/articles/wrapper.html) for more details.  
-See also [Template scripts](https://github.com/pharmaverse/datacutr/tree/main/inst/templates)

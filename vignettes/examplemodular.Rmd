@@ -1,6 +1,39 @@
+---
+title: "Example Modular Approach"
+output: 
+  rmarkdown::html_vignette
+    
+vignette: >
+  %\VignetteIndexEntry{Example Modular Approach}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This article is an example workflow of the modular approach where each section of the cut is explicitly called. 
+
+# Example
+
+
+
+```{r, message=FALSE, warning=FALSE}
 # Name: Datacut Template Code - Modular Approach
 
 # Creating data to be cut ------------------------------------------------
+library(datacutr)
+library(admiraldev)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(purrr)
 
 source_data <- list(ds = ds, dm = dm, ae = ae, sc = sc, lb = lb, fa = fa, ts = ts)
 
@@ -70,11 +103,7 @@ dm_cut <- special_dm_cut(
 )
 
 
-# Apply the cut and create the RMD report --------------------------------
-
-# Produce markdown report of what records will be dropped from each SDTM domain
-# FUNCTION_MARKDOWN(dataset_sdtm_list,
-#                   report_name)
+# Apply the cut --------------------------------
 
 cut_data <- purrr::map(
   c(patient_cut_data, date_cut_data, list(dm = dm_cut)),
@@ -87,3 +116,5 @@ cut_data <- purrr::map(
 final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
 
 list2env(final_data, envir = globalenv())
+
+```
