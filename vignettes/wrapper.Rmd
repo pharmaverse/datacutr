@@ -50,7 +50,7 @@ The next step is to create the DCUT dataset containing the datacut date and desc
 
 ```{r, message=FALSE, warning=FALSE}
 dcut <- create_dcut(
-  dataset_ds = ds,
+  dataset_ds = source_data$ds,
   ds_date_var = DSSTDTC,
   filter = DSDECOD == "RANDOMIZATION",
   cut_date = "2022-06-04",
