@@ -1,4 +1,4 @@
-#' ds
+#' Disposition SDTMv Dataset
 #'
 #' An example Disposition (DS) SDTMv domain.
 #'
@@ -9,9 +9,9 @@
 #'   \item{DSSTDTC}{Start Date/Time of Disposition Event}
 #' }
 #' @keywords data
-"ds"
+"datacutr_ds"
 
-#' dm
+#' Demographics SDTMv Dataset
 #'
 #' An example Demographics (DM) SDTMv domain.
 #'
@@ -22,9 +22,9 @@
 #'   \item{DTHDTC}{Date/Time of Death}
 #' }
 #' @keywords data
-"dm"
+"datacutr_dm"
 
-#' ae
+#' Adverse Events SDTMv Dataset
 #'
 #' An example Adverse Events (AE) SDTMv domain.
 #'
@@ -35,9 +35,9 @@
 #'   \item{AESTDTC}{Start Date/Time of Adverse Event}
 #' }
 #' @keywords data
-"ae"
+"datacutr_ae"
 
-#' sc
+#' Subject Characteristics SDTMv Dataset
 #'
 #' An example Subject Characteristics (SC) SDTMv domain.
 #'
@@ -47,9 +47,9 @@
 #'   \item{SCORRES}{Result or Finding in Original Units}
 #' }
 #' @keywords data
-"sc"
+"datacutr_sc"
 
-#' lb
+#' Laboratory Test Results SDTMv Dataset
 #'
 #' An example Laboratory Test Results (LB) SDTMv domain.
 #'
@@ -60,9 +60,9 @@
 #'   \item{LBDTC}{Date/Time of Specimen Collection}
 #' }
 #' @keywords data
-"lb"
+"datacutr_lb"
 
-#' fa
+#' Findings About Events or Interventions SDTMv Dataset
 #'
 #' An example Findings About Events or Interventions (FA) SDTMv domain.
 #'
@@ -74,9 +74,9 @@
 #'   \item{FASTDTC}{Start Date/Time of Observation}
 #' }
 #' @keywords data
-"fa"
+"datacutr_fa"
 
-#' ts
+#' Trial Summary SDTMv Dataset
 #'
 #' An example Trial Summary (TS) SDTMv domain.
 #'
@@ -86,4 +86,4 @@
 #'   \item{TSVAL}{Parameter Value}
 #' }
 #' @keywords data
-"ts"
+"datacutr_ts"
