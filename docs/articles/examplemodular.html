@@ -120,15 +120,13 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span>
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/Deprecated.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"inst/templates/dummy_data.R"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">source_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ds <span class="op">=</span> <span class="va">ds</span>, dm <span class="op">=</span> <span class="va">dm</span>, ae <span class="op">=</span> <span class="va">ae</span>, sc <span class="op">=</span> <span class="va">sc</span>, lb <span class="op">=</span> <span class="va">lb</span>, fa <span class="op">=</span> <span class="va">fa</span>, ts <span class="op">=</span> <span class="va">ts</span><span class="op">)</span>
+<span class="va">source_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ds <span class="op">=</span> <span class="va">datacutr_ds</span>, dm <span class="op">=</span> <span class="va">datacutr_dm</span>, ae <span class="op">=</span> <span class="va">datacutr_ae</span>, sc <span class="op">=</span> <span class="va">datacutr_sc</span>, lb <span class="op">=</span> <span class="va">datacutr_lb</span>, fa <span class="op">=</span> <span class="va">datacutr_fa</span>, ts <span class="op">=</span> <span class="va">datacutr_ts</span><span class="op">)</span>
 
 
 <span class="co"># Create DCUT ------------------------------------------------------------</span>
 
 <span class="va">dcut</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_dcut.html">create_dcut</a></span><span class="op">(</span>
-  dataset_ds <span class="op">=</span> <span class="va">ds</span>,
+  dataset_ds <span class="op">=</span> <span class="va">source_data</span><span class="op">$</span><span class="va">ds</span>,
   ds_date_var <span class="op">=</span> <span class="va">DSSTDTC</span>,
   filter <span class="op">=</span> <span class="va">DSDECOD</span> <span class="op">==</span> <span class="st">"RANDOMIZATION"</span>,
   cut_date <span class="op">=</span> <span class="st">"2022-06-04"</span>,
