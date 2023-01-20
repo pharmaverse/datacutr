@@ -43,9 +43,6 @@
     <loc>/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>/reference/ae.html</loc>
-  </url>
-  <url>
     <loc>/reference/apply_cut.html</loc>
   </url>
   <url>
@@ -55,19 +52,31 @@
     <loc>/reference/datacutr-package.html</loc>
   </url>
   <url>
+    <loc>/reference/datacutr_ae.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_dm.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_ds.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_fa.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_lb.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_sc.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_ts.html</loc>
+  </url>
+  <url>
     <loc>/reference/date_cut.html</loc>
   </url>
   <url>
-    <loc>/reference/dm.html</loc>
-  </url>
-  <url>
     <loc>/reference/drop_temp_vars.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ds.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fa.html</loc>
   </url>
   <url>
     <loc>/reference/impute_dcutdtc.html</loc>
@@ -79,21 +88,12 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/lb.html</loc>
-  </url>
-  <url>
     <loc>/reference/process_cut.html</loc>
   </url>
   <url>
     <loc>/reference/pt_cut.html</loc>
   </url>
   <url>
-    <loc>/reference/sc.html</loc>
-  </url>
-  <url>
     <loc>/reference/special_dm_cut.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ts.html</loc>
   </url>
 </urlset>
