@@ -9,9 +9,8 @@ impute_sdtm(dsin, varin, varout)
 \arguments{
 \item{dsin}{Name of input SDTMv dataframe}
 
-\item{varin}{Name of input SDTMv character date/time variable. Note that this date/time variable must be in ISO 8601
-extended format (YYYY-MM-DDThh:mm:ss) and cannot include "fractions of seconds" or "time zones". Any missing components
-must be represented by right truncation, rather than the use of additional hyphens. Date/time intervals are not accepted.}
+\item{varin}{Name of input SDTMv character date/time variable, which must be in ISO 8601 extended format
+(YYYY-MM-DDThh:mm:ss). The use of date/time intervals are not permitted.}
 
 \item{varout}{Name of imputed output variable}
 }
@@ -24,9 +23,11 @@ Imputes partial date/time SDTMv variables, as required by the datacut process.
 }
 \examples{
 ex <- data.frame(
-  USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
-  EXSTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30")
+  USUBJID = rep(c("UXYZ123a"), 13),
+  EXSTDTC = c("", "2022", "2022-06", "2022-06-23", "2022-06-23T16", "2022-06-23T16:57",
+              "2022-06-23T16:57:30", "2022-06-23T16:57:30.123", "2022-06-23T16:-:30",
+              "2022-06-23T-:57:30", "2022-06--T16:57:30", "2022---23T16:57:30", "--06-23T16:57:30")
 )
-temp_ex <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
+ex_imputed <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
 }
 \keyword{derive}

@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @importFrom dplyr case_when filter mutate select starts_with inner_join anti_join vars left_join
-#' syms pull
+#' syms pull if_else
 #' @importFrom magrittr %>%
 #' @importFrom rlang := enquo quo_name !! is_quosure quo_is_null as_quosures
 #' @importFrom purrr map_lgl pmap map
@@ -9,4 +9,5 @@
 #' filter_if quo_c is_valid_dtc warn_if_invalid_dtc
 #' @importFrom assertthat assert_that
 #' @importFrom tibble tribble
+#' @importFrom stringr str_match str_detect
 "_PACKAGE"
