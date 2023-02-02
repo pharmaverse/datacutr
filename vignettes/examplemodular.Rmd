@@ -116,5 +116,4 @@ cut_data <- purrr::map(
 final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
 
 list2env(final_data, envir = globalenv())
-
 ```
