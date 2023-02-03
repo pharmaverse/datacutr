@@ -1,7 +1,9 @@
 # Store all input data as a list -----------------------------------------------
 
-source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc,
-                    lb = datacutr_lb, ts = datacutr_ts)
+source_data <- list(
+  ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc,
+  lb = datacutr_lb, ts = datacutr_ts
+)
 
 # Create dcut dataset ----------------------------------------------------------
 
