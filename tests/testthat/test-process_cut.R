@@ -82,6 +82,8 @@ test_that("Test every type of datacut gives the expected result, when special_dm
 
 # Test when a source SDTM dataset is not referenced in any input list -----------
 
+test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v", {
 expect_error(
   process_cut(
     source_sdtm_data = source_data,
@@ -98,9 +100,12 @@ expect_error(
   regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
              date_cut_m or no_cut_v"
 )
+             })
 
 # Test when an input list includes a source SDTM dataset that does not exist -----------
 
+test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v", {
 expect_error(
   process_cut(
     source_sdtm_data = source_data,
@@ -117,9 +122,12 @@ expect_error(
   regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
              date_cut_m or no_cut_v"
 )
+             })
 
 # Test when a source SDTM dataset is referenced in more than one input list -----------
 
+test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v", {
 expect_error(
   process_cut(
     source_sdtm_data = source_data,
@@ -137,9 +145,12 @@ expect_error(
              date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
              specify dm in patient_cut_v, date_cut_m or no_cut_v"
 )
+             })
 
 # Test when special_dm = TRUE and dm is also referenced in an input list -----------
 
+test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
+             date_cut_m or no_cut_v", {
 expect_error(
   process_cut(
     source_sdtm_data = source_data,
@@ -157,6 +168,7 @@ expect_error(
              date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
              specify dm in patient_cut_v, date_cut_m or no_cut_v"
 )
+             })
 
 # Test every type of datacut gives the expected result, when special_dm=FALSE -----------
 
