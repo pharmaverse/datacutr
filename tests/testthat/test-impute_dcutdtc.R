@@ -50,6 +50,8 @@ input3 <- data.frame(
   )
 )
 
-expect_error(impute_dcutdtc(dsin = input3, varin = DCUTDTC, varout = DCUTDTM),
-  regexp = "The datacut date must be at least a complete date"
-)
+test_that("Tests that datacut date must be at least a complete date", {
+  expect_error(impute_dcutdtc(dsin = input3, varin = DCUTDTC, varout = DCUTDTM),
+    regexp = "The datacut date must be at least a complete date"
+  )
+})
