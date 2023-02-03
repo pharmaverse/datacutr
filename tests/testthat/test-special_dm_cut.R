@@ -40,7 +40,6 @@ dcut <- tibble::tribble(
   mutate(DCUTDTM = ymd_hms(DCUTDTC))
 
 test_that("Tests all expected outcomes", {
-
   testthat::expect_equal(
     special_dm_cut(
       dataset_dm = dm,
@@ -52,10 +51,12 @@ test_that("Tests all expected outcomes", {
 })
 
 test_that("Error thrown if cut_var is not a POSIXt input", {
-  expect_error(special_dm_cut(dataset_dm = dm,
-                            dataset_cut = dcut,
-                            cut_var = DCUTDTC
-                            ),
-             regexp = "cut_var is expected to be of date type POSIXt"
-)
+  expect_error(
+    special_dm_cut(
+      dataset_dm = dm,
+      dataset_cut = dcut,
+      cut_var = DCUTDTC
+    ),
+    regexp = "cut_var is expected to be of date type POSIXt"
+  )
 })
