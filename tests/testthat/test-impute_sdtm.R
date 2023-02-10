@@ -24,7 +24,7 @@ input1 <- input %>%
 expected1 <- expected %>%
   mutate(EXSTDTC = as.factor(EXSTDTC))
 
-test_that("Imputation of SDTM date/time variables is working correctly when input variable is factor and
+test_that("Test that imputation of SDTM date/time variables is working correctly when input variable is factor and
           date/times are in ISO 8601 format", {
   expect_equal(
     impute_sdtm(dsin = input1, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
@@ -38,7 +38,7 @@ input2 <- input %>%
 expected2 <- expected %>%
   mutate(EXSTDTC = as.character(EXSTDTC))
 
-test_that("Imputation of SDTM date/time variables is working correctly when input variable is character and
+test_that("Test that imputation of SDTM date/time variables is working correctly when input variable is character and
           date/times are in ISO 8601 format", {
   expect_equal(
     impute_sdtm(dsin = input2, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
@@ -52,24 +52,30 @@ input3 <- data.frame(
   EXSTDTC = c("2022-08-10T15:13:30/2022-08-11T15:13:30")
 )
 
-expect_error(impute_sdtm(dsin = input3, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
+test_that("Test that impute_sdtm function errors when varin contains interval dates", {
+  expect_error(impute_sdtm(dsin = input3, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
                regexp = "The varin variable contains datetimes in the incorrect format"
-)
+  )
+})
 
 input4 <- data.frame(
   USUBJID = c("U1234567"),
   EXSTDTC = c("2022-08-10T15:")
 )
 
-expect_error(impute_sdtm(dsin = input4, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
+test_that("Test that impute_sdtm function errors when varin contains dates in incorrect format (not ISO 8601)", {
+  expect_error(impute_sdtm(dsin = input4, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
                regexp = "The varin variable contains datetimes in the incorrect format"
-)
+  )
+})
 
 input5 <- data.frame(
   USUBJID = c("U1234567"),
   EXSTDTC = c("2022-08-10T")
 )
 
-expect_error(impute_sdtm(dsin = input5, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
+test_that("Test that impute_sdtm function errors when varin contains dates in incorrect format (not ISO 8601)", {
+  expect_error(impute_sdtm(dsin = input5, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
                regexp = "The varin variable contains datetimes in the incorrect format"
-)
+  )
+})
