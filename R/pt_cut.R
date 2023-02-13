@@ -1,13 +1,14 @@
 #' Patient Cut
 #'
-#' Use to apply a datacut a patient cut to an SDTMv dataset
+#' Use to apply a patient cut to an SDTMv dataset (i.e. subset SDTMv observations on patients
+#' included in the dataset_cut input dataset)
 #'
 #' @param dataset_sdtm Input SDTMv dataset
 #' @param dataset_cut Input datacut dataset, e.g. dcut
 #'
 #' @author Alana Harris
 #'
-#' @return Input dataset plus a flag `TEMP_DCUT_REMOVE` to indicate which observations would be
+#' @return Input dataset plus a flag `DCUT_TEMP_REMOVE` to indicate which observations would be
 #' dropped when a patient level datacut is applied
 #'
 #' @export
@@ -61,7 +62,7 @@ pt_cut <- function(dataset_sdtm,
 
   # Flag records to be removed - patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), "Y", NA))
+    mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), "Y", NA_character_))
 
   dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
 
