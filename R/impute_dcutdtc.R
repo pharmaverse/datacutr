@@ -4,7 +4,7 @@
 #'
 #' @param dsin Name of input data cut dataframe (i.e; DCUT)
 #' @param varin Name of input data cutoff variable (i.e; DCUTDTC) which must be in ISO 8601 extended format
-#' (YYYY-MM-DDThh:mm:ss).
+#' (YYYY-MM-DDThh:mm:ss). All values of the data cutoff variable must be at least a complete date.
 #' @param varout Name of imputed output variable
 #'
 #' @return Returns the input data cut dataframe, with the additional of one extra variable (varout) in POSIXct datetime format,
@@ -16,10 +16,9 @@
 #'
 #' @examples
 #' dcut <- data.frame(
-#'   USUBJID = rep(c("UXYZ123a"), 13),
-#'   DCUTDTC = c("", "2022", "2022-06", "2022-06-23", "2022-06-23T16", "2022-06-23T16:57",
-#'               "2022-06-23T16:57:30", "2022-06-23T16:57:30.123", "2022-06-23T16:-:30",
-#'               "2022-06-23T-:57:30", "2022-06--T16:57:30", "2022---23T16:57:30", "--06-23T16:57:30")
+#'   USUBJID = rep(c("UXYZ123a"), 7),
+#'   DCUTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30",
+#'               "2022-06-23T16:57:30.123", "2022-06-23T16:-:30", "2022-06-23T-:57:30")
 #' )
 #' dcut_final <- impute_dcutdtc(dsin = dcut, varin = DCUTDTC, varout = DCUTDTM)
 
@@ -89,7 +88,7 @@ impute_dcutdtc <- function(dsin, varin, varout) {
 
   # Assertion to check that all DCUTDTC values are at least a complete date
   assert_that(all(!str_detect(imputed_dtc_1, "XYZ")),
-              msg = "The data cutoff variable must be at least a complete date"
+              msg = "All values of the data cutoff variable must be at least a complete date"
   )
 
   # Remove fractional seconds from the datetime
@@ -104,19 +103,3 @@ impute_dcutdtc <- function(dsin, varin, varout) {
 
   return(out_final)
 }
-
-dcut <- data.frame(
-  USUBJID = rep(c("UXYZ123a"), 13),
-  DCUTDTC = c("", "2022", "2022-06", "2022-06-23", "2022-06-23T16", "2022-06-23T16:57",
-              "2022-06-23T16:57:30", "2022-06-23T16:57:30.123", "2022-06-23T16:-:30",
-              "2022-06-23T-:57:30", "2022-06--T16:57:30", "2022---23T16:57:30", "--06-23T16:57:30")
-)
-dcut_final <- impute_dcutdtc(dsin = dcut, varin = DCUTDTC, varout = DCUTDTM)
-
-dcut <- data.frame(
-  USUBJID = rep(c("UXYZ123a"), 7),
-  DCUTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57",
-              "2022-06-23T16:57:30", "2022-06-23T16:57:30.123", "2022-06-23T16:-:30",
-              "2022-06-23T-:57:30")
-)
-dcut_final <- impute_dcutdtc(dsin = dcut, varin = DCUTDTC, varout = DCUTDTM)
