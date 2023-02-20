@@ -36,7 +36,8 @@ vignettes/*.pdf
 *.knit.md
 
 # Web Documentation files
-docs
+/docs/*
+!/docs/pkgdown.yml
 
 # R Environment Variables
 .Renviron
