@@ -40,3 +40,5 @@ vignettes/*.pdf
 admiralext.Rcheck/
 admiralext*.tar.gz
 admiralext*.tgz
+
+docs/
