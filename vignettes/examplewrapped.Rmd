@@ -83,5 +83,4 @@ cut_data <- process_cut(
 # Save cut SDTMs to environment -------------------------------------------
 
 list2env(cut_data, envir = globalenv())
-
 ```
