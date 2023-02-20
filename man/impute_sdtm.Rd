@@ -2,29 +2,32 @@
 % Please edit documentation in R/impute_sdtm.R
 \name{impute_sdtm}
 \alias{impute_sdtm}
-\title{Imputes Partial Dates in SDTM Variables}
+\title{Imputes Partial Date/Time SDTMv Variables}
 \usage{
 impute_sdtm(dsin, varin, varout)
 }
 \arguments{
-\item{dsin}{Name of input dataframe}
+\item{dsin}{Name of input SDTMv dataframe}
 
-\item{varin}{Name of input SDTM variable}
+\item{varin}{Name of input SDTMv character date/time variable, which must be in ISO 8601 extended format
+(YYYY-MM-DDThh:mm:ss). The use of date/time intervals are not permitted.}
 
 \item{varout}{Name of imputed output variable}
 }
 \value{
-Returns the input dataframe, with the additional of one extra variable (varout) which
-is the imputed version of varin.
+Returns the input SDTMv dataframe, with the addition of one extra variable (varout) in POSIXct datetime format,
+which is the imputed version of varin.
 }
 \description{
-Imputes partial dates in SDTM variables as part of the datacut process.
+Imputes partial date/time SDTMv variables, as required by the datacut process.
 }
 \examples{
 ex <- data.frame(
-  USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
-  EXSTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30")
+  USUBJID = rep(c("UXYZ123a"), 13),
+  EXSTDTC = c("", "2022", "2022-06", "2022-06-23", "2022-06-23T16", "2022-06-23T16:57",
+              "2022-06-23T16:57:30", "2022-06-23T16:57:30.123", "2022-06-23T16:-:30",
+              "2022-06-23T-:57:30", "2022-06--T16:57:30", "2022---23T16:57:30", "--06-23T16:57:30")
 )
-temp_ex <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
+ex_imputed <- impute_sdtm(dsin = ex, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC)
 }
 \keyword{derive}

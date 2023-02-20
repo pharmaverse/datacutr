@@ -21,10 +21,10 @@ Imports:
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
     purrr (>= 0.3.3),
+    stringr,
     rlang (>= 0.4.4),
     tibble
 Suggests:
-    stringr,
     devtools,
     lintr,
     pkgdown,

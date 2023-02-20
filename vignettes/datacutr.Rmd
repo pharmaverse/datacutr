@@ -47,14 +47,13 @@ Subjects with randomization date on or before the data cutoff date are included 
 For records involving single dates, the record is included in the data cut if the relevant date is on or before the data cutoff date.  
 For records involving interval dates (start and end dates), the start date is used for comparison. The record is included in the data cut if the start date is on or before the data cutoff date.  
 For records involving both single (--DTC) and interval (--STDTC) dates (eg. Findings About (FA) dataset):  
-If only one date is available (either –DTC or –STDTC), then the cut is applied on this available date. If two dates are available (both –DTC and –STDTC), then the cut is applied to the interval date (--STDTC) only. If neither date is available then the record is included  
-- Missing or Partial Dates  
-The following rule is used to determine whether to include a record with missing or partial date in the data cut.  The motivation is to be as inclusive as possible.  
-A record is included in the data cut except in the following cases:  
-Only year is present and year is after the year of the data cutoff date. (Example: Data cutoff date = 30NOV2012; concomitant medication start date = 2013)  
-Only month and year are present and month-year is after the month-year of the data cutoff date. (Example:
-Data cutoff date = 01DEC2012; AE start date = 2013-01)  
-NOTE: If both start and end dates are collected, the rule is applied to the start date only.  If the start date is missing, the record is included in the data cut.  
+If only one date is available (either –DTC or –STDTC), then the cut is applied on this available date. If two dates are available (both –DTC and –STDTC), then the cut is applied to the interval date (--STDTC) only. If neither date is available then the record is included.  
+- Missing or Partial Date/Times  
+Our motivation here is to be as inclusive as possible.  
+We expect the data cutoff date/time to have at least a complete date. If the time is missing, then we impute to the maximum possible time, i.e; we impute with 23 for missing hours, 59 for missing minutes, and 59 for missing seconds.  
+Any SDTMv records where the chosen SDTMv date/time variable is missing (or is missing the year component) are included in the data cut.  
+All other partial date/times are imputed to the minimum possible date/time, i.e; we impute with 01 for missing month, 01 for missing day, 00 for missing hours, 00 for missing minutes, and 00 for missing seconds.  
+By imputing any missing components of the data cutoff date/time to their maximum possible value and any missing components of the SDTMv date/time variable to their minimum possible value, we ensure that a record is only cut if it is clear that the SDTMv date/time variable is after the data cutoff date/time.  
 - Handling of Deaths  
 For deaths, the derived DM death information is updated to reflect the state at the time of the data cutoff date. The Death Flag (DM.DTHFL) and associated variables (e.g., DM.DTHDT) are set to missing if the subject died after the data cutoff date.
 
