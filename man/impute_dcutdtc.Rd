@@ -2,28 +2,30 @@
 % Please edit documentation in R/impute_dcutdtc.R
 \name{impute_dcutdtc}
 \alias{impute_dcutdtc}
-\title{Imputes Partial Dates in DCUTDTC}
+\title{Imputes Partial Date/Time Data Cutoff Variable (DCUTDTC)}
 \usage{
 impute_dcutdtc(dsin, varin, varout)
 }
 \arguments{
-\item{dsin}{Name of input dataframe}
+\item{dsin}{Name of input data cut dataframe (i.e; DCUT)}
 
-\item{varin}{Name of input datacut date variable}
+\item{varin}{Name of input data cutoff variable (i.e; DCUTDTC) which must be in ISO 8601 extended format
+(YYYY-MM-DDThh:mm:ss). All values of the data cutoff variable must be at least a complete date.}
 
 \item{varout}{Name of imputed output variable}
 }
 \value{
-Returns the input dataframe, with the additional of one extra variable (varout) which
-is the imputed version of varin.
+Returns the input data cut dataframe, with the additional of one extra variable (varout) in POSIXct datetime format,
+which is the imputed version of varin.
 }
 \description{
-Imputes partial dates in DCUTDTC variable, created within the datacut process.
+Imputes partial date/time data cutoff variable (DCUTDTC), as required by the datacut process.
 }
 \examples{
 dcut <- data.frame(
-  USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
-  DCUTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30")
+  USUBJID = rep(c("UXYZ123a"), 7),
+  DCUTDTC = c("2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30",
+              "2022-06-23T16:57:30.123", "2022-06-23T16:-:30", "2022-06-23T-:57:30")
 )
 dcut_final <- impute_dcutdtc(dsin = dcut, varin = DCUTDTC, varout = DCUTDTM)
 }
