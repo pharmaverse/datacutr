@@ -44,7 +44,7 @@ special_dm_cut <- function(dataset_dm,
   cut_var <- assert_symbol(enquo(cut_var))
 
   assert_data_frame(dataset_cut,
-    required_vars = quo_c(vars(USUBJID), cut_var)
+    required_vars = vars(USUBJID, !!cut_var)
   )
 
   attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label

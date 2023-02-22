@@ -81,7 +81,7 @@ process_cut <- function(source_sdtm_data,
   )
   cut_var <- assert_symbol(enquo(cut_var))
   assert_data_frame(dataset_cut,
-    required_vars = quo_c(vars(USUBJID), cut_var)
+    required_vars = vars(USUBJID, !!cut_var)
   )
   assert_that(is.logical(special_dm),
     msg = "special_dm must be either TRUE or FALSE"
@@ -141,7 +141,7 @@ process_cut <- function(source_sdtm_data,
 
   if (special_dm) {
     # Assertions for special dm cut
-    assert_data_frame(source_sdtm_data[["dm"]], required_vars = quo_c(vars(USUBJID)))
+    assert_data_frame(source_sdtm_data[["dm"]], required_vars = vars(USUBJID))
 
     dm_cut <- special_dm_cut(
       dataset_dm = source_sdtm_data[["dm"]],

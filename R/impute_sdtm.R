@@ -32,7 +32,7 @@ impute_sdtm <- function(dsin, varin, varout) {
 
   # Check if dataframe exists and whether required variables exists within them
   assert_data_frame(dsin,
-    required_vars = quo_c(varin)
+    required_vars = vars(!!varin)
   )
 
   # Check that varin is in ISO 8601 format
