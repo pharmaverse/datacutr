@@ -49,7 +49,7 @@ dcut <- create_dcut(
   dataset_ds = source_data$ds,
   ds_date_var = DSSTDTC,
   filter = DSDECOD == "RANDOMIZATION",
-  cut_date = lubridate::today(),
+  cut_date = as.character(lubridate::today()),
   cut_description = "Week 24 Cut"
 )
 ```
