@@ -40,7 +40,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
 
   # Check if dataframe exists and whether required variables exists within them
   assert_data_frame(dsin,
-    required_vars = quo_c(dcutvar)
+    required_vars = vars(!!dcutvar)
   )
 
   # Remove any rows where datacut flagging variable (dcutvar) is "Y"
