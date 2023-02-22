@@ -79,26 +79,29 @@
     <dl><dt>dsin</dt>
 <dd><p>Name of input SDTMv dataframe</p></dd>
 <dt>varin</dt>
-<dd><p>Name of input SDTMv character date/time variable, which must be in ISO 8601 extended format
-(YYYY-MM-DDThh:mm:ss). The use of date/time intervals are not permitted.</p></dd>
+<dd><p>Name of input SDTMv character date/time variable, which must be in ISO 8601
+extended format (YYYY-MM-DDThh:mm:ss). The use of date/time intervals are not permitted.</p></dd>
 <dt>varout</dt>
 <dd><p>Name of imputed output variable</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Returns the input SDTMv dataframe, with the addition of one extra variable (varout) in POSIXct datetime format,
-which is the imputed version of varin.</p>
+    <p>Returns the input SDTMv dataframe, with the addition of one extra variable (varout) in
+POSIXct datetime format, which is the imputed version of varin.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span class="r-in">  USUBJID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"UXYZ123a"</span><span class="op">)</span>, <span class="fl">13</span><span class="op">)</span>,</span>
-<span class="r-in">  EXSTDTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="st">"2022"</span>, <span class="st">"2022-06"</span>, <span class="st">"2022-06-23"</span>, <span class="st">"2022-06-23T16"</span>, <span class="st">"2022-06-23T16:57"</span>,</span>
-<span class="r-in">              <span class="st">"2022-06-23T16:57:30"</span>, <span class="st">"2022-06-23T16:57:30.123"</span>, <span class="st">"2022-06-23T16:-:30"</span>,</span>
-<span class="r-in">              <span class="st">"2022-06-23T-:57:30"</span>, <span class="st">"2022-06--T16:57:30"</span>, <span class="st">"2022---23T16:57:30"</span>, <span class="st">"--06-23T16:57:30"</span><span class="op">)</span></span>
+<span class="r-in">  EXSTDTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span class="r-in">    <span class="st">""</span>, <span class="st">"2022"</span>, <span class="st">"2022-06"</span>, <span class="st">"2022-06-23"</span>, <span class="st">"2022-06-23T16"</span>, <span class="st">"2022-06-23T16:57"</span>,</span>
+<span class="r-in">    <span class="st">"2022-06-23T16:57:30"</span>, <span class="st">"2022-06-23T16:57:30.123"</span>, <span class="st">"2022-06-23T16:-:30"</span>,</span>
+<span class="r-in">    <span class="st">"2022-06-23T-:57:30"</span>, <span class="st">"2022-06--T16:57:30"</span>, <span class="st">"2022---23T16:57:30"</span>, <span class="st">"--06-23T16:57:30"</span></span>
+<span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="va">ex_imputed</span> <span class="op">&lt;-</span> <span class="fu">impute_sdtm</span><span class="op">(</span>dsin <span class="op">=</span> <span class="va">ex</span>, varin <span class="op">=</span> <span class="va">EXSTDTC</span>, varout <span class="op">=</span> <span class="va">DCUT_TEMP_EXSTDTC</span><span class="op">)</span></span>
+<span class="r-in"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
