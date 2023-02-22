@@ -42,7 +42,7 @@ create_dcut <- function(dataset_ds,
                         cut_date,
                         cut_description) {
   assert_data_frame(dataset_ds,
-    required_vars = quo_c(vars(USUBJID))
+    required_vars = vars(USUBJID)
   )
   ds_date_var <- assert_symbol(enquo(ds_date_var))
   filter <- assert_filter_cond(enquo(filter), optional = TRUE)

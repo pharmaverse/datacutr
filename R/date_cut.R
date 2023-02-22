@@ -53,10 +53,10 @@ date_cut <- function(dataset_sdtm,
   sdtm_date_var <- assert_symbol(enquo(sdtm_date_var))
   cut_var <- assert_symbol(enquo(cut_var))
   assert_data_frame(dataset_sdtm,
-    required_vars = quo_c(vars(USUBJID), sdtm_date_var)
+    required_vars = vars(USUBJID, !!sdtm_date_var)
   )
   assert_data_frame(dataset_cut,
-    required_vars = quo_c(vars(USUBJID), cut_var)
+    required_vars = vars(USUBJID, !!cut_var)
   )
 
 
