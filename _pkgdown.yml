@@ -7,7 +7,7 @@ search:
 repo:
   url:
     home: https://github.com/pharmaverse/datacutr
-    source: https://github.com/pharmaverse/datacutr//blob/main/
+    source: https://github.com/pharmaverse/datacutr
     issue: https://github.com/pharmaverse/datacutr/issues/
     user: https://github.com/
 news:
