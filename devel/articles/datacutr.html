@@ -143,11 +143,7 @@ The process applied by the package is the following,</p>
 Subjects with randomization date on or before the data cutoff date are included in the data cut. If a study is not randomized, then the enrolment date should be used instead. For studies where no study drug is administered, and where no randomization or enrolment is performed (e.g., observational studies), a study-specific definition of enrolment date should be provided.<br>
 </li>
 <li>Inclusion of Records for Subjects Included in the Data Cut<br>
-For records involving single dates, the record is included in the data cut if the relevant date is on or before the data cutoff date.<br>
-For records involving interval dates (start and end dates), the start date is used for comparison. The record is included in the data cut if the start date is on or before the data cutoff date.<br>
-For records involving both single (–DTC) and interval (–STDTC) dates (eg. Findings About (FA) dataset):<br>
-If only one date is available (either –DTC or –STDTC), then the cut is applied on this available date. If two dates are available (both –DTC and –STDTC), then the cut is applied to the interval date (–STDTC) only. If neither date is available then the record is included.<br>
-</li>
+For records involving dates, the record is included in the data cut if the relevant date is on or before the data cutoff date. The user selects the date variable for each domain that the cut should be applied to (ie. –STDTC or –DTC). If this is a mix (eg. different sources within FA using either FADTC or FASTDTC) then the expectation is on the user to create a temporary variable to store the correct date per observation. An example is shown in the “Example Wrapped Approach” vignette.</li>
 <li>Missing or Partial Date/Times<br>
 Our motivation here is to be as inclusive as possible.<br>
 We expect the data cutoff date/time to have at least a complete date. If the time is missing, then we impute to the maximum possible time, i.e; we impute with 23 for missing hours, 59 for missing minutes, and 59 for missing seconds.<br>
