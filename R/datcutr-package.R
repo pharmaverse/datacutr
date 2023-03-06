@@ -6,7 +6,7 @@
 #' @importFrom purrr map_lgl pmap map
 #' @importFrom lubridate ymd_hms is.POSIXt
 #' @importFrom admiraldev assert_symbol assert_data_frame assert_character_scalar assert_filter_cond
-#' filter_if quo_c is_valid_dtc warn_if_invalid_dtc
+#' filter_if is_valid_dtc warn_if_invalid_dtc get_duplicates
 #' @importFrom assertthat assert_that
 #' @importFrom tibble tribble
 #' @importFrom stringr str_match str_detect

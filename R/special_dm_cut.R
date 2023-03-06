@@ -46,6 +46,15 @@ special_dm_cut <- function(dataset_dm,
   assert_data_frame(dataset_cut,
     required_vars = vars(USUBJID, !!cut_var)
   )
+  assert_that(
+    (length(get_duplicates(dataset_cut$USUBJID)) == 0),
+    msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
+  )
+  assert_that(
+    (any(is.na(dataset_cut$DCUTDTM)) == FALSE),
+    msg = "At least one patient with missing DCUTDTM in the DCUT
+    (dataset_cut) dataset, please update."
+  )
 
   attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
 

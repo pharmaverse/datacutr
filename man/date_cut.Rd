@@ -23,8 +23,10 @@ dropped when a datacut is applied
 Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from
 the datacut dataset is merged on to the input SDTMv dataset and renamed to \code{TEMP_DCUT_DCUTDTM}.
 A flag \code{TEMP_DCUT_REMOVE} is added to the dataset to indicate the observations that would be
-removed when the cut is applied. Note that this function applies a patient level datacut at the
-same time.
+removed when the cut is applied.
+Note that this function applies a patient level datacut at the same time (using the \code{pt_cut()}
+function), and also imputes dates in the specified SDTMv dataset (using the \code{impute_sdtm()}
+function).
 }
 \examples{
 library(lubridate)
