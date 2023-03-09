@@ -50,11 +50,6 @@ pt_cut <- function(dataset_sdtm,
     (length(get_duplicates(dataset_cut$USUBJID)) == 0),
     msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
   )
-  assert_that(
-    (any(is.na(dataset_cut$DCUTDTM)) == FALSE),
-    msg = "At least one patient with missing DCUTDTM in the DCUT
-    (dataset_cut) dataset, please update."
-  )
 
   dcut <- dataset_cut %>%
     subset(select = c(USUBJID)) %>%

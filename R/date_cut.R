@@ -65,7 +65,7 @@ date_cut <- function(dataset_sdtm,
     msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
   )
   assert_that(
-    (any(is.na(dataset_cut$DCUTDTM)) == FALSE),
+    (any(is.na(mutate(dataset_cut, !!cut_var))) == FALSE),
     msg = "At least one patient with missing DCUTDTM in the DCUT
     (dataset_cut) dataset, please update."
   )
