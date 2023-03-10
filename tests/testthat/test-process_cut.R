@@ -63,9 +63,9 @@ expected <- list(
   ae = ae_cut, lb = lb_cut, ts = ts_cut
 )
 
-# Test every type of datacut gives the expected result, when special_dm=TRUE -----------
+# Test that every type of datacut gives the expected result, when special_dm=TRUE -----------
 
-test_that("Test every type of datacut gives the expected result, when special_dm=TRUE", {
+test_that("Test that every type of datacut gives the expected result, when special_dm=TRUE", {
   expect_equal(
     process_cut(
       source_sdtm_data = source_data,
@@ -83,10 +83,9 @@ test_that("Test every type of datacut gives the expected result, when special_dm
   )
 })
 
-# Test when a source SDTM dataset is not referenced in any input list -----------
+# Test that process_cut() errors when a source SDTM dataset is not referenced in any input list -----------
 
-test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v", {
+test_that("Test that process_cut() errors when a source SDTM dataset is not referenced in any input list", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -100,15 +99,13 @@ test_that("Test every input SDTM dataset must be referenced in exactly one of pa
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v"
+    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets listed under each cut approach."
   )
 })
 
-# Test when an input list includes a source SDTM dataset that does not exist -----------
+# Test that process_cut() errors when an input list includes a source SDTMv dataset that does not exist -----------
 
-test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v", {
+test_that("Test that process_cut() errors when an input list includes a source SDTMv dataset that does not exist in the source SDTMv data", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -122,15 +119,13 @@ test_that("Test every input SDTM dataset must be referenced in exactly one of pa
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v"
+    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets listed under each cut approach."
   )
 })
 
-# Test when a source SDTM dataset is referenced in more than one input list -----------
+# Test that process_cut() errors when a source SDTMv dataset is referenced in more than one input list -----------
 
-test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v", {
+test_that("Test that process_cut() errors when a source SDTMv dataset is referenced in more than one input list", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -144,16 +139,14 @@ test_that("Test every input SDTM dataset must be referenced in exactly one of pa
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
-             specify dm in patient_cut_v, date_cut_m or no_cut_v"
+    regexp = "The number of SDTMv datasets in the source data does not match the number of SDTMv datasets in
+which a cut approach has been defined."
   )
 })
 
-# Test when special_dm = TRUE and dm is also referenced in an input list -----------
+# Test that process_cut() errors when special_dm = TRUE and dm is also referenced in an input list -----------
 
-test_that("Test every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v", {
+test_that("Test that process_cut() errors when special_dm = TRUE and dm is also referenced in an input list", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -167,19 +160,18 @@ test_that("Test every input SDTM dataset must be referenced in exactly one of pa
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
-             specify dm in patient_cut_v, date_cut_m or no_cut_v"
+    regexp = "The number of SDTMv datasets in the source data does not match the number of SDTMv datasets in
+which a cut approach has been defined."
   )
 })
 
-# Test every type of datacut gives the expected result, when special_dm=FALSE -----------
+# Test that every type of datacut gives the expected result, when special_dm=FALSE -----------
 
 # Remove dm from the source data list and expected data list
 source_data["dm"] <- NULL
 expected["dm"] <- NULL
 
-test_that("Test every type of datacut gives the expected result, when special_dm=FALSE", {
+test_that("Test that every type of datacut gives the expected result, when special_dm=FALSE", {
   expect_equal(
     process_cut(
       source_sdtm_data = source_data,
