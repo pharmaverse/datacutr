@@ -1,6 +1,7 @@
 #' Special DM Cut to reset Death variable information past cut date
 #'
-#' Clears death information within DM if death occurred after datacut date
+#' Applies patient cut if patient not in source DCUT, as well as
+#' clearing death information within DM if death occurred after datacut date
 #'
 #' @param dataset_dm Input DM SDTMv dataset
 #' @param dataset_cut Input datacut dataset
@@ -8,7 +9,9 @@
 #'
 #' @author Tim Barnett
 #'
-#' @return A dataset with death information flagged if death occurred after data cut
+#' @return Input dataset plus a flag `DCUT_TEMP_REMOVE` to indicate which observations would be
+#' dropped when a datacut is applied, and a flag `DCUT_TEMP_DTHCHANGE` to indicate which
+#' observations have death occurring after data cut date for clearing
 #'
 #' @export
 #'
