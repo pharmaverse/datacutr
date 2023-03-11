@@ -19,16 +19,11 @@
 #'
 #' @examples
 #'
-#'
-#' library(dplyr)
-#' library(lubridate)
-#'
 #' dcut <- tibble::tribble(
-#'   ~USUBJID, ~DCUTDTC,
-#'   "01-701-1015", "2014-10-20T23:59:59",
-#'   "01-701-1023", "2014-10-20T23:59:59",
-#' ) %>%
-#'   mutate(DCUTDTM = ymd_hms(DCUTDTC))
+#'   ~USUBJID, ~DCUTDTC, ~DCUTDTM,
+#'   "01-701-1015", "2014-10-20T23:59:59", lubridate::ymd_hms("2014-10-20T23:59:59"),
+#'   "01-701-1023", "2014-10-20T23:59:59", lubridate::ymd_hms("2014-10-20T23:59:59")
+#' )
 #'
 #' dm <- tibble::tribble(
 #'   ~USUBJID, ~DTHDTC, ~DTHFL,
