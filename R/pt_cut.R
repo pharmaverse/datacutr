@@ -41,10 +41,10 @@
 pt_cut <- function(dataset_sdtm,
                    dataset_cut) {
   assert_data_frame(dataset_sdtm,
-    required_vars = vars(USUBJID)
+    required_vars = exprs(USUBJID)
   )
   assert_data_frame(dataset_cut,
-    required_vars = vars(USUBJID)
+    required_vars = exprs(USUBJID)
   )
   assert_that(
     (length(get_duplicates(dataset_cut$USUBJID)) == 0),

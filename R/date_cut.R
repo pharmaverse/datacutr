@@ -52,13 +52,13 @@ date_cut <- function(dataset_sdtm,
                      sdtm_date_var,
                      dataset_cut,
                      cut_var) {
-  sdtm_date_var <- assert_symbol(enquo(sdtm_date_var))
-  cut_var <- assert_symbol(enquo(cut_var))
+  sdtm_date_var <- assert_symbol(enexpr(sdtm_date_var))
+  cut_var <- assert_symbol(enexpr(cut_var))
   assert_data_frame(dataset_sdtm,
-    required_vars = vars(USUBJID, !!sdtm_date_var)
+    required_vars = exprs(USUBJID, !!sdtm_date_var)
   )
   assert_data_frame(dataset_cut,
-    required_vars = vars(USUBJID, !!cut_var)
+    required_vars = exprs(USUBJID, !!cut_var)
   )
   assert_that(
     (length(get_duplicates(dataset_cut$USUBJID)) == 0),
@@ -66,7 +66,7 @@ date_cut <- function(dataset_sdtm,
   )
   assert_that(
     (any(is.na(mutate(dataset_cut, !!cut_var))) == FALSE),
-    msg = "At least one patient with missing DCUTDTM in the DCUT
+    msg = "At least one patient with missing datacut date (cut_var) in the DCUT
     (dataset_cut) dataset, please update."
   )
 
