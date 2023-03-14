@@ -42,10 +42,10 @@ create_dcut <- function(dataset_ds,
                         cut_date,
                         cut_description) {
   assert_data_frame(dataset_ds,
-    required_vars = vars(USUBJID)
+    required_vars = exprs(USUBJID)
   )
-  ds_date_var <- assert_symbol(enquo(ds_date_var))
-  filter <- assert_filter_cond(enquo(filter), optional = TRUE)
+  ds_date_var <- assert_symbol(enexpr(ds_date_var))
+  filter <- assert_filter_cond(enexpr(filter), optional = TRUE)
 
   dataset <- dataset_ds %>%
     impute_sdtm(dsin = ., varin = !!ds_date_var, varout = DCUT_TEMP_DATE) %>%
