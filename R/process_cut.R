@@ -79,7 +79,7 @@ date_cut_m empty, in which case a default value of matrix(nrow=0, ncol=2) will b
   assert_that(all(is.vector(no_cut_v), no_cut_v != ""),
     msg = "no_cut_v must be a vector. \n
 Note: If you do not wish to leave any SDTMv domains uncut, then please leave
-no_cut_v empty, in which a case default value of vector() will be used."
+no_cut_v empty, in which case a default value of vector() will be used."
   )
   cut_var <- assert_symbol(enquo(cut_var))
   assert_data_frame(dataset_cut,
