@@ -50,13 +50,6 @@ after the datacut date are removed.'><meta property="og:image" content="/logo.pn
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://pharmaverse.github.io/datacutr/main">main</a>
-<a class="dropdown-item" data-toggle="tooltip" title="" href="https://pharmaverse.github.io/datacutr/devel">devel</a> </div></li>
-<!-- end dropdown for versions -->
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -89,9 +82,9 @@ after the datacut date are removed.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">process_cut</span><span class="op">(</span>
   <span class="va">source_sdtm_data</span>,
-  <span class="va">patient_cut_v</span>,
-  <span class="va">date_cut_m</span>,
-  <span class="va">no_cut_v</span>,
+  patient_cut_v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="op">)</span>,
+  date_cut_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">0</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
+  no_cut_v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="op">)</span>,
   <span class="va">dataset_cut</span>,
   <span class="va">cut_var</span>,
   special_dm <span class="op">=</span> <span class="cn">TRUE</span>
@@ -117,11 +110,11 @@ to carry out the date cut for each SDTMv domain.</p></dd>
 <dd><p>Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM</p></dd>
 <dt>special_dm</dt>
 <dd><p>A logical input indicating whether the "special dm cut" should be performed.
-Note that, if TRUE, there is no need to specify dm in patient_cut_v, date_cut_m or no_cut_v</p></dd>
+Note that, if TRUE, dm should not be included in patient_cut_v, date_cut_m or no_cut_v inputs.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Returns a list of all input SDTMv datasets, plus the dataset_cut dataset, after
+    <p>Returns a list of all input SDTMv datasets, plus the datacut dataset, after
 performing the selected datacut on each SDTMv domain.</p>
     </div>
 
@@ -138,12 +131,7 @@ performing the selected datacut on each SDTMv domain.</p>
 <span class="r-in">  USUBJID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
 <span class="r-in">  AESTDTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-02-16"</span>, <span class="st">"2022-02-18"</span>, <span class="st">"2022-02-16"</span>, <span class="st">"2022-02-16"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  USUBJID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
-<span class="r-in">  DTHDTC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-02-14"</span>, <span class="st">"2022-02-22"</span>, <span class="st">"2022-02-16"</span><span class="op">)</span>,</span>
-<span class="r-in">  DTHFL <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Y"</span>, <span class="st">"Y"</span>, <span class="st">"Y"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">source_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sc <span class="op">=</span> <span class="va">sc</span>, ae <span class="op">=</span> <span class="va">ae</span>, dm <span class="op">=</span> <span class="va">dm</span>, ts <span class="op">=</span> <span class="va">ts</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">source_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sc <span class="op">=</span> <span class="va">sc</span>, ae <span class="op">=</span> <span class="va">ae</span>, ts <span class="op">=</span> <span class="va">ts</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">cut_data</span> <span class="op">&lt;-</span> <span class="fu">process_cut</span><span class="op">(</span></span>
 <span class="r-in">  source_sdtm_data <span class="op">=</span> <span class="va">source_data</span>,</span>
@@ -152,7 +140,7 @@ performing the selected datacut on each SDTMv domain.</p>
 <span class="r-in">  no_cut_v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ts"</span><span class="op">)</span>,</span>
 <span class="r-in">  dataset_cut <span class="op">=</span> <span class="va">dcut</span>,</span>
 <span class="r-in">  cut_var <span class="op">=</span> <span class="va">DCUTDTM</span>,</span>
-<span class="r-in">  special_dm <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span class="r-in">  special_dm <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 </code></pre></div>
