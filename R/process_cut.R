@@ -71,7 +71,7 @@ patient_cut_v empty, in which case a default value of vector() will be used."
   assert_that(all(is.matrix(date_cut_m), date_cut_m != ""),
     msg = "date_cut_m must be a matrix \n
 Note: If you do not wish to use a date cut on any SDTMv domains, then please leave
-date_cut_m empty, in which a case default value of matrix(nrow=0, ncol=2) will be used."
+date_cut_m empty, in which case a default value of matrix(nrow=0, ncol=2) will be used."
   )
   assert_that(ncol(date_cut_m) == 2,
     msg = "date_cut_m must be a matrix with two columns"
