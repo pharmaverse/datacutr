@@ -66,7 +66,7 @@ process_cut <- function(source_sdtm_data,
   assert_that(all(is.vector(patient_cut_v), patient_cut_v != ""),
     msg = "patient_cut_v must be a vector. \n
 Note: If you do not wish to use a patient cut on any SDTMv domains, then please leave
-patient_cut_v empty, in which a case default value of vector() will be used."
+patient_cut_v empty, in which case a default value of vector() will be used."
   )
   assert_that(all(is.matrix(date_cut_m), date_cut_m != ""),
     msg = "date_cut_m must be a matrix \n
