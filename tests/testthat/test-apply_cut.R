@@ -9,7 +9,7 @@ expected1 <- data.frame(USUBJID = c("UXYZ123b", "UXYZ123c"), stringsAsFactors = 
 
 test_that("Test whether records are correctly removed where DCUT_TEMP_REMOVE='Y'", {
   expect_equal(
-    apply_cut(dsin = input1, dcutvar = DCUT_TEMP_REMOVE),
+    apply_cut(dsin = input1, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = NULL),
     expected1
   )
 })
@@ -94,7 +94,7 @@ expected5 <- input5 %>%
 
 test_that("Test when all records have DCUT_TEMP_REMOVE='Y'", {
   expect_equal(
-    apply_cut(dsin = input5, dcutvar = DCUT_TEMP_REMOVE),
+    apply_cut(dsin = input5, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = NULL),
     expected5
   )
 })

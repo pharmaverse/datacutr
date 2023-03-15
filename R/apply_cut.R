@@ -35,12 +35,12 @@
 #' dm_final <- apply_cut(dsin = dm, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
 apply_cut <- function(dsin, dcutvar, dthchangevar) {
   # Handle input values for use in tidyverse
-  dcutvar <- assert_symbol(enquo(dcutvar))
-  dthchangevar <- enquo(dthchangevar)
+  dcutvar <- assert_symbol(enexpr(dcutvar))
+  dthchangevar <- enexpr(dthchangevar)
 
   # Check if dataframe exists and whether required variables exists within them
   assert_data_frame(dsin,
-    required_vars = vars(!!dcutvar)
+    required_vars = exprs(!!dcutvar)
   )
 
   # Remove any rows where datacut flagging variable (dcutvar) is "Y"
@@ -48,7 +48,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
     filter(is.na(!!dcutvar) | !!dcutvar != "Y")
 
   # Overwrite death variables if death change variable (dthchangevar) is "Y"
-  if (any(names(dsin) == quo_name(dthchangevar))) {
+  if (any(names(dsin) == expr_name(dthchangevar))) {
     assert_symbol(dthchangevar)
     if (any(names(dsin) == "DTHFL")) {
       out <- out %>%

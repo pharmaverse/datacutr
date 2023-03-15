@@ -40,6 +40,7 @@ library(dplyr)
 library(lubridate)
 library(stringr)
 library(purrr)
+library(rlang)
 
 source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
 ```
@@ -61,7 +62,7 @@ dcut <- create_dcut(
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   dcut,
-  display_vars = vars(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC)
+  display_vars = exprs(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC)
 )
 ```
 
