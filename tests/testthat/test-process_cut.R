@@ -83,9 +83,11 @@ test_that("Test that every type of datacut gives the expected result, when speci
   )
 })
 
-# Test that process_cut() errors when a source SDTM dataset is not referenced in any input list -----------
+# Test that process_cut() errors when a source SDTM dataset is not referenced
+# in any input list
 
-test_that("Test that process_cut() errors when a source SDTM dataset is not referenced in any input list", {
+test_that("Test that process_cut() errors when a source SDTM dataset is not
+          referenced in any input list", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -99,13 +101,16 @@ test_that("Test that process_cut() errors when a source SDTM dataset is not refe
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets listed under each cut approach."
+    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets
+listed under each cut approach."
   )
 })
 
-# Test that process_cut() errors when an input list includes a source SDTMv dataset that does not exist -----------
+# Test that process_cut() errors when an input list includes a source SDTMv
+# dataset that does not exist
 
-test_that("Test that process_cut() errors when an input list includes a source SDTMv dataset that does not exist in the source SDTMv data", {
+test_that("Test that process_cut() errors when an input list includes a source
+           SDTMv dataset that does not exist in the source SDTMv data", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -119,13 +124,16 @@ test_that("Test that process_cut() errors when an input list includes a source S
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets listed under each cut approach."
+    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets
+listed under each cut approach."
   )
 })
 
-# Test that process_cut() errors when a source SDTMv dataset is referenced in more than one input list -----------
+# Test that process_cut() errors when a source SDTMv dataset is referenced in
+# more than one input list
 
-test_that("Test that process_cut() errors when a source SDTMv dataset is referenced in more than one input list", {
+test_that("Test that process_cut() errors when a source SDTMv dataset is
+          referenced in more than one input list", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -139,14 +147,16 @@ test_that("Test that process_cut() errors when a source SDTMv dataset is referen
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "The number of SDTMv datasets in the source data does not match the number of SDTMv datasets in
-which a cut approach has been defined."
+    regexp = "The number of SDTMv datasets in the source data does not match the
+number of SDTMv datasets in which a cut approach has been defined."
   )
 })
 
-# Test that process_cut() errors when special_dm = TRUE and dm is also referenced in an input list -----------
+# Test that process_cut() errors when special_dm = TRUE and dm is also referenced
+# in an input list
 
-test_that("Test that process_cut() errors when special_dm = TRUE and dm is also referenced in an input list", {
+test_that("Test that process_cut() errors when special_dm = TRUE and dm is also
+          referenced in an input list", {
   expect_error(
     process_cut(
       source_sdtm_data = source_data,
@@ -160,8 +170,8 @@ test_that("Test that process_cut() errors when special_dm = TRUE and dm is also 
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "The number of SDTMv datasets in the source data does not match the number of SDTMv datasets in
-which a cut approach has been defined."
+    regexp = "The number of SDTMv datasets in the source data does not match the
+number of SDTMv datasets in which a cut approach has been defined."
   )
 })
 

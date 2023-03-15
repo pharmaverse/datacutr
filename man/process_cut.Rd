@@ -66,5 +66,6 @@ cut_data <- process_cut(
   cut_var = DCUTDTM,
   special_dm = FALSE
 )
+
 }
 \keyword{derive}

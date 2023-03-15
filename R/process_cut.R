@@ -47,15 +47,14 @@
 #'   cut_var = DCUTDTM,
 #'   special_dm = FALSE
 #' )
-
+#'
 process_cut <- function(source_sdtm_data,
                         patient_cut_v = vector(),
-                        date_cut_m = matrix(nrow=0, ncol=2),
+                        date_cut_m = matrix(nrow = 0, ncol = 2),
                         no_cut_v = vector(),
                         dataset_cut,
                         cut_var,
                         special_dm = TRUE) {
-
   #  Assertions for input parameters -----------------------------------------------
   assert_that(is.list(source_sdtm_data),
     msg = "source_sdtm_data must be a list"
@@ -94,29 +93,30 @@ no_cut_v empty, in which case a default value of vector() will be used."
         patient_cut_v, date_cut_m[, 1], no_cut_v,
         "dm"
       )),
-      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets listed under each cut approach.
-Please check for the two likely issues below... \n
+      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
+listed under each cut approach. Please check for the two likely issues below... \n
 1) There are input SDTMv datasets where no cut method has been defined.
-2) A cut method has been defined for a SDTMv dataset that does not exist in the source SDTMv data."
+2) A cut method has been defined for a SDTMv dataset that does not exist in the
+source SDTMv data."
     )
     assert_that(
       length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")))
       == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")),
-      msg = "The number of SDTMv datasets in the source data does not match the number of SDTMv datasets in
-which a cut approach has been defined."
+      msg = "The number of SDTMv datasets in the source data does not match the
+number of SDTMv datasets in which a cut approach has been defined."
     )
   } else {
     assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets listed under each cut approach.
-Please check for the two likely issues below... \n
+      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
+listed under each cut approach. Please check for the two likely issues below... \n
 1) There are input SDTMv datasets where no cut method has been defined.
 2) A cut method has been defined for a SDTMv dataset that does not exist in the source SDTMv data."
     )
     assert_that(
       length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
       == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "The number of SDTMv datasets in the source data does not match the number of SDTMv datasets in
-which a cut approach has been defined."
+      msg = "The number of SDTMv datasets in the source data does not match the
+number of SDTMv datasets in which a cut approach has been defined."
     )
   }
 
