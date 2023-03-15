@@ -66,12 +66,12 @@ process_cut <- function(source_sdtm_data,
   assert_that(all(is.vector(patient_cut_v), patient_cut_v != ""),
     msg = "patient_cut_v must be a vector. \n
 Note: If you do not wish to use a patient cut on any SDTMv domains, then please leave
-patient_cut_v empty, in which a case default value of vector() will be used."
+patient_cut_v empty, in which case a default value of vector() will be used."
   )
   assert_that(all(is.matrix(date_cut_m), date_cut_m != ""),
     msg = "date_cut_m must be a matrix \n
 Note: If you do not wish to use a date cut on any SDTMv domains, then please leave
-date_cut_m empty, in which a case default value of matrix(nrow=0, ncol=2) will be used."
+date_cut_m empty, in which case a default value of matrix(nrow=0, ncol=2) will be used."
   )
   assert_that(ncol(date_cut_m) == 2,
     msg = "date_cut_m must be a matrix with two columns"
@@ -79,7 +79,7 @@ date_cut_m empty, in which a case default value of matrix(nrow=0, ncol=2) will b
   assert_that(all(is.vector(no_cut_v), no_cut_v != ""),
     msg = "no_cut_v must be a vector. \n
 Note: If you do not wish to leave any SDTMv domains uncut, then please leave
-no_cut_v empty, in which a case default value of vector() will be used."
+no_cut_v empty, in which case a default value of vector() will be used."
   )
   cut_var <- assert_symbol(enexpr(cut_var))
   assert_data_frame(dataset_cut,
