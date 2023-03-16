@@ -1,9 +1,9 @@
 #' Create Datacut Dataset (DCUT)
 #'
 #' @description After filtering the input DS dataset (based on the given filter condition), any
-#' records where the SDTMv date/time variable is on or before the datacut date/time (after imputations)
-#' will be returned in the output datacut dataset (DCUT). Note that `ds_date_var` and
-#' `cut_date` inputs must be in ISO 8601 format (YYYY-MM-DDThh:mm:ss) and will be imputed
+#' records where the SDTMv date/time variable is on or before the datacut date/time (after
+#' imputations) will be returned in the output datacut dataset (DCUT). Note that `ds_date_var`
+#' and `cut_date` inputs must be in ISO 8601 format (YYYY-MM-DDThh:mm:ss) and will be imputed
 #' using the `impute_sdtm()` and `impute_dcutdtc()` functions.
 #'
 #' @param dataset_ds Input DS SDTMv dataset
