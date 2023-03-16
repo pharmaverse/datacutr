@@ -2,27 +2,32 @@
 % Please edit documentation in R/create_dcut.R
 \name{create_dcut}
 \alias{create_dcut}
-\title{Create DCUT dataset}
+\title{Create Datacut Dataset (DCUT)}
 \usage{
 create_dcut(dataset_ds, ds_date_var, filter, cut_date, cut_description)
 }
 \arguments{
 \item{dataset_ds}{Input DS SDTMv dataset}
 
-\item{ds_date_var}{Character date variable in the DS SDTMv to be imputed}
+\item{ds_date_var}{Character date/time variable in the DS SDTMv to be compared against the
+datacut date}
 
 \item{filter}{Condition to filter patients in DS, should give 1 row per patient}
 
-\item{cut_date}{Datacut date, e.g. "2022-10-22"}
+\item{cut_date}{Datacut date/time, e.g. "2022-10-22"}
 
-\item{cut_description}{Datacut date description, e.g. "Clinical Cut Off Date"}
+\item{cut_description}{Datacut date/time description, e.g. "Clinical Cut Off Date"}
 }
 \value{
-Datacut dataset
+Datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDTM} and
+\code{DCUTDESC}.
 }
 \description{
-Use to create a datacut dataset containing the variables \code{USUBJID}, \code{DCUTDTC}, \code{DCUTDTM} and
-\code{DCUTDESC}.
+After filtering the input DS dataset (based on the given filter condition), any
+records where the SDTMv date variable is before the datacut date (after imputations)
+will be returned in the output datacut dataset (DCUT). Note that \code{ds_date_var} and
+\code{cut_date} inputs must be in ISO 860 format (YYYY-MM-DDThh:mm:ss) and will be imputed
+using the \code{impute_sdtm()} and \code{impute_dcutdtc()} functions.
 }
 \examples{
 ds <- tibble::tribble(
