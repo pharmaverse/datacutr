@@ -3,8 +3,10 @@
 #' Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. The datacut date from
 #' the datacut dataset is merged on to the input SDTMv dataset and renamed to `TEMP_DCUT_DCUTDTM`.
 #' A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the observations that would be
-#' removed when the cut is applied. Note that this function applies a patient level datacut at the
-#' same time.
+#' removed when the cut is applied.
+#' Note that this function applies a patient level datacut at the same time (using the `pt_cut()`
+#' function), and also imputes dates in the specified SDTMv dataset (using the `impute_sdtm()`
+#' function).
 #'
 #' @param dataset_sdtm Input SDTMv dataset
 #' @param sdtm_date_var Input date variable found in the `dataset_sdtmv` dataset
@@ -50,13 +52,22 @@ date_cut <- function(dataset_sdtm,
                      sdtm_date_var,
                      dataset_cut,
                      cut_var) {
-  sdtm_date_var <- assert_symbol(enquo(sdtm_date_var))
-  cut_var <- assert_symbol(enquo(cut_var))
+  sdtm_date_var <- assert_symbol(enexpr(sdtm_date_var))
+  cut_var <- assert_symbol(enexpr(cut_var))
   assert_data_frame(dataset_sdtm,
-    required_vars = vars(USUBJID, !!sdtm_date_var)
+    required_vars = exprs(USUBJID, !!sdtm_date_var)
   )
   assert_data_frame(dataset_cut,
-    required_vars = vars(USUBJID, !!cut_var)
+    required_vars = exprs(USUBJID, !!cut_var)
+  )
+  assert_that(
+    (length(get_duplicates(dataset_cut$USUBJID)) == 0),
+    msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
+  )
+  assert_that(
+    (any(is.na(mutate(dataset_cut, !!cut_var))) == FALSE),
+    msg = "At least one patient with missing datacut date (cut_var) in the DCUT
+    (dataset_cut) dataset, please update."
   )
 
 

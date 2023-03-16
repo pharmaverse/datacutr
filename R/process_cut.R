@@ -15,9 +15,9 @@
 #' @param dataset_cut Input datacut dataset, e.g. dcut
 #' @param cut_var Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM
 #' @param special_dm A logical input indicating whether the "special dm cut" should be performed.
-#' Note that, if TRUE, there is no need to specify dm in patient_cut_v, date_cut_m or no_cut_v
+#' Note that, if TRUE, dm should not be included in patient_cut_v, date_cut_m or no_cut_v inputs.
 #'
-#' @return Returns a list of all input SDTMv datasets, plus the dataset_cut dataset, after
+#' @return Returns a list of all input SDTMv datasets, plus the datacut dataset, after
 #' performing the selected datacut on each SDTMv domain.
 #'
 #' @export
@@ -36,12 +36,7 @@
 #'   USUBJID = c("a", "a", "b", "c"),
 #'   AESTDTC = c("2022-02-16", "2022-02-18", "2022-02-16", "2022-02-16")
 #' )
-#' dm <- data.frame(
-#'   USUBJID = c("a", "b", "c"),
-#'   DTHDTC = c("2022-02-14", "2022-02-22", "2022-02-16"),
-#'   DTHFL = c("Y", "Y", "Y")
-#' )
-#' source_data <- list(sc = sc, ae = ae, dm = dm, ts = ts)
+#' source_data <- list(sc = sc, ae = ae, ts = ts)
 #'
 #' cut_data <- process_cut(
 #'   source_sdtm_data = source_data,
@@ -50,13 +45,13 @@
 #'   no_cut_v = c("ts"),
 #'   dataset_cut = dcut,
 #'   cut_var = DCUTDTM,
-#'   special_dm = TRUE
+#'   special_dm = FALSE
 #' )
 #'
 process_cut <- function(source_sdtm_data,
-                        patient_cut_v,
-                        date_cut_m,
-                        no_cut_v,
+                        patient_cut_v = vector(),
+                        date_cut_m = matrix(nrow = 0, ncol = 2),
+                        no_cut_v = vector(),
                         dataset_cut,
                         cut_var,
                         special_dm = TRUE) {
@@ -67,21 +62,27 @@ process_cut <- function(source_sdtm_data,
   assert_that(all(unlist(lapply(source_sdtm_data, is.data.frame))),
     msg = "All elements of the list source_sdtm_data must be a dataframe"
   )
-  assert_that(is.vector(patient_cut_v),
-    msg = "patient_cut_v must be a vector"
+  assert_that(all(is.vector(patient_cut_v), patient_cut_v != ""),
+    msg = "patient_cut_v must be a vector. \n
+Note: If you do not wish to use a patient cut on any SDTMv domains, then please leave
+patient_cut_v empty, in which case a default value of vector() will be used."
   )
-  assert_that(is.matrix(date_cut_m),
-    msg = "date_cut_m must be a matrix"
+  assert_that(all(is.matrix(date_cut_m), date_cut_m != ""),
+    msg = "date_cut_m must be a matrix \n
+Note: If you do not wish to use a date cut on any SDTMv domains, then please leave
+date_cut_m empty, in which case a default value of matrix(nrow=0, ncol=2) will be used."
   )
   assert_that(ncol(date_cut_m) == 2,
     msg = "date_cut_m must be a matrix with two columns"
   )
-  assert_that(is.vector(no_cut_v),
-    msg = "no_cut_v must be a vector"
+  assert_that(all(is.vector(no_cut_v), no_cut_v != ""),
+    msg = "no_cut_v must be a vector. \n
+Note: If you do not wish to leave any SDTMv domains uncut, then please leave
+no_cut_v empty, in which case a default value of vector() will be used."
   )
-  cut_var <- assert_symbol(enquo(cut_var))
+  cut_var <- assert_symbol(enexpr(cut_var))
   assert_data_frame(dataset_cut,
-    required_vars = vars(USUBJID, !!cut_var)
+    required_vars = exprs(USUBJID, !!cut_var)
   )
   assert_that(is.logical(special_dm),
     msg = "special_dm must be either TRUE or FALSE"
@@ -92,26 +93,30 @@ process_cut <- function(source_sdtm_data,
         patient_cut_v, date_cut_m[, 1], no_cut_v,
         "dm"
       )),
-      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v"
+      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
+listed under each cut approach. Please check for the two likely issues below... \n
+1) There are input SDTMv datasets where no cut method has been defined.
+2) A cut method has been defined for a SDTMv dataset that does not exist in the
+source SDTMv data."
     )
     assert_that(
       length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")))
       == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")),
-      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v. Note that, if special_dm=TRUE, there is no need to
-             specify dm in patient_cut_v, date_cut_m or no_cut_v"
+      msg = "The number of SDTMv datasets in the source data does not match the
+number of SDTMv datasets in which a cut approach has been defined."
     )
   } else {
     assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v"
+      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
+listed under each cut approach. Please check for the two likely issues below... \n
+1) There are input SDTMv datasets where no cut method has been defined.
+2) A cut method has been defined for a SDTMv dataset that does not exist in the source SDTMv data."
     )
     assert_that(
       length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
       == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "Every input SDTM dataset must be referenced in exactly one of patient_cut_v,
-             date_cut_m or no_cut_v."
+      msg = "The number of SDTMv datasets in the source data does not match the
+number of SDTMv datasets in which a cut approach has been defined."
     )
   }
 
@@ -141,7 +146,7 @@ process_cut <- function(source_sdtm_data,
 
   if (special_dm) {
     # Assertions for special dm cut
-    assert_data_frame(source_sdtm_data[["dm"]], required_vars = vars(USUBJID))
+    assert_data_frame(source_sdtm_data[["dm"]], required_vars = exprs(USUBJID))
 
     dm_cut <- special_dm_cut(
       dataset_dm = source_sdtm_data[["dm"]],

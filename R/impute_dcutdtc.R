@@ -28,12 +28,12 @@
 #'
 impute_dcutdtc <- function(dsin, varin, varout) {
   # Handle input values for use in tidyverse
-  varin <- assert_symbol(enquo(varin))
-  varout <- quo_name(assert_symbol(enquo(varout)))
+  varin <- assert_symbol(enexpr(varin))
+  varout <- quo_name(assert_symbol(enexpr(varout)))
 
   # Check if dataframe exists and whether required variables exists within them
   assert_data_frame(dsin,
-    required_vars = vars(!!varin)
+    required_vars = exprs(!!varin)
   )
 
   # Check that varin is in ISO 8601 format

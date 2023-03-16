@@ -43,6 +43,7 @@ library(dplyr)
 library(lubridate)
 library(stringr)
 library(purrr)
+library(rlang)
 
 source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
 ```
@@ -64,7 +65,7 @@ dcut <- create_dcut(
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   dcut,
-  display_vars = vars(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC)
+  display_vars = exprs(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC)
 )
 ```
 
@@ -82,7 +83,7 @@ source_data$fa <- source_data$fa %>%
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   source_data$fa,
-  display_vars = vars(USUBJID, FASTDTC, FADTC, DCUT_TEMP_FAXDTC)
+  display_vars = exprs(USUBJID, FASTDTC, FADTC, DCUT_TEMP_FAXDTC)
 )
 ```
 
@@ -112,7 +113,7 @@ This adds on temporary flag variables indicating which observations will be remo
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   patient_cut_data$sc,
-  display_vars = vars(USUBJID, SCORRES, DCUT_TEMP_REMOVE)
+  display_vars = exprs(USUBJID, SCORRES, DCUT_TEMP_REMOVE)
 )
 ```
 
@@ -134,7 +135,7 @@ This again adds on temporary flag variables indicating which observations will b
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   date_cut_data$ae,
-  display_vars = vars(
+  display_vars = exprs(
     USUBJID,
     AETERM,
     AESTDTC,
@@ -159,7 +160,7 @@ This adds on temporary variables indicating any death records that would change 
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   dm_cut,
-  display_vars = vars(
+  display_vars = exprs(
     USUBJID,
     DTHFL,
     DTHDTC,
