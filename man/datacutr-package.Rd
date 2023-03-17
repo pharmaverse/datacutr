@@ -4,14 +4,14 @@
 \name{datacutr-package}
 \alias{datacutr}
 \alias{datacutr-package}
-\title{datacutr: Datacut in R}
+\title{datacutr: SDTM Datacut}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A toolbox for applying a datacut to SDTMv.
+Functions for applying a datacut to SDTM.
 }
 \author{
-\strong{Maintainer}: Tim Barnett \email{timothy.barnett@roche.com}
+\strong{Maintainer}: Tim Barnett \email{timothy.barnett@roche.com} [copyright holder]
 
 Authors:
 \itemize{
