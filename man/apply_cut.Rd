@@ -9,23 +9,24 @@ apply_cut(dsin, dcutvar, dthchangevar)
 \arguments{
 \item{dsin}{Name of input dataframe}
 
-\item{dcutvar}{Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)}
+\item{dcutvar}{Name of datacut flagging variable created by \code{pt_cut} and \code{date_cut} functions -
+usually called DCUT_TEMP_REMOVE.}
 
-\item{dthchangevar}{Name of input death after datacut flagging variable (created by
-special_dm_cut function)}
+\item{dthchangevar}{Name of death after datacut flagging variable created by \code{special_dm_cut}
+function - usually called DCUT_TEMP_DTHCHANGE.}
 }
 \value{
-Returns the input dataframe, excluding any rows in which dcutvar is flagged as "Y".
-DTHDTC and DTHFL are set to missing for any records where dthchangevar is flagged as "Y". Any
+Returns the input dataframe, excluding any rows in which \code{dcutvar} is flagged as "Y".
+DTHDTC and DTHFL are set to missing for any records where \code{dthchangevar} is flagged as "Y". Any
 variables with the "DCUT_TEMP" prefix are removed.
 }
 \description{
-Removes any records where the datacut flagging variable is marked as "Y".
-Also, sets the death variables (DTHDTC and DTHFL) to missing if the death after datacut
-flagging variable is marked as "Y".
+Removes any records where the datacut flagging variable, usually called
+DCUT_TEMP_REMOVE, is marked as "Y". Also, sets the death related variables in DM
+(DTHDTC and DTHFL) to missing if the death after datacut flagging variable, usually
+called DCUT_TEMP_DTHCHANGE, is marked as "Y".
 }
 \examples{
-
 ae <- data.frame(
   USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
   DCUT_TEMP_REMOVE = c("Y", "", "NA", NA)
