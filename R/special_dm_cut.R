@@ -54,7 +54,7 @@ special_dm_cut <- function(dataset_dm,
     (dataset_cut) dataset, please update."
   )
   assert_data_frame(dataset_dm,
-    required_vars = vars(USUBJID, DTHDTC)
+    required_vars = exprs(USUBJID, DTHDTC)
   )
 
   attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
