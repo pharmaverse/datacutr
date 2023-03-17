@@ -33,7 +33,8 @@ left blank if no domains are to remain exactly as source.}
 \item{cut_var}{Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM}
 
 \item{special_dm}{A logical input indicating whether the \verb{special dm cut} should be performed.
-Note that, if TRUE, dm should not be included in \code{patient_cut_v}, \code{date_cut_m} or \code{no_cut_v} inputs.}
+Note that, if TRUE, dm should not be included in \code{patient_cut_v}, \code{date_cut_m} or \code{no_cut_v}
+inputs.}
 }
 \value{
 Returns a list of all input SDTMv datasets, plus the datacut dataset, after
