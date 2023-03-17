@@ -14,23 +14,21 @@ special_dm_cut(dataset_dm, dataset_cut, cut_var = DCUTDTM)
 \item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{DCUTDTM}}
 }
 \value{
-A dataset with death information flagged if death occurred after data cut
+Input dataset plus a flag \code{DCUT_TEMP_REMOVE} to indicate which observations would be
+dropped when a datacut is applied, and a flag \code{DCUT_TEMP_DTHCHANGE} to indicate which
+observations have death occurring after data cut date for clearing
 }
 \description{
-Clears death information within DM if death occurred after datacut date
+Applies patient cut if patient not in source DCUT, as well as
+clearing death information within DM if death occurred after datacut date
 }
 \examples{
 
-
-library(dplyr)
-library(lubridate)
-
 dcut <- tibble::tribble(
-  ~USUBJID, ~DCUTDTC,
-  "01-701-1015", "2014-10-20T23:59:59",
-  "01-701-1023", "2014-10-20T23:59:59",
-) \%>\%
-  mutate(DCUTDTM = ymd_hms(DCUTDTC))
+  ~USUBJID, ~DCUTDTC, ~DCUTDTM,
+  "01-701-1015", "2014-10-20T23:59:59", lubridate::ymd_hms("2014-10-20T23:59:59"),
+  "01-701-1023", "2014-10-20T23:59:59", lubridate::ymd_hms("2014-10-20T23:59:59")
+)
 
 dm <- tibble::tribble(
   ~USUBJID, ~DTHDTC, ~DTHFL,

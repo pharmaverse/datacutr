@@ -1,6 +1,7 @@
 #' Special DM Cut to reset Death variable information past cut date
 #'
-#' Clears death information within DM if death occurred after datacut date
+#' Applies patient cut if patient not in source DCUT, as well as
+#' clearing death information within DM if death occurred after datacut date
 #'
 #' @param dataset_dm Input DM SDTMv dataset
 #' @param dataset_cut Input datacut dataset
@@ -8,7 +9,9 @@
 #'
 #' @author Tim Barnett
 #'
-#' @return A dataset with death information flagged if death occurred after data cut
+#' @return Input dataset plus a flag `DCUT_TEMP_REMOVE` to indicate which observations would be
+#' dropped when a datacut is applied, and a flag `DCUT_TEMP_DTHCHANGE` to indicate which
+#' observations have death occurring after data cut date for clearing
 #'
 #' @export
 #'
@@ -16,16 +19,11 @@
 #'
 #' @examples
 #'
-#'
-#' library(dplyr)
-#' library(lubridate)
-#'
 #' dcut <- tibble::tribble(
-#'   ~USUBJID, ~DCUTDTC,
-#'   "01-701-1015", "2014-10-20T23:59:59",
-#'   "01-701-1023", "2014-10-20T23:59:59",
-#' ) %>%
-#'   mutate(DCUTDTM = ymd_hms(DCUTDTC))
+#'   ~USUBJID, ~DCUTDTC, ~DCUTDTM,
+#'   "01-701-1015", "2014-10-20T23:59:59", lubridate::ymd_hms("2014-10-20T23:59:59"),
+#'   "01-701-1023", "2014-10-20T23:59:59", lubridate::ymd_hms("2014-10-20T23:59:59")
+#' )
 #'
 #' dm <- tibble::tribble(
 #'   ~USUBJID, ~DTHDTC, ~DTHFL,
@@ -54,6 +52,9 @@ special_dm_cut <- function(dataset_dm,
     (any(is.na(mutate(dataset_cut, !!cut_var))) == FALSE),
     msg = "At least one patient with missing datacut date (cut_var) in the DCUT
     (dataset_cut) dataset, please update."
+  )
+  assert_data_frame(dataset_dm,
+    required_vars = exprs(USUBJID, DTHDTC)
   )
 
   attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
