@@ -18,20 +18,22 @@ process_cut(
 \item{source_sdtm_data}{A list of uncut SDTMv dataframes}
 
 \item{patient_cut_v}{A vector of quoted SDTMv domain names in which a patient cut should be
-applied}
+applied. To be left blank if a patient cut should not be performed on any domains.}
 
 \item{date_cut_m}{A 2 column matrix, where the first column is the quoted SDTMv domain names in
 which a date cut should be applied and the second column is the quoted SDTMv date variables used
-to carry out the date cut for each SDTMv domain.}
+to carry out the date cut for each SDTMv domain. To be left blank if a date cut should not be
+performed on any domains.}
 
-\item{no_cut_v}{A vector of quoted SDTMv domain names in which no cut should be applied}
+\item{no_cut_v}{A vector of quoted SDTMv domain names in which no cut should be applied. To be
+left blank if no domains are to remain exactly as source.}
 
 \item{dataset_cut}{Input datacut dataset, e.g. dcut}
 
 \item{cut_var}{Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM}
 
-\item{special_dm}{A logical input indicating whether the "special dm cut" should be performed.
-Note that, if TRUE, dm should not be included in patient_cut_v, date_cut_m or no_cut_v inputs.}
+\item{special_dm}{A logical input indicating whether the \verb{special dm cut} should be performed.
+Note that, if TRUE, dm should not be included in \code{patient_cut_v}, \code{date_cut_m} or \code{no_cut_v} inputs.}
 }
 \value{
 Returns a list of all input SDTMv datasets, plus the datacut dataset, after
@@ -39,9 +41,9 @@ performing the selected datacut on each SDTMv domain.
 }
 \description{
 Applies the selected type of datacut on each SDTMv dataset based on the chosen
-SDTMv date variable, and outputs the resulting cut datasets as a list. It also provides an
-option to perform a "special" cut on the demography (dm) domain in which any deaths occurring
-after the datacut date are removed.
+SDTMv date variable, and outputs the resulting cut datasets, as well as the datacut dataset,
+as a list. It also provides an option to perform a "special" cut on the demography (dm) domain
+in which any deaths occurring after the datacut date are removed.
 }
 \examples{
 dcut <- data.frame(
