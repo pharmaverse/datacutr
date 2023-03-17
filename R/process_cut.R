@@ -17,7 +17,8 @@
 #' @param dataset_cut Input datacut dataset, e.g. dcut
 #' @param cut_var Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM
 #' @param special_dm A logical input indicating whether the `special dm cut` should be performed.
-#' Note that, if TRUE, dm should not be included in `patient_cut_v`, `date_cut_m` or `no_cut_v` inputs.
+#' Note that, if TRUE, dm should not be included in `patient_cut_v`, `date_cut_m` or `no_cut_v`
+#' inputs.
 #'
 #' @return Returns a list of all input SDTMv datasets, plus the datacut dataset, after
 #' performing the selected datacut on each SDTMv domain.
