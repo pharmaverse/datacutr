@@ -23,7 +23,9 @@ to apply a data cut to SDTM data in R.
 
 ## Installation
 
-The package is not currently available on CRAN, but the latest development version can be installed directly from GitHub using the following code:
+The package is available from CRAN and can be installed by running install.packages("datacutr").
+
+To install the latest development version of the package directly from GitHub use the following code::
 
 ```r
 if (!requireNamespace("remotes", quietly = TRUE)) {
@@ -45,13 +47,7 @@ This package works with tabulation data following an SDTM standard. For ease of 
 
 ## Contact
 
-Whilst the package is under development please feel free to reach out to one of the core developers:
-
-* Tim Barnett (Maintainer) - [timothy.barnett@roche.com](timothy.barnett@roche.com)
-* Nathan Rees - [nathan.rees@roche.com](nathan.rees@roche.com)
-* Alana Harris - [alana.harris@roche.com](alana.harris@roche.com)
-
-Once the package is finalized we will use the following for support and communications between user and developer community:
+The following support and communications between user and developer community is recommended:
 
 * [Slack](https://app.slack.com/client/T028PB489D3/C02M8KN8269) - for informal discussions, Q\&A and building our user community. If you don't have access, use this [link](https://join.slack.com/t/pharmaverse/shared_invite/zt-yv5atkr4-Np2ytJ6W_QKz_4Olo7Jo9A) to join the pharmaverse Slack workspace
 * [GitHub Issues](https://github.com/pharmaverse/datacutr/issues) - for direct feedback, enhancement requests or raising bugs
