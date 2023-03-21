@@ -1,16 +1,18 @@
 #' @title Applies the datacut based on the datacut flagging variables
 #'
-#' @description Removes any records where the datacut flagging variable is marked as "Y".
-#' Also, sets the death variables (DTHDTC and DTHFL) to missing if the death after datacut
-#' flagging variable is marked as "Y".
+#' @description Removes any records where the datacut flagging variable, usually called
+#' DCUT_TEMP_REMOVE, is marked as "Y". Also, sets the death related variables in DM
+#' (DTHDTC and DTHFL) to missing if the death after datacut flagging variable, usually
+#' called DCUT_TEMP_DTHCHANGE, is marked as "Y".
 #'
 #' @param dsin Name of input dataframe
-#' @param dcutvar Name of input datacut flagging variable (created by pt_cut and sdtm_cut functions)
-#' @param dthchangevar Name of input death after datacut flagging variable (created by
-#' special_dm_cut function)
+#' @param dcutvar Name of datacut flagging variable created by `pt_cut` and `date_cut` functions -
+#' usually called DCUT_TEMP_REMOVE.
+#' @param dthchangevar Name of death after datacut flagging variable created by `special_dm_cut`
+#' function - usually called DCUT_TEMP_DTHCHANGE.
 #'
-#' @return Returns the input dataframe, excluding any rows in which dcutvar is flagged as "Y".
-#' DTHDTC and DTHFL are set to missing for any records where dthchangevar is flagged as "Y". Any
+#' @return Returns the input dataframe, excluding any rows in which `dcutvar` is flagged as "Y".
+#' DTHDTC and DTHFL are set to missing for any records where `dthchangevar` is flagged as "Y". Any
 #' variables with the "DCUT_TEMP" prefix are removed.
 #'
 #' @export
@@ -18,7 +20,6 @@
 #' @keywords derive
 #'
 #' @examples
-#'
 #' ae <- data.frame(
 #'   USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c", "UXYZ123d"),
 #'   DCUT_TEMP_REMOVE = c("Y", "", "NA", NA)
