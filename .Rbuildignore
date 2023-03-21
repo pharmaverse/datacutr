@@ -16,3 +16,4 @@
 ^pkgdown$
 ^\.lycheeignore$
 ^data-raw$
+^cran-comments\.md$

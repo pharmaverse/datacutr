@@ -1,12 +1,12 @@
 Package: datacutr
 Type: Package
-Title: Datacut in R
+Title: SDTM Datacut
 Version: 0.0.1
 Authors@R: c(
-    person("Tim", "Barnett", email = "timothy.barnett@roche.com", role = c("aut", "cre")), 
+    person("Tim", "Barnett", email = "timothy.barnett@roche.com", role = c("cph","aut", "cre")), 
     person("Nathan", "Rees", email = "nathan.rees@roche.com", role = c("aut")), 
     person("Alana", "Harris", email = "alana.harris@roche.com", role = c("aut")))
-Description: A toolbox for applying a datacut to SDTMv.
+Description: Functions for applying a datacut to SDTM.
 License: Apache License (>= 2)
 Encoding: UTF-8
 Language: en-US
