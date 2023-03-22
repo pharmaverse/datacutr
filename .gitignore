@@ -35,8 +35,14 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
+# Web Documentation files
+docs
+
 # R Environment Variables
 .Renviron
-admiralext.Rcheck/
-admiralext*.tar.gz
-admiralext*.tgz
+datacutr.Rcheck/
+datacutr*.tar.gz
+datacutr*.tgz
+
+# MacOS
+.DS_Store
