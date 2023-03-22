@@ -13,6 +13,12 @@
     <loc>/articles/datacutr.html</loc>
   </url>
   <url>
+    <loc>/articles/examplemodular.html</loc>
+  </url>
+  <url>
+    <loc>/articles/examplewrapped.html</loc>
+  </url>
+  <url>
     <loc>/articles/index.html</loc>
   </url>
   <url>
@@ -44,6 +50,27 @@
   </url>
   <url>
     <loc>/reference/datacutr-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_ae.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_dm.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_ds.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_fa.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_lb.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_sc.html</loc>
+  </url>
+  <url>
+    <loc>/reference/datacutr_ts.html</loc>
   </url>
   <url>
     <loc>/reference/date_cut.html</loc>
