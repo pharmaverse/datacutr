@@ -114,6 +114,4 @@ cut_data <- purrr::map(
 
 # Add on data which is not cut
 final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
-
-list2env(final_data, envir = globalenv())
 ```

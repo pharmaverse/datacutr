@@ -78,9 +78,4 @@ cut_data <- process_cut(
   cut_var = DCUTDTM,
   special_dm = TRUE
 )
-
-
-# Save cut SDTMs to environment -------------------------------------------
-
-list2env(cut_data, envir = globalenv())
 ```
