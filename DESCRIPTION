@@ -6,7 +6,10 @@ Authors@R: c(
     person("Tim", "Barnett", email = "timothy.barnett@roche.com", role = c("cph","aut", "cre")), 
     person("Nathan", "Rees", email = "nathan.rees@roche.com", role = c("aut")), 
     person("Alana", "Harris", email = "alana.harris@roche.com", role = c("aut")))
-Description: Functions for applying a datacut to SDTM.
+Description: Supports the process of applying a cut to Standard Data Tabulation Model (SDTM),
+    as part of the analysis of specific points in time of the data, normally as part of 
+    investigation into clinical trials. The functions support different approaches of
+    cutting to the different domains of SDTM normally observed.
 License: Apache License (>= 2)
 Encoding: UTF-8
 Language: en-US
