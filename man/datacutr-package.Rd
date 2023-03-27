@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Functions for applying a datacut to SDTM.
+Supports the process of applying a cut to Standard Data Tabulation Model (SDTM), as part of the analysis of specific points in time of the data, normally as part of investigation into clinical trials. The functions support different approaches of cutting to the different domains of SDTM normally observed.
 }
 \author{
 \strong{Maintainer}: Tim Barnett \email{timothy.barnett@roche.com} [copyright holder]

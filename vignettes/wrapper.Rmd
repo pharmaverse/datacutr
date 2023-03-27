@@ -27,7 +27,6 @@ this wrapped approach may not be suitable if you wish to enable any study or pro
 * [Create DCUT Dataset](#dcut)
 * [Pre-process Datasets](#preprocess)
 * [Process Data Cut](#processcut)
-* [Save Final Cut Datasets](#save)
 
 ## Read in Data {#readdata}
 
@@ -98,13 +97,4 @@ cut_data <- process_cut(
   cut_var = DCUTDTM,
   special_dm = TRUE
 )
-```
-
-
-## Save Final Cut Datasets {#save}
-
-If necessary, we can save all of the cut SDTM datasets to the R environment. 
-
-```{r, message=FALSE, warning=FALSE}
-list2env(cut_data, envir = globalenv())
 ```

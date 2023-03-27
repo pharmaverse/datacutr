@@ -188,6 +188,4 @@ cut_data <- purrr::map(
 Lastly, we create the final list of all the cut SDTM data, adding in the SDTM where no cut was needed.
 ```{r, message=FALSE, warning=FALSE}
 final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
-
-list2env(final_data, envir = globalenv())
 ```
