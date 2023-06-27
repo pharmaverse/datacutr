@@ -39,7 +39,8 @@ library(purrr)
 
 # Creating data to be cut ------------------------------------------------
 
-source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
+source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, 
+                    lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
 
 # Create DCUT ------------------------------------------------------------
 
