@@ -57,7 +57,7 @@ For deaths, the derived DM death information is updated to reflect the state at 
 # Validation
 
 All functions are reviewed and tested to ensure that they work as described in
-the documentation. They are **not validated** yet.
+the documentation. Testing has been done on SDTMIG v3.2 (SDTM v1.4).
 
 # Starting a Script
 
