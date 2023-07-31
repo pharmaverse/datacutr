@@ -39,7 +39,10 @@ library(stringr)
 library(purrr)
 library(rlang)
 
-source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
+source_data <- list(
+  ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc,
+  lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts
+)
 ```
 
 ## Create DCUT Dataset {#dcut}
@@ -77,7 +80,9 @@ sv <- tibble::tribble(
 )
 
 dcut <- dcut %>%
-  left_join(sv %>% filter(VISIT == "WEEK24") %>% select(USUBJID, SVSTDTC)) %>%
+  left_join(sv %>%
+    filter(VISIT == "WEEK24") %>%
+    select(USUBJID, SVSTDTC)) %>%
   mutate(DCUTDTC = as.character(ifelse(!is.na(SVSTDTC), SVSTDTC, as.character(DCUTDTC)))) %>%
   impute_dcutdtc(dsin = ., varin = DCUTDTC, varout = DCUTDTM)
 ```
