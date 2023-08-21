@@ -1,3 +1,20 @@
+# datacutr 0.2.0
+
+## New Features
+- Added a "Report a bug" link to `{datacutr}` website (#182)
+
+## Updates of Existing Functions
+- N/A
+
+## Breaking Changes
+- N/A
+
+## Documentation
+- N/A
+
+## Various
+- N/A
+
 # datacutr 0.1.0
 
 ## New Features
