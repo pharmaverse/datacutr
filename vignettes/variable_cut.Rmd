@@ -81,8 +81,8 @@ sv <- tibble::tribble(
 
 dcut <- dcut %>%
   left_join(sv %>%
-    filter(VISIT == "WEEK24") %>%
-    select(USUBJID, SVSTDTC)) %>%
+              filter(VISIT == "WEEK24") %>%
+              select(USUBJID, SVSTDTC)) %>%
   mutate(DCUTDTC = as.character(ifelse(!is.na(SVSTDTC), SVSTDTC, as.character(DCUTDTC)))) %>%
   impute_dcutdtc(dsin = ., varin = DCUTDTC, varout = DCUTDTM)
 ```
