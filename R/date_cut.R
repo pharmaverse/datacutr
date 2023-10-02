@@ -64,20 +64,19 @@ date_cut <- function(dataset_sdtm,
     (length(get_duplicates(dataset_cut$USUBJID)) == 0),
     msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
   )
-  assert_that(
-    (any(is.na(mutate(dataset_cut, !!cut_var))) == FALSE),
-    msg = "At least one patient with missing datacut date (cut_var) in the DCUT
-    (dataset_cut) dataset, please update."
+  ifelse(any(is.na(mutate(dataset_cut, !!cut_var))) == TRUE,
+    print("At least one patient with missing datacut date (cut_var) in the DCUT
+               (dataset_cut) dataset, all records for this/these patient(s) will be kept."), NA
   )
-
 
   dcut <- dataset_cut %>%
     mutate(DCUT_TEMP_DCUTDTM = !!cut_var) %>%
-    subset(select = c(USUBJID, DCUT_TEMP_DCUTDTM))
+    subset(select = c(USUBJID, DCUT_TEMP_DCUTDTM)) %>%
+    mutate(TEMP_DCUT_KEEP = "Y")
 
-  assert_that(is.POSIXt(dcut$DCUT_TEMP_DCUTDTM),
+  ifelse(!is.na(dcut$DCUT_TEMP_DCUTDTM), assert_that(is.POSIXt(dcut$DCUT_TEMP_DCUTDTM),
     msg = "cut_var is expected to be of date type POSIXt"
-  )
+  ), NA)
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 
@@ -92,7 +91,10 @@ date_cut <- function(dataset_sdtm,
   # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
     mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) |
-      is.na(DCUT_TEMP_DCUTDTM), "Y", NA_character_))
+      is.na(TEMP_DCUT_KEEP), "Y", NA_character_))
+
+  # Ensure variable is character
+  dataset$DCUT_TEMP_REMOVE <- as.character(dataset$DCUT_TEMP_REMOVE)
 
   dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
 
