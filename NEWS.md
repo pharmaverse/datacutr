@@ -13,7 +13,7 @@
 - N/A
 
 ## Various
-- N/A
+- Minor documentation updates #171 #173 #177
 
 # datacutr 0.1.0
 
