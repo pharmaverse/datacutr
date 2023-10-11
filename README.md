@@ -19,7 +19,11 @@ to apply a data cut to SDTM data in R.
 
 ## Installation
 
-The package is available from CRAN and can be installed by running install.packages("datacutr").
+The package is available from CRAN and can be installed by running the following,
+
+```r
+install.packages("datacutr")
+```
 
 To install the latest development version of the package directly from GitHub use the following code::
 
