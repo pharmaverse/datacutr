@@ -49,8 +49,7 @@ special_dm_cut <- function(dataset_dm,
     msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
   )
   ifelse(any(is.na(mutate(dataset_cut, !!cut_var))) == TRUE,
-    print("At least one patient with missing datacut date (cut_var) in the DCUT
-               (dataset_cut) dataset, all records for this/these patient(s) will be kept."), NA
+    print("At least 1 patient with missing datacut date, all records will be kept."), NA
   )
   assert_data_frame(dataset_dm,
     required_vars = exprs(USUBJID, DTHDTC)
