@@ -72,7 +72,7 @@ The next step is to update `DCUT` with the required date per patient required fo
 
 ```{r, message=FALSE, warning=FALSE}
 sv <- tibble::tribble(
-  ~ USUBJID, ~ VISIT, ~ SVSTDTC,
+  ~USUBJID, ~VISIT, ~SVSTDTC,
   "AB12345-001", "WEEK24", "2022-06-01",
   "AB12345-002", "WEEK24", "2022-06-30",
   "AB12345-003", "WEEK24", "2022-07-01",
