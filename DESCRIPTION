@@ -1,7 +1,7 @@
 Package: datacutr
 Type: Package
 Title: SDTM Datacut
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Tim", "Barnett", email = "timothy.barnett@roche.com", role = c("cph","aut", "cre")), 
     person("Nathan", "Rees", email = "nathan.rees@roche.com", role = c("aut")), 
@@ -11,6 +11,8 @@ Description: Supports the process of applying a cut to Standard Data Tabulation 
     investigation into clinical trials. The functions support different approaches of
     cutting to the different domains of SDTM normally observed.
 License: Apache License (>= 2)
+BugReports: https://github.com/pharmaverse/datacutr/issues
+URL: https://pharmaverse.github.io/datacutr/, https://github.com/pharmaverse/datacutr
 Encoding: UTF-8
 Language: en-US
 LazyData: true
