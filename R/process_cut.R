@@ -91,7 +91,7 @@ no_cut_v empty, in which case a default value of vector() will be used."
     msg = "special_dm must be either TRUE or FALSE"
   )
   if (special_dm) {
-    assert_that("dm" %in% names(source_data),
+    assert_that("dm" %in% names(source_sdtm_data),
       msg = "dataset `dm` is missing but special_dm processing expects this"
     )
     assert_that(
