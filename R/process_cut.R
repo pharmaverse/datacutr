@@ -92,7 +92,7 @@ no_cut_v empty, in which case a default value of vector() will be used."
   )
   if (special_dm) {
     assert_that("dm" %in% names(source_data),
-                msg = "dataset `dm` is missing but special_dm processing expects this"
+      msg = "dataset `dm` is missing but special_dm processing expects this"
     )
     assert_that(
       setequal(names(source_sdtm_data), c(
