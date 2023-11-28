@@ -4,7 +4,7 @@
 - Added a "Report a bug" link to `{datacutr}` website (#182)
 
 ## Updates of Existing Functions
-- N/A
+- `impute_dcutdtc()` updated to allow missing data cutoff date (#189)
 
 ## Breaking Changes
 - N/A

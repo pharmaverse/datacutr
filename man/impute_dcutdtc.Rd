@@ -11,7 +11,7 @@ impute_dcutdtc(dsin, varin, varout)
 
 \item{varin}{Name of input data cutoff variable (i.e; DCUTDTC) which must be in ISO 8601
 extended format (YYYY-MM-DDThh:mm:ss). All values of the data cutoff variable must be at
-least a complete date.}
+least a complete date, or NA.}
 
 \item{varout}{Name of imputed output variable}
 }

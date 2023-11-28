@@ -1,21 +1,21 @@
 ### Set up input data and expected results ###
 input <- data.frame(
-  USUBJID = rep(c("UXYZ123a"), 7),
+  USUBJID = rep(c("UXYZ123a"), 8),
   DCUTDTC = c(
     "2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30",
-    "2022-06-23T16:57:30.123", "2022-06-23T16:-:30", "2022-06-23T-:57:30"
+    "2022-06-23T16:57:30.123", "2022-06-23T16:-:30", "2022-06-23T-:57:30", NA
   )
 )
 expected <- data.frame(
-  USUBJID = rep(c("UXYZ123a"), 7),
+  USUBJID = rep(c("UXYZ123a"), 8),
   DCUTDTC = c(
     "2022-06-23", "2022-06-23T16", "2022-06-23T16:57", "2022-06-23T16:57:30",
-    "2022-06-23T16:57:30.123", "2022-06-23T16:-:30", "2022-06-23T-:57:30"
+    "2022-06-23T16:57:30.123", "2022-06-23T16:-:30", "2022-06-23T-:57:30", NA
   ),
   DCUTDTM = ymd_hms(c(
     "2022-06-23T23:59:59", "2022-06-23T16:59:59", "2022-06-23T16:57:59",
     "2022-06-23T16:57:30", "2022-06-23T16:57:30", "2022-06-23T16:59:30",
-    "2022-06-23T23:57:30"
+    "2022-06-23T23:57:30", NA
   ))
 )
 
@@ -88,7 +88,7 @@ test_that("Test that impute_dcutdtc function errors when varin contains dates in
 ### Test with input dates that do not contain a complete date ###
 input6 <- data.frame(
   USUBJID = c("U1234567"),
-  DCUTDTC = c(NA)
+  DCUTDTC = c("2022-06")
 )
 
 test_that("Test that impute_dcutdtc function errors when varin does not contain
@@ -100,24 +100,12 @@ test_that("Test that impute_dcutdtc function errors when varin does not contain
 
 input7 <- data.frame(
   USUBJID = c("U1234567"),
-  DCUTDTC = c("2022-06")
-)
-
-test_that("Test that impute_dcutdtc function errors when varin does not contain
-          at least a complete date", {
-  expect_error(impute_dcutdtc(dsin = input7, varin = DCUTDTC, varout = DCUTDTM),
-    regexp = "All values of the data cutoff variable must be at least a complete date"
-  )
-})
-
-input8 <- data.frame(
-  USUBJID = c("U1234567"),
   DCUTDTC = c("2022-06--T16:57:30")
 )
 
 test_that("Test that impute_dcutdtc function errors when varin does not contain
           at least a complete date", {
-  expect_error(impute_dcutdtc(dsin = input8, varin = DCUTDTC, varout = DCUTDTM),
+  expect_error(impute_dcutdtc(dsin = input7, varin = DCUTDTC, varout = DCUTDTM),
     regexp = "All values of the data cutoff variable must be at least a complete date"
   )
 })
