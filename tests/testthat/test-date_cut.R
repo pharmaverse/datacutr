@@ -178,3 +178,49 @@ test_that("All SDTMv dates are after datacut date", {
     expected_ae4
   )
 })
+
+# Test 5 - Datacut date is NA
+
+input_ae5 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+  "my_study", "subject1", 1, "2021-01-02",
+  "my_study", "subject1", 2, "2021-08-31",
+  "my_study", "subject1", 3, "2021-10-10",
+  "my_study", "subject2", 2, "2021-02-20",
+  "my_study", "subject3", 1, "2021-03-02"
+)
+
+input_dcut5 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
+  "my_study", "subject1", NA,
+  "my_study", "subject2", NA,
+  "my_study", "subject3", NA
+)
+
+
+expected_ae5 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC, ~DCUT_TEMP_SDTM_DATE, ~DCUT_TEMP_DCUTDTM,
+  ~DCUT_TEMP_REMOVE,
+  "my_study", "subject1", 1, "2021-01-02", ymd_hms("2021-01-02T00:00:00"),
+  NA, NA_character_,
+  "my_study", "subject1", 2, "2021-08-31", ymd_hms("2021-08-31T00:00:00"),
+  NA, NA_character_,
+  "my_study", "subject1", 3, "2021-10-10", ymd_hms("2021-10-10T00:00:00"),
+  NA, NA_character_,
+  "my_study", "subject2", 2, "2021-02-20", ymd_hms("2021-02-20T00:00:00"),
+  NA, NA_character_,
+  "my_study", "subject3", 1, "2021-03-02", ymd_hms("2021-03-02T00:00:00"),
+  NA, NA_character_
+)
+
+test_that("DCUTDTM is NA", {
+  expect_equal(
+    date_cut(
+      dataset_sdtm = input_ae5,
+      sdtm_date_var = AESTDTC,
+      dataset_cut = input_dcut5,
+      cut_var = DCUTDTM
+    ),
+    expected_ae5
+  )
+})
