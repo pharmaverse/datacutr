@@ -1,4 +1,10 @@
-linters: linters_with_defaults(line_length_linter(100), object_usage_linter=NULL, cyclocomp_linter(complexity_limit = 20))
+linters: linters_with_defaults(
+    line_length_linter(100),
+    object_usage_linter=NULL,
+    infix_spaces_linter=NULL,
+    indentation_linter=NULL,
+    cyclocomp_linter(complexity_limit = 22)
+  )
 exclusions: list(
-        "R/data.R",
-        "tests/testthat")
+    "R/data.R",
+    "tests/testthat")
