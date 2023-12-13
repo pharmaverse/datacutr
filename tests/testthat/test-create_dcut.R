@@ -28,3 +28,25 @@ test_that("One observation in DCUT", {
     expected_dcut
   )
 })
+
+# Test 2 - Cut date as NA
+expected_dcutna <- tibble::tribble(
+  ~USUBJID, ~DCUTDTC, ~DCUTDTM, ~DCUTDESC,
+  "subject1", NA, NA, "Patients with Informed Consent",
+  "subject2", NA, NA, "Patients with Informed Consent",
+  "subject3", NA, NA, "Patients with Informed Consent",
+  "subject4", NA, NA, "Patients with Informed Consent"
+)
+
+test_that("One observation in DCUT", {
+  expect_equal(
+    create_dcut(
+      dataset_ds = input_ds,
+      ds_date_var = DSSTDTC,
+      filter = DSDECOD == "INFORMED CONSENT",
+      cut_date = NA,
+      cut_description = "Patients with Informed Consent"
+    ),
+    expected_dcutna
+  )
+})
