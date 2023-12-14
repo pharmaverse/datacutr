@@ -32,10 +32,10 @@ test_that("One observation in DCUT", {
 # Test 2 - Cut date as NA
 expected_dcutna <- tibble::tribble(
   ~USUBJID, ~DCUTDTC, ~DCUTDTM, ~DCUTDESC,
-  "subject1", NA, NA, "Patients with Informed Consent",
-  "subject2", NA, NA, "Patients with Informed Consent",
-  "subject3", NA, NA, "Patients with Informed Consent",
-  "subject4", NA, NA, "Patients with Informed Consent"
+  "subject1", NA, ymd_hms(NA), "Patients with Informed Consent",
+  "subject2", NA, ymd_hms(NA), "Patients with Informed Consent",
+  "subject3", NA, ymd_hms(NA), "Patients with Informed Consent",
+  "subject4", NA, ymd_hms(NA), "Patients with Informed Consent"
 )
 
 test_that("One observation in DCUT", {
