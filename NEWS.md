@@ -4,9 +4,9 @@
 - Added a "Report a bug" link to `{datacutr}` website (#182)
 
 ## Updates of Existing Functions
-- Update to `impute_dcutdtc()`, `date_cut()` and `special_dm_cut()` functions to allow for 
-datacut date to be null. In this case, all records for this patient 
-will be kept/left unchanged.
+- Update to `impute_dcutdtc()`, `create_dcut()`, `date_cut()` and `special_dm_cut()` functions
+to allow for datacut date to be null. In this case, all records for this patient will be 
+kept/left unchanged.
 - Warning added to `process_cut` if expected dataset `dm` is missing
 
 ## Breaking Changes
