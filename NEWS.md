@@ -4,19 +4,23 @@
 - Added a "Report a bug" link to `{datacutr}` website (#182)
 
 ## Updates of Existing Functions
-- Update to `impute_dcutdtc()`, `create_dcut()`, `date_cut()` and `special_dm_cut()` functions
-to allow for datacut date to be null. In this case, all records for this patient will be 
-kept/left unchanged.
-- Warning added to `process_cut` if expected dataset `dm` is missing
+- Update to `impute_dcutdtc()`, `date_cut()` and `special_dm_cut()` functions to allow for 
+datacut date to be null. In this case, all records for this patient 
+will be kept/left unchanged. (#179, #188, #189, #190)
+- Warning added to `process_cut` if expected dataset `dm` is missing (#172)
 
 ## Breaking Changes
-- N/A
+- Added dependency on `admiraldev` >= 0.3.0 (#173)
 
 ## Documentation
-- N/A
+- Added notes on SDTM compatability (#171)
+- Cleaned install packages code format (#177)
+- Fixed broken link to github (#184)
+- Added report a bug link to site (#182)
 
 ## Various
-- Minor documentation updates #171 #173 #177 #184
+- Added CRAN badge to README (#174)
+- Pull Request template updated (#192)
 
 # datacutr 0.1.0
 
