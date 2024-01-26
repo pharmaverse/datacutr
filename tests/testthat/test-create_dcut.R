@@ -50,3 +50,17 @@ test_that("One observation in DCUT", {
     expected_dcutna
   )
 })
+
+# Test 3 - Cut date as NULL
+test_that("Cut Date of NULL errors", {
+  expect_error(
+    create_dcut(
+      dataset_ds = input_ds,
+      ds_date_var = DSSTDTC,
+      filter = DSDECOD == "INFORMED CONSENT",
+      cut_date = NULL,
+      cut_description = "Patients with Informed Consent"
+    ),
+    regexp = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+  )
+})
