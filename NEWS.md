@@ -15,13 +15,13 @@ and not valid date or `NA`/`""` (#181)
 - Added dependency on `admiraldev` >= 0.3.0 (#173)
 
 ## Documentation
-- Added notes on SDTM compatability (#171)
+- Added notes on SDTM compatibility (#171)
 - Cleaned install packages code format (#177)
-- Fixed broken link to github (#184)
+- Fixed broken link to source (#184)
 - Added report a bug link to site (#182)
 
 ## Various
-- Added CRAN badge to README (#174)
+- Added CRAN badge to site (#174)
 - Pull Request template updated (#192)
 
 # datacutr 0.1.0
