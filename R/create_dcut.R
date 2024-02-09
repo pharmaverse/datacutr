@@ -62,6 +62,11 @@ create_dcut <- function(dataset_ds,
    must be stored in ISO 8601 format."
   )
 
+  # Check that cut date is not NULL
+  assert_that(!is.null(cut_date),
+    msg = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+  )
+
   # Check that cut_date is in ISO 8601 format
   valid_dtc <- is_valid_dtc(cut_date)
   assert_that(valid_dtc,
