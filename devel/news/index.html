@@ -44,13 +44,6 @@
 <li class="active nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://pharmaverse.github.io/datacutr/main">main</a>
-<a class="dropdown-item" data-toggle="tooltip" title="" href="https://pharmaverse.github.io/datacutr/devel">devel</a> </div></li>
-<!-- end dropdown for versions -->
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -78,18 +71,25 @@
 <ul><li>Added a “Report a bug” link to <a href="https://pharmaverse.github.io/datacutr/" class="external-link">datacutr</a> website (<a href="https://github.com/pharmaverse/datacutr/issues/182" class="external-link">#182</a>)</li></ul></div>
 <div class="section level3">
 <h3 id="updates-of-existing-functions-0-2-0">Updates of Existing Functions<a class="anchor" aria-label="anchor" href="#updates-of-existing-functions-0-2-0"></a></h3>
-<ul><li>Update to <code><a href="../reference/impute_dcutdtc.html">impute_dcutdtc()</a></code>, <code><a href="../reference/create_dcut.html">create_dcut()</a></code>, <code><a href="../reference/date_cut.html">date_cut()</a></code> and <code><a href="../reference/special_dm_cut.html">special_dm_cut()</a></code> functions to allow for datacut date to be null. In this case, all records for this patient will be kept/left unchanged.</li>
-<li>Warning added to <code>process_cut</code> if expected dataset <code>dm</code> is missing</li>
+<ul><li>Update to <code><a href="../reference/impute_dcutdtc.html">impute_dcutdtc()</a></code>, <code><a href="../reference/date_cut.html">date_cut()</a></code> and <code><a href="../reference/special_dm_cut.html">special_dm_cut()</a></code> functions to allow for datacut date to be null. In this case, all records for this patient will be kept/left unchanged. (<a href="https://github.com/pharmaverse/datacutr/issues/179" class="external-link">#179</a>, <a href="https://github.com/pharmaverse/datacutr/issues/188" class="external-link">#188</a>, <a href="https://github.com/pharmaverse/datacutr/issues/189" class="external-link">#189</a>, <a href="https://github.com/pharmaverse/datacutr/issues/190" class="external-link">#190</a>)</li>
+<li>Warning added to <code>process_cut</code> if expected dataset <code>dm</code> is missing (<a href="https://github.com/pharmaverse/datacutr/issues/172" class="external-link">#172</a>)</li>
+<li>Warning added to <code>create_dcut</code> if cut date being passed as <code>NULL</code>, and not valid date or <code>NA</code>/<code>""</code> (<a href="https://github.com/pharmaverse/datacutr/issues/181" class="external-link">#181</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="breaking-changes-0-2-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
-<ul><li>N/A</li></ul></div>
+<ul><li>Added dependency on <code>admiraldev</code> &gt;= 0.3.0 (<a href="https://github.com/pharmaverse/datacutr/issues/173" class="external-link">#173</a>)</li></ul></div>
 <div class="section level3">
 <h3 id="documentation-0-2-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-2-0"></a></h3>
-<ul><li>N/A</li></ul></div>
+<ul><li>Added notes on SDTM compatibility (<a href="https://github.com/pharmaverse/datacutr/issues/171" class="external-link">#171</a>)</li>
+<li>Cleaned install packages code format (<a href="https://github.com/pharmaverse/datacutr/issues/177" class="external-link">#177</a>)</li>
+<li>Fixed broken link to source (<a href="https://github.com/pharmaverse/datacutr/issues/184" class="external-link">#184</a>)</li>
+<li>Added report a bug link to site (<a href="https://github.com/pharmaverse/datacutr/issues/182" class="external-link">#182</a>)</li>
+</ul></div>
 <div class="section level3">
 <h3 id="various-0-2-0">Various<a class="anchor" aria-label="anchor" href="#various-0-2-0"></a></h3>
-<ul><li>Minor documentation updates <a href="https://github.com/pharmaverse/datacutr/issues/171" class="external-link">#171</a> <a href="https://github.com/pharmaverse/datacutr/issues/173" class="external-link">#173</a> <a href="https://github.com/pharmaverse/datacutr/issues/177" class="external-link">#177</a> <a href="https://github.com/pharmaverse/datacutr/issues/184" class="external-link">#184</a></li></ul></div>
+<ul><li>Added CRAN badge to site (<a href="https://github.com/pharmaverse/datacutr/issues/174" class="external-link">#174</a>)</li>
+<li>Pull Request template updated (<a href="https://github.com/pharmaverse/datacutr/issues/192" class="external-link">#192</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="datacutr-010">datacutr 0.1.0<a class="anchor" aria-label="anchor" href="#datacutr-010"></a></h2>
