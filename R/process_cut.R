@@ -52,36 +52,36 @@
 #' )
 #'
 process_cut <- function(source_sdtm_data,
-                        patient_cut_v = vector(),
-                        date_cut_m = matrix(nrow = 0, ncol = 2),
-                        no_cut_v = vector(),
+                        patient_cut_v = NULL,
+                        date_cut_m = NULL,
+                        no_cut_v = NULL,
                         dataset_cut,
                         cut_var,
                         special_dm = TRUE) {
   #  Assertions for input parameters -----------------------------------------------
   assert_that(is.list(source_sdtm_data),
-    msg = "source_sdtm_data must be a list"
+    msg = "source_sdtm_data must be of class list"
   )
   assert_that(all(unlist(lapply(source_sdtm_data, is.data.frame))),
-    msg = "All elements of the list source_sdtm_data must be a dataframe"
+    msg = "All elements of source_sdtm_data must be a dataframe"
   )
-  assert_that(all(is.vector(patient_cut_v), patient_cut_v != ""),
-    msg = "patient_cut_v must be a vector. \n
-Note: If you do not wish to use a patient cut on any SDTMv domains, then please leave
-patient_cut_v empty, in which case a default value of vector() will be used."
+  assert_that(all(is.vector(patient_cut_v) | is.null(patient_cut_v), patient_cut_v != ""),
+    msg = "patient_cut_v must be a vector or NULL. \n
+Note: If no SDTMv domains use a patient cut, then please leave patient_cut_v
+empty, in which case a default value of NULL will be used."
   )
-  assert_that(all(is.matrix(date_cut_m), date_cut_m != ""),
-    msg = "date_cut_m must be a matrix \n
-Note: If you do not wish to use a date cut on any SDTMv domains, then please leave
-date_cut_m empty, in which case a default value of matrix(nrow=0, ncol=2) will be used."
+  assert_that(all(is.matrix(date_cut_m) | is.null(date_cut_m), date_cut_m != ""),
+    msg = "date_cut_m must be a matrix or NULL. \n
+Note: If no SDTMv domains use a date cut, then please leave date_cut_m
+empty, in which case a default value of NULL will be used."
   )
-  assert_that(ncol(date_cut_m) == 2,
-    msg = "date_cut_m must be a matrix with two columns"
+  assert_that(any(ncol(date_cut_m) == 2, is.null(date_cut_m)),
+    msg = "date_cut_m must be a matrix with two columns or NULL."
   )
-  assert_that(all(is.vector(no_cut_v), no_cut_v != ""),
-    msg = "no_cut_v must be a vector. \n
+  assert_that(all(is.vector(no_cut_v) | is.null(no_cut_v), no_cut_v != ""),
+    msg = "no_cut_v must be a vector or NULL. \n
 Note: If you do not wish to leave any SDTMv domains uncut, then please leave
-no_cut_v empty, in which case a default value of vector() will be used."
+no_cut_v empty, in which case a default value of NULL will be used."
   )
   cut_var <- assert_symbol(enexpr(cut_var))
   assert_data_frame(dataset_cut,
