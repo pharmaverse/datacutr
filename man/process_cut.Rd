@@ -6,9 +6,9 @@
 \usage{
 process_cut(
   source_sdtm_data,
-  patient_cut_v = vector(),
-  date_cut_m = matrix(nrow = 0, ncol = 2),
-  no_cut_v = vector(),
+  patient_cut_v = NULL,
+  date_cut_m = NULL,
+  no_cut_v = NULL,
   dataset_cut,
   cut_var,
   special_dm = TRUE

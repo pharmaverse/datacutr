@@ -101,8 +101,7 @@ test_that("Test that process_cut() errors when a source SDTM dataset is not
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach."
+    regexp = "sc exists in source_sdtm_data but no cut\nmethod has been assigned"
   )
 })
 
@@ -124,8 +123,7 @@ test_that("Test that process_cut() errors when an input list includes a source
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach."
+    regexp = "Cut types have been assigned for vs which does not exist in source_sdtm_data"
   )
 })
 
@@ -147,8 +145,7 @@ test_that("Test that process_cut() errors when a source SDTMv dataset is
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
+    regexp = "Multiple cut types have been assigned for ae"
   )
 })
 
@@ -170,8 +167,7 @@ test_that("Test that process_cut() errors when special_dm = TRUE and dm is also
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
+    regexp = "Multiple cut types have been assigned for dm"
   )
 })
 
