@@ -12,6 +12,8 @@ will be kept/left unchanged. (#179, #189, #190)
 and not valid date or `NA`/`""` (#181)
 - `process_cut` updated so that the `patient_cut_v`, `date_cut_m` and `no_cut_v`
 arguments have a default value of `NULL` (#188)
+- `process_cut` updated to have more detailed error messages when incorrect datasets 
+are fed in (#180)
 
 ## Breaking Changes
 - Added dependency on `admiraldev` >= 0.3.0 (#173)

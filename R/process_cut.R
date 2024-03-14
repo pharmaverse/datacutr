@@ -62,67 +62,73 @@ process_cut <- function(source_sdtm_data,
   assert_that(is.list(source_sdtm_data),
     msg = "source_sdtm_data must be of class list"
   )
+
   assert_that(all(unlist(lapply(source_sdtm_data, is.data.frame))),
     msg = "All elements of source_sdtm_data must be a dataframe"
   )
+
   assert_that(all(is.vector(patient_cut_v) | is.null(patient_cut_v), patient_cut_v != ""),
     msg = "patient_cut_v must be a vector or NULL. \n
 Note: If no SDTMv domains use a patient cut, then please leave patient_cut_v
 empty, in which case a default value of NULL will be used."
   )
+
   assert_that(all(is.matrix(date_cut_m) | is.null(date_cut_m), date_cut_m != ""),
     msg = "date_cut_m must be a matrix or NULL. \n
 Note: If no SDTMv domains use a date cut, then please leave date_cut_m
 empty, in which case a default value of NULL will be used."
   )
+
   assert_that(any(ncol(date_cut_m) == 2, is.null(date_cut_m)),
     msg = "date_cut_m must be a matrix with two columns or NULL."
   )
+
   assert_that(all(is.vector(no_cut_v) | is.null(no_cut_v), no_cut_v != ""),
     msg = "no_cut_v must be a vector or NULL. \n
 Note: If you do not wish to leave any SDTMv domains uncut, then please leave
 no_cut_v empty, in which case a default value of NULL will be used."
   )
+
   cut_var <- assert_symbol(enexpr(cut_var))
   assert_data_frame(dataset_cut,
     required_vars = exprs(USUBJID, !!cut_var)
   )
+
   assert_that(is.logical(special_dm),
     msg = "special_dm must be either TRUE or FALSE"
   )
+
   if (special_dm) {
     assert_that("dm" %in% names(source_sdtm_data),
-      msg = "dataset `dm` is missing but special_dm processing expects this"
+      msg = "dataset `dm` is missing from source_sdtm_data but special_dm processing expects this"
     )
-    assert_that(
-      setequal(names(source_sdtm_data), c(
-        patient_cut_v, date_cut_m[, 1], no_cut_v,
-        "dm"
-      )),
-      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach. Please check for the two likely issues below... \n
-1) There are input SDTMv datasets where no cut method has been defined.
-2) A cut method has been defined for a SDTMv dataset that does not exist in the
-source SDTMv data."
-    )
-    assert_that(
-      length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")))
-      == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")),
-      msg = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
-    )
+    cut_inputs <- c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")
   } else {
-    assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach. Please check for the two likely issues below... \n
-1) There are input SDTMv datasets where no cut method has been defined.
-2) A cut method has been defined for a SDTMv dataset that does not exist in the source SDTMv data."
+    cut_inputs <- c(patient_cut_v, date_cut_m[, 1], no_cut_v)
+  }
+  sdtm_inputs <- names(source_sdtm_data)
+  for (i in seq_len(length(sdtm_inputs))) {
+    error_msg1 <- paste0(sdtm_inputs[i], " exists more than once in source_sdtm_data")
+    assert_that(!(sdtm_inputs[i] %in% sdtm_inputs[-i]),
+      msg = error_msg1
     )
-    assert_that(
-      length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
-      == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
+
+    error_msg2 <- paste0(sdtm_inputs[i], " exists in source_sdtm_data but no cut
+method has been assigned")
+    assert_that(sdtm_inputs[i] %in% cut_inputs,
+      msg = error_msg2
+    )
+  }
+  for (i in seq_len(length(cut_inputs))) {
+    error_msg1 <- paste0("Multiple cut types have been assigned for ", cut_inputs[i])
+    assert_that(!(cut_inputs[i] %in% cut_inputs[-i]),
+      msg = error_msg1
+    )
+
+    error_msg2 <- paste0("Cut types have been assigned for ", cut_inputs[i],
+                         " which does not exist in source_sdtm_data")
+    assert_that(cut_inputs[i] %in% sdtm_inputs,
+      msg = error_msg2
     )
   }
 
