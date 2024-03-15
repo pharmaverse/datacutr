@@ -157,19 +157,6 @@ Patient Cut dataset:
 
 ```{r pt_cut}
 #patient_cut_data
-library(DT)
-trytable <- function(cut_data){
-  cyc_num <- 1
-  for (df in cut_data){
-    return(datatable(cut_data$df))
-    print(paste("Table ", cyc_num))
-    cyc_num <- cyc_num + 1
-}
-}
-
-#trytable(patient_cut_data)
-
-#datatable(patient_cut_data$sc)
 
 tabulate_data(patient_cut_data)
 ```
@@ -207,9 +194,10 @@ Special DM cut data:
 ```{r dm_cut}
 #dm_cut
 
-knitr::kable(dm_cut) %>% 
+knitr::kable(dm_cut, align = 'c', booktabs = TRUE) %>% 
   row_spec(which(dm_cut$DCUT_TEMP_DTHCHANGE == "Y"), color = 'white', background = 'red')%>%
-  row_spec(which(dm_cut$DCUT_TEMP_REMOVE == "Y"), color = 'white', background = 'black')
+  row_spec(which(dm_cut$DCUT_TEMP_REMOVE == "Y"), color = 'white', background = 'black') %>% 
+  kable_styling(font_size = 12)
 ```
 
 ### Cut Data 
