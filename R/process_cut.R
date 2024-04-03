@@ -98,39 +98,59 @@ no_cut_v empty, in which case a default value of NULL will be used."
     msg = "special_dm must be either TRUE or FALSE"
   )
 
+  sdtm_inputs <- names(source_sdtm_data)
+  cut_inputs <- c(patient_cut_v, date_cut_m[, 1], no_cut_v)
+
   if (special_dm) {
     assert_that("dm" %in% names(source_sdtm_data),
       msg = "dataset `dm` is missing from source_sdtm_data but special_dm processing expects this"
     )
-    cut_inputs <- c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")
-  } else {
-    cut_inputs <- c(patient_cut_v, date_cut_m[, 1], no_cut_v)
+    cut_inputs <- append(cut_inputs, "dm")
   }
-  sdtm_inputs <- names(source_sdtm_data)
+
+  sdtm_inputs_dups <- c()
+  no_cut_method <- c()
   for (i in seq_len(length(sdtm_inputs))) {
-    error_msg1 <- paste0(sdtm_inputs[i], " exists more than once in source_sdtm_data")
-    assert_that(!(sdtm_inputs[i] %in% sdtm_inputs[-i]),
-      msg = error_msg1
-    )
-
-    error_msg2 <- paste0(sdtm_inputs[i], " exists in source_sdtm_data but no cut
-method has been assigned")
-    assert_that(sdtm_inputs[i] %in% cut_inputs,
-      msg = error_msg2
-    )
+    if ((sdtm_inputs[i] %in% sdtm_inputs[-i]) && !(sdtm_inputs[i] %in% sdtm_inputs_dups)) {
+      sdtm_inputs_dups <- append(sdtm_inputs_dups, sdtm_inputs[i])
+    }
+    if (!(sdtm_inputs[i] %in% cut_inputs) && !(sdtm_inputs[i] %in% no_cut_method)) {
+      no_cut_method <- append(no_cut_method, sdtm_inputs[i])
+    }
   }
+  error_msg1 <- paste0(paste(sdtm_inputs_dups, collapse = " & "),
+                       " exists more than once in source_sdtm_data")
+  assert_that(is.null(sdtm_inputs_dups),
+    msg = error_msg1
+  )
+  error_msg2 <- paste0(paste(no_cut_method, collapse = " & "),
+                       " exists in source_sdtm_data but no cut method has been assigned")
+  assert_that(is.null(no_cut_method),
+    msg = error_msg2
+  )
+
+  cut_inputs_dups <- c()
+  no_sdtm <- c()
   for (i in seq_len(length(cut_inputs))) {
-    error_msg1 <- paste0("Multiple cut types have been assigned for ", cut_inputs[i])
-    assert_that(!(cut_inputs[i] %in% cut_inputs[-i]),
-      msg = error_msg1
-    )
-
-    error_msg2 <- paste0("Cut types have been assigned for ", cut_inputs[i],
-                         " which does not exist in source_sdtm_data")
-    assert_that(cut_inputs[i] %in% sdtm_inputs,
-      msg = error_msg2
-    )
+    if ((cut_inputs[i] %in% cut_inputs[-i]) && !(cut_inputs[i] %in% cut_inputs_dups)) {
+      cut_inputs_dups <- append(cut_inputs_dups, cut_inputs[i])
+    }
+    if (!(cut_inputs[i] %in% sdtm_inputs) && !(cut_inputs[i] %in% no_sdtm)) {
+      no_sdtm <- append(no_sdtm, cut_inputs[i])
+    }
   }
+  error_msg3 <- paste0("Multiple cut types have been assigned for ",
+                       paste(cut_inputs_dups, collapse = " & "))
+  assert_that(is.null(cut_inputs_dups),
+    msg = error_msg3
+  )
+  error_msg4 <- paste0(
+    "Cut types have been assigned for ", paste(no_sdtm, collapse = " & "),
+    " which does not exist in source_sdtm_data"
+  )
+  assert_that(is.null(no_sdtm),
+    msg = error_msg4
+  )
 
   # Conduct Patient-Level Cut ------------------------------------------------------
 

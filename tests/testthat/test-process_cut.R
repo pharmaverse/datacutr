@@ -101,7 +101,7 @@ test_that("Test that process_cut() errors when a source SDTM dataset is not
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "sc exists in source_sdtm_data but no cut\nmethod has been assigned"
+    regexp = "sc exists in source_sdtm_data but no cut method has been assigned"
   )
 })
 
