@@ -125,6 +125,8 @@ listed under each cut approach. Please check for the two likely issues below... 
 number of SDTMv datasets in which a cut approach has been defined."
     )
   }
+  # No cut list --------------------------------------------------------------------
+  no_cut_list <- source_sdtm_data[no_cut_v]
 
   # Conduct Patient-Level Cut ------------------------------------------------------
 
@@ -176,5 +178,7 @@ number of SDTMv datasets in which a cut approach has been defined."
   # Return the final list of SDTM datasets + DCUT ----------------------------------
 
   final_data <- c(list(dcut = dataset_cut), cut_data, source_sdtm_data[no_cut_v])
+
+  rmarkdown::render("~/datacutr/tests/read-out/test_markdown.Rmd")
   return(final_data)
 }

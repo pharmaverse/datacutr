@@ -1,17 +1,18 @@
 ---
 title: "Test Read-out File"
-date: "2024-03-08"
+date: "`r format(Sys.time(), '%c')`"
 output: 
   html_document:
+    #theme:
     df_print: paged
-    toc: yes
+    toc: no
     toc_depth: '3'
-  html_notebook:
-      code_folding: hide
-      theme: united
-      toc: yes
-      toc_depth: 3
-      toc_float: yes
+  # html_notebook:
+  #     code_folding: hide
+  #     theme: united
+  #     toc: yes
+  #     toc_depth: 3
+  #     toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -43,90 +44,90 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r preprocess, include=FALSE}
-## Datacut with Modular Approach
-# Demo Datacutr - Exploratory Work
-# Creating data to be cut ------------------------------------------------
-library(datacutr)
-library(admiraldev)
-library(dplyr)
-library(lubridate)
-library(stringr)
-library(purrr)
-
-source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
-
-# Name: Datacut Template Code - Modular Approach
-## Create DCUT ------------------------------------------------------------
-
-dcut <- create_dcut(
-  dataset_ds = source_data$ds,
-  ds_date_var = DSSTDTC,
-  filter = DSDECOD == "RANDOMIZATION",
-  cut_date = "2022-06-04",
-  cut_description = "Clinical Cutoff Date"
-)
-
-## Pre-processing of FA ----------------------------------------------------
-
-## Update FA
-source_data$fa <- source_data$fa %>%
-  mutate(DCUT_TEMP_FAXDTC = case_when(
-    FASTDTC != "" ~ FASTDTC,
-    FADTC != "" ~ FADTC,
-    TRUE ~ as.character(NA)
-  ))
-
-## Specify cut types ------------------------------------------------------
-
-## Patient cut - cut applied will only be for patients existing in DCUT
-patient_cut_list <- c("sc", "ds")
-
-## Date cut - cut applied will be both for patients existing in DCUT, and date cut against DCUTDTM
-date_cut_list <- rbind(
-  c("ae", "AESTDTC"),
-  c("lb", "LBDTC"),
-  c("fa", "DCUT_TEMP_FAXDTC")
-)
-
-## No cut - data does not need to be cut
-no_cut_list <- list(ts = source_data$ts)
-
-## Create the cutting variables -------------------------------------------
-## Conduct the patient cut ------------------------------------------------
-patient_cut_data <- lapply(
-  source_data[patient_cut_list], pt_cut,
-  dataset_cut = dcut
-)
-
-## Conduct xxSTDTC or xxDTC Cut -------------------------------------------
-date_cut_data <- pmap(
-  .l = list(
-    dataset_sdtm = source_data[date_cut_list[, 1]],
-    sdtm_date_var = syms(date_cut_list[, 2])
-  ),
-  .f = date_cut,
-  dataset_cut = dcut,
-  cut_var = DCUTDTM
-)
-
-## Conduct DM special cut for DTH flags after DCUTDTM ---------------------
-dm_cut <- special_dm_cut(
-  dataset_dm = source_data$dm,
-  dataset_cut = dcut,
-  cut_var = DCUTDTM
-)
-
-## Apply the cut --------------------------------
-
-cut_data <- purrr::map(
-  c(patient_cut_data, date_cut_data, list(dm = dm_cut)),
-  apply_cut,
-  dcutvar = DCUT_TEMP_REMOVE,
-  dthchangevar = DCUT_TEMP_DTHCHANGE
-)
-
-## Add on data which is not cut
-final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
+# ## Datacut with Modular Approach
+# # Demo Datacutr - Exploratory Work
+# # Creating data to be cut ------------------------------------------------
+# library(datacutr)
+# library(admiraldev)
+# library(dplyr)
+# library(lubridate)
+# library(stringr)
+# library(purrr)
+# 
+# source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
+# 
+# # Name: Datacut Template Code - Modular Approach
+# ## Create DCUT ------------------------------------------------------------
+# 
+# dcut <- create_dcut(
+#   dataset_ds = source_data$ds,
+#   ds_date_var = DSSTDTC,
+#   filter = DSDECOD == "RANDOMIZATION",
+#   cut_date = "2022-06-04",
+#   cut_description = "Clinical Cutoff Date"
+# )
+# 
+# ## Pre-processing of FA ----------------------------------------------------
+# 
+# ## Update FA
+# source_data$fa <- source_data$fa %>%
+#   mutate(DCUT_TEMP_FAXDTC = case_when(
+#     FASTDTC != "" ~ FASTDTC,
+#     FADTC != "" ~ FADTC,
+#     TRUE ~ as.character(NA)
+#   ))
+# 
+# ## Specify cut types ------------------------------------------------------
+# 
+# ## Patient cut - cut applied will only be for patients existing in DCUT
+# patient_cut_list <- c("sc", "ds")
+# 
+# ## Date cut - cut applied will be both for patients existing in DCUT, and date cut against DCUTDTM
+# date_cut_list <- rbind(
+#   c("ae", "AESTDTC"),
+#   c("lb", "LBDTC"),
+#   c("fa", "DCUT_TEMP_FAXDTC")
+# )
+# 
+# ## No cut - data does not need to be cut
+# no_cut_list <- list(ts = source_data$ts)
+# 
+# ## Create the cutting variables -------------------------------------------
+# ## Conduct the patient cut ------------------------------------------------
+# patient_cut_data <- lapply(
+#   source_data[patient_cut_list], pt_cut,
+#   dataset_cut = dcut
+# )
+# 
+# ## Conduct xxSTDTC or xxDTC Cut -------------------------------------------
+# date_cut_data <- pmap(
+#   .l = list(
+#     dataset_sdtm = source_data[date_cut_list[, 1]],
+#     sdtm_date_var = syms(date_cut_list[, 2])
+#   ),
+#   .f = date_cut,
+#   dataset_cut = dcut,
+#   cut_var = DCUTDTM
+# )
+# 
+# ## Conduct DM special cut for DTH flags after DCUTDTM ---------------------
+# dm_cut <- special_dm_cut(
+#   dataset_dm = source_data$dm,
+#   dataset_cut = dcut,
+#   cut_var = DCUTDTM
+# )
+# 
+# ## Apply the cut --------------------------------
+# 
+# cut_data <- purrr::map(
+#   c(patient_cut_data, date_cut_data, list(dm = dm_cut)),
+#   apply_cut,
+#   dcutvar = DCUT_TEMP_REMOVE,
+#   dthchangevar = DCUT_TEMP_DTHCHANGE
+# )
+# 
+# ## Add on data which is not cut
+# final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
 ```
 
 ``` {r tabulate function, include=FALSE}
@@ -323,13 +324,29 @@ sum_dm <- function(data){
 }
 ```
 
+### Details
+
+This is an {datacur} auto-generated read-out file. It contains a summary of the changes made to the data after the cut has been applied.
+
+The **Summary** tab outlines the datasets affected and what type of cut has been applied to each. 
+
+You can investigate each of the types of cuts applied and look at the data itself by looking at the **Datacut Dataset (DCUT)**, **Patient Cut**, **Date Cut** and **Special DM Cut** tabs. 
+
+The **Final Data** tab contains all the datasets after the cut has been applied. 
+
+---
+
 # {.tabset}
 
 ## Summary
 
 ### Summary of Datacut
+
+---
+
 ```{r Review, echo = FALSE}
 data_review(patient_cut_data, date_cut_data, dm_cut, no_cut_list)
+#data_review(patient_cut_data, date_cut_data, dm_cut, source_sdtm_data[no_cut_v])
 ```
 
 ## Datacut Dataset (DCUT)
@@ -337,6 +354,8 @@ data_review(patient_cut_data, date_cut_data, dm_cut, no_cut_list)
 ### DCUT dataset:
 
 After filtering the input DS dataset (based on the given filter condition), any records where the SDTMv date/time variable is on or before the datacut date/time (after imputations) will be returned in the output datacut dataset (DCUT).
+
+---
 
 ###
 ```{r dcut, echo = FALSE}
@@ -352,7 +371,9 @@ Patient cut to an SDTMv dataset (i.e. subset SDTMv observations on patients incl
 
 Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would be dropped when a patient level datacut is applied.
 
-For ease of interpretation, the records where death dates have been removed are flagged RED.
+***For ease of interpretation, the records where death dates have been removed are flagged*** <span style="color: red;">***RED.***
+
+---
 
 ### {.tabset}
 ```{r, results='asis', echo = FALSE}
@@ -375,7 +396,9 @@ Note that this function applies a patient level datacut at the same time (using 
 
 Input dataset plus a flag TEMP_DCUT_REMOVE to indicate which observations would be dropped when a datacut is applied.
 
-For ease of interpretation, the records where death dates have been removed are flagged RED.
+***For ease of interpretation, the records where death dates have been removed are flagged*** <span style="color: red;">***RED.***
+
+---
 
 ### {.tabset}
 ```{r, results='asis', echo = FALSE}
@@ -393,7 +416,11 @@ Applies patient cut if patient not in source DCUT, as well as clearing death inf
 
 Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would be dropped when a datacut is applied, and a flag DCUT_TEMP_DTHCHANGE to indicate which observations have death occurring after data cut date for clearing.
 
-For ease of interpretation, the records where death dates have been modified are flagged BLUE. The records that have been removed are RED.
+***For ease of interpretation, the records where death dates have been modified are flagged*** <span style="color: blue;">***BLUE.***
+
+***The records where death dates have been removed are flagged*** <span style="color: red;">***RED.***
+
+---
 
 ### {.tabset}
 ```{r dm_cut, results='asis', echo = FALSE}
@@ -417,6 +444,8 @@ tabulate_dm(dm_cut)
 ### Final datasets
 
 Uncut data added to the cut data.
+
+---
 
 ### {.tabset}
 ```{r, results='asis', echo = FALSE}
