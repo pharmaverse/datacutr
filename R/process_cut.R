@@ -179,6 +179,7 @@ number of SDTMv datasets in which a cut approach has been defined."
 
   final_data <- c(list(dcut = dataset_cut), cut_data, source_sdtm_data[no_cut_v])
 
-  rmarkdown::render("~/datacutr/tests/read-out/test_markdown.Rmd")
+  rmarkdown::render("~/datacutr/inst/test_markdown.Rmd")
+
   return(final_data)
 }

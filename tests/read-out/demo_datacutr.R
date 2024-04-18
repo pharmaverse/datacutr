@@ -96,11 +96,13 @@ final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
 
 final_data
 
-rmarkdown::render("~/datacutr/tests/read-out/test_markdown.Rmd")
+rmarkdown::render("~/datacutr/inst/test_markdown.Rmd")
 
 # Name: Datacut Template Code - Wrapped Approach #########################################################
 
 ## Creating data to be cut ------------------------------------------------
+library(rmarkdown)
+library(knitr)
 
 source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
 
@@ -144,10 +146,3 @@ cut_data <- process_cut(
 )
 
 cut_data
-
-#
-# gSheet_cut_data(cut_data = cut_data)
-#
-# # Exporting into gSheet ###############################################################################################
-#
-# gSheet_cut_data(cut_data = data)

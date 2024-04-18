@@ -3,16 +3,9 @@ title: "Test Read-out File"
 date: "`r format(Sys.time(), '%c')`"
 output: 
   html_document:
-    #theme:
     df_print: paged
     toc: no
     toc_depth: '3'
-  # html_notebook:
-  #     code_folding: hide
-  #     theme: united
-  #     toc: yes
-  #     toc_depth: 3
-  #     toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -43,97 +36,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-```{r preprocess, include=FALSE}
-# ## Datacut with Modular Approach
-# # Demo Datacutr - Exploratory Work
-# # Creating data to be cut ------------------------------------------------
-# library(datacutr)
-# library(admiraldev)
-# library(dplyr)
-# library(lubridate)
-# library(stringr)
-# library(purrr)
-# 
-# source_data <- list(ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc, lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts)
-# 
-# # Name: Datacut Template Code - Modular Approach
-# ## Create DCUT ------------------------------------------------------------
-# 
-# dcut <- create_dcut(
-#   dataset_ds = source_data$ds,
-#   ds_date_var = DSSTDTC,
-#   filter = DSDECOD == "RANDOMIZATION",
-#   cut_date = "2022-06-04",
-#   cut_description = "Clinical Cutoff Date"
-# )
-# 
-# ## Pre-processing of FA ----------------------------------------------------
-# 
-# ## Update FA
-# source_data$fa <- source_data$fa %>%
-#   mutate(DCUT_TEMP_FAXDTC = case_when(
-#     FASTDTC != "" ~ FASTDTC,
-#     FADTC != "" ~ FADTC,
-#     TRUE ~ as.character(NA)
-#   ))
-# 
-# ## Specify cut types ------------------------------------------------------
-# 
-# ## Patient cut - cut applied will only be for patients existing in DCUT
-# patient_cut_list <- c("sc", "ds")
-# 
-# ## Date cut - cut applied will be both for patients existing in DCUT, and date cut against DCUTDTM
-# date_cut_list <- rbind(
-#   c("ae", "AESTDTC"),
-#   c("lb", "LBDTC"),
-#   c("fa", "DCUT_TEMP_FAXDTC")
-# )
-# 
-# ## No cut - data does not need to be cut
-# no_cut_list <- list(ts = source_data$ts)
-# 
-# ## Create the cutting variables -------------------------------------------
-# ## Conduct the patient cut ------------------------------------------------
-# patient_cut_data <- lapply(
-#   source_data[patient_cut_list], pt_cut,
-#   dataset_cut = dcut
-# )
-# 
-# ## Conduct xxSTDTC or xxDTC Cut -------------------------------------------
-# date_cut_data <- pmap(
-#   .l = list(
-#     dataset_sdtm = source_data[date_cut_list[, 1]],
-#     sdtm_date_var = syms(date_cut_list[, 2])
-#   ),
-#   .f = date_cut,
-#   dataset_cut = dcut,
-#   cut_var = DCUTDTM
-# )
-# 
-# ## Conduct DM special cut for DTH flags after DCUTDTM ---------------------
-# dm_cut <- special_dm_cut(
-#   dataset_dm = source_data$dm,
-#   dataset_cut = dcut,
-#   cut_var = DCUTDTM
-# )
-# 
-# ## Apply the cut --------------------------------
-# 
-# cut_data <- purrr::map(
-#   c(patient_cut_data, date_cut_data, list(dm = dm_cut)),
-#   apply_cut,
-#   dcutvar = DCUT_TEMP_REMOVE,
-#   dthchangevar = DCUT_TEMP_DTHCHANGE
-# )
-# 
-# ## Add on data which is not cut
-# final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
-```
-
 ``` {r tabulate function, include=FALSE}
-#library(rtables)
-#library(knitr)
-#library(kableExtra)
 library(DT)
 
 # Overall Summary of Datacut Tab####
@@ -216,30 +119,53 @@ data_review <- function(pt_data, dt_data, dm_data, no_cut){
         )
      )
   ))
-  DT::datatable(sum_t, container = sketch, filter = 'top', rownames = FALSE, )
+  DT::datatable(sum_t, container = sketch, filter = 'top', rownames = FALSE)
 }
 
 # Create tabs in the html ####
 df_tabs <- function(data){
   cyc_num <- 1
-  datatable(NULL)
-  for (df in data){
-    name <- names(data)[cyc_num]
-    cat("####", toupper(name), " \n")
-    if (exists("DCUT_TEMP_REMOVE", where = df)){
-      x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
-      cat(paste("Number of records removed in ", toupper(name), ": ", x, " \n", " \n"))
-      print(htmltools::tagList(DT::datatable(df, filter = 'top', options = list(scrollX = TRUE, fixedColumns = TRUE)) %>% 
-          formatStyle("DCUT_TEMP_REMOVE",
-                target = "row",
-                color = 'black', 
-                backgroundColor = styleEqual("Y",'#FFDFDF'))))
-    } else {
-    print(htmltools::tagList(DT::datatable(df, filter = 'top', options = list(scrollX = TRUE, fixedColumns = TRUE))))
-    }
-    cat(' \n\n')
-    cyc_num <- cyc_num + 1
-}}
+  # include modified records in special dm cut 
+  if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
+    cat("####", "DM", " \n")
+    datatable(data)
+      x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
+        cat(paste("Number of records removed in DM: ", x, " \n"))
+      y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
+        cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
+      print(htmltools::tagList(DT::datatable(data, filter = 'top', rownames = FALSE, 
+                                           options = list(scrollX = TRUE, fixedColumns = TRUE)) %>%
+                               formatStyle("DCUT_TEMP_DTHCHANGE",
+                                            target = "row",
+                                            color = 'black', 
+                                            backgroundColor = styleEqual("Y", '#DFF3FF')) %>%
+                               formatStyle("DCUT_TEMP_REMOVE",
+                                            target = "row",
+                                            color = 'black', 
+                                            backgroundColor = styleEqual("Y",'#FFDFDF'))))
+      cat(' \n\n')
+  } else {
+    # table for each df in the datacut
+    for (df in data){
+      datatable(NULL)
+      name <- names(data)[cyc_num]
+      cat("####", toupper(name), " \n")
+      if (exists("DCUT_TEMP_REMOVE", where = df)){
+        x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
+        cat(paste("Number of records removed in ", toupper(name), ": ", x, " \n", " \n"))
+        print(htmltools::tagList(DT::datatable(df, filter = 'top', 
+                                               options = list(scrollX = TRUE, fixedColumns = TRUE)) %>%
+                                   formatStyle("DCUT_TEMP_REMOVE",
+                                                target = "row",
+                                                color = 'black', 
+                                                backgroundColor = styleEqual("Y",'#FFDFDF'))))
+      } else {
+      print(htmltools::tagList(DT::datatable(df, filter = 'top', 
+                                             options = list(scrollX = TRUE, fixedColumns = TRUE))))
+      }
+      cat(' \n\n')
+      cyc_num <- cyc_num + 1
+}}}
 
 # Summary Tab for each cut
 sum_test <- function(data){
@@ -249,79 +175,96 @@ sum_test <- function(data){
                    `Before Cut` = numeric(), 
                    `After Cut` = numeric(),
                    `Removed` = numeric())
-  for (df in data){
-    name <- names(data)[cyc_num]
-    x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
-    uncut <- nrow(df)
-    cut <- length(which(is.na(df$DCUT_TEMP_REMOVE)))
-    sum_t <- add_row(sum_t, 
-                     Dataset = toupper(name), 
-                     `Before Cut` = uncut,
-                     `After Cut` = cut,
-                     `Removed` = x)
-    cat(' \n\n')
-    cyc_num <- cyc_num + 1
-  }
-     sketch = htmltools::withTags(table(
-     class = 'display',
-     thead(tr(
-               th(rowspan = 2, 'Dataset'),
-               th(colspan = 3, 'Total Number of Records')
-            ),
-            tr(
-               lapply(names(sum_t)[-1], th)
-            )
-          )
-         ))
-   DT::datatable(sum_t, container = sketch, filter = 'top', rownames = FALSE, 
-                 options = list(scrollX = TRUE, fixedColumns = TRUE))
+   # DM-specific Summary Tab
+   if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
+        datatable(data)
+        x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
+        y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
+        uncut <- nrow(data)
+        cut <- length(which(is.na(data$DCUT_TEMP_REMOVE)))
+        sum_t <- tibble(Dataset = character(), 
+                        `Before Cut` = numeric(), 
+                        `After Cut` = numeric(), 
+                        Removed = numeric(), 
+                        Modified = numeric()) %>% 
+          add_row(Dataset = "DM", `Before Cut` = uncut, `After Cut` = cut, Removed = x, Modified = y)
+        sketch = htmltools::withTags(table(class = 'display',
+                                           thead(tr(th(rowspan = 2, 'Dataset'),
+                                                    th(colspan = 4, 'Total Number of Records')),
+                                                 tr(lapply(names(sum_t)[-1], th)))
+                                           ))
+        print(htmltools::tagList(DT::datatable(sum_t, container = sketch, rownames = FALSE)))
+        cat(' \n\n')
+     } else { 
+      # Summary tabs for other cuts
+        for (df in data){
+          name <- names(data)[cyc_num]
+          x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
+          uncut <- nrow(df)
+          cut <- length(which(is.na(df$DCUT_TEMP_REMOVE)))
+          sum_t <- add_row(sum_t, 
+                           Dataset = toupper(name), 
+                           `Before Cut` = uncut,
+                           `After Cut` = cut,
+                           `Removed` = x)
+          cat(' \n\n')
+          cyc_num <- cyc_num + 1
+        }
+           sketch = htmltools::withTags(table(class = 'display',
+                                              thead(tr(th(rowspan = 2, 'Dataset'),
+                                                       th(colspan = 3, 'Total Number of Records')),
+                                                    tr(lapply(names(sum_t)[-1], th)))
+                                              ))
+         DT::datatable(sum_t, container = sketch, filter = 'top', rownames = FALSE, 
+                       options = list(scrollX = TRUE, fixedColumns = TRUE))
+     }
 }
 
 # DM ####
 # Tabulate special dm cut and highlight modified
-tabulate_dm <- function(data){
-  cat("####", "DM", " \n")
-  datatable(data)
-  x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
-      cat(paste("Number of records removed in DM: ", x, " \n"))
-  y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
-      cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
-  print(htmltools::tagList(DT::datatable(data, filter = 'top', rownames = FALSE, options = list(scrollX = TRUE, fixedColumns = TRUE)) %>% 
-    formatStyle("DCUT_TEMP_DTHCHANGE",
-                target = "row",
-                color = 'black', 
-                backgroundColor = styleEqual("Y", '#DFF3FF')) %>%
-    formatStyle("DCUT_TEMP_REMOVE",
-                target = "row",
-                color = 'black', 
-                backgroundColor = styleEqual("Y",'#FFDFDF'))))
-  cat(' \n\n')
-}
+# tabulate_dm <- function(data){
+#   cat("####", "DM", " \n")
+#   datatable(data)
+#   x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
+#       cat(paste("Number of records removed in DM: ", x, " \n"))
+#   y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
+#       cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
+#   print(htmltools::tagList(DT::datatable(data, filter = 'top', rownames = FALSE, options = list(scrollX = TRUE, fixedColumns = TRUE)) %>% 
+#     formatStyle("DCUT_TEMP_DTHCHANGE",
+#                 target = "row",
+#                 color = 'black', 
+#                 backgroundColor = styleEqual("Y", '#DFF3FF')) %>%
+#     formatStyle("DCUT_TEMP_REMOVE",
+#                 target = "row",
+#                 color = 'black', 
+#                 backgroundColor = styleEqual("Y",'#FFDFDF'))))
+#   cat(' \n\n')
+# }
 
 # Summary for DM
-sum_dm <- function(data){
-  cat("####", "Summary", " \n")
-  datatable(data)
-  x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
-  y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
-  uncut <- nrow(data)
-  cut <- length(which(is.na(data$DCUT_TEMP_REMOVE)))
-  sum_t <- tibble(Dataset = character(), `Before Cut` = numeric(), `After Cut` = numeric(), Removed = numeric(), Modified = numeric()) %>% 
-    add_row(Dataset = "DM", `Before Cut` = uncut, `After Cut` = cut, Removed = x, Modified = y)
-  sketch = htmltools::withTags(table(
-     class = 'display',
-     thead(tr(
-               th(rowspan = 2, 'Dataset'),
-               th(colspan = 4, 'Total Number of Records')
-            ),
-            tr(
-               lapply(names(sum_t)[-1], th)
-            )
-          )
-         ))
-  print(htmltools::tagList(DT::datatable(sum_t, container = sketch, rownames = FALSE)))
-  cat(' \n\n')
-}
+# sum_dm <- function(data){
+#   cat("####", "Summary", " \n")
+#   datatable(data)
+#   x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
+#   y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
+#   uncut <- nrow(data)
+#   cut <- length(which(is.na(data$DCUT_TEMP_REMOVE)))
+#   sum_t <- tibble(Dataset = character(), `Before Cut` = numeric(), `After Cut` = numeric(), Removed = numeric(), Modified = numeric()) %>% 
+#     add_row(Dataset = "DM", `Before Cut` = uncut, `After Cut` = cut, Removed = x, Modified = y)
+#   sketch = htmltools::withTags(table(
+#      class = 'display',
+#      thead(tr(
+#                th(rowspan = 2, 'Dataset'),
+#                th(colspan = 4, 'Total Number of Records')
+#             ),
+#             tr(
+#                lapply(names(sum_t)[-1], th)
+#             )
+#           )
+#          ))
+#   print(htmltools::tagList(DT::datatable(sum_t, container = sketch, rownames = FALSE)))
+#   cat(' \n\n')
+# }
 ```
 
 ### Details
@@ -346,7 +289,6 @@ The **Final Data** tab contains all the datasets after the cut has been applied.
 
 ```{r Review, echo = FALSE}
 data_review(patient_cut_data, date_cut_data, dm_cut, no_cut_list)
-#data_review(patient_cut_data, date_cut_data, dm_cut, source_sdtm_data[no_cut_v])
 ```
 
 ## Datacut Dataset (DCUT)
@@ -359,7 +301,6 @@ After filtering the input DS dataset (based on the given filter condition), any 
 
 ###
 ```{r dcut, echo = FALSE}
-#knitr::kable(dcut)
 DT::datatable(dcut, filter = 'top', options = list(scrollX = TRUE, fixedColumns = TRUE))
 ```
 
@@ -424,20 +365,9 @@ Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would 
 
 ### {.tabset}
 ```{r dm_cut, results='asis', echo = FALSE}
-sum_dm(dm_cut)
-tabulate_dm(dm_cut)
+sum_test(dm_cut)
+df_tabs(dm_cut)
 ```
-
-<!-- ## Cut Data  -->
-
-<!-- ### Cut datasets -->
-
-<!-- Data after the cut has been applied. -->
-
-<!-- ### {.tabset} -->
-<!-- ```{r, results='asis', echo = FALSE} -->
-<!-- df_tabs(cut_data) -->
-<!-- ``` -->
 
 ## Final Data
 
