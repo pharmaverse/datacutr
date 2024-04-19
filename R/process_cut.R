@@ -57,7 +57,9 @@ process_cut <- function(source_sdtm_data,
                         no_cut_v = vector(),
                         dataset_cut,
                         cut_var,
-                        special_dm = TRUE) {
+                        special_dm = TRUE,
+                        read_out = FALSE,
+                        out_path = "~") {
   #  Assertions for input parameters -----------------------------------------------
   assert_that(is.list(source_sdtm_data),
     msg = "source_sdtm_data must be a list"
@@ -178,8 +180,9 @@ number of SDTMv datasets in which a cut approach has been defined."
   # Return the final list of SDTM datasets + DCUT ----------------------------------
 
   final_data <- c(list(dcut = dataset_cut), cut_data, source_sdtm_data[no_cut_v])
-
-  rmarkdown::render("~/datacutr/inst/test_markdown.Rmd")
+  if (read_out) {
+    read_out(patient_cut_data, date_cut_data, dm_cut, final_data, no_cut_list)
+  }
 
   return(final_data)
 }

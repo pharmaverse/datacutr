@@ -96,7 +96,11 @@ final_data <- c(cut_data, no_cut_list, list(dcut = dcut))
 
 final_data
 
-rmarkdown::render("~/datacutr/inst/test_markdown.Rmd")
+read_out(patient_cut_data, date_cut_data, dm_cut, final_data, no_cut_list, out_path = "~/andrewc9/datacutr")
+
+
+# test out new .rmd file format
+rmarkdown::render("~/datacutr/inst/read-out/read_out2.Rmd")
 
 # Name: Datacut Template Code - Wrapped Approach #########################################################
 
@@ -142,7 +146,8 @@ cut_data <- process_cut(
   no_cut_v = c("ts"),
   dataset_cut = dcut,
   cut_var = DCUTDTM,
-  special_dm = TRUE
+  special_dm = TRUE,
+  read_out = TRUE
 )
 
 cut_data

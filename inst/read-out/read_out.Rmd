@@ -12,30 +12,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r read-md, include=FALSE}
-## Code to read and run a markdown file and save it
-
-# demo_code = "~/datacutr/tests/read-out/demo_datacutr.R"
-# cat(readLines(demo_code), sep = "\n") 
-
-# output_source = function(code, context, ...) {
-#   logo = file.path(R.home("doc"), "html", "logo.jpg")
-#   if (context$label == "chunk-one") list(
-#     rmarkdown::html_notebook_output_code("# R Code"),
-#     paste("Custom output for chunk:", context$chunk.index),
-#     rmarkdown::html_notebook_output_code("# R Logo"),
-#     rmarkdown::html_notebook_output_img(logo)
-#   )
-# }
-# 
-# output_file = rmarkdown::render(
-#   demo_code,
-#   output_options = list(output_source = output_source),
-#   quiet = TRUE
-# )
-
-```
-
 ``` {r tabulate function, include=FALSE}
 library(DT)
 
@@ -94,17 +70,19 @@ data_review <- function(pt_data, dt_data, dm_data, no_cut){
    cyc_num <- cyc_num + 1
   }
   # DM Cut Data
-  x <- length(which(dm_data$DCUT_TEMP_REMOVE == "Y"))
-  y <- length(which(dm_data$DCUT_TEMP_DTHCHANGE == "Y"))
-  uncut <- nrow(dm_data)
-  cut <- length(which(is.na(dm_data$DCUT_TEMP_REMOVE)))
-  sum_t <- add_row(sum_t,
-                     Dataset = "DM",
-                     `Cut Applied` = "DM",
-                     `Before Cut`= uncut,
-                     `After Cut` = cut,
-                     `Removed` = x,
-                     `Modified` = y)
+  if (!is.null(dm_data)){
+    x <- length(which(dm_data$DCUT_TEMP_REMOVE == "Y"))
+    y <- length(which(dm_data$DCUT_TEMP_DTHCHANGE == "Y"))
+    uncut <- nrow(dm_data)
+    cut <- length(which(is.na(dm_data$DCUT_TEMP_REMOVE)))
+    sum_t <- add_row(sum_t,
+                       Dataset = "DM",
+                       `Cut Applied` = "DM",
+                       `Before Cut`= uncut,
+                       `After Cut` = cut,
+                       `Removed` = x,
+                       `Modified` = y)
+  } 
     # Custom table container
   sketch = htmltools::withTags(table(
      class = 'display',
@@ -125,6 +103,10 @@ data_review <- function(pt_data, dt_data, dm_data, no_cut){
 # Create tabs in the html ####
 df_tabs <- function(data){
   cyc_num <- 1
+  # case when data = NULL
+  if (is.null(data)) {
+    return(cat("If you would like to apply this cut, please double check you have ran this cut / filled in all the parameters in process_cut() when using the wrapped approach"))
+  } else {
   # include modified records in special dm cut 
   if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
     cat("####", "DM", " \n")
@@ -165,7 +147,9 @@ df_tabs <- function(data){
       }
       cat(' \n\n')
       cyc_num <- cyc_num + 1
-}}}
+    }}
+  }
+}
 
 # Summary Tab for each cut
 sum_test <- function(data){
@@ -175,6 +159,11 @@ sum_test <- function(data){
                    `Before Cut` = numeric(), 
                    `After Cut` = numeric(),
                    `Removed` = numeric())
+   # case when data = NULL
+  if (is.null(data)) {
+    cat("No data has been cut with this cut type")
+    cat(' \n\n')
+  } else {
    # DM-specific Summary Tab
    if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
         datatable(data)
@@ -218,53 +207,8 @@ sum_test <- function(data){
          DT::datatable(sum_t, container = sketch, filter = 'top', rownames = FALSE, 
                        options = list(scrollX = TRUE, fixedColumns = TRUE))
      }
+  }
 }
-
-# DM ####
-# Tabulate special dm cut and highlight modified
-# tabulate_dm <- function(data){
-#   cat("####", "DM", " \n")
-#   datatable(data)
-#   x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
-#       cat(paste("Number of records removed in DM: ", x, " \n"))
-#   y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
-#       cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
-#   print(htmltools::tagList(DT::datatable(data, filter = 'top', rownames = FALSE, options = list(scrollX = TRUE, fixedColumns = TRUE)) %>% 
-#     formatStyle("DCUT_TEMP_DTHCHANGE",
-#                 target = "row",
-#                 color = 'black', 
-#                 backgroundColor = styleEqual("Y", '#DFF3FF')) %>%
-#     formatStyle("DCUT_TEMP_REMOVE",
-#                 target = "row",
-#                 color = 'black', 
-#                 backgroundColor = styleEqual("Y",'#FFDFDF'))))
-#   cat(' \n\n')
-# }
-
-# Summary for DM
-# sum_dm <- function(data){
-#   cat("####", "Summary", " \n")
-#   datatable(data)
-#   x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
-#   y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
-#   uncut <- nrow(data)
-#   cut <- length(which(is.na(data$DCUT_TEMP_REMOVE)))
-#   sum_t <- tibble(Dataset = character(), `Before Cut` = numeric(), `After Cut` = numeric(), Removed = numeric(), Modified = numeric()) %>% 
-#     add_row(Dataset = "DM", `Before Cut` = uncut, `After Cut` = cut, Removed = x, Modified = y)
-#   sketch = htmltools::withTags(table(
-#      class = 'display',
-#      thead(tr(
-#                th(rowspan = 2, 'Dataset'),
-#                th(colspan = 4, 'Total Number of Records')
-#             ),
-#             tr(
-#                lapply(names(sum_t)[-1], th)
-#             )
-#           )
-#          ))
-#   print(htmltools::tagList(DT::datatable(sum_t, container = sketch, rownames = FALSE)))
-#   cat(' \n\n')
-# }
 ```
 
 ### Details
