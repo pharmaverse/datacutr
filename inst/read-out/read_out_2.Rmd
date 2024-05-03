@@ -367,7 +367,7 @@ Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would 
 
 ***For ease of interpretation, the records where death dates have been modified are flagged*** <span style="color: blue;">***BLUE.***
 
-***The records where death dates have been removed are flagged*** <span style="color: red;">***RED.***
+***The records where records have been removed are flagged*** <span style="color: red;">***RED.***
 
 ---
 
