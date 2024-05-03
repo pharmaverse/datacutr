@@ -256,7 +256,7 @@ Patient cut to an SDTMv dataset (i.e. subset SDTMv observations on patients incl
 
 Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would be dropped when a patient level datacut is applied.
 
-***For ease of interpretation, the records where death dates have been removed are flagged*** <span style="color: red;">***RED.***
+***For ease of interpretation, the records that have been removed are flagged*** <span style="color: red;">***RED.***
 
 ---
 
@@ -281,7 +281,7 @@ Note that this function applies a patient level datacut at the same time (using 
 
 Input dataset plus a flag TEMP_DCUT_REMOVE to indicate which observations would be dropped when a datacut is applied.
 
-***For ease of interpretation, the records where death dates have been removed are flagged*** <span style="color: red;">***RED.***
+***For ease of interpretation, the records that have been removed are flagged*** <span style="color: red;">***RED.***
 
 ---
 
