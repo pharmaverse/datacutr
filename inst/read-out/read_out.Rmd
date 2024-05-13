@@ -24,6 +24,10 @@ data_review <- function(pt_data, dt_data, dm_data, no_cut){
                    `After Cut` = numeric(),
                    `Removed` = numeric(), 
                    `Modified` = numeric())
+   if (is.null(pt_data) & is.null(dt_data) & is.null(dm_data) & is.null(no_cut)) {
+       cat("No data has been inputted into the read-out function.", ' \n',
+       "If you would like to view a summary of the datacut, please double check you have filled in all the parameters in the read_out() function (or process_cut() when using the wrapped approach.)", ' \n', fill = TRUE)
+   } 
   # Patient Cut Data
   for (df in pt_data){
     name <- names(pt_data)[cyc_num]
@@ -105,7 +109,7 @@ df_tabs <- function(data){
   cyc_num <- 1
   # case when data = NULL
   if (is.null(data)) {
-    return(cat("If you would like to apply this cut, please double check you have ran this cut / filled in all the parameters in process_cut() when using the wrapped approach"))
+    return(cat("NO DATA TO VIEW"))
   } else {
   # include modified records in special dm cut 
   if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
@@ -161,7 +165,8 @@ sum_test <- function(data){
                    `Removed` = numeric())
    # case when data = NULL
   if (is.null(data)) {
-    cat("No data has been cut with this cut type")
+    cat("No data has been cut with this cut type.", ' \n')
+    cat("If you would like to apply this cut, please double check you have ran this cut / filled in all the parameters in process_cut() (for the wrapped approach).")
     cat(' \n\n')
   } else {
    # DM-specific Summary Tab
@@ -231,7 +236,7 @@ The **Final Data** tab contains all the datasets after the cut has been applied.
 
 ---
 
-```{r Review, echo = FALSE}
+```{r Review, results='asis', echo = FALSE}
 data_review(patient_cut_data, date_cut_data, dm_cut, no_cut_list)
 ```
 

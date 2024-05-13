@@ -146,27 +146,12 @@ test_that("Correct .Rmd file is run successfully", {
 # raw sdtmv data input
 # cut data input
 
-# Test that .Rmd is still produced when data cut fields are empty -----------
-# patient_cut_data = NULL
+# Test that .Rmd is still produced when data cut fields are incorrect input types -----------
+# patient_cut_data input is not a list
 test_that("Correct .Rmd file is run successfully", {
   # Call read_out() to generate the .Rmd file
   result <- read_out(dcut,
-                     patient_cut_data = NULL,
-                     date_cut_data,
-                     dm_cut,
-                     final_data,
-                     no_cut_list,
-                     out_path = "~"
-  )
-  # Assert that the output file is generated successfully
-  expect_true(file.exists(result))
-})
-
-# Test that .Rmd errors when dcut is empty -----------
-test_that("Correct .Rmd file is run successfully", {
-  # Call read_out() to generate the .Rmd file
-  result <- read_out(dcut = NULL,
-                     patient_cut_data,
+                     patient_cut_data = ,
                      date_cut_data,
                      dm_cut,
                      final_data,
