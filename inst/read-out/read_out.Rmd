@@ -1,5 +1,5 @@
 ---
-title: "Test Read-out File"
+title: "Data Cut Read-out File"
 date: "`r format(Sys.time(), '%c')`"
 output: 
   html_document:
@@ -166,7 +166,7 @@ sum_test <- function(data){
    # case when data = NULL
   if (is.null(data)) {
     cat("No data has been cut with this cut type.", ' \n')
-    cat("If you would like to apply this cut, please double check you have ran this cut / filled in all the parameters in process_cut() (for the wrapped approach).")
+    cat("If you would like to apply this cut, please double check you have ran this cut / filled in all the parameters in process_cut() - for the wrapped approach - or read_out() - modular approach.")
     cat(' \n\n')
   } else {
    # DM-specific Summary Tab
