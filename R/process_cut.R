@@ -118,13 +118,17 @@ no_cut_v empty, in which case a default value of NULL will be used."
       no_cut_method <- append(no_cut_method, sdtm_inputs[i])
     }
   }
-  error_msg1 <- paste0(paste(sdtm_inputs_dups, collapse = " & "),
-                       " exists more than once in source_sdtm_data")
+  error_msg1 <- paste0(
+    paste(sdtm_inputs_dups, collapse = " & "),
+    " exists more than once in source_sdtm_data"
+  )
   assert_that(is.null(sdtm_inputs_dups),
     msg = error_msg1
   )
-  error_msg2 <- paste0(paste(no_cut_method, collapse = " & "),
-                       " exists in source_sdtm_data but no cut method has been assigned")
+  error_msg2 <- paste0(
+    paste(no_cut_method, collapse = " & "),
+    " exists in source_sdtm_data but no cut method has been assigned"
+  )
   assert_that(is.null(no_cut_method),
     msg = error_msg2
   )
@@ -139,8 +143,10 @@ no_cut_v empty, in which case a default value of NULL will be used."
       no_sdtm <- append(no_sdtm, cut_inputs[i])
     }
   }
-  error_msg3 <- paste0("Multiple cut types have been assigned for ",
-                       paste(cut_inputs_dups, collapse = " & "))
+  error_msg3 <- paste0(
+    "Multiple cut types have been assigned for ",
+    paste(cut_inputs_dups, collapse = " & ")
+  )
   assert_that(is.null(cut_inputs_dups),
     msg = error_msg3
   )
