@@ -24,6 +24,9 @@ patient_cut_data empty, in which case a default value of NULL will be used.")
     for(i in seq(length(patient_cut_data))){
       assert_data_frame(patient_cut_data[[i]],
                         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE))
+
+      assert_that(is_named(patient_cut_data[i]),
+                   msg = "All elements patient_cut_data must be named with corresponding domain")
     }
   }
 
@@ -37,6 +40,9 @@ date_cut_data empty, in which case a default value of NULL will be used.")
     for(i in seq(length(date_cut_data))){
       assert_data_frame(date_cut_data[[i]],
                         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE))
+
+      assert_that(is_named(date_cut_data[i]),
+                  msg = "All elements in date_cut_data must be named with corresponding domain")
     }
   }
 
@@ -56,6 +62,11 @@ final_data empty, in which case a default value of NULL will be used.")
     assert_that(all(unlist(lapply(final_data, is.data.frame))),
                 msg = "All elements of final_data must be a dataframe"
     )
+
+    # assert_that(all(unlist(lapply(final_data, !("DCUT_TEMP_REMOVE" %in% names)))),
+    #             msg = "final_data must only contain cut data"
+    # )
+
   }
 
   if (!is.null(no_cut_list)){
@@ -67,6 +78,11 @@ no_cut_list empty, in which case a default value of NULL will be used.")
     assert_that(all(unlist(lapply(no_cut_list, is.data.frame))),
                 msg = "All elements of no_cut_list must be a dataframe"
     )
+
+    assert_that(all(unlist(lapply(no_cut_list, is_named))),
+                msg = "All elements of no_cut_list must be a named with the corresponding domain"
+    )
+
   }
 
   rmarkdown::render(system.file(package = "datacutr",
