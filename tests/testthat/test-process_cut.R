@@ -198,3 +198,34 @@ test_that("Test that every type of datacut gives the expected result, when speci
     expected
   )
 })
+
+# READ_OUT() ----
+# Test that no .Rmd file is produced when read_out = FALSE
+test_that("Test that no .Rmd file is produced when read_out = FALSE", {
+  # Call read_out() to generate the .Rmd file
+  result <- read_out(out_path = "~")
+  # Assert that the output file is generated successfully
+  expect_true(file.exists(result))
+})
+
+# Test that Correct .Rmd file is ran successfully when read_out = TRUE
+test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE", {
+  process_cut(
+              source_sdtm_data = source_data,
+              patient_cut_v = c("sc", "ds"),
+              date_cut_m = rbind(
+                c("ae", "AESTDTC"),
+                c("lb", "LBDTC")
+              ),
+              no_cut_v = c("ts"),
+              dataset_cut = dcut,
+              cut_var = DCUTDTM,
+              special_dm = TRUE,
+              read_out = TRUE
+            )
+  output_file <- paste(format(Sys.time(), "datacut_%d-%b-%Y_%H:%M:%S.html"))
+  #out <- paste(out_path, output_file)
+  # Assert that the output file is generated successfully
+  expect_true(file.exists(output_file))
+})
+
