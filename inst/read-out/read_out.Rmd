@@ -114,12 +114,13 @@ df_tabs <- function(data){
   # include modified records in special dm cut 
   if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
     cat("####", "DM", " \n")
-    datatable(data)
+    datatable(NULL)
       x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
         cat(paste("Number of records removed in DM: ", x, " \n"))
       y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
         cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
-      print(htmltools::tagList(DT::datatable(data, filter = 'top', rownames = FALSE, 
+      removed <- data %>% filter(data$DCUT_TEMP_REMOVE == "Y" | data$DCUT_TEMP_DTHCHANGE == "Y")
+      print(htmltools::tagList(DT::datatable(removed, filter = 'top', rownames = FALSE, 
                                            options = list(scrollX = TRUE, fixedColumns = TRUE)) %>%
                                formatStyle("DCUT_TEMP_DTHCHANGE",
                                             target = "row",
@@ -136,19 +137,11 @@ df_tabs <- function(data){
       datatable(NULL)
       name <- names(data)[cyc_num]
       cat("####", toupper(name), " \n")
-      if (exists("DCUT_TEMP_REMOVE", where = df)){
         x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
         cat(paste("Number of records removed in ", toupper(name), ": ", x, " \n", " \n"))
-        print(htmltools::tagList(DT::datatable(df, filter = 'top', 
-                                               options = list(scrollX = TRUE, fixedColumns = TRUE)) %>%
-                                   formatStyle("DCUT_TEMP_REMOVE",
-                                                target = "row",
-                                                color = 'black', 
-                                                backgroundColor = styleEqual("Y",'#FFDFDF'))))
-      } else {
-      print(htmltools::tagList(DT::datatable(df, filter = 'top', 
+        removed <- df %>% filter(df$DCUT_TEMP_REMOVE == "Y")
+        print(htmltools::tagList(DT::datatable(removed, filter = 'top',
                                              options = list(scrollX = TRUE, fixedColumns = TRUE))))
-      }
       cat(' \n\n')
       cyc_num <- cyc_num + 1
     }}
@@ -222,9 +215,7 @@ This is an {datacur} auto-generated read-out file. It contains a summary of the 
 
 The **Summary** tab outlines the datasets affected and what type of cut has been applied to each. 
 
-You can investigate each of the types of cuts applied and look at the data itself by looking at the **Datacut Dataset (DCUT)**, **Patient Cut**, **Date Cut** and **Special DM Cut** tabs. 
-
-The **Final Data** tab contains all the datasets after the cut has been applied. 
+You can investigate each of the types of cuts applied and look at the records removed and/or modified by looking at the **Datacut Dataset (DCUT)**, **Patient Cut**, **Date Cut** and **Special DM Cut** tabs. 
 
 ---
 
@@ -261,8 +252,6 @@ Patient cut to an SDTMv dataset (i.e. subset SDTMv observations on patients incl
 
 Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would be dropped when a patient level datacut is applied.
 
-***For ease of interpretation, the records that have been removed are flagged*** <span style="color: red;">***RED.***
-
 ---
 
 ### {.tabset}
@@ -285,8 +274,6 @@ A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the observations t
 Note that this function applies a patient level datacut at the same time (using the `pt_cut()` function), and also imputes dates in the specified SDTMv dataset (using the `impute_sdtm()` function).
 
 Input dataset plus a flag TEMP_DCUT_REMOVE to indicate which observations would be dropped when a datacut is applied.
-
-***For ease of interpretation, the records that have been removed are flagged*** <span style="color: red;">***RED.***
 
 ---
 
@@ -318,15 +305,3 @@ sum_test(dm_cut)
 df_tabs(dm_cut)
 ```
 
-## Final Data
-
-### Final datasets
-
-Uncut data added to the cut data.
-
----
-
-### {.tabset}
-```{r, results='asis', echo = FALSE}
-df_tabs(final_data)
-```

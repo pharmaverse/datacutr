@@ -8,7 +8,6 @@
 #' @param date_cut_data A list of quoted SDTMv domain names in which a date cut has been applied.
 #' To be left blank if a date cut has not been performed on any domains.
 #' @param dm_cut
-#' @param final_data List of cut data frames
 #' @param no_cut_list List of of quoted SDTMv domain names in which no cut should be applied. To be
 #' left blank if no domains are to remain exactly as source.
 #'
@@ -26,7 +25,6 @@ read_out <- function(dcut = NULL,
                      patient_cut_data = NULL,
                      date_cut_data = NULL,
                      dm_cut = NULL,
-                     final_data = NULL,
                      no_cut_list = NULL,
                      out_path = ".") {
 #browser()
@@ -67,18 +65,6 @@ date_cut_data empty, in which case a default value of NULL will be used.")
                     required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE, DCUT_TEMP_DTHCHANGE)
   )
   }
-  if (!is.null(final_data)){
-    assert_that(is.list(final_data) & !is.data.frame(final_data),
-                msg = "final_data must be a list. \n
-Note: If you have not used or do not with to view the SDTMv domains where no cut has been applied, then please leave
-final_data empty, in which case a default value of NULL will be used.")
-    for(i in seq(length(final_data))){
-      assert_data_frame(final_data[[i]])
-
-      assert_that(is_named(final_data[i]),
-                  msg = "All elements in final_data must be named with corresponding domain")
-    }
-  }
   if (!is.null(no_cut_list)){
     assert_that(is.list(no_cut_list) & !is.data.frame(no_cut_list),
                 msg = "no_cut_list must be a list. \n
@@ -91,8 +77,8 @@ no_cut_list empty, in which case a default value of NULL will be used.")
                   msg = "All elements in no_cut_list must be named with corresponding domain")
   }
   }
-  rmarkdown::render(system.file(package = "datacutr",
-                                path = "/inst/read-out/read_out.Rmd"),
+  rmarkdown::render(paste0(system.file(package = "datacutr"),
+                                path = "/read-out/read_out.Rmd"),
                     output_file = paste("datacut_", format(Sys.time(), "%d-%b-%Y_%H:%M:%S", ".html")),
                     output_dir = out_path)
 }

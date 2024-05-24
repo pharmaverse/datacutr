@@ -70,55 +70,6 @@ dm_cut <- tibble::tribble(
           "AB12345-005",    "Y", "2022-12-01",               "Y",     "2022-12-01",                    NA,                   NA
         )
 
-# Final Data ------------------------------------------------
-# Expected final data --------- ------------------------------------------------
-
-ds_cut <- tibble::tribble(
-  ~USUBJID, ~DSDECOD, ~DSSTDTC,
-  "AB12345-001", "RANDOMIZATION", "2022-06-01",
-  "AB12345-002", "RANDOMIZATION", "2022-06-02",
-  "AB12345-003", "RANDOMIZATION", "2022-06-03",
-  "AB12345-004", "RANDOMIZATION", "2022-06-04",
-)
-dm_cut2 <- tibble::tribble(
-  ~USUBJID, ~DTHFL, ~DTHDTC,
-  "AB12345-001", "Y", "2022-06-01",
-  "AB12345-002", "", "",
-  "AB12345-003", "", "",
-  "AB12345-004", "", "",
-)
-ae_cut <- tibble::tribble(
-  ~USUBJID, ~AETERM, ~AESTDTC,
-  "AB12345-001", "AE1", "2022-06-01",
-  "AB12345-004", "AE4", "2022-05-04",
-)
-sc_cut <- tibble::tribble(
-  ~USUBJID, ~SCORRES,
-  "AB12345-001", "A",
-  "AB12345-002", "B",
-  "AB12345-003", "C",
-  "AB12345-004", "D",
-)
-lb_cut <- tibble::tribble(
-  ~USUBJID, ~LBORRES, ~LBDTC,
-  "AB12345-001", 1, "2022-06-01",
-  "AB12345-004", 4, "2022-05-04",
-)
-ts_cut <- tibble::tribble(
-  ~USUBJID, ~TSVAL,
-  "AB12345-001", 1,
-  "AB12345-002", 2,
-  "AB12345-003", 3,
-  "AB12345-004", 4,
-  "AB12345-005", 5,
-)
-
-# Store all expected data as a list
-final_data <- list(
-  dcut = dcut, dm = dm_cut2, sc = sc_cut, ds = ds_cut,
-  ae = ae_cut, lb = lb_cut, ts = ts_cut
-)
-
 # Testing ---------------------------------------------------------------------------------------------------------
 
 # Test that .Rmd gives the expected result when all fields are set to default or contain valid data -----------
@@ -129,11 +80,11 @@ test_that("Correct .Rmd file is run successfully when fields contain correct dat
                      patient_cut_data = pt_cut_data,
                      date_cut_data = dt_cut_data,
                      dm_cut = dm_cut,
-                     final_data = final_data,
                      no_cut_list = no_cut_ls,
                      out_path = ".")
   # Assert that the output file is generated successfully
   expect_true(file.exists(result))
+  unlink(result, recursive = TRUE)
 })
 
 # Test that Correct .Rmd file is ran successfully when fields are empty
@@ -142,6 +93,7 @@ test_that("Correct .Rmd file is ran successfully when fields are empty", {
   result <- read_out()
   # Assert that the output file is generated successfully
   expect_true(file.exists(result))
+  unlink(result, recursive = TRUE)
 })
 
 # Test read_out() errors when data cut fields are incorrect input types -----------
@@ -152,7 +104,6 @@ test_that("Test that read_out() errors dcut data frame does not contain the var 
                         patient_cut_data = pt_cut_data,
                         date_cut_data = dt_cut_data,
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = no_cut_ls,
                         out_path = "."
   ))
@@ -165,7 +116,6 @@ test_that("Test that read_out() errors when patient_cut_data input is not a list
                      patient_cut_data = sc,
                      date_cut_data = dt_cut_data,
                      dm_cut = dm_cut,
-                     final_data = final_data,
                      no_cut_list = no_cut_ls,
                      out_path = "."
   ),
@@ -181,7 +131,6 @@ test_that("Test that read_out() errors when elements in the patient_cut_data lis
                         patient_cut_data = list("sc", "ds"),
                         date_cut_data = dt_cut_data,
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = no_cut_ls,
                         out_path = "."
   ))
@@ -193,7 +142,6 @@ test_that("Test that read_out() errors when data frames in patient_cut_data are 
                         patient_cut_data = list(sc, ds),
                         date_cut_data = dt_cut_data,
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = no_cut_ls,
                         out_path = "."
   ),
@@ -208,7 +156,6 @@ test_that("Test that read_out() errors when date_cut_data input is not a list", 
                         patient_cut_data = pt_cut_data,
                         date_cut_data = ae,
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = no_cut_ls,
                         out_path = "."
   ),
@@ -224,7 +171,6 @@ test_that("Test that read_out() errors when elements in the date_cut_data list a
                         patient_cut_data = pt_cut_data,
                         date_cut_data = list("ae", "lb"),
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = no_cut_ls,
                         out_path = "."
   ))
@@ -236,7 +182,6 @@ test_that("Test that read_out() errors when data frames in date_cut_data are unn
                         patient_cut_data = pt_cut_data,
                         date_cut_data = list(ae, lb),
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = no_cut_ls,
                         out_path = "."
   ),
@@ -251,51 +196,9 @@ test_that("Test that read_out() errors when dm_cut data frame does not contain t
                         patient_cut_data = pt_cut_data,
                         date_cut_data = dt_cut_data,
                         dm_cut = sc,
-                        final_data = final_data,
                         no_cut_list = no_cut_ls,
                         out_path = "."
   ))
-})
-
-## final_cut ----
-# Test that read_out() errors when final_cut is not a list
-test_that("Test that read_out() errors when final_cut is not a list", {
-  expect_error(read_out(dcut = dcut,
-                        patient_cut_data = pt_cut_data,
-                        date_cut_data = dt_cut_data,
-                        dm_cut = dm_cut,
-                        final_data = sc,
-                        no_cut_list,
-                        out_path = "."
-  ),
-  regexp = "final_data must be a list. \n
-Note: If you have not used or do not with to view the SDTMv domains where no cut has been applied, then please leave
-final_data empty, in which case a default value of NULL will be used.")
-})
-
-# Test that read_out() errors when elements in the final_cut list are not data frames
-test_that("Test that read_out() errors when elements in the final_cut list are not data frames", {
-  expect_error(read_out(dcut = dcut,
-                        patient_cut_data = pt_cut_data,
-                        date_cut_data = dt_cut_data,
-                        dm_cut = dm_cut,
-                        final_data = list("sc_cut", "ae_cut"),
-                        no_cut_list,
-                        out_path = "."
-  ))
-})
-
-# Test that read_out() errors when elements in the final_data list are not named with the corresponding domain
-test_that("Test that read_out() errors when elements in the final_data list are not named with the corresponding domain", {
-  expect_error(read_out(dcut = dcut,
-                        patient_cut_data = pt_cut_data,
-                        date_cut_data = dt_cut_data,
-                        dm_cut = dm_cut,
-                        final_data = list(ts, ae),
-                        no_cut_list = no_cut_list,
-                        out_path = "."
-  ),
-  regexp = "All elements in final_data must be named with corresponding domain")
 })
 
 
@@ -306,7 +209,6 @@ test_that("Test that read_out() errors when no_cut_list is not a list", {
                         patient_cut_data = pt_cut_data,
                         date_cut_data = dt_cut_data,
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = ds,
                         out_path = "."
   ),
@@ -321,7 +223,6 @@ test_that("Test that read_out() errors when elements in the no_cut_list list are
                         patient_cut_data = pt_cut_data,
                         date_cut_data = dt_cut_data,
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = ls("ts"),
                         out_path = "."
   ))
@@ -333,7 +234,6 @@ test_that("Test that read_out() errors when elements in the no_cut_list list are
                         patient_cut_data = pt_cut_data,
                         date_cut_data = dt_cut_data,
                         dm_cut = dm_cut,
-                        final_data = final_data,
                         no_cut_list = list(ts, ae),
                         out_path = "."
   ),

@@ -182,7 +182,7 @@ number of SDTMv datasets in which a cut approach has been defined."
   final_data <- c(list(dcut = dataset_cut), cut_data, source_sdtm_data[no_cut_v])
 
   if (read_out) {
-    read_out(dataset_cut, patient_cut_data, date_cut_data, dm_cut, final_data, no_cut_list, out_path)
+    read_out(dataset_cut, patient_cut_data, date_cut_data, dm_cut, no_cut_list, out_path)
   }
 
   return(final_data)
