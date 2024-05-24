@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ``` {r tabulate function, include=FALSE}
-library(reactable)
+library(DT)
 
 # Overall Summary of Datacut Tab####
 data_review <- function(pt_data, dt_data, dm_data, no_cut){
@@ -101,11 +101,7 @@ data_review <- function(pt_data, dt_data, dm_data, no_cut){
         )
      )
   ))
-  reactable(sum_t, columnGroups = list(
-    colGroup("Total Number of Records", columns = c("Before Cut", "After Cut", "Removed", "Modified"))
-  ),
-  bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE, 
-  showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE)
+  DT::datatable(sum_t, container = sketch, filter = 'top', rownames = FALSE)
 }
 
 # Create tabs in the html ####
@@ -118,39 +114,34 @@ df_tabs <- function(data){
   # include modified records in special dm cut 
   if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
     cat("####", "DM", " \n")
+    datatable(NULL)
       x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
         cat(paste("Number of records removed in DM: ", x, " \n"))
       y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
         cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
       removed <- data %>% filter(data$DCUT_TEMP_REMOVE == "Y" | data$DCUT_TEMP_DTHCHANGE == "Y")
-      print(htmltools::tagList(reactable(removed,
-                    rowStyle = function(index){
-                      row <- removed[index, ]
-                      if (!is.na(row$DCUT_TEMP_REMOVE)){ 
-                        list(background = "#FFDFDF")
-                      } else if (!is.na(row$DCUT_TEMP_DTHCHANGE)){
-                        list(background = "#DFF3FF")
-                      } else {
-                        NULL
-                      }
-                    },
-                bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
-                showPageSizeOptions = TRUE, striped = TRUE, wrap = FALSE, resizable = TRUE,
-                showSortable = TRUE)))
-
+      print(htmltools::tagList(DT::datatable(removed, filter = 'top', rownames = FALSE, 
+                                           options = list(scrollX = TRUE, fixedColumns = TRUE)) %>%
+                               formatStyle("DCUT_TEMP_DTHCHANGE",
+                                            target = "row",
+                                            color = 'black', 
+                                            backgroundColor = styleEqual("Y", '#DFF3FF')) %>%
+                               formatStyle("DCUT_TEMP_REMOVE",
+                                            target = "row",
+                                            color = 'black', 
+                                            backgroundColor = styleEqual("Y",'#FFDFDF'))))
       cat(' \n\n')
   } else {
     # table for each df in the datacut
     for (df in data){
+      datatable(NULL)
       name <- names(data)[cyc_num]
       cat("####", toupper(name), " \n")
         x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
         cat(paste("Number of records removed in ", toupper(name), ": ", x, " \n", " \n"))
         removed <- df %>% filter(df$DCUT_TEMP_REMOVE == "Y")
-        print(htmltools::tagList(reactable(removed,
-                bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
-                showPageSizeOptions = TRUE, showSortable = TRUE,
-                striped = TRUE, wrap = FALSE, resizable = TRUE)))
+        print(htmltools::tagList(DT::datatable(removed, filter = 'top',
+                                             options = list(scrollX = TRUE, fixedColumns = TRUE))))
       cat(' \n\n')
       cyc_num <- cyc_num + 1
     }}
@@ -173,6 +164,7 @@ sum_test <- function(data){
   } else {
    # DM-specific Summary Tab
    if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
+        datatable(data)
         x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
         y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
         uncut <- nrow(data)
@@ -183,11 +175,12 @@ sum_test <- function(data){
                         Removed = numeric(), 
                         Modified = numeric()) %>% 
           add_row(Dataset = "DM", `Before Cut` = uncut, `After Cut` = cut, Removed = x, Modified = y)
-        print(htmltools::tagList(reactable(sum_t, columnGroups = list(
-          colGroup("Total Number of Records", columns = c("Before Cut", "After Cut", "Removed", "Modified"))
-            ),
-          bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
-          showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE)))
+        sketch = htmltools::withTags(table(class = 'display',
+                                           thead(tr(th(rowspan = 2, 'Dataset'),
+                                                    th(colspan = 4, 'Total Number of Records')),
+                                                 tr(lapply(names(sum_t)[-1], th)))
+                                           ))
+        print(htmltools::tagList(DT::datatable(sum_t, container = sketch, rownames = FALSE)))
         cat(' \n\n')
      } else { 
       # Summary tabs for other cuts
@@ -204,11 +197,13 @@ sum_test <- function(data){
           cat(' \n\n')
           cyc_num <- cyc_num + 1
         }
-        reactable(sum_t, columnGroups = list(
-          colGroup("Total Number of Records", columns = c("Before Cut", "After Cut", "Removed"))
-            ),
-          bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
-          showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE)
+           sketch = htmltools::withTags(table(class = 'display',
+                                              thead(tr(th(rowspan = 2, 'Dataset'),
+                                                       th(colspan = 3, 'Total Number of Records')),
+                                                    tr(lapply(names(sum_t)[-1], th)))
+                                              ))
+         DT::datatable(sum_t, container = sketch, filter = 'top', rownames = FALSE, 
+                       options = list(scrollX = TRUE, fixedColumns = TRUE))
      }
   }
 }
@@ -246,13 +241,7 @@ After filtering the input DS dataset (based on the given filter condition), any 
 
 ###
 ```{r dcut, echo = FALSE}
-if (is.null(dcut)) {
-    return(cat("NO DATA TO VIEW"))
-  } else {
-    reactable(dcut,
-          bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
-          showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE)
-  }
+DT::datatable(dcut, filter = 'top', options = list(scrollX = TRUE, fixedColumns = TRUE))
 ```
 
 ## Patient Cut 
