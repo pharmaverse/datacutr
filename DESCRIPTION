@@ -17,7 +17,7 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Depends: R (>= 3.5)
 Imports:
     admiraldev (>= 0.3.0),
@@ -28,7 +28,8 @@ Imports:
     purrr (>= 0.3.3),
     stringr,
     rlang (>= 0.4.4),
-    tibble
+    tibble,
+    reactable
 Suggests:
     devtools,
     lintr,

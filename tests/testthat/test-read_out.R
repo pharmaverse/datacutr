@@ -191,7 +191,7 @@ test_that("Test that read_out() errors when data frames in date_cut_data are unn
 
 ## dm_cut ----
 # Test that read_out() errors when dm_cut data frame does not contain the vars DCUT_TEMP_REMOVE & DCUT_TEMP_DTHCHANG
-test_that("Test that read_out() errors when dm_cut data frame does not contain the vars DCUT_TEMP_REMOVE & DCUT_TEMP_DTHCHANG", {
+test_that("Test that read_out() errors when dm_cut data frame does not contain the vars DCUT_TEMP_REMOVE & DCUT_TEMP_DTHCHANGE", {
   expect_error(read_out(dcut = dcut,
                         patient_cut_data = pt_cut_data,
                         date_cut_data = dt_cut_data,
