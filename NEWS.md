@@ -6,10 +6,14 @@
 ## Updates of Existing Functions
 - Update to `impute_dcutdtc()`, `date_cut()` and `special_dm_cut()` functions to allow for 
 datacut date to be null. In this case, all records for this patient 
-will be kept/left unchanged. (#179, #188, #189, #190)
+will be kept/left unchanged. (#179, #189, #190)
 - Warning added to `process_cut` if expected dataset `dm` is missing (#172)
 - Warning added to `create_dcut` if cut date being passed as `NULL`, 
 and not valid date or `NA`/`""` (#181)
+- `process_cut` updated so that the `patient_cut_v`, `date_cut_m` and `no_cut_v`
+arguments have a default value of `NULL` (#188)
+- `process_cut` updated to have more detailed error messages when incorrect datasets 
+are fed in (#180)
 
 ## Breaking Changes
 - Added dependency on `admiraldev` >= 0.3.0 (#173)

@@ -52,79 +52,111 @@
 #' )
 #'
 process_cut <- function(source_sdtm_data,
-                        patient_cut_v = vector(),
-                        date_cut_m = matrix(nrow = 0, ncol = 2),
-                        no_cut_v = vector(),
+                        patient_cut_v = NULL,
+                        date_cut_m = NULL,
+                        no_cut_v = NULL,
                         dataset_cut,
                         cut_var,
                         special_dm = TRUE) {
   #  Assertions for input parameters -----------------------------------------------
   assert_that(is.list(source_sdtm_data),
-    msg = "source_sdtm_data must be a list"
+    msg = "source_sdtm_data must be of class list"
   )
+
   assert_that(all(unlist(lapply(source_sdtm_data, is.data.frame))),
-    msg = "All elements of the list source_sdtm_data must be a dataframe"
+    msg = "All elements of source_sdtm_data must be a dataframe"
   )
-  assert_that(all(is.vector(patient_cut_v), patient_cut_v != ""),
-    msg = "patient_cut_v must be a vector. \n
-Note: If you do not wish to use a patient cut on any SDTMv domains, then please leave
-patient_cut_v empty, in which case a default value of vector() will be used."
+
+  assert_that(all(is.vector(patient_cut_v) | is.null(patient_cut_v), patient_cut_v != ""),
+    msg = "patient_cut_v must be a vector or NULL. \n
+Note: If no SDTMv domains use a patient cut, then please leave patient_cut_v
+empty, in which case a default value of NULL will be used."
   )
-  assert_that(all(is.matrix(date_cut_m), date_cut_m != ""),
-    msg = "date_cut_m must be a matrix \n
-Note: If you do not wish to use a date cut on any SDTMv domains, then please leave
-date_cut_m empty, in which case a default value of matrix(nrow=0, ncol=2) will be used."
+
+  assert_that(all(is.matrix(date_cut_m) | is.null(date_cut_m), date_cut_m != ""),
+    msg = "date_cut_m must be a matrix or NULL. \n
+Note: If no SDTMv domains use a date cut, then please leave date_cut_m
+empty, in which case a default value of NULL will be used."
   )
-  assert_that(ncol(date_cut_m) == 2,
-    msg = "date_cut_m must be a matrix with two columns"
+
+  assert_that(any(ncol(date_cut_m) == 2, is.null(date_cut_m)),
+    msg = "date_cut_m must be a matrix with two columns or NULL."
   )
-  assert_that(all(is.vector(no_cut_v), no_cut_v != ""),
-    msg = "no_cut_v must be a vector. \n
+
+  assert_that(all(is.vector(no_cut_v) | is.null(no_cut_v), no_cut_v != ""),
+    msg = "no_cut_v must be a vector or NULL. \n
 Note: If you do not wish to leave any SDTMv domains uncut, then please leave
-no_cut_v empty, in which case a default value of vector() will be used."
+no_cut_v empty, in which case a default value of NULL will be used."
   )
+
   cut_var <- assert_symbol(enexpr(cut_var))
   assert_data_frame(dataset_cut,
     required_vars = exprs(USUBJID, !!cut_var)
   )
+
   assert_that(is.logical(special_dm),
     msg = "special_dm must be either TRUE or FALSE"
   )
+
+  sdtm_inputs <- names(source_sdtm_data)
+  cut_inputs <- c(patient_cut_v, date_cut_m[, 1], no_cut_v)
+
   if (special_dm) {
     assert_that("dm" %in% names(source_sdtm_data),
-      msg = "dataset `dm` is missing but special_dm processing expects this"
+      msg = "dataset `dm` is missing from source_sdtm_data but special_dm processing expects this"
     )
-    assert_that(
-      setequal(names(source_sdtm_data), c(
-        patient_cut_v, date_cut_m[, 1], no_cut_v,
-        "dm"
-      )),
-      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach. Please check for the two likely issues below... \n
-1) There are input SDTMv datasets where no cut method has been defined.
-2) A cut method has been defined for a SDTMv dataset that does not exist in the
-source SDTMv data."
-    )
-    assert_that(
-      length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")))
-      == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v, "dm")),
-      msg = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
-    )
-  } else {
-    assert_that(setequal(names(source_sdtm_data), c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach. Please check for the two likely issues below... \n
-1) There are input SDTMv datasets where no cut method has been defined.
-2) A cut method has been defined for a SDTMv dataset that does not exist in the source SDTMv data."
-    )
-    assert_that(
-      length(unique(c(patient_cut_v, date_cut_m[, 1], no_cut_v)))
-      == length(c(patient_cut_v, date_cut_m[, 1], no_cut_v)),
-      msg = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
-    )
+    cut_inputs <- append(cut_inputs, "dm")
   }
+
+  sdtm_inputs_dups <- c()
+  no_cut_method <- c()
+  for (i in seq_len(length(sdtm_inputs))) {
+    if ((sdtm_inputs[i] %in% sdtm_inputs[-i]) && !(sdtm_inputs[i] %in% sdtm_inputs_dups)) {
+      sdtm_inputs_dups <- append(sdtm_inputs_dups, sdtm_inputs[i])
+    }
+    if (!(sdtm_inputs[i] %in% cut_inputs) && !(sdtm_inputs[i] %in% no_cut_method)) {
+      no_cut_method <- append(no_cut_method, sdtm_inputs[i])
+    }
+  }
+  error_msg1 <- paste0(
+    paste(sdtm_inputs_dups, collapse = " & "),
+    " exists more than once in source_sdtm_data"
+  )
+  assert_that(is.null(sdtm_inputs_dups),
+    msg = error_msg1
+  )
+  error_msg2 <- paste0(
+    paste(no_cut_method, collapse = " & "),
+    " exists in source_sdtm_data but no cut method has been assigned"
+  )
+  assert_that(is.null(no_cut_method),
+    msg = error_msg2
+  )
+
+  cut_inputs_dups <- c()
+  no_sdtm <- c()
+  for (i in seq_len(length(cut_inputs))) {
+    if ((cut_inputs[i] %in% cut_inputs[-i]) && !(cut_inputs[i] %in% cut_inputs_dups)) {
+      cut_inputs_dups <- append(cut_inputs_dups, cut_inputs[i])
+    }
+    if (!(cut_inputs[i] %in% sdtm_inputs) && !(cut_inputs[i] %in% no_sdtm)) {
+      no_sdtm <- append(no_sdtm, cut_inputs[i])
+    }
+  }
+  error_msg3 <- paste0(
+    "Multiple cut types have been assigned for ",
+    paste(cut_inputs_dups, collapse = " & ")
+  )
+  assert_that(is.null(cut_inputs_dups),
+    msg = error_msg3
+  )
+  error_msg4 <- paste0(
+    "Cut types have been assigned for ", paste(no_sdtm, collapse = " & "),
+    " which does not exist in source_sdtm_data"
+  )
+  assert_that(is.null(no_sdtm),
+    msg = error_msg4
+  )
 
   # Conduct Patient-Level Cut ------------------------------------------------------
 
