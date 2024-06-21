@@ -1,15 +1,17 @@
-#' @title Datacut Summary File
+#' @title Function to generate datacut summary file
 #'
 #' @description Produces a .html file summarising the changes applied to data during a data cut.
 #' The file will contain an overview for the change in number of records for each dataset, the types
 #' of cut applied and the opportunity to inspect the removed records.
 #'
-#' @param dcut The output datacut dataset (DCUT), created via the `create_dcut()` function, containing
-#' the variable DCUTDTC.
+#' @param dcut The output datacut dataset (DCUT), created via the `create_dcut()` function,
+#' containing the variable DCUTDTC.
 #' @param patient_cut_data A list of quoted SDTMv domain names in which a patient cut has been.
-#' applied (via the `pt_cut()` function). To be left blank if a patient cut has not been performed on any domains.
+#' applied (via the `pt_cut()` function). To be left blank if a patient cut has not been performed
+#' on any domains.
 #' @param date_cut_data A list of quoted SDTMv domain names in which a date cut has been applied.
-#' (via the `date_cut()` function). To be left blank if a date cut has not been performed on any domains.
+#' (via the `date_cut()` function). To be left blank if a date cut has not been performed on any
+#' domains.
 #' @param dm_cut The output dataset, created via the `special_dm_cut()` function, containing
 #' the variables DCUT_TEMP_REMOVE and DCUT_TEMP_DTHCHANGE.
 #' @param no_cut_list List of of quoted SDTMv domain names in which no cut should be applied. To be
@@ -83,11 +85,11 @@ read_out <- function(dcut = NULL,
   if (!is.null(patient_cut_data)) {
     assert_that(is.list(patient_cut_data) & !is.data.frame(patient_cut_data),
       msg = "patient_cut_data must be a list. \n
-Note: If you have not used or do not with to view patient cut on any SDTMv domains, then please leave
-patient_cut_data empty, in which case a default value of NULL will be used."
+Note: If you have not used or do not with to view patient cut on any SDTMv domains, then
+please leave patient_cut_data empty, in which case a default value of NULL will be used."
     )
 
-    for (i in seq(length(patient_cut_data))) {
+    for (i in seq_along(patient_cut_data)) {
       assert_data_frame(patient_cut_data[[i]],
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)
       )
@@ -100,10 +102,10 @@ patient_cut_data empty, in which case a default value of NULL will be used."
   if (!is.null(date_cut_data)) {
     assert_that(is.list(date_cut_data) & !is.data.frame(date_cut_data),
       msg = "date_cut_data must be a list. \n
-Note: If you have not used or do not with to view date cut on any SDTMv domains, then please leave
-date_cut_data empty, in which case a default value of NULL will be used."
+Note: If you have not used or do not with to view date cut on any SDTMv domains, then please
+leave date_cut_data empty, in which case a default value of NULL will be used."
     )
-    for (i in seq(length(date_cut_data))) {
+    for (i in seq_along(date_cut_data)) {
       assert_data_frame(date_cut_data[[i]],
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)
       )
@@ -121,10 +123,11 @@ date_cut_data empty, in which case a default value of NULL will be used."
   if (!is.null(no_cut_list)) {
     assert_that(is.list(no_cut_list) & !is.data.frame(no_cut_list),
       msg = "no_cut_list must be a list. \n
-Note: If you have not used or do not with to view the SDTMv domains where no cut has been applied, then please leave
-no_cut_list empty, in which case a default value of NULL will be used."
+Note: If you have not used or do not with to view the SDTMv domains where no cut has been
+applied, then please leave no_cut_list empty, in which case a default value of NULL will be
+used."
     )
-    for (i in seq(length(no_cut_list))) {
+    for (i in seq_along(no_cut_list)) {
       assert_data_frame(no_cut_list[[i]])
 
       assert_that(rlang::is_named(no_cut_list[i]),

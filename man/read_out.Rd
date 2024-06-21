@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_out.R
 \name{read_out}
 \alias{read_out}
-\title{Datacut Summary File}
+\title{Function to generate datacut summary file}
 \usage{
 read_out(
   dcut = NULL,
@@ -14,14 +14,16 @@ read_out(
 )
 }
 \arguments{
-\item{dcut}{The output datacut dataset (DCUT), created via the \code{create_dcut()} function, containing
-the variable DCUTDTC.}
+\item{dcut}{The output datacut dataset (DCUT), created via the \code{create_dcut()} function,
+containing the variable DCUTDTC.}
 
 \item{patient_cut_data}{A list of quoted SDTMv domain names in which a patient cut has been.
-applied (via the \code{pt_cut()} function). To be left blank if a patient cut has not been performed on any domains.}
+applied (via the \code{pt_cut()} function). To be left blank if a patient cut has not been performed
+on any domains.}
 
 \item{date_cut_data}{A list of quoted SDTMv domain names in which a date cut has been applied.
-(via the \code{date_cut()} function). To be left blank if a date cut has not been performed on any domains.}
+(via the \code{date_cut()} function). To be left blank if a date cut has not been performed on any
+domains.}
 
 \item{dm_cut}{The output dataset, created via the \code{special_dm_cut()} function, containing
 the variables DCUT_TEMP_REMOVE and DCUT_TEMP_DTHCHANGE.}

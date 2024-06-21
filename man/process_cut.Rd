@@ -38,8 +38,9 @@ left blank if no domains are to remain exactly as source.}
 Note that, if TRUE, dm should not be included in \code{patient_cut_v}, \code{date_cut_m} or \code{no_cut_v}
 inputs.}
 
-\item{read_out}{A logical input indicating whether a summary file for the datacut should be produced.
-If \code{TRUE}, a .html file will be returned containing a summary of the cut and records removed. Default set to \code{FALSE}.}
+\item{read_out}{A logical input indicating whether a summary file for the datacut should be
+produced. If \code{TRUE}, a .html file will be returned containing a summary of the cut and
+records removed. Default set to \code{FALSE}.}
 
 \item{out_path}{A character vector of file save path for the summary file if \code{read_out = TRUE};
 the default corresponds to the working directory, getwd().}

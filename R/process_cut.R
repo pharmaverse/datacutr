@@ -21,8 +21,9 @@
 #' @param special_dm A logical input indicating whether the `special dm cut` should be performed.
 #' Note that, if TRUE, dm should not be included in `patient_cut_v`, `date_cut_m` or `no_cut_v`
 #' inputs.
-#' @param read_out A logical input indicating whether a summary file for the datacut should be produced.
-#' If `TRUE`, a .html file will be returned containing a summary of the cut and records removed. Default set to `FALSE`.
+#' @param read_out A logical input indicating whether a summary file for the datacut should be
+#' produced. If `TRUE`, a .html file will be returned containing a summary of the cut and
+#' records removed. Default set to `FALSE`.
 #' @param out_path A character vector of file save path for the summary file if `read_out = TRUE`;
 #' the default corresponds to the working directory, getwd().
 #'
@@ -191,6 +192,8 @@ no_cut_v empty, in which case a default value of NULL will be used."
   all_cut <- c(patient_cut_data, date_cut_data)
 
   # Conduct DM special cut for DTH flags after DCUTDTM ------------------------------
+  # dm_cut = NULL unless special dm cut applied
+  dm_cut <- NULL
 
   if (special_dm) {
     # Assertions for special dm cut
@@ -220,11 +223,7 @@ no_cut_v empty, in which case a default value of NULL will be used."
   final_data <- c(list(dcut = dataset_cut), cut_data, source_sdtm_data[no_cut_v])
 
   if (read_out) {
-    if (special_dm){
-      read_out(dataset_cut, patient_cut_data, date_cut_data, dm_cut, no_cut_list, out_path)
-    } else {
-      read_out(dataset_cut, patient_cut_data, date_cut_data, dm_cut = NULL, no_cut_list, out_path)
-    }
+    read_out(dataset_cut, patient_cut_data, date_cut_data, dm_cut, no_cut_list, out_path)
   }
 
   return(final_data)
