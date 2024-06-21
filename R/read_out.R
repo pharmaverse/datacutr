@@ -19,8 +19,6 @@
 #'
 #' @return Returns a .html file summarising the changes made to data during a datacut.
 #'
-#' @importFrom reactable reactable
-#'
 #' @export
 #'
 #' @keywords derive
@@ -94,7 +92,7 @@ patient_cut_data empty, in which case a default value of NULL will be used."
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)
       )
 
-      assert_that(admiraldev::is_named(patient_cut_data[i]),
+      assert_that(rlang::is_named(patient_cut_data[i]),
         msg = "All elements patient_cut_data must be named with corresponding domain"
       )
     }
@@ -110,7 +108,7 @@ date_cut_data empty, in which case a default value of NULL will be used."
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)
       )
 
-      assert_that(admiraldev::is_named(date_cut_data[i]),
+      assert_that(rlang::is_named(date_cut_data[i]),
         msg = "All elements in date_cut_data must be named with corresponding domain"
       )
     }
@@ -129,7 +127,7 @@ no_cut_list empty, in which case a default value of NULL will be used."
     for (i in seq(length(no_cut_list))) {
       assert_data_frame(no_cut_list[[i]])
 
-      assert_that(is_named(no_cut_list[i]),
+      assert_that(rlang::is_named(no_cut_list[i]),
         msg = "All elements in no_cut_list must be named with corresponding domain"
       )
     }

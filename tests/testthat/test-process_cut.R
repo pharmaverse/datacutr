@@ -101,8 +101,7 @@ test_that("Test that process_cut() errors when a source SDTM dataset is not
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach."
+    regexp = "sc exists in source_sdtm_data but no cut method has been assigned"
   )
 })
 
@@ -124,8 +123,7 @@ test_that("Test that process_cut() errors when an input list includes a source
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "Inconsistency between input SDTMv datasets and the SDTMv datasets
-listed under each cut approach."
+    regexp = "Cut types have been assigned for vs which does not exist in source_sdtm_data"
   )
 })
 
@@ -147,8 +145,7 @@ test_that("Test that process_cut() errors when a source SDTMv dataset is
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
+    regexp = "Multiple cut types have been assigned for ae"
   )
 })
 
@@ -170,9 +167,29 @@ test_that("Test that process_cut() errors when special_dm = TRUE and dm is also
       cut_var = DCUTDTM,
       special_dm = TRUE
     ),
-    regexp = "The number of SDTMv datasets in the source data does not match the
-number of SDTMv datasets in which a cut approach has been defined."
+    regexp = "Multiple cut types have been assigned for dm"
   )
+})
+
+# Test Read-out file -------------
+# Test that read-out file is ran successfully when special_dm = TRUE
+test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE", {
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("sc", "ds"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE,
+    read_out = TRUE,
+    out_path = "~/dummyfile"
+  )
+  expect_true(dir.exists("~/dummyfile") & (length(list.files("~/dummyfile")) > 0))
+  unlink("~/dummyfile", recursive = TRUE)
 })
 
 # Test that every type of datacut gives the expected result, when special_dm=FALSE -----------
@@ -199,33 +216,23 @@ test_that("Test that every type of datacut gives the expected result, when speci
   )
 })
 
-# READ_OUT() ----
-# Test that no .Rmd file is produced when read_out = FALSE
-test_that("Test that no .Rmd file is produced when read_out = FALSE", {
-  # Call read_out() to generate the .Rmd file
-  result <- read_out(out_path = "~")
-  # Assert that the output file is generated successfully
-  expect_true(file.exists(result))
-})
-
-# Test that Correct .Rmd file is ran successfully when read_out = TRUE
+# Test that Read-out file is ran successfully when special_dm = FALSE
 test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE", {
-  process_cut(
-              source_sdtm_data = source_data,
-              patient_cut_v = c("sc", "ds"),
-              date_cut_m = rbind(
-                c("ae", "AESTDTC"),
-                c("lb", "LBDTC")
-              ),
-              no_cut_v = c("ts"),
-              dataset_cut = dcut,
-              cut_var = DCUTDTM,
-              special_dm = TRUE,
-              read_out = TRUE
-            )
-  output_file <- paste(format(Sys.time(), "datacut_%d-%b-%Y_%H:%M:%S.html"))
-  #out <- paste(out_path, output_file)
-  # Assert that the output file is generated successfully
-  expect_true(file.exists(output_file))
+     process_cut(
+        source_sdtm_data = source_data,
+        patient_cut_v = c("sc", "ds"),
+        date_cut_m = rbind(
+          c("ae", "AESTDTC"),
+          c("lb", "LBDTC")
+        ),
+        no_cut_v = c("ts"),
+        dataset_cut = dcut,
+        cut_var = DCUTDTM,
+        special_dm = FALSE,
+        read_out = TRUE,
+        out_path = "~/dummyfile"
+      )
+  expect_true(dir.exists("~/dummyfile") & (length(list.files("~/dummyfile")) > 0))
+  unlink("~/dummyfile", recursive = TRUE)
 })
 
