@@ -3,10 +3,6 @@
     "Version": "4.3.1",
     "Repositories": [
       {
-        "Name": "NON_VALIDATED",
-        "URL": "https://packages.roche.com/Non-Validated/2023-10-09+8Fbwf0T6"
-      },
-      {
         "Name": "CRAN",
         "URL": "https://packages.roche.com/CRAN/2023-10-10"
       }
@@ -795,6 +791,13 @@
         "tibble"
       ],
       "Hash": "76c9e04c712a05848ae7a23d2f170a40"
+    },
+    "remotes": {
+      "Package": "remotes",
+      "Version": "2.4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "57c3009534f805f0f6476ffee68483cc"
     },
     "renv": {
       "Package": "renv",

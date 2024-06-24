@@ -1,6 +1,6 @@
 #' @title Function to generate datacut summary file
 #'
-#' @description Produces a .html file summarising the changes applied to data during a data cut.
+#' @description Produces a .html file summarizing the changes applied to data during a data cut.
 #' The file will contain an overview for the change in number of records for each dataset, the types
 #' of cut applied and the opportunity to inspect the removed records.
 #'
@@ -17,9 +17,9 @@
 #' @param no_cut_list List of of quoted SDTMv domain names in which no cut should be applied. To be
 #' left blank if no domains are to remain exactly as source.
 #' @param out_path A character vector of file save path for the summary file;
-#' the default corresponds to the working directory, getwd().
+#' the default corresponds to the working directory, `getwd()`.
 #'
-#' @return Returns a .html file summarising the changes made to data during a datacut.
+#' @return Returns a .html file summarizing the changes made to data during a datacut.
 #'
 #' @export
 #'

@@ -4,7 +4,7 @@
 #' SDTMv date variable, and outputs the resulting cut datasets, as well as the datacut dataset,
 #' as a list. It provides an option to perform a "special" cut on the demography (dm) domain
 #' in which any deaths occurring after the datacut date are removed. It also provides an option
-#' to produce a .html file that summarises the changes applied to the data during the cut, where
+#' to produce a .html file that summarizes the changes applied to the data during the cut, where
 #' you can inspect the records that have been removed and/or modified.
 #'
 #' @param source_sdtm_data A list of uncut SDTMv dataframes
@@ -25,7 +25,7 @@
 #' produced. If `TRUE`, a .html file will be returned containing a summary of the cut and
 #' records removed. Default set to `FALSE`.
 #' @param out_path A character vector of file save path for the summary file if `read_out = TRUE`;
-#' the default corresponds to the working directory, getwd().
+#' the default corresponds to the working directory, `getwd()`.
 #'
 #' @return Returns a list of all input SDTMv datasets, plus the datacut dataset, after
 #' performing the selected datacut on each SDTMv domain.

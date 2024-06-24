@@ -32,13 +32,13 @@ the variables DCUT_TEMP_REMOVE and DCUT_TEMP_DTHCHANGE.}
 left blank if no domains are to remain exactly as source.}
 
 \item{out_path}{A character vector of file save path for the summary file;
-the default corresponds to the working directory, getwd().}
+the default corresponds to the working directory, \code{getwd()}.}
 }
 \value{
-Returns a .html file summarising the changes made to data during a datacut.
+Returns a .html file summarizing the changes made to data during a datacut.
 }
 \description{
-Produces a .html file summarising the changes applied to data during a data cut.
+Produces a .html file summarizing the changes applied to data during a data cut.
 The file will contain an overview for the change in number of records for each dataset, the types
 of cut applied and the opportunity to inspect the removed records.
 }

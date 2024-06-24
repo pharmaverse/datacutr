@@ -2,7 +2,7 @@
 
 ## New Features
 - Added a "Report a bug" link to `{datacutr}` website (#182)
-- Added a `read_out` function that enables the generation of a read-out file (.html), to summarise changes applied to data during a datacut. (#107)
+- Added a `read_out` function that enables the generation of a read-out file (.html), to summarize changes applied to data during a datacut. (#107)
 
 ## Updates of Existing Functions
 - Update to `impute_dcutdtc()`, `date_cut()` and `special_dm_cut()` functions to allow for 

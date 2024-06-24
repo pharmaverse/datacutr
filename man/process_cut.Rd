@@ -43,7 +43,7 @@ produced. If \code{TRUE}, a .html file will be returned containing a summary of 
 records removed. Default set to \code{FALSE}.}
 
 \item{out_path}{A character vector of file save path for the summary file if \code{read_out = TRUE};
-the default corresponds to the working directory, getwd().}
+the default corresponds to the working directory, \code{getwd()}.}
 }
 \value{
 Returns a list of all input SDTMv datasets, plus the datacut dataset, after
@@ -54,7 +54,7 @@ Applies the selected type of datacut on each SDTMv dataset based on the chosen
 SDTMv date variable, and outputs the resulting cut datasets, as well as the datacut dataset,
 as a list. It provides an option to perform a "special" cut on the demography (dm) domain
 in which any deaths occurring after the datacut date are removed. It also provides an option
-to produce a .html file that summarises the changes applied to the data during the cut, where
+to produce a .html file that summarizes the changes applied to the data during the cut, where
 you can inspect the records that have been removed and/or modified.
 }
 \examples{
