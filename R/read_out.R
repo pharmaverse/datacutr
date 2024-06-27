@@ -139,7 +139,7 @@ used."
     paste0(system.file(package = "datacutr"),
       path = "/read-out/read_out.Rmd"
     ),
-    output_file = paste("datacut_", format(Sys.time(), "%d-%b-%Y_%H:%M:%S", ".html")),
+    output_file = paste("datacut_", format(Sys.time(), "%Y-%m-%d_%H:%M:%S", ".html")),
     output_dir = out_path
   )
 }

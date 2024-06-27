@@ -125,8 +125,8 @@ test_that("Test that read_out() errors when patient_cut_data input is not a list
       out_path = "."
     ),
     regexp = "patient_cut_data must be a list. \n
-Note: If you have not used or do not with to view patient cut on any SDTMv domains, then please leave
-patient_cut_data empty, in which case a default value of NULL will be used."
+Note: If you have not used or do not with to view patient cut on any SDTMv domains, then
+please leave patient_cut_data empty, in which case a default value of NULL will be used."
   )
 })
 
@@ -170,8 +170,8 @@ test_that("Test that read_out() errors when date_cut_data input is not a list", 
       out_path = "."
     ),
     regexp = "date_cut_data must be a list. \n
-Note: If you have not used or do not with to view date cut on any SDTMv domains, then please leave
-date_cut_data empty, in which case a default value of NULL will be used."
+Note: If you have not used or do not with to view date cut on any SDTMv domains, then please
+leave date_cut_data empty, in which case a default value of NULL will be used."
   )
 })
 
@@ -229,8 +229,9 @@ test_that("Test that read_out() errors when no_cut_list is not a list", {
       out_path = "."
     ),
     regexp = "no_cut_list must be a list. \n
-Note: If you have not used or do not with to view the SDTMv domains where no cut has been applied, then please leave
-no_cut_list empty, in which case a default value of NULL will be used."
+Note: If you have not used or do not with to view the SDTMv domains where no cut has been
+applied, then please leave no_cut_list empty, in which case a default value of NULL will be
+used."
   )
 })
 

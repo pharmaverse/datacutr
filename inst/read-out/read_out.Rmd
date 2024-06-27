@@ -8,6 +8,14 @@ output:
     toc_depth: '3'
 ---
 
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -291,7 +299,7 @@ if (is.null(dcut)) {
 
 Patient cut to an SDTMv dataset (i.e. subset SDTMv observations on patients included in the dataset_cut input dataset).
 
-Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would be dropped when a patient level datacut is applied.
+Input dataset plus a flag `DCUT_TEMP_REMOVE` to indicate observations dropped when a patient level datacut is applied.
 
 ---
 
@@ -309,12 +317,11 @@ df_tabs(patient_cut_data)
 xxSTDTC or xxDTC Cut
 
 Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. 
-The datacut date from the datacut dataset is merged on to the input SDTMv dataset and renamed to `TEMP_DCUT_DCUTDTM`.
-A flag `TEMP_DCUT_REMOVE` is added to the dataset to indicate the observations that would be removed when the cut is applied.
+The datacut date from the datacut dataset is merged on to the input SDTMv dataset and renamed to `DCUT_TEMP_DCUTDTM`.
+
+The flag `DCUT_TEMP_REMOVE` is added to the dataset to indicate observations removed when the cut is applied.
 
 Note that this function applies a patient level datacut at the same time (using the `pt_cut()` function), and also imputes dates in the specified SDTMv dataset (using the `impute_sdtm()` function).
-
-Input dataset plus a flag TEMP_DCUT_REMOVE to indicate which observations would be dropped when a datacut is applied.
 
 ---
 
@@ -332,7 +339,7 @@ Special DM Cut to reset Death variable information past cut date
 
 Applies patient cut if patient not in source DCUT, as well as clearing death information within DM if death occurred after datacut date.
 
-Input dataset plus a flag DCUT_TEMP_REMOVE to indicate which observations would be dropped when a datacut is applied, and a flag DCUT_TEMP_DTHCHANGE to indicate which observations have death occurring after data cut date for clearing.
+Input dataset plus a flag `DCUT_TEMP_REMOVE` to indicate which observations would be dropped when the datacut is applied, and a flag `DCUT_TEMP_DTHCHANGE` to indicate which observations have death occurring after data cut date for clearing.
 
 ***For ease of interpretation, the records where death dates have been modified are flagged*** <span style="color: blue;">***BLUE.***
 
