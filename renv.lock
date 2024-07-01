@@ -9,26 +9,6 @@
     ]
   },
   "Packages": {
-    "admiraldev": {
-      "Package": "admiraldev",
-      "Version": "1.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "cli",
-        "dplyr",
-        "glue",
-        "lifecycle",
-        "lubridate",
-        "purrr",
-        "rlang",
-        "stringr",
-        "tidyr",
-        "tidyselect"
-      ],
-      "Hash": "6011df3d91f2e30c70a6170950bd9fcf"
-    },
     "BH": {
       "Package": "BH",
       "Version": "1.72.0-3",
@@ -592,7 +572,7 @@
     },
     "remotes": {
       "Package": "remotes",
-      "Version": "2.4.2",
+      "Version": "2.5.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "57c3009534f805f0f6476ffee68483cc"
