@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://packages.roche.com/CRAN/2023-10-10"
+        "URL": "https://cran.rstudio.com"
       }
     ]
   },
@@ -844,6 +844,13 @@
       ],
       "Hash": "d65e35823c817f09f4de424fcdfa812a"
     },
+    "roxygen2": {
+      "Package": "roxygen2",
+      "Version": "7.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b390c1d54fcd977cda48588e6172daba"
+    },
     "rprojroot": {
       "Package": "rprojroot",
       "Version": "2.0.3",
@@ -904,6 +911,13 @@
         "vctrs"
       ],
       "Hash": "671a4d384ae9d32fc47a14e98bfa3dc8"
+    },
+    "styler": {
+      "Package": "styler",
+      "Version": "1.9.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "ed8c90822b7da46beee603f263a85fe0"
     },
     "sys": {
       "Package": "sys",
