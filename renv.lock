@@ -572,7 +572,7 @@
     },
     "remotes": {
       "Package": "remotes",
-      "Version": "2.5.0",
+      "Version": "2.1.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "57c3009534f805f0f6476ffee68483cc"
