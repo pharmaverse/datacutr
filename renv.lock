@@ -19,26 +19,6 @@
       ],
       "Hash": "470851b6d5d0ac559e9d01bb352b4021"
     },
-    "admiraldev": {
-      "Package": "admiraldev",
-      "Version": "1.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "cli",
-        "dplyr",
-        "glue",
-        "lifecycle",
-        "lubridate",
-        "purrr",
-        "rlang",
-        "stringr",
-        "tidyr",
-        "tidyselect"
-      ],
-      "Hash": "6011df3d91f2e30c70a6170950bd9fcf"
-    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.2.0",
@@ -723,7 +703,7 @@
     },
     "purrr": {
       "Package": "purrr",
-      "Version": "1.0.2",
+      "Version": "0.3.3",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -792,13 +772,6 @@
       ],
       "Hash": "76c9e04c712a05848ae7a23d2f170a40"
     },
-    "remotes": {
-      "Package": "remotes",
-      "Version": "2.4.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "57c3009534f805f0f6476ffee68483cc"
-    },
     "renv": {
       "Package": "renv",
       "Version": "1.0.3",
@@ -843,13 +816,6 @@
         "yaml"
       ],
       "Hash": "d65e35823c817f09f4de424fcdfa812a"
-    },
-    "roxygen2": {
-      "Package": "roxygen2",
-      "Version": "7.2.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "b390c1d54fcd977cda48588e6172daba"
     },
     "rprojroot": {
       "Package": "rprojroot",
@@ -911,13 +877,6 @@
         "vctrs"
       ],
       "Hash": "671a4d384ae9d32fc47a14e98bfa3dc8"
-    },
-    "styler": {
-      "Package": "styler",
-      "Version": "1.9.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "ed8c90822b7da46beee603f263a85fe0"
     },
     "sys": {
       "Package": "sys",
