@@ -46,9 +46,9 @@ of cut applied and the opportunity to inspect the removed records.
 
 dcut <- tibble::tribble(
   ~USUBJID, ~DCUTDTM, ~DCUTDTC,
-  "subject1", ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
-  "subject2", ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
-  "subject4", ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59"
+  "subject1", lubridate::ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
+  "subject2", lubridate::ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
+  "subject4", lubridate::ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59"
 )
 
 ae <- tibble::tribble(

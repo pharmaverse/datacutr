@@ -26,7 +26,7 @@ library(reactable)
 # Overall Summary of Datacut Tab####
 data_review <- function(pt_data, dt_data, dm_data, no_cut) {
   cyc_num <- 1
-  sum_t <- tibble(
+  sum_t <- tibble::tibble(
     Dataset = character(),
     `Cut Applied` = character(),
     `Before Cut` = numeric(),
@@ -187,7 +187,7 @@ df_tabs <- function(data) {
 sum_test <- function(data) {
   cyc_num <- 1
   cat("####", "Summary", " \n")
-  sum_t <- tibble(
+  sum_t <- tibble::tibble(
     Dataset = character(),
     `Before Cut` = numeric(),
     `After Cut` = numeric(),
