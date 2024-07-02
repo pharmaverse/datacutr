@@ -27,10 +27,10 @@ Imports:
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
     purrr (>= 0.3.3),
-    stringr,
+    stringr (>= 1.4.0),
     rlang (>= 0.4.4),
-    tibble,
-    reactable
+    tibble (>= 3.0.0),
+    reactable (>= 0.4.4)
 Suggests:
     devtools,
     lintr,
