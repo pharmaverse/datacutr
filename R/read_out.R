@@ -26,8 +26,7 @@
 #' @keywords derive
 #'
 #' @examples
-#'
-#'\dontrun{
+#' \dontrun{
 #' dcut <- tibble::tribble(
 #'   ~USUBJID, ~DCUTDTM, ~DCUTDTC,
 #'   "subject1", lubridate::ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
@@ -71,7 +70,7 @@
 #' )
 #'
 #' read_out(dcut, patient_cut_data = list(ae = pt_ae), date_cut_data = list(ae = dt_ae), dm_cut)
-#'}
+#' }
 read_out <- function(dcut = NULL,
                      patient_cut_data = NULL,
                      date_cut_data = NULL,

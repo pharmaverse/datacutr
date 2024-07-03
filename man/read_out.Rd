@@ -43,7 +43,6 @@ The file will contain an overview for the change in number of records for each d
 of cut applied and the opportunity to inspect the removed records.
 }
 \examples{
-
 \dontrun{
 dcut <- tibble::tribble(
   ~USUBJID, ~DCUTDTM, ~DCUTDTC,
