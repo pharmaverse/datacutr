@@ -19,6 +19,7 @@ are fed in (#180)
 
 ## Breaking Changes
 - Added dependency on `admiraldev` >= 0.3.0 (#173)
+- Added dependency on R version >= 4.1 due to an update in `admiraldev` to use R native pipe
 
 ## Documentation
 - Added notes on SDTM compatibility (#171)
