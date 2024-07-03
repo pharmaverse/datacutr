@@ -44,6 +44,7 @@ of cut applied and the opportunity to inspect the removed records.
 }
 \examples{
 
+\dontrun{
 dcut <- tibble::tribble(
   ~USUBJID, ~DCUTDTM, ~DCUTDTC,
   "subject1", lubridate::ymd_hms("2020-10-11T23:59:59"), "2020-10-11T23:59:59",
@@ -87,6 +88,6 @@ dm_cut <- special_dm_cut(
 )
 
 read_out(dcut, patient_cut_data = list(ae = pt_ae), date_cut_data = list(ae = dt_ae), dm_cut)
-
+}
 }
 \keyword{derive}

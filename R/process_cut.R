@@ -1,5 +1,4 @@
-#' nolint start: cyclocomp_linter
-#' nolint end
+# nolint start: cyclocomp_linter
 #' @title Wrapper function to prepare and apply the datacut of SDTMv datasets
 #'
 #' @description Applies the selected type of datacut on each SDTMv dataset based on the chosen
@@ -230,3 +229,4 @@ no_cut_v empty, in which case a default value of NULL will be used."
 
   return(final_data)
 }
+# nolint end
