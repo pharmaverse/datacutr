@@ -22,6 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ``` {r tabulate function, include=FALSE}
 library(reactable)
+library(tibble)
 
 # Overall Summary of Datacut Tab####
 data_review <- function(pt_data, dt_data, dm_data, no_cut) {
