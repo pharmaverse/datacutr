@@ -68,8 +68,8 @@ special_dm_cut <- function(dataset_dm,
     )
 
   ifelse(!is.na(dm_temp$DCUT_TEMP_DCUTDTM), assert_that(is.POSIXt(dm_temp$DCUT_TEMP_DCUTDTM),
-           msg = "cut_var is expected to be of date type POSIXt"
-         ), NA)
+    msg = "cut_var is expected to be of date type POSIXt"
+  ), NA)
 
   # Flag records with Death Date after Cut date
   dataset_updatedth <- dm_temp %>%

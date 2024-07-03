@@ -74,8 +74,8 @@ date_cut <- function(dataset_sdtm,
     mutate(TEMP_DCUT_KEEP = "Y")
 
   ifelse(!is.na(dcut$DCUT_TEMP_DCUTDTM), assert_that(is.POSIXt(dcut$DCUT_TEMP_DCUTDTM),
-           msg = "cut_var is expected to be of date type POSIXt"
-         ), NA)
+    msg = "cut_var is expected to be of date type POSIXt"
+  ), NA)
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 
@@ -90,7 +90,7 @@ date_cut <- function(dataset_sdtm,
   # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
   dataset <- dataset_sdtm_pt %>%
     mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) |
-                                       is.na(TEMP_DCUT_KEEP), "Y", NA_character_))
+      is.na(TEMP_DCUT_KEEP), "Y", NA_character_))
 
   # Ensure variable is character
   dataset$DCUT_TEMP_REMOVE <- as.character(dataset$DCUT_TEMP_REMOVE)
