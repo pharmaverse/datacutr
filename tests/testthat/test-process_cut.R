@@ -171,6 +171,27 @@ test_that("Test that process_cut() errors when special_dm = TRUE and dm is also
   )
 })
 
+# Test Read-out file -------------
+# Test that read-out file is ran successfully when special_dm = TRUE
+test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE", {
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("sc", "ds"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE,
+    read_out = TRUE,
+    out_path = "~/dummyfile"
+  )
+  expect_true(dir.exists("~/dummyfile") & (length(list.files("~/dummyfile")) > 0))
+  unlink("~/dummyfile", recursive = TRUE)
+})
+
 # Test that every type of datacut gives the expected result, when special_dm=FALSE -----------
 
 # Remove dm from the source data list and expected data list
@@ -193,4 +214,24 @@ test_that("Test that every type of datacut gives the expected result, when speci
     ),
     expected
   )
+})
+
+# Test that Read-out file is ran successfully when special_dm = FALSE
+test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE", {
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("sc", "ds"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = FALSE,
+    read_out = TRUE,
+    out_path = "~/dummyfile"
+  )
+  expect_true(dir.exists("~/dummyfile") & (length(list.files("~/dummyfile")) > 0))
+  unlink("~/dummyfile", recursive = TRUE)
 })

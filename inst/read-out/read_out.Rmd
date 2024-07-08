@@ -1,0 +1,359 @@
+---
+title: "Data Cut Read-out File"
+date: "`r format(Sys.time(), '%c')`"
+output: 
+  html_document:
+    df_print: paged
+    toc: no
+    toc_depth: '3'
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+``` {r tabulate function, include=FALSE}
+library(reactable)
+library(tibble)
+
+# Overall Summary of Datacut Tab####
+data_review <- function(pt_data, dt_data, dm_data, no_cut) {
+  cyc_num <- 1
+  sum_t <- tibble::tibble(
+    Dataset = character(),
+    `Cut Applied` = character(),
+    `Before Cut` = numeric(),
+    `After Cut` = numeric(),
+    `Removed` = numeric(),
+    `Modified` = numeric()
+  )
+  objects <- list(pt_data, dt_data, dm_data, no_cut)
+  is_all_null <- all(sapply(objects, is.null))
+  if (is_all_null) {
+    cat("No data has been inputted into the read-out function.", " \n",
+      "If you would like to view a summary of the datacut, please double check you have filled in
+      all the parameters in the read_out() function (or process_cut() when using the wrapped
+      approach.)", " \n",
+      fill = TRUE
+    )
+  }
+  # Patient Cut Data
+  for (df in pt_data) {
+    name <- names(pt_data)[cyc_num]
+    x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
+    uncut <- nrow(df)
+    cut <- length(which(is.na(df$DCUT_TEMP_REMOVE)))
+    sum_t <- add_row(sum_t,
+      Dataset = toupper(name),
+      `Cut Applied` = "PATIENT",
+      `Before Cut` = uncut,
+      `After Cut` = cut,
+      `Removed` = x,
+      `Modified` = NA
+    )
+    cyc_num <- cyc_num + 1
+  }
+  # Date Cut Data
+  cyc_num <- 1
+  for (df in dt_data) {
+    name <- names(dt_data)[cyc_num]
+    x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
+    uncut <- nrow(df)
+    cut <- length(which(is.na(df$DCUT_TEMP_REMOVE)))
+    sum_t <- add_row(sum_t,
+      Dataset = toupper(name),
+      `Cut Applied` = "DATE",
+      `Before Cut` = uncut,
+      `After Cut` = cut,
+      `Removed` = x,
+      `Modified` = NA
+    )
+    cyc_num <- cyc_num + 1
+  }
+  # Uncut Data
+  cyc_num <- 1
+  for (df in no_cut) {
+    name <- names(no_cut)[cyc_num]
+    uncut <- nrow(df)
+    sum_t <- add_row(sum_t,
+      Dataset = toupper(name),
+      `Cut Applied` = "NO CUT",
+      `Before Cut` = uncut,
+      `After Cut` = uncut,
+      `Removed` = NA,
+      `Modified` = NA
+    )
+    cyc_num <- cyc_num + 1
+  }
+  # DM Cut Data
+  if (!is.null(dm_data)) {
+    x <- length(which(dm_data$DCUT_TEMP_REMOVE == "Y"))
+    y <- length(which(dm_data$DCUT_TEMP_DTHCHANGE == "Y"))
+    uncut <- nrow(dm_data)
+    cut <- length(which(is.na(dm_data$DCUT_TEMP_REMOVE)))
+    sum_t <- add_row(sum_t,
+      Dataset = "DM",
+      `Cut Applied` = "DM",
+      `Before Cut` = uncut,
+      `After Cut` = cut,
+      `Removed` = x,
+      `Modified` = y
+    )
+  }
+  # Custom table container
+  sketch <- htmltools::withTags(table(
+    class = "display",
+    thead(
+      tr(
+        th(rowspan = 2, "Dataset"),
+        th(rowspan = 2, "Cut Applied"),
+        th(colspan = 4, "Total Number of Records")
+      ),
+      tr(
+        lapply(names(sum_t)[-c(1, 2)], th)
+      )
+    )
+  ))
+  reactable(sum_t,
+    columnGroups = list(
+      colGroup("Total Number of Records",
+        columns = c("Before Cut", "After Cut", "Removed", "Modified")
+      )
+    ),
+    bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
+    showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE
+  )
+}
+
+# Create tabs in the html ####
+df_tabs <- function(data) {
+  cyc_num <- 1
+  # case when data = NULL
+  if (is.null(data)) {
+    return(cat("NO DATA TO VIEW"))
+  } else {
+    # include modified records in special dm cut
+    if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
+      cat("####", "DM", " \n")
+      x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
+      cat(paste("Number of records removed in DM: ", x, " \n"))
+      y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
+      cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
+      removed <- data %>% filter(data$DCUT_TEMP_REMOVE == "Y" | data$DCUT_TEMP_DTHCHANGE == "Y")
+      print(htmltools::tagList(reactable(removed,
+        rowStyle = function(index) {
+          row <- removed[index, ]
+          if (!is.na(row$DCUT_TEMP_REMOVE)) {
+            list(background = "#FFDFDF")
+          } else if (!is.na(row$DCUT_TEMP_DTHCHANGE)) {
+            list(background = "#DFF3FF")
+          } else {
+            NULL
+          }
+        },
+        bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
+        showPageSizeOptions = TRUE, striped = TRUE, wrap = FALSE, resizable = TRUE,
+        showSortable = TRUE
+      )))
+
+      cat(" \n\n")
+    } else {
+      # table for each df in the datacut
+      for (df in data) {
+        name <- names(data)[cyc_num]
+        cat("####", toupper(name), " \n")
+        x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
+        cat(paste("Number of records removed in ", toupper(name), ": ", x, " \n", " \n"))
+        removed <- df %>% filter(df$DCUT_TEMP_REMOVE == "Y")
+        print(htmltools::tagList(reactable(removed,
+          bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
+          showPageSizeOptions = TRUE, showSortable = TRUE,
+          striped = TRUE, wrap = FALSE, resizable = TRUE
+        )))
+        cat(" \n\n")
+        cyc_num <- cyc_num + 1
+      }
+    }
+  }
+}
+
+# Summary Tab for each cut
+sum_test <- function(data) {
+  cyc_num <- 1
+  cat("####", "Summary", " \n")
+  sum_t <- tibble::tibble(
+    Dataset = character(),
+    `Before Cut` = numeric(),
+    `After Cut` = numeric(),
+    `Removed` = numeric()
+  )
+  # case when data = NULL
+  if (is.null(data)) {
+    cat("No data has been cut with this cut type.", " \n")
+    cat("If you would like to apply this cut, please double check you have ran this cut / filled in
+        all the parameters in process_cut() - for the wrapped approach - or read_out() - modular
+        approach.")
+    cat(" \n\n")
+  } else {
+    # DM-specific Summary Tab
+    if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
+      x <- length(which(data$DCUT_TEMP_REMOVE == "Y"))
+      y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
+      uncut <- nrow(data)
+      cut <- length(which(is.na(data$DCUT_TEMP_REMOVE)))
+      sum_t <- tibble(
+        Dataset = character(),
+        `Before Cut` = numeric(),
+        `After Cut` = numeric(),
+        Removed = numeric(),
+        Modified = numeric()
+      ) %>%
+        add_row(Dataset = "DM", `Before Cut` = uncut, `After Cut` = cut, Removed = x, Modified = y)
+      print(htmltools::tagList(reactable(sum_t,
+        columnGroups = list(
+          colGroup("Total Number of Records",
+            columns = c("Before Cut", "After Cut", "Removed", "Modified")
+          )
+        ),
+        bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
+        showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE
+      )))
+      cat(" \n\n")
+    } else {
+      # Summary tabs for other cuts
+      for (df in data) {
+        name <- names(data)[cyc_num]
+        x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
+        uncut <- nrow(df)
+        cut <- length(which(is.na(df$DCUT_TEMP_REMOVE)))
+        sum_t <- add_row(sum_t,
+          Dataset = toupper(name),
+          `Before Cut` = uncut,
+          `After Cut` = cut,
+          `Removed` = x
+        )
+        cat(" \n\n")
+        cyc_num <- cyc_num + 1
+      }
+      reactable(sum_t,
+        columnGroups = list(
+          colGroup("Total Number of Records", columns = c("Before Cut", "After Cut", "Removed"))
+        ),
+        bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
+        showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE
+      )
+    }
+  }
+}
+```
+
+### Details
+
+This is an {datacur} auto-generated read-out file. It contains a summary of the changes made to the data after the cut has been applied.
+
+The **Summary** tab outlines the datasets affected and what type of cut has been applied to each. 
+
+You can investigate each of the types of cuts applied and look at the records removed and/or modified by looking at the **Datacut Dataset (DCUT)**, **Patient Cut**, **Date Cut** and **Special DM Cut** tabs. 
+
+---
+
+# {.tabset}
+
+## Summary
+
+### Summary of Datacut
+
+---
+
+```{r Review, results='asis', echo = FALSE}
+data_review(patient_cut_data, date_cut_data, dm_cut, no_cut_list)
+```
+
+## Datacut Dataset (DCUT)
+
+### DCUT dataset:
+
+After filtering the input DS dataset (based on the given filter condition), any records where the SDTMv date/time variable is on or before the datacut date/time (after imputations) will be returned in the output datacut dataset (DCUT).
+
+---
+
+###
+```{r dcut, echo = FALSE}
+if (is.null(dcut)) {
+  return(cat("NO DATA TO VIEW"))
+} else {
+  reactable(dcut,
+    bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
+    showPageSizeOptions = TRUE, striped = TRUE, showSortable = TRUE
+  )
+}
+```
+
+## Patient Cut 
+
+### Patient Cut Datasets 
+
+Patient cut to an SDTMv dataset (i.e. subset SDTMv observations on patients included in the dataset_cut input dataset).
+
+Input dataset plus a flag `DCUT_TEMP_REMOVE` to indicate observations dropped when a patient level datacut is applied.
+
+---
+
+### {.tabset}
+```{r, results='asis', echo = FALSE}
+sum_test(patient_cut_data)
+df_tabs(patient_cut_data)
+```
+
+
+## Date Cut 
+
+### Date Cut Datasets
+
+xxSTDTC or xxDTC Cut
+
+Use to apply a datacut to either an xxSTDTC or xxDTC SDTM date variable. 
+The datacut date from the datacut dataset is merged on to the input SDTMv dataset and renamed to `DCUT_TEMP_DCUTDTM`.
+
+The flag `DCUT_TEMP_REMOVE` is added to the dataset to indicate observations removed when the cut is applied.
+
+Note that this function applies a patient level datacut at the same time (using the `pt_cut()` function), and also imputes dates in the specified SDTMv dataset (using the `impute_sdtm()` function).
+
+---
+
+### {.tabset}
+```{r, results='asis', echo = FALSE}
+sum_test(date_cut_data)
+df_tabs(date_cut_data)
+```
+
+## Special DM Cut 
+
+### Special DM cut dataset
+
+Special DM Cut to reset Death variable information past cut date
+
+Applies patient cut if patient not in source DCUT, as well as clearing death information within DM if death occurred after datacut date.
+
+Input dataset plus a flag `DCUT_TEMP_REMOVE` to indicate which observations would be dropped when the datacut is applied, and a flag `DCUT_TEMP_DTHCHANGE` to indicate which observations have death occurring after data cut date for clearing.
+
+***For ease of interpretation, the records where death dates have been modified are flagged*** <span style="color: blue;">***BLUE.***
+
+***The records where records have been removed are flagged*** <span style="color: red;">***RED.***
+
+---
+
+### {.tabset}
+```{r dm_cut, results='asis', echo = FALSE}
+sum_test(dm_cut)
+df_tabs(dm_cut)
+```
+

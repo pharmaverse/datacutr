@@ -1,9 +1,12 @@
+# nolint start: cyclocomp_linter
 #' @title Wrapper function to prepare and apply the datacut of SDTMv datasets
 #'
 #' @description Applies the selected type of datacut on each SDTMv dataset based on the chosen
 #' SDTMv date variable, and outputs the resulting cut datasets, as well as the datacut dataset,
-#' as a list. It also provides an option to perform a "special" cut on the demography (dm) domain
-#' in which any deaths occurring after the datacut date are removed.
+#' as a list. It provides an option to perform a "special" cut on the demography (dm) domain
+#' in which any deaths occurring after the datacut date are removed. It also provides an option
+#' to produce a .html file that summarizes the changes applied to the data during the cut, where
+#' you can inspect the records that have been removed and/or modified.
 #'
 #' @param source_sdtm_data A list of uncut SDTMv dataframes
 #' @param patient_cut_v A vector of quoted SDTMv domain names in which a patient cut should be
@@ -19,6 +22,11 @@
 #' @param special_dm A logical input indicating whether the `special dm cut` should be performed.
 #' Note that, if TRUE, dm should not be included in `patient_cut_v`, `date_cut_m` or `no_cut_v`
 #' inputs.
+#' @param read_out A logical input indicating whether a summary file for the datacut should be
+#' produced. If `TRUE`, a .html file will be returned containing a summary of the cut and
+#' records removed. Default set to `FALSE`.
+#' @param out_path A character vector of file save path for the summary file if `read_out = TRUE`;
+#' the default corresponds to the working directory, `getwd()`.
 #'
 #' @return Returns a list of all input SDTMv datasets, plus the datacut dataset, after
 #' performing the selected datacut on each SDTMv domain.
@@ -57,7 +65,9 @@ process_cut <- function(source_sdtm_data,
                         no_cut_v = NULL,
                         dataset_cut,
                         cut_var,
-                        special_dm = TRUE) {
+                        special_dm = TRUE,
+                        read_out = FALSE,
+                        out_path = ".") {
   #  Assertions for input parameters -----------------------------------------------
   assert_that(is.list(source_sdtm_data),
     msg = "source_sdtm_data must be of class list"
@@ -107,6 +117,8 @@ no_cut_v empty, in which case a default value of NULL will be used."
     )
     cut_inputs <- append(cut_inputs, "dm")
   }
+  # No cut list --------------------------------------------------------------------
+  no_cut_list <- source_sdtm_data[no_cut_v]
 
   sdtm_inputs_dups <- c()
   no_cut_method <- c()
@@ -181,6 +193,8 @@ no_cut_v empty, in which case a default value of NULL will be used."
   all_cut <- c(patient_cut_data, date_cut_data)
 
   # Conduct DM special cut for DTH flags after DCUTDTM ------------------------------
+  # dm_cut = NULL unless special dm cut applied
+  dm_cut <- NULL
 
   if (special_dm) {
     # Assertions for special dm cut
@@ -208,5 +222,11 @@ no_cut_v empty, in which case a default value of NULL will be used."
   # Return the final list of SDTM datasets + DCUT ----------------------------------
 
   final_data <- c(list(dcut = dataset_cut), cut_data, source_sdtm_data[no_cut_v])
+
+  if (read_out) {
+    read_out(dataset_cut, patient_cut_data, date_cut_data, dm_cut, no_cut_list, out_path)
+  }
+
   return(final_data)
 }
+# nolint end

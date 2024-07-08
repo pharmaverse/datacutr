@@ -2,6 +2,7 @@
 
 ## New Features
 - Added a "Report a bug" link to `{datacutr}` website (#182)
+- Added a `read_out` function that enables the generation of a read-out file (.html), to summarize changes applied to data during a datacut. (#107)
 
 ## Updates of Existing Functions
 - Update to `impute_dcutdtc()`, `date_cut()` and `special_dm_cut()` functions to allow for 
@@ -14,9 +15,11 @@ and not valid date or `NA`/`""` (#181)
 arguments have a default value of `NULL` (#188)
 - `process_cut` updated to have more detailed error messages when incorrect datasets 
 are fed in (#180)
+- `process_cut` updated to have arguments `read_out` and `out_path` to integrate the `read_out` function into the wrapper function; enabling auto-generation of the datacutr read-out file (#107)
 
 ## Breaking Changes
 - Added dependency on `admiraldev` >= 0.3.0 (#173)
+- Added dependency on R version >= 4.1 due to an update in `admiraldev` to use R native pipe
 
 ## Documentation
 - Added notes on SDTM compatibility (#171)
