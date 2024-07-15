@@ -30,6 +30,13 @@
       "Repository": "CRAN",
       "Hash": "f3ca785924863b0e4c8cb23b6a5c75a1"
     },
+    "DT": {
+      "Package": "DT",
+      "Version": "0.26",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c66a72c4d3499e14ae179ccb742e740a"
+    },
     "admiraldev": {
       "Package": "admiraldev",
       "Version": "1.1.0",
