@@ -5,7 +5,6 @@
 ^.github$
 ^docs$
 ^.lintr$
-^codecov\.yml$
 ^datacutr\.Rcheck$
 ^datacutr.*\.tar\.gz$
 ^datacutr.*\.tgz$
