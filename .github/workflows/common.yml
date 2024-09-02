@@ -84,6 +84,7 @@ jobs:
     with:
       r-version: "release"
       skip-multiversion-docs: true
+      insert-tweak-page-hook: false
     secrets:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
   linter:
