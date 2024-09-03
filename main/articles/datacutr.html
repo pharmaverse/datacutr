@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datacutr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Get Started</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/pharmaverse/datacutr/blob/main/vignettes/datacutr.Rmd" class="external-link"><code>vignettes/datacutr.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/pharmaverse/datacutr/vignettes/datacutr.Rmd" class="external-link"><code>vignettes/datacutr.Rmd</code></a></small>
       <div class="d-none name"><code>datacutr.Rmd</code></div>
     </div>
 
@@ -85,7 +85,7 @@
 <div class="section level2">
 <h2 id="main-concept-of-data-cut-process">Main Concept of Data cut process<a class="anchor" aria-label="anchor" href="#main-concept-of-data-cut-process"></a>
 </h2>
-<p>The main idea of <a href="https://pharmaverse.github.io/datacutr/">datacutr</a> is to provide a standardized
+<p>The main idea of <code>{datacutr}</code> is to provide a standardized
 approach to applying a datacut to SDTM datasets.<br>
 The process applied by the package is the following,</p>
 <ul>
@@ -126,20 +126,20 @@ date</li>
 <div class="section level2">
 <h2 id="technical-approach-within-datacutr">Technical approach within {datacutr}<a class="anchor" aria-label="anchor" href="#technical-approach-within-datacutr"></a>
 </h2>
-<p>The <a href="https://pharmaverse.github.io/datacutr/">datacutr</a> package allows two different approaches
+<p>The <code>{datacutr}</code> package allows two different approaches
 for the user to apply the data cut process</p>
 <ul>
 <li>Modular approach - This approach breaks down all the steps of the
 data cut into individual functions. This is useful if the user wishes to
 have transparency of the process, and for de-bugging. It also allows the
 user to step into the process if more bespoke or study specific handling
-is required not already defined as part of the <a href="https://pharmaverse.github.io/datacutr/">datacutr</a>
-process. See <a href="https://pharmaverse.github.io/datacutr/articles/modular.html">Modular
+is required not already defined as part of the <code>{datacutr}</code>
+process. See <a href="https://pharmaverse.github.io/datacutr/articles/modular.html" class="external-link">Modular
 Approach</a> for how to implement<br>
 </li>
 <li>Wrapped approach - This approach is more for users who want a quick
 cut generation, and have no need to step in and alter the approach taken
-by <a href="https://pharmaverse.github.io/datacutr/">datacutr</a>. See <a href="https://pharmaverse.github.io/datacutr/articles/wrapper.html">Wrapped
+by <code>{datacutr}</code>. See <a href="https://pharmaverse.github.io/datacutr/articles/wrapper.html" class="external-link">Wrapped
 Approach</a> for how to implement</li>
 </ul>
 </div>
@@ -192,15 +192,15 @@ died after the data cutoff date.</li>
 <h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a>
 </h2>
 <p>All functions are reviewed and tested to ensure that they work as
-described in the documentation. Testing has been done on SDTMIG v3.2
-(SDTM v1.4).</p>
+described in the documentation. They are <strong>not validated</strong>
+yet.</p>
 </div>
 <div class="section level2">
 <h2 id="starting-a-script">Starting a Script<a class="anchor" aria-label="anchor" href="#starting-a-script"></a>
 </h2>
-<p><a href="https://pharmaverse.github.io/datacutr/">datacutr</a> provides a template R scripts as a starting
-point. See <a href="https://pharmaverse.github.io/datacutr/articles/modular.html">Modular
-Approach</a> and <a href="https://pharmaverse.github.io/datacutr/articles/wrapper.html">Wrapped
+<p><code>{datacutr}</code> provides a template R scripts as a starting
+point. See <a href="https://pharmaverse.github.io/datacutr/articles/modular.html" class="external-link">Modular
+Approach</a> and <a href="https://pharmaverse.github.io/datacutr/articles/wrapper.html" class="external-link">Wrapped
 Approach</a> for more details.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -210,7 +210,7 @@ Approach</a> for more details.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tim Barnett, Nathan Rees, Alana Harris, Cara Andrews.</p>
+  <p>Developed by Tim Barnett, Nathan Rees, Alana Harris.</p>
 </div>
 
 <div class="pkgdown-footer-right">
