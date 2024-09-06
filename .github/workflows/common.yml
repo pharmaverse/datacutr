@@ -83,8 +83,9 @@ jobs:
     needs: get_r_version
     with:
       r-version: "release"
-      skip-multiversion-docs: true
+      skip-multiversion-docs: false
       insert-tweak-page-hook: false
+      multiversion-docs-landing-page: main
     secrets:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
   linter:
