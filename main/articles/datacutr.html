@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datacutr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,13 +55,6 @@
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://pharmaverse.github.io/datacutr/main">main</a>
-<a class="dropdown-item" data-toggle="tooltip" title="" href="https://pharmaverse.github.io/datacutr/devel">devel</a> </div></li>
-<!-- end dropdown for versions -->
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -83,7 +76,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Get Started</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/pharmaverse/datacutr/vignettes/datacutr.Rmd" class="external-link"><code>vignettes/datacutr.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/pharmaverse/datacutr/blob/main/vignettes/datacutr.Rmd" class="external-link"><code>vignettes/datacutr.Rmd</code></a></small>
       <div class="d-none name"><code>datacutr.Rmd</code></div>
     </div>
 
@@ -92,7 +85,7 @@
 <div class="section level2">
 <h2 id="main-concept-of-data-cut-process">Main Concept of Data cut process<a class="anchor" aria-label="anchor" href="#main-concept-of-data-cut-process"></a>
 </h2>
-<p>The main idea of <code>{datacutr}</code> is to provide a standardized
+<p>The main idea of <a href="https://pharmaverse.github.io/datacutr/" class="external-link">datacutr</a> is to provide a standardized
 approach to applying a datacut to SDTM datasets.<br>
 The process applied by the package is the following,</p>
 <ul>
@@ -133,20 +126,20 @@ date</li>
 <div class="section level2">
 <h2 id="technical-approach-within-datacutr">Technical approach within {datacutr}<a class="anchor" aria-label="anchor" href="#technical-approach-within-datacutr"></a>
 </h2>
-<p>The <code>{datacutr}</code> package allows two different approaches
+<p>The <a href="https://pharmaverse.github.io/datacutr/" class="external-link">datacutr</a> package allows two different approaches
 for the user to apply the data cut process</p>
 <ul>
 <li>Modular approach - This approach breaks down all the steps of the
 data cut into individual functions. This is useful if the user wishes to
 have transparency of the process, and for de-bugging. It also allows the
 user to step into the process if more bespoke or study specific handling
-is required not already defined as part of the <code>{datacutr}</code>
+is required not already defined as part of the <a href="https://pharmaverse.github.io/datacutr/" class="external-link">datacutr</a>
 process. See <a href="https://pharmaverse.github.io/datacutr/articles/modular.html" class="external-link">Modular
 Approach</a> for how to implement<br>
 </li>
 <li>Wrapped approach - This approach is more for users who want a quick
 cut generation, and have no need to step in and alter the approach taken
-by <code>{datacutr}</code>. See <a href="https://pharmaverse.github.io/datacutr/articles/wrapper.html" class="external-link">Wrapped
+by <a href="https://pharmaverse.github.io/datacutr/" class="external-link">datacutr</a>. See <a href="https://pharmaverse.github.io/datacutr/articles/wrapper.html" class="external-link">Wrapped
 Approach</a> for how to implement</li>
 </ul>
 </div>
@@ -199,13 +192,13 @@ died after the data cutoff date.</li>
 <h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a>
 </h2>
 <p>All functions are reviewed and tested to ensure that they work as
-described in the documentation. They are <strong>not validated</strong>
-yet.</p>
+described in the documentation. Testing has been done on SDTMIG v3.2
+(SDTM v1.4).</p>
 </div>
 <div class="section level2">
 <h2 id="starting-a-script">Starting a Script<a class="anchor" aria-label="anchor" href="#starting-a-script"></a>
 </h2>
-<p><code>{datacutr}</code> provides a template R scripts as a starting
+<p><a href="https://pharmaverse.github.io/datacutr/" class="external-link">datacutr</a> provides a template R scripts as a starting
 point. See <a href="https://pharmaverse.github.io/datacutr/articles/modular.html" class="external-link">Modular
 Approach</a> and <a href="https://pharmaverse.github.io/datacutr/articles/wrapper.html" class="external-link">Wrapped
 Approach</a> for more details.</p>
@@ -217,11 +210,11 @@ Approach</a> for more details.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tim Barnett, Nathan Rees, Alana Harris.</p>
+  <p>Developed by Tim Barnett, Nathan Rees, Alana Harris, Cara Andrews.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
