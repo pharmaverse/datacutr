@@ -28,3 +28,39 @@ test_that("One observation in DCUT", {
     expected_dcut
   )
 })
+
+# Test 2 - Cut date as NA
+expected_dcutna <- tibble::tribble(
+  ~USUBJID, ~DCUTDTC, ~DCUTDTM, ~DCUTDESC,
+  "subject1", NA, ymd_hms(NA), "Patients with Informed Consent",
+  "subject2", NA, ymd_hms(NA), "Patients with Informed Consent",
+  "subject3", NA, ymd_hms(NA), "Patients with Informed Consent",
+  "subject4", NA, ymd_hms(NA), "Patients with Informed Consent"
+)
+
+test_that("One observation in DCUT", {
+  expect_equal(
+    create_dcut(
+      dataset_ds = input_ds,
+      ds_date_var = DSSTDTC,
+      filter = DSDECOD == "INFORMED CONSENT",
+      cut_date = NA,
+      cut_description = "Patients with Informed Consent"
+    ),
+    expected_dcutna
+  )
+})
+
+# Test 3 - Cut date as NULL
+test_that("Cut Date of NULL errors", {
+  expect_error(
+    create_dcut(
+      dataset_ds = input_ds,
+      ds_date_var = DSSTDTC,
+      filter = DSDECOD == "INFORMED CONSENT",
+      cut_date = NULL,
+      cut_description = "Patients with Informed Consent"
+    ),
+    regexp = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+  )
+})

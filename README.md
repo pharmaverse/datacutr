@@ -5,15 +5,11 @@ SDTM Datacut in R
 <!-- badges: start -->
 
 <!-- note: insert datacutr shield here when ready -->
-
 [<img src="http://pharmaverse.org/shields/datacutr.svg">](https://pharmaverse.org)
-
 <!-- note: insert CRAN Status here when ready -->
-
 <!-- note: insert Test status here when ready -->
-
 [![Test Coverage](https://raw.githubusercontent.com/pharmaverse/datacutr/badges/devel/test-coverage.svg)](https://github.com/pharmaverse/datacutr/actions/workflows/code-coverage.yml)
-
+[![CRAN status](https://www.r-pkg.org/badges/version/datacutr)](https://CRAN.R-project.org/package=datacutr)
 <!-- badges: end -->
 
 ## Purpose
@@ -23,7 +19,11 @@ to apply a data cut to SDTM data in R.
 
 ## Installation
 
-The package is available from CRAN and can be installed by running install.packages("datacutr").
+The package is available from CRAN and can be installed by running the following,
+
+```r
+install.packages("datacutr")
+```
 
 To install the latest development version of the package directly from GitHub use the following code::
 
@@ -36,7 +36,7 @@ remotes::install_github("pharmaverse/datacutr", ref = "devel")
 ```
 
 ## Scope
-
+ 
 This package works with tabulation data following an SDTM standard. For ease of processing, the assumption is that supplemental qualifiers have been combined with their parent domain prior to the application of the cut process (sometimes labeled as SDTMv). The user has the flexibility to select the type of cut applied to each SDTM domain (either no cut, patient cut, date cut, or a special DM cut).
 
 ## References and Documentation

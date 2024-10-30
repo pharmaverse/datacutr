@@ -10,7 +10,7 @@
 #' @param ds_date_var Character date/time variable in the DS SDTMv to be compared against the
 #' datacut date
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
-#' @param cut_date Datacut date/time, e.g. "2022-10-22"
+#' @param cut_date Datacut date/time, e.g. "2022-10-22", or NA if no date cut is to be applied
 #' @param cut_description Datacut date/time description, e.g. "Clinical Cut Off Date"
 #'
 #' @author Alana Harris
@@ -62,6 +62,11 @@ create_dcut <- function(dataset_ds,
    must be stored in ISO 8601 format."
   )
 
+  # Check that cut date is not NULL
+  assert_that(!is.null(cut_date),
+    msg = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+  )
+
   # Check that cut_date is in ISO 8601 format
   valid_dtc <- is_valid_dtc(cut_date)
   assert_that(valid_dtc,
@@ -74,13 +79,18 @@ create_dcut <- function(dataset_ds,
     mutate(DCUTDTC = cut_date) %>%
     mutate(DCUTDESC = cut_description) %>%
     impute_dcutdtc(dsin = ., varin = DCUTDTC, varout = DCUTDTM) %>%
-    filter(., DCUTDTM >= DCUT_TEMP_DATE) %>%
+    filter(., (!is.na(DCUTDTM) & DCUTDTM >= DCUT_TEMP_DATE) | is.na(DCUTDTM)) %>%
     filter_if(filter) %>%
     subset(select = c(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC))
 
   assert_that(
     (length(get_duplicates(dataset$USUBJID)) == 0),
     msg = "Duplicate patients in the final returned dataset, please update."
+  )
+
+  # Print message if cut date is null
+  ifelse(any(is.na(mutate(dataset, DCUTDTM))) == TRUE,
+    print("At least 1 patient with missing datacut date."), NA
   )
   dataset
 }

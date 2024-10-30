@@ -10,6 +10,15 @@
 
 Supports the process of applying a cut to Standard Data Tabulation Model (SDTM), as part of the analysis of specific points in time of the data, normally as part of investigation into clinical trials. The functions support different approaches of cutting to the different domains of SDTM normally observed.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://pharmaverse.github.io/datacutr/}
+  \item \url{https://github.com/pharmaverse/datacutr}
+  \item Report bugs at \url{https://github.com/pharmaverse/datacutr/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Tim Barnett \email{timothy.barnett@roche.com} [copyright holder]
 
@@ -17,6 +26,7 @@ Authors:
 \itemize{
   \item Nathan Rees \email{nathan.rees@roche.com}
   \item Alana Harris \email{alana.harris@roche.com}
+  \item Cara Andrews \email{cara.andrews@roche.com}
 }
 
 }

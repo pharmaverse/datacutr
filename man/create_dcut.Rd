@@ -14,7 +14,7 @@ datacut date}
 
 \item{filter}{Condition to filter patients in DS, should give 1 row per patient}
 
-\item{cut_date}{Datacut date/time, e.g. "2022-10-22"}
+\item{cut_date}{Datacut date/time, e.g. "2022-10-22", or NA if no date cut is to be applied}
 
 \item{cut_description}{Datacut date/time description, e.g. "Clinical Cut Off Date"}
 }

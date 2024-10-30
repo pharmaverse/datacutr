@@ -6,12 +6,14 @@
 \usage{
 process_cut(
   source_sdtm_data,
-  patient_cut_v = vector(),
-  date_cut_m = matrix(nrow = 0, ncol = 2),
-  no_cut_v = vector(),
+  patient_cut_v = NULL,
+  date_cut_m = NULL,
+  no_cut_v = NULL,
   dataset_cut,
   cut_var,
-  special_dm = TRUE
+  special_dm = TRUE,
+  read_out = FALSE,
+  out_path = "."
 )
 }
 \arguments{
@@ -35,6 +37,13 @@ left blank if no domains are to remain exactly as source.}
 \item{special_dm}{A logical input indicating whether the \verb{special dm cut} should be performed.
 Note that, if TRUE, dm should not be included in \code{patient_cut_v}, \code{date_cut_m} or \code{no_cut_v}
 inputs.}
+
+\item{read_out}{A logical input indicating whether a summary file for the datacut should be
+produced. If \code{TRUE}, a .html file will be returned containing a summary of the cut and
+records removed. Default set to \code{FALSE}.}
+
+\item{out_path}{A character vector of file save path for the summary file if \code{read_out = TRUE};
+the default corresponds to the working directory, \code{getwd()}.}
 }
 \value{
 Returns a list of all input SDTMv datasets, plus the datacut dataset, after
@@ -43,8 +52,10 @@ performing the selected datacut on each SDTMv domain.
 \description{
 Applies the selected type of datacut on each SDTMv dataset based on the chosen
 SDTMv date variable, and outputs the resulting cut datasets, as well as the datacut dataset,
-as a list. It also provides an option to perform a "special" cut on the demography (dm) domain
-in which any deaths occurring after the datacut date are removed.
+as a list. It provides an option to perform a "special" cut on the demography (dm) domain
+in which any deaths occurring after the datacut date are removed. It also provides an option
+to produce a .html file that summarizes the changes applied to the data during the cut, where
+you can inspect the records that have been removed and/or modified.
 }
 \examples{
 dcut <- data.frame(

@@ -48,10 +48,8 @@ special_dm_cut <- function(dataset_dm,
     (length(get_duplicates(dataset_cut$USUBJID)) == 0),
     msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
   )
-  assert_that(
-    (any(is.na(mutate(dataset_cut, !!cut_var))) == FALSE),
-    msg = "At least one patient with missing datacut date (cut_var) in the DCUT
-    (dataset_cut) dataset, please update."
+  ifelse(any(is.na(mutate(dataset_cut, !!cut_var))) == TRUE,
+    print("At least 1 patient with missing datacut date, all records will be kept."), NA
   )
   assert_data_frame(dataset_dm,
     required_vars = exprs(USUBJID, DTHDTC)
@@ -69,16 +67,19 @@ special_dm_cut <- function(dataset_dm,
       by = "USUBJID"
     )
 
-  assert_that(is.POSIXt(dm_temp$DCUT_TEMP_DCUTDTM),
+  ifelse(!is.na(dm_temp$DCUT_TEMP_DCUTDTM), assert_that(is.POSIXt(dm_temp$DCUT_TEMP_DCUTDTM),
     msg = "cut_var is expected to be of date type POSIXt"
-  )
+  ), NA)
 
   # Flag records with Death Date after Cut date
   dataset_updatedth <- dm_temp %>%
     mutate(DCUT_TEMP_DTHCHANGE = case_when(
-      DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDTM ~ "Y",
+      !is.na(DCUT_TEMP_DCUTDTM) & (DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDTM) ~ "Y",
       TRUE ~ as.character(NA)
     ))
+
+  # Ensure variable is character
+  dataset_updatedth$DCUT_TEMP_REMOVE <- as.character(dataset_updatedth$DCUT_TEMP_REMOVE)
 
   dataset_updatedth
 }

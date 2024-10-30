@@ -1,3 +1,4 @@
+url: https://pharmaverse.github.io/datacutr
 template:
   bootstrap: 5
   params:
@@ -7,7 +8,7 @@ search:
 repo:
   url:
     home: https://github.com/pharmaverse/datacutr
-    source: https://github.com/pharmaverse/datacutr
+    source: https://github.com/pharmaverse/datacutr/blob/main/
     issue: https://github.com/pharmaverse/datacutr/issues/
     user: https://github.com/
 news:
