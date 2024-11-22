@@ -189,10 +189,10 @@ test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE"
     cut_var = DCUTDTM,
     special_dm = TRUE,
     read_out = TRUE,
-    out_path = paste0(temp_dir,"/dummyfile")
+    out_path = paste0(temp_dir, "/dummyfile")
   )
-  expect_true(dir.exists(temp_dir) & (length(list.files(paste0(temp_dir,"/dummyfile")))) > 0)
-  unlink(paste0(temp_dir,"/dummyfile"), recursive = TRUE)
+  expect_true(dir.exists(temp_dir) & (length(list.files(paste0(temp_dir, "/dummyfile")))) > 0)
+  unlink(paste0(temp_dir, "/dummyfile"), recursive = TRUE)
 })
 
 # Test that every type of datacut gives the expected result, when special_dm=FALSE -----------
@@ -233,8 +233,8 @@ test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE"
     cut_var = DCUTDTM,
     special_dm = FALSE,
     read_out = TRUE,
-    out_path = paste0(temp_dir,"/dummyfile")
+    out_path = paste0(temp_dir, "/dummyfile")
   )
-  expect_true(dir.exists(temp_dir) & (length(list.files(paste0(temp_dir,"/dummyfile"))) > 0))
-  unlink(paste0(temp_dir,"/dummyfile"), recursive = TRUE)
+  expect_true(dir.exists(temp_dir) & (length(list.files(paste0(temp_dir, "/dummyfile"))) > 0))
+  unlink(paste0(temp_dir, "/dummyfile"), recursive = TRUE)
 })
