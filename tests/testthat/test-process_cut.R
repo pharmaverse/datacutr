@@ -63,6 +63,9 @@ expected <- list(
   ae = ae_cut, lb = lb_cut, ts = ts_cut
 )
 
+# Create temporary directory for testing output file
+temp_dir <- tempdir()
+
 # Test that every type of datacut gives the expected result, when special_dm=TRUE -----------
 
 test_that("Test that every type of datacut gives the expected result, when special_dm=TRUE", {
@@ -186,10 +189,10 @@ test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE"
     cut_var = DCUTDTM,
     special_dm = TRUE,
     read_out = TRUE,
-    out_path = "~/dummyfile"
+    out_path = paste0(temp_dir,"/dummyfile")
   )
-  expect_true(dir.exists("~/dummyfile") & (length(list.files("~/dummyfile")) > 0))
-  unlink("~/dummyfile", recursive = TRUE)
+  expect_true(dir.exists(temp_dir) & (length(list.files(paste0(temp_dir,"/dummyfile")))) > 0)
+  unlink(paste0(temp_dir,"/dummyfile"), recursive = TRUE)
 })
 
 # Test that every type of datacut gives the expected result, when special_dm=FALSE -----------
@@ -230,8 +233,8 @@ test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE"
     cut_var = DCUTDTM,
     special_dm = FALSE,
     read_out = TRUE,
-    out_path = "~/dummyfile"
+    out_path = paste0(temp_dir,"/dummyfile")
   )
-  expect_true(dir.exists("~/dummyfile") & (length(list.files("~/dummyfile")) > 0))
-  unlink("~/dummyfile", recursive = TRUE)
+  expect_true(dir.exists(temp_dir) & (length(list.files(paste0(temp_dir,"/dummyfile"))) > 0))
+  unlink(paste0(temp_dir,"/dummyfile"), recursive = TRUE)
 })
