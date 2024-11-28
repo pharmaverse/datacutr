@@ -70,9 +70,6 @@ dm_cut <- tibble::tribble(
   "AB12345-005", "Y", "2022-12-01", "Y", "2022-12-01", NA, NA
 )
 
-# Create temporary directory for testing output file
-temp_dir <- tempdir()
-
 # Testing ---------------------------------------------------------------------------------------------------------
 
 # Test that .Rmd gives the expected result when all fields are set to default or contain valid data -----------
@@ -85,7 +82,7 @@ test_that("Correct .Rmd file is run successfully when fields contain correct dat
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = temp_dir
+    out_path = tempdir()
   )
   # Assert that the output file is generated successfully
   expect_true(file.exists(result))
@@ -95,7 +92,7 @@ test_that("Correct .Rmd file is run successfully when fields contain correct dat
 # Test that Correct .Rmd file is ran successfully when fields are empty
 test_that("Correct .Rmd file is ran successfully when fields are empty", {
   # Call read_out() to generate the .Rmd file
-  result <- read_out(out_path = temp_dir)
+  result <- read_out(out_path = tempdir())
   # Assert that the output file is generated successfully
   expect_true(file.exists(result))
   unlink(result, recursive = TRUE)
@@ -111,7 +108,7 @@ test_that("Test that read_out() errors dcut data frame does not contain the var 
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = temp_dir
+    out_path = tempdir()
   ))
 })
 
@@ -125,7 +122,7 @@ test_that("Test that read_out() errors when patient_cut_data input is not a list
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = temp_dir
+      out_path = tempdir()
     ),
     regexp = "patient_cut_data must be a list. \n
 Note: If you have not used or do not with to view patient cut on any SDTMv domains, then
@@ -141,7 +138,7 @@ test_that("Test that read_out() errors when elements in the patient_cut_data lis
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = temp_dir
+    out_path = tempdir()
   ))
 })
 
@@ -154,7 +151,7 @@ test_that("Test that read_out() errors when data frames in patient_cut_data are 
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = temp_dir
+      out_path = tempdir()
     ),
     regexp = "All elements patient_cut_data must be named with corresponding domain"
   )
@@ -170,7 +167,7 @@ test_that("Test that read_out() errors when date_cut_data input is not a list", 
       date_cut_data = ae,
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = temp_dir
+      out_path = tempdir()
     ),
     regexp = "date_cut_data must be a list. \n
 Note: If you have not used or do not with to view date cut on any SDTMv domains, then please
@@ -186,7 +183,7 @@ test_that("Test that read_out() errors when elements in the date_cut_data list a
     date_cut_data = list("ae", "lb"),
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = temp_dir
+    out_path = tempdir()
   ))
 })
 
@@ -199,7 +196,7 @@ test_that("Test that read_out() errors when data frames in date_cut_data are unn
       date_cut_data = list(ae, lb),
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = temp_dir
+      out_path = tempdir()
     ),
     regexp = "All elements in date_cut_data must be named with corresponding domain"
   )
@@ -214,7 +211,7 @@ test_that("Test that read_out() errors when dm_cut data frame does not contain t
     date_cut_data = dt_cut_data,
     dm_cut = sc,
     no_cut_list = no_cut_ls,
-    out_path = temp_dir
+    out_path = tempdir()
   ))
 })
 
@@ -229,7 +226,7 @@ test_that("Test that read_out() errors when no_cut_list is not a list", {
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = ds,
-      out_path = temp_dir
+      out_path = tempdir()
     ),
     regexp = "no_cut_list must be a list. \n
 Note: If you have not used or do not with to view the SDTMv domains where no cut has been
@@ -246,7 +243,7 @@ test_that("Test that read_out() errors when elements in the no_cut_list list are
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = ls("ts"),
-    out_path = temp_dir
+    out_path = tempdir()
   ))
 })
 
@@ -259,7 +256,7 @@ test_that("Test that read_out() errors when elements in the no_cut_list list are
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = list(ts, ae),
-      out_path = temp_dir
+      out_path = tempdir()
     ),
     regexp = "All elements in no_cut_list must be named with corresponding domain"
   )
