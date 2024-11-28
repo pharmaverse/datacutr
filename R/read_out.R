@@ -76,7 +76,7 @@ read_out <- function(dcut = NULL,
                      date_cut_data = NULL,
                      dm_cut = NULL,
                      no_cut_list = NULL,
-                     out_path = ".") {
+                     out_path = tempdir()) {
   if (!is.null(dcut)) {
     assert_data_frame(dcut,
       required_vars = exprs(USUBJID, DCUTDTC)
