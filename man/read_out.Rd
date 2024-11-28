@@ -10,7 +10,7 @@ read_out(
   date_cut_data = NULL,
   dm_cut = NULL,
   no_cut_list = NULL,
-  out_path = "."
+  out_path = tempdir()
 )
 }
 \arguments{
@@ -32,7 +32,7 @@ the variables DCUT_TEMP_REMOVE and DCUT_TEMP_DTHCHANGE.}
 left blank if no domains are to remain exactly as source.}
 
 \item{out_path}{A character vector of file save path for the summary file;
-the default corresponds to the working directory, \code{getwd()}.}
+the default corresponds to a temporary directory, \code{tempdir()}.}
 }
 \value{
 Returns a .html file summarizing the changes made to data during a datacut.

@@ -17,7 +17,7 @@
 #' @param no_cut_list List of of quoted SDTMv domain names in which no cut should be applied. To be
 #' left blank if no domains are to remain exactly as source.
 #' @param out_path A character vector of file save path for the summary file;
-#' the default corresponds to the working directory, `getwd()`.
+#' the default corresponds to a temporary directory, `tempdir()`.
 #'
 #' @return Returns a .html file summarizing the changes made to data during a datacut.
 #'
