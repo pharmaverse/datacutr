@@ -46,3 +46,6 @@ datacutr*.tgz
 
 # MacOS
 .DS_Store
+
+# Submission file
+CRAN-SUBMISSION
