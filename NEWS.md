@@ -1,3 +1,8 @@
+# datacutr 0.2.1
+
+## Updates of Existing Functions
+- Update `read_out` to write to temporary drive
+
 # datacutr 0.2.0
 
 ## New Features
