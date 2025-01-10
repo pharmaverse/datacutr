@@ -1,7 +1,7 @@
 Package: datacutr
 Type: Package
 Title: SDTM Datacut
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(
     person("Tim", "Barnett", email = "timothy.barnett@roche.com", role = c("cph","aut", "cre")), 
     person("Nathan", "Rees", email = "nathan.rees@roche.com", role = c("aut")), 

@@ -75,6 +75,8 @@ dm_cut <- tibble::tribble(
 # Test that .Rmd gives the expected result when all fields are set to default or contain valid data -----------
 # Correct .Rmd file is run successfully when fields contain correct data inputs
 test_that("Correct .Rmd file is run successfully when fields contain correct data inputs", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   # Call read_out() to generate the .Rmd file
   result <- read_out(
     dcut = dcut,
@@ -82,39 +84,46 @@ test_that("Correct .Rmd file is run successfully when fields contain correct dat
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = tempdir()
+    out_path = temp_dir
   )
   # Assert that the output file is generated successfully
-  expect_true(file.exists(result))
-  unlink(result, recursive = TRUE)
+  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir))) > 0)
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test that Correct .Rmd file is ran successfully when fields are empty
 test_that("Correct .Rmd file is ran successfully when fields are empty", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   # Call read_out() to generate the .Rmd file
-  result <- read_out(out_path = tempdir())
+  result <- read_out(out_path = temp_dir)
   # Assert that the output file is generated successfully
-  expect_true(file.exists(result))
-  unlink(result, recursive = TRUE)
+  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir))) > 0)
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test read_out() errors when data cut fields are incorrect input types -----------
 ## DCUT ----
 # Test that read_out() errors dcut data frame does not contain the var DCUTDTC
 test_that("Test that read_out() errors dcut data frame does not contain the var DCUTDTC", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(read_out(
     dcut = sc,
     patient_cut_data = pt_cut_data,
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = tempdir()
+    out_path = temp_dir
   ))
+  unlink(temp_dir, recursive = TRUE)
 })
 
 ## Patient_cut_data ----
 # Test that read_out() errors when patient_cut_data input is not a list
 test_that("Test that read_out() errors when patient_cut_data input is not a list", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(
     read_out(
       dcut = dcut,
@@ -122,28 +131,34 @@ test_that("Test that read_out() errors when patient_cut_data input is not a list
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = tempdir()
+      out_path = temp_dir
     ),
     regexp = "patient_cut_data must be a list. \n
 Note: If you have not used or do not with to view patient cut on any SDTMv domains, then
 please leave patient_cut_data empty, in which case a default value of NULL will be used."
   )
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test that read_out() errors when elements in the patient_cut_data list are not data frames
 test_that("Test that read_out() errors when elements in the patient_cut_data list are not data frames", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(read_out(
     dcut = dcut,
     patient_cut_data = list("sc", "ds"),
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = tempdir()
+    out_path = temp_dir
   ))
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test that read_out() errors when data frames in patient_cut_data are unnamed
 test_that("Test that read_out() errors when data frames in patient_cut_data are unnamed", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(
     read_out(
       dcut = dcut,
@@ -151,15 +166,18 @@ test_that("Test that read_out() errors when data frames in patient_cut_data are 
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = tempdir()
+      out_path = temp_dir
     ),
     regexp = "All elements patient_cut_data must be named with corresponding domain"
   )
+  unlink(temp_dir, recursive = TRUE)
 })
 
 ## Date_cut_data ----
 # Test that read_out() errors when date_cut_data input is not a list
 test_that("Test that read_out() errors when date_cut_data input is not a list", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(
     read_out(
       dcut = dcut,
@@ -167,28 +185,34 @@ test_that("Test that read_out() errors when date_cut_data input is not a list", 
       date_cut_data = ae,
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = tempdir()
+      out_path = temp_dir
     ),
     regexp = "date_cut_data must be a list. \n
 Note: If you have not used or do not with to view date cut on any SDTMv domains, then please
 leave date_cut_data empty, in which case a default value of NULL will be used."
   )
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test that read_out() errors when elements in the date_cut_data list are not data frames
 test_that("Test that read_out() errors when elements in the date_cut_data list are not data frames", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(read_out(
     dcut = dcut,
     patient_cut_data = pt_cut_data,
     date_cut_data = list("ae", "lb"),
     dm_cut = dm_cut,
     no_cut_list = no_cut_ls,
-    out_path = tempdir()
+    out_path = temp_dir
   ))
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test that read_out() errors when data frames in date_cut_data are unnamed
 test_that("Test that read_out() errors when data frames in date_cut_data are unnamed", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(
     read_out(
       dcut = dcut,
@@ -196,29 +220,35 @@ test_that("Test that read_out() errors when data frames in date_cut_data are unn
       date_cut_data = list(ae, lb),
       dm_cut = dm_cut,
       no_cut_list = no_cut_ls,
-      out_path = tempdir()
+      out_path = temp_dir
     ),
     regexp = "All elements in date_cut_data must be named with corresponding domain"
   )
+  unlink(temp_dir, recursive = TRUE)
 })
 
 ## dm_cut ----
 # Test that read_out() errors when dm_cut data frame does not contain the vars DCUT_TEMP_REMOVE & DCUT_TEMP_DTHCHANG
 test_that("Test that read_out() errors when dm_cut data frame does not contain the vars DCUT_TEMP_REMOVE & DCUT_TEMP_DTHCHANGE", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(read_out(
     dcut = dcut,
     patient_cut_data = pt_cut_data,
     date_cut_data = dt_cut_data,
     dm_cut = sc,
     no_cut_list = no_cut_ls,
-    out_path = tempdir()
+    out_path = temp_dir
   ))
+  unlink(temp_dir, recursive = TRUE)
 })
 
 
 ## no_cut_list ----
 # Test that read_out() errors when no_cut_list is not a list
 test_that("Test that read_out() errors when no_cut_list is not a list", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(
     read_out(
       dcut = dcut,
@@ -226,29 +256,35 @@ test_that("Test that read_out() errors when no_cut_list is not a list", {
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = ds,
-      out_path = tempdir()
+      out_path = temp_dir
     ),
     regexp = "no_cut_list must be a list. \n
 Note: If you have not used or do not with to view the SDTMv domains where no cut has been
 applied, then please leave no_cut_list empty, in which case a default value of NULL will be
 used."
   )
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test that read_out() errors when elements in the no_cut_list list are not data frames
 test_that("Test that read_out() errors when elements in the no_cut_list list are not data frames", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(read_out(
     dcut = dcut,
     patient_cut_data = pt_cut_data,
     date_cut_data = dt_cut_data,
     dm_cut = dm_cut,
     no_cut_list = ls("ts"),
-    out_path = tempdir()
+    out_path = temp_dir
   ))
+  unlink(temp_dir, recursive = TRUE)
 })
 
 # Test that read_out() errors when elements in the no_cut_list list are not named with the corresponding domain
 test_that("Test that read_out() errors when elements in the no_cut_list list are not named with the corresponding domain", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
   expect_error(
     read_out(
       dcut = dcut,
@@ -256,8 +292,9 @@ test_that("Test that read_out() errors when elements in the no_cut_list list are
       date_cut_data = dt_cut_data,
       dm_cut = dm_cut,
       no_cut_list = list(ts, ae),
-      out_path = tempdir()
+      out_path = temp_dir
     ),
     regexp = "All elements in no_cut_list must be named with corresponding domain"
   )
+  unlink(temp_dir, recursive = TRUE)
 })

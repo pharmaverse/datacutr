@@ -1,3 +1,11 @@
+# datacutr 0.2.2
+
+## Updates of Existing Functions
+None
+
+## Various
+Tests using temporary directories cleaned up
+
 # datacutr 0.2.1
 
 ## Updates of Existing Functions
