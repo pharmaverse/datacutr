@@ -1,3 +1,8 @@
+# datacutr 0.2.2.1
+
+## Updates of Existing Functions
+- `read_out` updated to control location of outputs of rmarkdown
+
 # datacutr 0.2.2
 
 ## Updates of Existing Functions
