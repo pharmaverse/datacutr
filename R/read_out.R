@@ -141,6 +141,7 @@ used."
     ),
     output_file = paste0("datacut_", format(Sys.time(), "%Y-%m-%d_%H%M%S", ".html")),
     output_dir = out_path,
+    intermediates_dir = out_path,
     knit_root_dir = out_path
   )
 }
