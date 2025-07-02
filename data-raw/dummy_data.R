@@ -11,9 +11,9 @@ datacutr_ds <- tibble::tribble(
 datacutr_dm <- tibble::tribble(
   ~USUBJID, ~DTHFL, ~DTHDTC,
   "AB12345-001", "Y", "2022-06-01",
-  "AB12345-002", "", "",
+  "AB12345-002", NA_character_, NA_character_,
   "AB12345-003", "Y", "2022-07-01",
-  "AB12345-004", "", "",
+  "AB12345-004", NA_character_, NA_character_,
   "AB12345-005", "Y", "2022-12-01",
 )
 datacutr_ae <- tibble::tribble(
