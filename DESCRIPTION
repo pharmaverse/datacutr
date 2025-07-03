@@ -33,7 +33,6 @@ Imports:
     reactable (>= 0.4.4)
 Suggests:
     devtools,
-    lintr,
     pkgdown,
     testthat,
     knitr,
@@ -45,3 +44,4 @@ Suggests:
     usethis,
     covr
 VignetteBuilder: knitr
+Config/wants/development: lintr
