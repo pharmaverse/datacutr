@@ -3,7 +3,6 @@
 ## New Features
 
 ## Updates of Existing Functions
-
 -   `create_dcut` updated to fix a bug when the optional filter argument is left as NULL
 
 ## Various
