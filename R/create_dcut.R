@@ -9,7 +9,7 @@
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param ds_date_var Character date/time variable in the DS SDTMv to be compared against the
 #' datacut date
-#' @param filter Condition to filter patients in DS, should give 1 row per patient
+#' @param filter Optional condition to filter patients in DS, should give 1 row per patient
 #' @param cut_date Datacut date/time, e.g. "2022-10-22", or NA if no date cut is to be applied
 #' @param cut_description Datacut date/time description, e.g. "Clinical Cut Off Date"
 #'
@@ -45,7 +45,7 @@
 #' )
 create_dcut <- function(dataset_ds,
                         ds_date_var,
-                        filter,
+                        filter = NULL,
                         cut_date,
                         cut_description) {
   ds_date_var <- assert_symbol(enexpr(ds_date_var))
