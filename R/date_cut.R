@@ -9,7 +9,7 @@
 #' function).
 #'
 #' @param dataset_sdtm Input SDTMv dataset
-#' @param sdtm_date_var Input date variable found in the `dataset_sdtmv` dataset
+#' @param sdtm_date_var Input date variable found in the `dataset_sdtm` dataset
 #' @param dataset_cut Input datacut dataset
 #' @param cut_var Datacut date variable
 #'
@@ -54,6 +54,7 @@ date_cut <- function(dataset_sdtm,
                      cut_var) {
   sdtm_date_var <- assert_symbol(enexpr(sdtm_date_var))
   cut_var <- assert_symbol(enexpr(cut_var))
+
   assert_data_frame(dataset_sdtm,
     required_vars = exprs(USUBJID, !!sdtm_date_var)
   )
@@ -79,23 +80,32 @@ date_cut <- function(dataset_sdtm,
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 
-  dataset_sdtm_pt <- dataset_sdtm %>%
-    impute_sdtm(dsin = ., varin = !!sdtm_date_var, varout = DCUT_TEMP_SDTM_DATE) %>%
-    left_join(
-      x = .,
-      y = dcut,
-      by = "USUBJID"
-    )
+  # If SDTM dataset is empty, output empty file
+  if (nrow(dataset_sdtm) == 0L) {
+    print("SDTM dataset is empty, no cut can be performed")
+    dataset <- dataset_sdtm
+  }
 
-  # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
-  dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) |
-      is.na(TEMP_DCUT_KEEP), "Y", NA_character_))
+  # Only proceed with cut if SDTM dataset is non-empty
+  if (nrow(dataset_sdtm) > 0L) {
+    dataset_sdtm_pt <- dataset_sdtm %>%
+      impute_sdtm(dsin = ., varin = !!sdtm_date_var, varout = DCUT_TEMP_SDTM_DATE) %>%
+      left_join(
+        x = .,
+        y = dcut,
+        by = "USUBJID"
+      )
 
-  # Ensure variable is character
-  dataset$DCUT_TEMP_REMOVE <- as.character(dataset$DCUT_TEMP_REMOVE)
+    # Flag records to be removed - those occurring after cut date and patients not in dcut dataset
+    dataset <- dataset_sdtm_pt %>%
+      mutate(DCUT_TEMP_REMOVE = ifelse((DCUT_TEMP_SDTM_DATE > DCUT_TEMP_DCUTDTM) |
+        is.na(TEMP_DCUT_KEEP), "Y", NA_character_))
 
-  dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
+    # Ensure variable is character
+    dataset$DCUT_TEMP_REMOVE <- as.character(dataset$DCUT_TEMP_REMOVE)
+
+    dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
+  }
 
   dataset
 }

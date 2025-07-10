@@ -1,3 +1,13 @@
+# datacutr 0.2.4
+
+## New Features
+
+## Updates of Existing Functions
+
+-   `date_cut` and `pt_cut` updated to give a message if the input SDTM data is empty and output the empty SDTM dataset 
+
+## Various
+
 # datacutr 0.2.3
 
 ## Updates of Existing Functions
