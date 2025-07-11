@@ -64,3 +64,17 @@ test_that("Cut Date of NULL errors", {
     regexp = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
   )
 })
+
+# Test 4 - Cut date in DDMMMYYYY format
+test_that("One observation in DCUT", {
+  expect_equal(
+    create_dcut(
+      dataset_ds = input_ds,
+      ds_date_var = DSSTDTC,
+      filter = DSDECOD == "RANDOMIZATION",
+      cut_date = "01JAN2022",
+      cut_description = "Clinical Cutoff Date"
+    ),
+    expected_dcut
+  )
+})
