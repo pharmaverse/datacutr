@@ -62,8 +62,8 @@ create_dcut <- function(dataset_ds,
   input_dtc <- pull(dataset_ds, !!ds_date_var)
   valid_dtc <- is_valid_dtc(input_dtc)
   assert_that(all(valid_dtc),
-              msg = "The ds_date_var variable contains datetimes in the incorrect format. All datetimes
-   must be stored in ISO 8601 format."
+              msg = "The ds_date_var variable contains datetimes in the incorrect format. All
+              datetimes must be stored in ISO 8601 format."
   )
 
   # Check that cut date is not NULL
@@ -80,7 +80,7 @@ create_dcut <- function(dataset_ds,
   )
 
   # Convert cut_date to ISO 8601 if inDDMMMYYYY format
-  if(grepl(dmy_pattern, cut_date)){
+  if (grepl(dmy_pattern, cut_date)) {
     cut_date <- as.character(dmy(cut_date))
   }
 
