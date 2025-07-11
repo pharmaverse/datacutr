@@ -54,7 +54,7 @@ create_dcut <- function(dataset_ds,
                         cut_description) {
   ds_date_var <- assert_symbol(enexpr(ds_date_var))
   assert_data_frame(dataset_ds,
-                    required_vars = exprs(USUBJID, !!ds_date_var)
+    required_vars = exprs(USUBJID, !!ds_date_var)
   )
   filter <- assert_filter_cond(enexpr(filter), optional = TRUE)
 
@@ -62,20 +62,20 @@ create_dcut <- function(dataset_ds,
   input_dtc <- pull(dataset_ds, !!ds_date_var)
   valid_dtc <- is_valid_dtc(input_dtc)
   assert_that(all(valid_dtc),
-              msg = "The ds_date_var variable contains datetimes in the incorrect format. All
+    msg = "The ds_date_var variable contains datetimes in the incorrect format. All
               datetimes must be stored in ISO 8601 format."
   )
 
   # Check that cut date is not NULL
   assert_that(!is.null(cut_date),
-              msg = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+    msg = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
   )
 
   # Check that cut_date is in ISO 8601 or DDMMMYYYY format
   dmy_pattern <- "^\\d{2}[A-Za-z]{3}\\d{4}$"
   valid_dtc <- is_valid_dtc(cut_date) | grepl(dmy_pattern, cut_date)
   assert_that(valid_dtc,
-              msg = "The cut_date parameter is in the incorrect format. All datetimes
+    msg = "The cut_date parameter is in the incorrect format. All datetimes
   must be stored in ISO 8601 or DDMMMYYYY format."
   )
 
@@ -100,7 +100,7 @@ create_dcut <- function(dataset_ds,
 
   # Print message if cut date is null
   ifelse(any(is.na(mutate(dataset, DCUTDTM))) == TRUE,
-         print("At least 1 patient with missing datacut date."), NA
+    print("At least 1 patient with missing datacut date."), NA
   )
   dataset
 }
