@@ -1,3 +1,13 @@
+# datacutr 0.2.4
+
+## New Features
+
+## Updates of Existing Functions
+
+-   `create_dcut` updated to allow for cut_date in DDMMMYYYY format
+
+## Various
+
 # datacutr 0.2.3
 
 ## Updates of Existing Functions
