@@ -4,7 +4,7 @@
 
 ## Updates of Existing Functions
 
--   `date_cut` and `pt_cut` updated to give a message if the input SDTM data is empty and output the empty SDTM dataset 
+-   `date_cut`, `pt_cut`, `special_dm_cut` and `apply_cut` updated to give a message if the input SDTM data is empty and output the empty SDTM dataset 
 
 ## Various
 

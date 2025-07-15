@@ -98,3 +98,20 @@ test_that("Test when all records have DCUT_TEMP_REMOVE='Y'", {
     expected5
   )
 })
+
+
+### Test when input dataset is empty ###
+input_ae5 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+expected_ae5 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+test_that("Test when input dataset is empty", {
+  expect_equal(
+    apply_cut(dsin = input_ae5, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = NULL),
+    expected_ae5
+  )
+})
