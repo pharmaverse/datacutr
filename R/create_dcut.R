@@ -83,6 +83,7 @@ create_dcut <- function(dataset_ds,
     filter_if(filter) %>%
     subset(select = c(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC))
 
+  # Print message if duplicates in dataset
   assert_that(
     (length(get_duplicates(dataset$USUBJID)) == 0),
     msg = "Duplicate patients in the final returned dataset, please update."
@@ -91,6 +92,11 @@ create_dcut <- function(dataset_ds,
   # Print message if cut date is null
   ifelse(any(is.na(mutate(dataset, DCUTDTM))) == TRUE,
     print("At least 1 patient with missing datacut date."), NA
+  )
+
+  # Print message if dataset is empty
+  ifelse(nrow(dataset)==0L,
+         print("Datacut dataset is empty, please update"), NA
   )
   dataset
 }
