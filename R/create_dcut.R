@@ -95,8 +95,8 @@ create_dcut <- function(dataset_ds,
   )
 
   # Print message if dataset is empty
-  ifelse(nrow(dataset)==0L,
-         print("Datacut dataset is empty, please update"), NA
+  ifelse(nrow(dataset) == 0L,
+    print("Datacut dataset is empty, please update"), NA
   )
   dataset
 }
