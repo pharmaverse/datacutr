@@ -26,8 +26,8 @@ input2 <- data.frame(
 
 expected2 <- data.frame(
   USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c"),
-  DTHDTC = c("", "24MAR2022", "25MAR2022"),
-  DTHFL = c("", "Y", "Y"),
+  DTHDTC = c(NA_character_, "24MAR2022", "25MAR2022"),
+  DTHFL = c(NA_character_, "Y", "Y"),
   stringsAsFactors = FALSE
 )
 
@@ -50,7 +50,7 @@ input3 <- data.frame(
 
 expected3 <- data.frame(
   USUBJID = c("UXYZ123a", "UXYZ123b", "UXYZ123c"),
-  DTHDTC = c("", "24MAR2022", "25MAR2022"),
+  DTHDTC = c(NA_character_, "24MAR2022", "25MAR2022"),
   stringsAsFactors = FALSE
 )
 

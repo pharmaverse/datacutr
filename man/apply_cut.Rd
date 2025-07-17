@@ -17,13 +17,13 @@ function - usually called DCUT_TEMP_DTHCHANGE.}
 }
 \value{
 Returns the input dataframe, excluding any rows in which \code{dcutvar} is flagged as "Y".
-DTHDTC and DTHFL are set to missing for any records where \code{dthchangevar} is flagged as "Y". Any
+DTHDTC and DTHFL are set to NA for any records where \code{dthchangevar} is flagged as "Y". Any
 variables with the "DCUT_TEMP" prefix are removed.
 }
 \description{
 Removes any records where the datacut flagging variable, usually called
 DCUT_TEMP_REMOVE, is marked as "Y". Also, sets the death related variables in DM
-(DTHDTC and DTHFL) to missing if the death after datacut flagging variable, usually
+(DTHDTC and DTHFL) to NA if the death after datacut flagging variable, usually
 called DCUT_TEMP_DTHCHANGE, is marked as "Y".
 }
 \examples{
