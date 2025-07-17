@@ -1,12 +1,15 @@
 # datacutr 0.2.4
 
 ## New Features
+None
 
 ## Updates of Existing Functions
 
 -   `create_dcut` updated to fix a bug when the optional filter argument is left as NULL
+-   - `apply_cut` updated to set reverted Death variables DTHFL and DTHDTC to `NA` rather than `""`
 
 ## Various
+None
 
 # datacutr 0.2.3
 
