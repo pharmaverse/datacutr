@@ -27,9 +27,9 @@ ds_cut <- tibble::tribble(
 dm_cut <- tibble::tribble(
   ~USUBJID, ~DTHFL, ~DTHDTC,
   "AB12345-001", "Y", "2022-06-01",
-  "AB12345-002", "", "",
-  "AB12345-003", "", "",
-  "AB12345-004", "", "",
+  "AB12345-002", NA_character_, NA_character_,
+  "AB12345-003", NA_character_, NA_character_,
+  "AB12345-004", NA_character_, NA_character_,
 )
 ae_cut <- tibble::tribble(
   ~USUBJID, ~AETERM, ~AESTDTC,
