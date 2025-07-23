@@ -62,8 +62,8 @@ create_dcut <- function(dataset_ds,
   input_dtc <- pull(dataset_ds, !!ds_date_var)
   valid_dtc <- is_valid_dtc(input_dtc)
   assert_that(all(valid_dtc),
-    msg = "The ds_date_var variable contains datetimes in the incorrect format. All
-              datetimes must be stored in ISO 8601 format."
+    msg = paste0("The ds_date_var variable (", ds_date_var,
+                 ") contains datetimes in the incorrect format. All datetimes must be stored in ISO 8601 format.")
   )
 
   # Check that cut date is not NULL
