@@ -59,7 +59,10 @@ pt_cut <- function(dataset_sdtm,
 
   # If SDTM dataset is empty, output empty file
   if (nrow(dataset_sdtm) == 0L) {
-    print("SDTM dataset is empty, no cut can be performed ")
+    print(paste0(
+      deparse(substitute(dataset_sdtm)),
+      " dataset is empty, no cut can be performed."
+    ))
     dataset <- dataset_sdtm
   }
 
