@@ -62,21 +62,33 @@ create_dcut <- function(dataset_ds,
   input_dtc <- pull(dataset_ds, !!ds_date_var)
   valid_dtc <- is_valid_dtc(input_dtc)
   assert_that(all(valid_dtc),
-    msg = paste0("The ds_date_var variable (", ds_date_var,
-                 ") contains datetimes in the incorrect format. All datetimes must be stored in ISO 8601 format.")
+    msg = paste0(
+      "The ds_date_var variable (", ds_date_var,
+      ") contains datetimes in the incorrect format. All datetimes must be stored
+in ISO 8601 format."
+    )
   )
 
-  # Check that cut date is not NULL
+  # Check that cut date exists and is not NULL
   assert_that(!is.null(cut_date),
-    msg = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+    msg = "Cut date is NULL, please populate as NA if you do not want to perform a data cut
+or a valid date in ISO 8601 or DDMMMYYYY format"
   )
 
   # Check that cut_date is in ISO 8601 or DDMMMYYYY format
   dmy_pattern <- "^\\d{2}[A-Za-z]{3}\\d{4}$"
   valid_dtc <- is_valid_dtc(cut_date) | grepl(dmy_pattern, cut_date)
   assert_that(valid_dtc,
-    msg = "The cut_date parameter is in the incorrect format. All datetimes
-  must be stored in ISO 8601 or DDMMMYYYY format."
+    msg = paste0("The cut_date parameter (", cut_date, ") is in the incorrect format. All datetimes
+                 must be stored in ISO 8601 or DDMMMYYYY format")
+  )
+
+  # Check that the cut_date is a meaningful date
+  assert_that(
+    !is.na(as.Date(cut_date, format = "%Y-%m-%d")) |
+      !is.na(as.Date(cut_date, format = "%d%b%Y")) | is.na(cut_date),
+    msg = paste0("The cut_date parameter (", cut_date, ") is an invalid date. All datetimes
+                 must be stored in ISO 8601 or DDMMMYYYY format")
   )
 
   # Convert cut_date to ISO 8601 if inDDMMMYYYY format

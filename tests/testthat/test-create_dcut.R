@@ -61,7 +61,7 @@ test_that("Cut Date of NULL errors", {
       cut_date = NULL,
       cut_description = "Patients with Informed Consent"
     ),
-    regexp = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+    regexp = "Cut date is NULL, please populate as NA if you do not want to perform a data cut"
   )
 })
 
