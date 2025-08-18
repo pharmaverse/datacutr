@@ -1,10 +1,11 @@
 # datacutr 0.2.4
 
+<<<<<<< HEAD
 ## New Features
 
 ## Updates of Existing Functions
-
--   `create_dcut` updated to allow for cut_date in DDMMMYYYY format
+- `create_dcut` updated to allow for cut_date in DDMMMYYYY format
+- `apply_cut` updated to set reverted Death variables DTHFL and DTHDTC to `NA` rather than `""`
 
 ## Various
 
