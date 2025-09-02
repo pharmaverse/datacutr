@@ -241,3 +241,66 @@ test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE"
   expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
   unlink(temp_dir, recursive = TRUE)
 })
+
+
+
+# Testing when a dataset is null
+datacutr_ae <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+source_data <- list(
+  ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae,
+  sc = datacutr_sc, lb = datacutr_lb, ts = datacutr_ts
+)
+
+ae_cut <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+# Store all expected data as a list
+expected <- list(
+  dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
+  ae = ae_cut, lb = lb_cut, ts = ts_cut
+)
+
+test_that("Test if a dataset is null", {
+  # Run test
+  expect_equal(
+    process_cut(
+      source_sdtm_data = source_data,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(
+        c("ae", "AESTDTC"),
+        c("lb", "LBDTC")
+      ),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE
+    ),
+    expected
+  )
+})
+
+test_that("Test if a dataset is null and creating report", {
+  # Create temporary directory for testing output file
+  temp_dir <- tempdir()
+  # Run test
+  process_cut(
+    source_sdtm_data = source_data,
+    patient_cut_v = c("sc", "ds"),
+    date_cut_m = rbind(
+      c("ae", "AESTDTC"),
+      c("lb", "LBDTC")
+    ),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE,
+    read_out = TRUE,
+    out_path = temp_dir
+  )
+  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
+  unlink(temp_dir, recursive = TRUE)
+})
