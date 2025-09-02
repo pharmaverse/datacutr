@@ -115,3 +115,21 @@ test_that("Test when input dataset is empty", {
     expected_ae5
   )
 })
+
+
+### Test when input dataset is empty ###
+input_dm <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~DTHFL, ~DTHDTC,
+)
+
+expected_dm <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~DTHFL, ~DTHDTC,
+)
+
+test_that("Test when input dataset is empty", {
+  expect_equal(
+    apply_cut(dsin = input_dm, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE),
+    expected_dm
+  )
+})
+
