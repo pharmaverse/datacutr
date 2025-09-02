@@ -89,6 +89,15 @@ Note: If you have not used or do not with to view patient cut on any SDTMv domai
 please leave patient_cut_data empty, in which case a default value of NULL will be used."
     )
 
+    for (name in names(patient_cut_data)) {
+      if (is.data.frame(patient_cut_data[[name]]) && nrow(patient_cut_data[[name]]) == 0) {
+        print(paste("The dataset", name, "is empty"))
+      }
+    }
+
+    # Don't include null datasets in report
+    patient_cut_data <- patient_cut_data[which(lapply(patient_cut_data, nrow) != 0)]
+
     for (i in seq_along(patient_cut_data)) {
       assert_data_frame(patient_cut_data[[i]],
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)
@@ -105,6 +114,17 @@ please leave patient_cut_data empty, in which case a default value of NULL will 
 Note: If you have not used or do not with to view date cut on any SDTMv domains, then please
 leave date_cut_data empty, in which case a default value of NULL will be used."
     )
+
+    # Check for empty data frames
+    for (name in names(date_cut_data)) {
+      if (is.data.frame(date_cut_data[[name]]) && nrow(date_cut_data[[name]]) == 0) {
+        print(paste("The dataset", name, "is empty"))
+      }
+    }
+
+    # Don't include empty datasets in report
+    date_cut_data <- date_cut_data[which(lapply(date_cut_data, nrow) != 0)]
+
     for (i in seq_along(date_cut_data)) {
       assert_data_frame(date_cut_data[[i]],
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)

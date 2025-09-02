@@ -54,7 +54,6 @@ special_dm_cut <- function(dataset_dm,
 
   # If SDTM dataset is empty, output empty file
   if (nrow(dataset_dm) == 0L) {
-    print("DM dataset is empty, no cut can be performed.")
     dataset_updatedth <- dataset_dm
   }
 
