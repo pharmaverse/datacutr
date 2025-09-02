@@ -5,7 +5,7 @@ None
 
 ## Updates of Existing Functions
 - `apply_cut` updated to set reverted Death variables DTHFL and DTHDTC to `NA` rather than `""`
--   `date_cut`, `pt_cut`, `special_dm_cut` and `apply_cut` updated to give a message if the input SDTM data is empty and output the empty SDTM dataset 
+-   `date_cut`, `pt_cut`, `special_dm_cut`, `apply_cut` and `read_out` updated to handle empty SDTM datasets
 
 ## Various
 None

@@ -40,11 +40,6 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
   dthchangevar <- enexpr(dthchangevar)
 
   if (nrow(dsin) == 0L) {
-    print(paste0(
-      deparse(substitute(dsin)),
-      " dataset is empty, no cut can be performed."
-    ))
-
     out_final <- dsin
   }
 
