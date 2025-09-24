@@ -81,10 +81,10 @@ must be valid and stored in ISO 8601 or DDMMMYYYY format")
   )
 
   # Check that the cut_date is a meaningful date / datetime
-  if (!is.na(cut_date) &&  str_sub(cut_date, 11, 11) == "T") {
+  if (!is.na(cut_date) && str_sub(cut_date, 11, 11) == "T") {
     assert_that(
       suppressWarnings(!is.na(ymd_hms(cut_date)) | !is.na(ymd_hm(cut_date)) |
-                         !is.na(ymd_h(cut_date))),
+        !is.na(ymd_h(cut_date))),
       msg = paste0("The cut_date parameter (", cut_date, ") is an invalid datetime. All datetimes
 must be valid, at least a complete date, and stored in ISO 8601  or DDMMMYYYY format")
     )
