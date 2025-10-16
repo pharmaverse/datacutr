@@ -42,6 +42,7 @@ Suggests:
     spelling,
     usethis,
     covr,
-    DT
+    DT,
+    cyclocomp
 VignetteBuilder: knitr
 Config/wants/development: lintr
