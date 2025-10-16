@@ -41,6 +41,7 @@ Suggests:
     roxygen2,
     spelling,
     usethis,
-    covr
+    covr,
+    DT
 VignetteBuilder: knitr
 Config/wants/development: lintr
