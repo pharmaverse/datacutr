@@ -138,7 +138,7 @@ df_tabs <- function(data) {
   cyc_num <- 1
   # case when data = NULL
   if (is.null(data)) {
-    return(cat("NO DATA TO VIEW"))
+    cat("NO DATA TO VIEW")
   } else {
     # include modified records in special dm cut
     if (exists("DCUT_TEMP_DTHCHANGE", where = data)) {
