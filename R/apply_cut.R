@@ -2,7 +2,7 @@
 #'
 #' @description Removes any records where the datacut flagging variable, usually called
 #' DCUT_TEMP_REMOVE, is marked as "Y". Also, sets the death related variables in DM
-#' (DTHDTC and DTHFL) to missing if the death after datacut flagging variable, usually
+#' (DTHDTC and DTHFL) to NA if the death after datacut flagging variable, usually
 #' called DCUT_TEMP_DTHCHANGE, is marked as "Y".
 #'
 #' @param dsin Name of input dataframe
@@ -12,7 +12,7 @@
 #' function - usually called DCUT_TEMP_DTHCHANGE.
 #'
 #' @return Returns the input dataframe, excluding any rows in which `dcutvar` is flagged as "Y".
-#' DTHDTC and DTHFL are set to missing for any records where `dthchangevar` is flagged as "Y". Any
+#' DTHDTC and DTHFL are set to NA for any records where `dthchangevar` is flagged as "Y". Any
 #' variables with the "DCUT_TEMP" prefix are removed.
 #'
 #' @export
@@ -54,7 +54,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
     if (any(names(dsin) == "DTHFL")) {
       out <- out %>%
         mutate(DTHFL = case_when(
-          as.character(!!dthchangevar) == "Y" ~ "",
+          as.character(!!dthchangevar) == "Y" ~ NA_character_,
           TRUE ~ as.character(DTHFL)
         ))
       attributes(out$DTHFL)$label <- attributes(dsin$DTHFL)$label
@@ -62,7 +62,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
     if (any(names(dsin) == "DTHDTC")) {
       out <- out %>%
         mutate(DTHDTC = case_when(
-          as.character(!!dthchangevar) == "Y" ~ "",
+          as.character(!!dthchangevar) == "Y" ~ NA_character_,
           TRUE ~ as.character(DTHDTC)
         ))
       attributes(out$DTHDTC)$label <- attributes(dsin$DTHDTC)$label
