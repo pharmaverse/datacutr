@@ -40,8 +40,9 @@ Suggests:
     rmarkdown,
     roxygen2,
     spelling,
-    styler,
     usethis,
-    covr
+    covr,
+    DT,
+    cyclocomp
 VignetteBuilder: knitr
 Config/wants/development: lintr
