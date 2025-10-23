@@ -2,54 +2,43 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    paths:
-      - .github/workflows/render-rmarkdown.yaml
-      - README.Rmd
-      - index.Rmd
-      - 'vignettes/**'
-      - DESCRIPTION
+    branches:
+      - main
 
-name: render-rmarkdown
+name: document
 
 jobs:
-  render-rmarkdown:
+  document:
     runs-on: ubuntu-latest
-    # This env var is not strictly needed by the peaceiris action
-    # but good to keep if other steps use it.
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
+      # 1. Use the BOT_PAT to check out the code
       - uses: actions/checkout@v4
-
-      - uses: r-lib/actions/setup-pandoc@v2
+        with:
+          token: ${{ secrets.BOT_PAT }} # <-- CHANGE 1
 
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages: any::rmarkdown
+          packages:
+            any::roxygen2
+            any::pkgload
 
-      - name: Render RMarkdown
+      - name: Document
         run: |
-          Rscript -e "rmarkdown::render_site(encoding = 'UTF-8')"
+          pkgload::load_all()
+          roxygen2::roxygenise()
+        shell: Rscript {0}
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          # Use the bot's token, not the default GITHUB_TOKEN
-          github_token: ${{ secrets.BOT_PAT }}
+      # 2. Configure git to use the bot's identity
+      - name: Commit
+        run: |
+          # <-- CHANGE 2: Set bot's name and email
+          git config --local user.name "pharmaverse-bot"
+          git config --local user.email "pharmaverse-bot@users.noreply.github.com"
 
-          # Set the committer identity
-          user_name: 'pharmaverse-bot'
-          user_email: 'pharmaverse-bot@users.noreply.github.com'
-
-          # Directory to publish
-          publish_dir: ./docs
-
-          # (Optional) Uncomment this if you want to push
-          # to a different branch, like 'main'
-          # publish_branch: main
+          git add DESCRIPTION NAMESPACE man/
+          git commit -m "Re-document" || echo "No changes to commit"
+          git push || echo "No changes to push"
