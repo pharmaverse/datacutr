@@ -2,45 +2,43 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    paths: ["R/**"]
+    branches:
+      - main
 
-name: document.yaml
-
-permissions: read-all
+name: document
 
 jobs:
   document:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      # 1. Use the BOT_PAT to check out the code
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          token: ${{ secrets.BOT_PAT }} # <-- CHANGE 1
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::roxygen2
-          needs: roxygen2
+          packages:
+            any::roxygen2
+            any::pkgload
 
       - name: Document
-        run: roxygen2::roxygenise()
+        run: |
+          pkgload::load_all()
+          roxygen2::roxygenise()
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      # 2. Configure git to use the bot's identity
+      - name: Commit
         run: |
-          git config --local user.name "$GITHUB_ACTOR"
-          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git add man/\* NAMESPACE DESCRIPTION
-          git commit -m "Update documentation" || echo "No changes to commit"
-          git pull --ff-only
-          git push origin
+          # <-- CHANGE 2: Set bot's name and email
+          git config --local user.name "pharmaverse-bot"
+          git config --local user.email "pharmaverse-bot@users.noreply.github.com"
+
+          git add DESCRIPTION NAMESPACE man/
+          git commit -m "Re-document" || echo "No changes to commit"
+          git push || echo "No changes to push"
