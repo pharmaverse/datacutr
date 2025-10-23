@@ -2,45 +2,54 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    paths: ["R/**"]
+    paths:
+      - .github/workflows/render-rmarkdown.yaml
+      - README.Rmd
+      - index.Rmd
+      - 'vignettes/**'
+      - DESCRIPTION
 
-name: document.yaml
-
-permissions: read-all
+name: render-rmarkdown
 
 jobs:
-  document:
+  render-rmarkdown:
     runs-on: ubuntu-latest
+    # This env var is not strictly needed by the peaceiris action
+    # but good to keep if other steps use it.
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v2
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - name: Install dependencies
+      - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::roxygen2
-          needs: roxygen2
+          packages: any::rmarkdown
 
-      - name: Document
-        run: roxygen2::roxygenise()
-        shell: Rscript {0}
-
-      - name: Commit and push changes
+      - name: Render RMarkdown
         run: |
-          git config --local user.name "$GITHUB_ACTOR"
-          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git add man/\* NAMESPACE DESCRIPTION
-          git commit -m "Update documentation" || echo "No changes to commit"
-          git pull --ff-only
-          git push origin
+          Rscript -e "rmarkdown::render_site(encoding = 'UTF-8')"
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # Use the bot's token, not the default GITHUB_TOKEN
+          github_token: ${{ secrets.BOT_PAT }}
+
+          # Set the committer identity
+          user_name: 'pharmaverse-bot'
+          user_email: 'pharmaverse-bot@users.noreply.github.com'
+
+          # Directory to publish
+          publish_dir: ./docs
+
+          # (Optional) Uncomment this if you want to push
+          # to a different branch, like 'main'
+          # publish_branch: main
