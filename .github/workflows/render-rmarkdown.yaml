@@ -3,7 +3,7 @@
 on:
   push:
     paths: ['**.Rmd']
-  pull_request: #remove later, just for testing
+  #pull_request: #remove later, just for testing
 
 name: render-rmarkdown.yaml
 
@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref }} #remove later, just for testing
+          #ref: ${{ github.head_ref }} #remove later, just for testing
 
       - uses: r-lib/actions/setup-pandoc@v2
 
