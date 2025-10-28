@@ -3,6 +3,7 @@
 on:
   push:
     paths: ["R/**"]
+  pull_request: #remove later, just for testing
 
 name: document.yaml
 

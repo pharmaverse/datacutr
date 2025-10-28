@@ -3,6 +3,7 @@
 on:
   push:
     paths: ['**.Rmd']
+  pull_request: #remove later, just for testing
 
 name: render-rmarkdown.yaml
 
