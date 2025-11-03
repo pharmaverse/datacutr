@@ -117,5 +117,5 @@ impute_dcutdtc <- function(dsin, varin, varout) {
   # Drop temporary variables
   out_final <- drop_temp_vars(dsin = out, drop_dcut_temp = FALSE)
 
-  return(out_final)
+  out_final
 }

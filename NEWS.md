@@ -3,6 +3,10 @@
 ## Updates of Existing Functions
 - `apply_cut` updated to set reverted Death variables DTHFL and DTHDTC to `NA` rather than `""`
 
+## Various
+- Updates suggested packages in NAMESPACE file 
+- Changed some explicit returns to implicit in functions
+
 # datacutr 0.2.3
 
 ## Updates of Existing Functions

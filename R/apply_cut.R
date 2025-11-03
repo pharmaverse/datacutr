@@ -72,5 +72,5 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
   # Drop temporary variables
   out_final <- drop_temp_vars(dsin = out, drop_dcut_temp = TRUE)
 
-  return(out_final)
+  out_final
 }
