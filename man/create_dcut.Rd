@@ -4,7 +4,7 @@
 \alias{create_dcut}
 \title{Create Datacut Dataset (DCUT)}
 \usage{
-create_dcut(dataset_ds, ds_date_var, filter, cut_date, cut_description)
+create_dcut(dataset_ds, ds_date_var, filter = NULL, cut_date, cut_description)
 }
 \arguments{
 \item{dataset_ds}{Input DS SDTMv dataset}
@@ -12,7 +12,7 @@ create_dcut(dataset_ds, ds_date_var, filter, cut_date, cut_description)
 \item{ds_date_var}{Character date/time variable in the DS SDTMv to be compared against the
 datacut date}
 
-\item{filter}{Condition to filter patients in DS, should give 1 row per patient}
+\item{filter}{Optional condition to filter patients in DS, should give 1 row per patient}
 
 \item{cut_date}{Datacut date/time, e.g. "2022-10-22", or NA if no date cut is to be applied}
 

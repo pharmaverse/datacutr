@@ -64,3 +64,64 @@ test_that("Cut Date of NULL errors", {
     regexp = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
   )
 })
+
+# Test 4 - Filter is NULL
+input_ds <- tibble::tribble(
+  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
+  "subject1", 1, "INFORMED CONSENT", "2020-06-23",
+  "subject2", 1, "INFORMED CONSENT", "2020-07-13",
+  "subject3", 1, "INFORMED CONSENT", "2020-06-03",
+  "subject4", 1, "INFORMED CONSENT", "2021-01-01"
+)
+
+expected_dcut <- tibble::tribble(
+  ~USUBJID, ~DCUTDTC, ~DCUTDTM, ~DCUTDESC,
+  "subject1", "2023-01-01", ymd_hms("2023-01-01 23:59:59"), "Clinical Cutoff Date",
+  "subject2", "2023-01-01", ymd_hms("2023-01-01 23:59:59"), "Clinical Cutoff Date",
+  "subject3", "2023-01-01", ymd_hms("2023-01-01 23:59:59"), "Clinical Cutoff Date",
+  "subject4", "2023-01-01", ymd_hms("2023-01-01 23:59:59"), "Clinical Cutoff Date"
+)
+
+test_that("Filter is NULL", {
+  expect_equal(
+    create_dcut(
+      dataset_ds = input_ds,
+      ds_date_var = DSSTDTC,
+      cut_date = "2023-01-01",
+      cut_description = "Clinical Cutoff Date"
+    ),
+    expected_dcut
+  )
+})
+
+# Test 5 - Datacut dataset is empty
+input_ds <- tibble::tribble(
+  ~USUBJID, ~DSSEQ, ~DSDECOD, ~DSSTDTC,
+  "subject1", 1, "INFORMED CONSENT", "2020-06-23",
+  "subject2", 1, "INFORMED CONSENT", "2020-07-13",
+  "subject3", 1, "INFORMED CONSENT", "2020-06-03",
+  "subject4", 1, "INFORMED CONSENT", "2021-01-01"
+)
+
+expected_dcut <- tibble::tribble(
+  ~USUBJID, ~DCUTDTC, ~DCUTDTM, ~DCUTDESC,
+)
+
+expected_dcut$USUBJID <- as.character(expected_dcut$USUBJID)
+expected_dcut$DCUTDTC <- as.character(expected_dcut$DCUTDTC)
+expected_dcut$DCUTDTM <- as.POSIXct(expected_dcut$DCUTDTM)
+attr(expected_dcut$DCUTDTM, "tzone") <- "UTC"
+expected_dcut$DCUTDESC <- as.character(expected_dcut$DCUTDESC)
+
+test_that("Datacut dataset is empty", {
+  expect_equal(
+    create_dcut(
+      dataset_ds = input_ds,
+      ds_date_var = DSSTDTC,
+      filter = DSDECOD == "RANDOMIZATION",
+      cut_date = "2023-01-01",
+      cut_description = "Clinical Cutoff Date"
+    ),
+    expected_dcut
+  )
+})
