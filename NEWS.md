@@ -10,6 +10,10 @@ None
 ## Various
 None
 
+## Various
+- Updates suggested packages in NAMESPACE file 
+- Changed some explicit returns to implicit in functions
+
 # datacutr 0.2.3
 
 ## Updates of Existing Functions

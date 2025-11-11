@@ -18,7 +18,7 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: R (>= 4.1)
 Imports:
     admiraldev (>= 0.3.0),
@@ -40,8 +40,9 @@ Suggests:
     rmarkdown,
     roxygen2,
     spelling,
-    styler,
     usethis,
-    covr
+    covr,
+    DT,
+    cyclocomp
 VignetteBuilder: knitr
 Config/wants/development: lintr
