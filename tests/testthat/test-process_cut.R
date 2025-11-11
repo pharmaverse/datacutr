@@ -243,7 +243,6 @@ test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE"
 })
 
 
-
 # Testing when a dataset is null
 datacutr_ae <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
@@ -329,7 +328,6 @@ test_that("Test if a no_cut dataset is null and creating report", {
   expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
   unlink(temp_dir, recursive = TRUE)
 })
-
 
 
 datacutr_dm <- tibble::tribble(
