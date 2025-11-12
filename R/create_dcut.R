@@ -9,7 +9,7 @@
 #' @param dataset_ds Input DS SDTMv dataset
 #' @param ds_date_var Character date/time variable in the DS SDTMv to be compared against the
 #' datacut date
-#' @param filter Condition to filter patients in DS, should give 1 row per patient
+#' @param filter Optional condition to filter patients in DS, should give 1 row per patient
 #' @param cut_date Datacut date/time, e.g. "2022-10-22", or NA if no date cut is to be applied
 #' @param cut_description Datacut date/time description, e.g. "Clinical Cut Off Date"
 #'
@@ -45,7 +45,7 @@
 #' )
 create_dcut <- function(dataset_ds,
                         ds_date_var,
-                        filter,
+                        filter = NULL,
                         cut_date,
                         cut_description) {
   ds_date_var <- assert_symbol(enexpr(ds_date_var))
@@ -83,6 +83,7 @@ create_dcut <- function(dataset_ds,
     filter_if(filter) %>%
     subset(select = c(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC))
 
+  # Print message if duplicates in dataset
   assert_that(
     (length(get_duplicates(dataset$USUBJID)) == 0),
     msg = "Duplicate patients in the final returned dataset, please update."
@@ -91,6 +92,11 @@ create_dcut <- function(dataset_ds,
   # Print message if cut date is null
   ifelse(any(is.na(mutate(dataset, DCUTDTM))) == TRUE,
     print("At least 1 patient with missing datacut date."), NA
+  )
+
+  # Print message if dataset is empty
+  ifelse(nrow(dataset) == 0L,
+    print("Datacut dataset is empty, please update"), NA
   )
   dataset
 }
