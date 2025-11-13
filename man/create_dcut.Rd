@@ -13,7 +13,7 @@ create_dcut(dataset_ds, ds_date_var, filter = NULL, cut_date, cut_description)
 datacut date. Must be in the ISO 8601 format (YYYY-MM-DDThh:mm:ss). Will be imputed using the
 \code{impute_sdtm()} function.}
 
-\item{filter}{Optional condition to filter patients in DS, should give 1 row per patient}
+\item{filter}{Condition to filter patients in DS, should give 1 row per patient}
 
 \item{cut_date}{Datacut datetime, e.g. "2022-10-22", "22OCT2022", or NA if no date cut is to
 be applied. Must be at least a complete date (can also include time) in either ISO 8601
