@@ -46,7 +46,7 @@
 #' )
 create_dcut <- function(dataset_ds,
                         ds_date_var,
-                        filter,
+                        filter = NULL,
                         cut_date,
                         cut_description) {
   ds_date_var <- assert_symbol(enexpr(ds_date_var))
@@ -111,6 +111,7 @@ must be valid, at least a complete date, and stored in ISO 8601  or DDMMMYYYY fo
     filter_if(filter) %>%
     subset(select = c(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC))
 
+  # Print message if duplicates in dataset
   assert_that(
     (length(get_duplicates(dataset$USUBJID)) == 0),
     msg = "Duplicate patients in the final returned dataset, please update."
@@ -119,6 +120,11 @@ must be valid, at least a complete date, and stored in ISO 8601  or DDMMMYYYY fo
   # Print message if cut date is null
   ifelse(any(is.na(mutate(dataset, DCUTDTM))) == TRUE,
     print("At least 1 patient with missing datacut date."), NA
+  )
+
+  # Print message if dataset is empty
+  ifelse(nrow(dataset) == 0L,
+    print("Datacut dataset is empty, please update"), NA
   )
   dataset
 }

@@ -3,6 +3,32 @@ library(dplyr)
 library(lubridate)
 
 dm_expect <- tibble::tribble(
+  ~USUBJID, ~DTHDTC, ~DTHFL,
+)
+
+dm <- dm_expect
+
+dcut <- tibble::tribble(
+  ~USUBJID, ~DCUTDTC,
+  "01-701-1015", "2014-10-20T23:59:59",
+  "01-701-1023", "2014-10-20T23:59:59",
+  "01-701-1028", "2014-10-20T23:59:59",
+) %>%
+  mutate(DCUTDTM = ymd_hms(DCUTDTC))
+
+test_that("Outcome if DM is empty", {
+  testthat::expect_equal(
+    special_dm_cut(
+      dataset_dm = dm,
+      dataset_cut = dcut,
+      cut_var = DCUTDTM
+    ),
+    dm_expect
+  )
+})
+
+
+dm_expect <- tibble::tribble(
   ~USUBJID, ~DTHDTC, ~DTHFL, ~DCUT_TEMP_DTHCHANGE, ~DCUT_TEMP_REMOVE, ~DCUTDTC,
   "01-701-1015", "", "", NA_character_, NA_character_, "2014-10-20T23:59:59",
   "01-701-1023", "2014-10-20", "Y", NA_character_, NA_character_, "2014-10-20T23:59:59",

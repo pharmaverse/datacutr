@@ -89,6 +89,13 @@ Note: If you have not used or do not with to view patient cut on any SDTMv domai
 please leave patient_cut_data empty, in which case a default value of NULL will be used."
     )
 
+    for (name in names(patient_cut_data)) {
+      if (is.data.frame(patient_cut_data[[name]]) && nrow(patient_cut_data[[name]]) == 0) {
+        print(paste("The", name, "dataset is empty, no cut will be performed"))
+        patient_cut_data[[name]]$DCUT_TEMP_REMOVE <- character()
+      }
+    }
+
     for (i in seq_along(patient_cut_data)) {
       assert_data_frame(patient_cut_data[[i]],
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)
@@ -105,6 +112,15 @@ please leave patient_cut_data empty, in which case a default value of NULL will 
 Note: If you have not used or do not with to view date cut on any SDTMv domains, then please
 leave date_cut_data empty, in which case a default value of NULL will be used."
     )
+
+    # Check for empty data frames
+    for (name in names(date_cut_data)) {
+      if (is.data.frame(date_cut_data[[name]]) && nrow(date_cut_data[[name]]) == 0) {
+        print(paste("The", name, "dataset is empty, no cut will be performed"))
+        date_cut_data[[name]]$DCUT_TEMP_REMOVE <- character()
+      }
+    }
+
     for (i in seq_along(date_cut_data)) {
       assert_data_frame(date_cut_data[[i]],
         required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE)
@@ -116,6 +132,11 @@ leave date_cut_data empty, in which case a default value of NULL will be used."
     }
   }
   if (!is.null(dm_cut)) {
+    if (nrow(dm_cut) == 0L) {
+      print("The dm dataset is empty")
+      dm_cut$DCUT_TEMP_REMOVE <- character()
+      dm_cut$DCUT_TEMP_DTHCHANGE <- character()
+    }
     assert_data_frame(dm_cut,
       required_vars = exprs(USUBJID, DCUT_TEMP_REMOVE, DCUT_TEMP_DTHCHANGE)
     )
@@ -127,6 +148,14 @@ Note: If you have not used or do not with to view the SDTMv domains where no cut
 applied, then please leave no_cut_list empty, in which case a default value of NULL will be
 used."
     )
+
+    # Check for empty data frames
+    for (name in names(no_cut_list)) {
+      if (is.data.frame(no_cut_list[[name]]) && nrow(no_cut_list[[name]]) == 0) {
+        print(paste("The", name, "dataset is empty"))
+      }
+    }
+
     for (i in seq_along(no_cut_list)) {
       assert_data_frame(no_cut_list[[i]])
 

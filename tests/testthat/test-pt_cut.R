@@ -129,3 +129,23 @@ test_that("If all patients in DCUT match the dataset then no records are flagged
     expected_ae4
   )
 })
+
+# Test 5 - SDTM data is empty
+
+input_ae5 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+expected_ae5 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+test_that("SDTM data is empty", {
+  expect_equal(
+    pt_cut(
+      dataset_sdtm = input_ae5,
+      dataset_cut = input_dcut
+    ),
+    expected_ae5
+  )
+})
