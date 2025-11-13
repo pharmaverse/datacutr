@@ -224,3 +224,26 @@ test_that("DCUTDTM is NA", {
     expected_ae5
   )
 })
+
+
+# Test 6 - SDTM data is empty
+
+input_ae6 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+expected_ae6 <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+)
+
+test_that("SDTM data is empty", {
+  expect_equal(
+    date_cut(
+      dataset_sdtm = input_ae6,
+      sdtm_date_var = AESTDTC,
+      dataset_cut = input_dcut,
+      cut_var = DCUTDTM
+    ),
+    expected_ae6
+  )
+})

@@ -57,18 +57,25 @@ pt_cut <- function(dataset_sdtm,
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
 
-  dataset_sdtm_pt <- dataset_sdtm %>%
-    left_join(
-      x = .,
-      y = dcut,
-      by = "USUBJID"
-    )
+  # If SDTM dataset is empty, output empty file
+  if (nrow(dataset_sdtm) == 0L) {
+    dataset <- dataset_sdtm
+  }
 
-  # Flag records to be removed - patients not in dcut dataset
-  dataset <- dataset_sdtm_pt %>%
-    mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), "Y", NA_character_))
+  # Only proceed with cut if SDTM dataset is non-empty
+  if (nrow(dataset_sdtm) > 0L) {
+    dataset_sdtm_pt <- dataset_sdtm %>%
+      left_join(
+        x = .,
+        y = dcut,
+        by = "USUBJID"
+      )
 
-  dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
+    # Flag records to be removed - patients not in dcut dataset
+    dataset <- dataset_sdtm_pt %>%
+      mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), "Y", NA_character_))
 
+    dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)
+  }
   dataset
 }
