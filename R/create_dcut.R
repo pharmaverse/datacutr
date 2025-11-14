@@ -1,16 +1,17 @@
 #' Create Datacut Dataset (DCUT)
 #'
-#' @description After filtering the input DS dataset (based on the given filter condition), any
-#' records where the SDTMv date/time variable is on or before the datacut date/time (after
-#' imputations) will be returned in the output datacut dataset (DCUT). Note that `ds_date_var`
-#' and `cut_date` inputs must be in ISO 8601 format (YYYY-MM-DDThh:mm:ss) and will be imputed
-#' using the `impute_sdtm()` and `impute_dcutdtc()` functions.
-#'
+#' @description After filtering the input DS dataset based on the given filter condition, any
+#' records where the SDTMv datetime variable is on or before the datacut datetime (after
+#' imputations) will be returned in the output datacut dataset (DCUT).
 #' @param dataset_ds Input DS SDTMv dataset
-#' @param ds_date_var Character date/time variable in the DS SDTMv to be compared against the
-#' datacut date
+#' @param ds_date_var Character datetime variable in the DS SDTMv to be compared against the
+#' datacut date. Must be in the ISO 8601 format (YYYY-MM-DDThh:mm:ss). Will be imputed using the
+#' `impute_sdtm()` function.
 #' @param filter Condition to filter patients in DS, should give 1 row per patient
-#' @param cut_date Datacut date/time, e.g. "2022-10-22", or NA if no date cut is to be applied
+#' @param cut_date Datacut datetime, e.g. "2022-10-22", "22OCT2022", or NA if no date cut is to
+#' be applied. Must be at least a complete date (can also include time) in either ISO 8601
+#' (YYYY-MM-DDThh:mm:ss) or DDMMMYYYY formats. Will be imputed using the `impute_dcutdtc()`
+#' function.
 #' @param cut_description Datacut date/time description, e.g. "Clinical Cut Off Date"
 #'
 #' @author Alana Harris
@@ -45,7 +46,7 @@
 #' )
 create_dcut <- function(dataset_ds,
                         ds_date_var,
-                        filter,
+                        filter = NULL,
                         cut_date,
                         cut_description) {
   ds_date_var <- assert_symbol(enexpr(ds_date_var))
@@ -58,21 +59,48 @@ create_dcut <- function(dataset_ds,
   input_dtc <- pull(dataset_ds, !!ds_date_var)
   valid_dtc <- is_valid_dtc(input_dtc)
   assert_that(all(valid_dtc),
-    msg = "The ds_date_var variable contains datetimes in the incorrect format. All datetimes
-   must be stored in ISO 8601 format."
+    msg = paste0(
+      "The ds_date_var variable (", ds_date_var,
+      ") contains datetimes in the incorrect format. All datetimes must be stored
+in ISO 8601 format."
+    )
   )
 
-  # Check that cut date is not NULL
+  # Check that cut date exists and is not NULL
   assert_that(!is.null(cut_date),
-    msg = "Cut date is NULL, please populate as NA or valid ISO8601 date format"
+    msg = "Cut date is NULL, please populate as NA if you do not want to perform a data cut
+or a valid date in ISO 8601 or DDMMMYYYY format"
   )
 
-  # Check that cut_date is in ISO 8601 format
-  valid_dtc <- is_valid_dtc(cut_date)
+  # Check that cut_date is in ISO 8601 or DDMMMYYYY format
+  dmy_pattern <- "^\\d{2}[A-Za-z]{3}\\d{4}$"
+  valid_dtc <- is_valid_dtc(cut_date) | grepl(dmy_pattern, cut_date)
   assert_that(valid_dtc,
-    msg = "The cut_date parameter is in the incorrect format. All datetimes
-  must be stored in ISO 8601 format."
+    msg = paste0("The cut_date parameter (", cut_date, ") is in the incorrect format. All datetimes
+must be valid and stored in ISO 8601 or DDMMMYYYY format")
   )
+
+  # Check that the cut_date is a meaningful date / datetime
+  if (!is.na(cut_date) && str_sub(cut_date, 11, 11) == "T") {
+    assert_that(
+      suppressWarnings(!is.na(ymd_hms(cut_date)) | !is.na(ymd_hm(cut_date)) |
+        !is.na(ymd_h(cut_date))),
+      msg = paste0("The cut_date parameter (", cut_date, ") is an invalid datetime. All datetimes
+must be valid, at least a complete date, and stored in ISO 8601  or DDMMMYYYY format")
+    )
+  } else {
+    assert_that(
+      !is.na(as.Date(cut_date, format = "%Y-%m-%d")) |
+        !is.na(as.Date(cut_date, format = "%d%b%Y")) | is.na(cut_date),
+      msg = paste0("The cut_date parameter (", cut_date, ") is an invalid datetime. All datetimes
+must be valid, at least a complete date, and stored in ISO 8601  or DDMMMYYYY format")
+    )
+  }
+
+  # Convert cut_date to ISO 8601 if in DDMMMYYYY format
+  if (grepl(dmy_pattern, cut_date)) {
+    cut_date <- as.character(dmy(cut_date))
+  }
 
   dataset <- dataset_ds %>%
     impute_sdtm(dsin = ., varin = !!ds_date_var, varout = DCUT_TEMP_DATE) %>%
@@ -83,6 +111,7 @@ create_dcut <- function(dataset_ds,
     filter_if(filter) %>%
     subset(select = c(USUBJID, DCUTDTC, DCUTDTM, DCUTDESC))
 
+  # Print message if duplicates in dataset
   assert_that(
     (length(get_duplicates(dataset$USUBJID)) == 0),
     msg = "Duplicate patients in the final returned dataset, please update."
@@ -91,6 +120,11 @@ create_dcut <- function(dataset_ds,
   # Print message if cut date is null
   ifelse(any(is.na(mutate(dataset, DCUTDTM))) == TRUE,
     print("At least 1 patient with missing datacut date."), NA
+  )
+
+  # Print message if dataset is empty
+  ifelse(nrow(dataset) == 0L,
+    print("Datacut dataset is empty, please update"), NA
   )
   dataset
 }

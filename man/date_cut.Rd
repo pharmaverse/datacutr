@@ -9,7 +9,7 @@ date_cut(dataset_sdtm, sdtm_date_var, dataset_cut, cut_var)
 \arguments{
 \item{dataset_sdtm}{Input SDTMv dataset}
 
-\item{sdtm_date_var}{Input date variable found in the \code{dataset_sdtmv} dataset}
+\item{sdtm_date_var}{Input date variable found in the \code{dataset_sdtm} dataset}
 
 \item{dataset_cut}{Input datacut dataset}
 

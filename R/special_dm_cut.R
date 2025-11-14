@@ -51,35 +51,43 @@ special_dm_cut <- function(dataset_dm,
   ifelse(any(is.na(mutate(dataset_cut, !!cut_var))) == TRUE,
     print("At least 1 patient with missing datacut date, all records will be kept."), NA
   )
-  assert_data_frame(dataset_dm,
-    required_vars = exprs(USUBJID, DTHDTC)
-  )
 
-  attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
+  # If SDTM dataset is empty, output empty file
+  if (nrow(dataset_dm) == 0L) {
+    dataset_updatedth <- dataset_dm
+  }
 
-  # Merge in DCUT information and impute DCUTDTC to usable date format
-  dm_temp <- pt_cut(
-    dataset_sdtm = dataset_dm,
-    dataset_cut = dataset_cut
-  ) %>%
-    impute_sdtm(DTHDTC, DCUT_TEMP_DTHDT) %>%
-    left_join((dataset_cut %>% select(USUBJID, DCUT_TEMP_DCUTDTM = !!cut_var)),
-      by = "USUBJID"
+  # Only proceed with cut if DM dataset is non-empty
+  if (nrow(dataset_dm) > 0L) {
+    assert_data_frame(dataset_dm,
+      required_vars = exprs(USUBJID, DTHDTC)
     )
 
-  ifelse(!is.na(dm_temp$DCUT_TEMP_DCUTDTM), assert_that(is.POSIXt(dm_temp$DCUT_TEMP_DCUTDTM),
-    msg = "cut_var is expected to be of date type POSIXt"
-  ), NA)
+    attributes(dataset_cut$USUBJID)$label <- attributes(dataset_dm$USUBJID)$label
 
-  # Flag records with Death Date after Cut date
-  dataset_updatedth <- dm_temp %>%
-    mutate(DCUT_TEMP_DTHCHANGE = case_when(
-      !is.na(DCUT_TEMP_DCUTDTM) & (DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDTM) ~ "Y",
-      TRUE ~ as.character(NA)
-    ))
+    # Merge in DCUT information and impute DCUTDTC to usable date format
+    dm_temp <- pt_cut(
+      dataset_sdtm = dataset_dm,
+      dataset_cut = dataset_cut
+    ) %>%
+      impute_sdtm(DTHDTC, DCUT_TEMP_DTHDT) %>%
+      left_join((dataset_cut %>% select(USUBJID, DCUT_TEMP_DCUTDTM = !!cut_var)),
+        by = "USUBJID"
+      )
 
-  # Ensure variable is character
-  dataset_updatedth$DCUT_TEMP_REMOVE <- as.character(dataset_updatedth$DCUT_TEMP_REMOVE)
+    ifelse(!is.na(dm_temp$DCUT_TEMP_DCUTDTM), assert_that(is.POSIXt(dm_temp$DCUT_TEMP_DCUTDTM),
+      msg = "cut_var is expected to be of date type POSIXt"
+    ), NA)
 
+    # Flag records with Death Date after Cut date
+    dataset_updatedth <- dm_temp %>%
+      mutate(DCUT_TEMP_DTHCHANGE = case_when(
+        !is.na(DCUT_TEMP_DCUTDTM) & (DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDTM) ~ "Y",
+        TRUE ~ as.character(NA)
+      ))
+
+    # Ensure variable is character
+    dataset_updatedth$DCUT_TEMP_REMOVE <- as.character(dataset_updatedth$DCUT_TEMP_REMOVE)
+  }
   dataset_updatedth
 }
