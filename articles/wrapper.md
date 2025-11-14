@@ -1,0 +1,93 @@
+# Wrapped Approach
+
+## Introduction
+
+This article describes how to cut study SDTM data using the wrapper
+function within the datacutr package. Please note that, this wrapped
+approach may not be suitable if you wish to enable any study or project
+specific customization.
+
+## Programming Flow
+
+- [Read in Data](#readdata)
+- [Create DCUT Dataset](#dcut)
+- [Pre-process Datasets](#preprocess)
+- [Process Data Cut](#processcut)
+
+### Read in Data
+
+To start, all SDTM data to be cut needs to be stored within a list.
+
+``` r
+library(datacutr)
+library(admiraldev)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(purrr)
+library(rlang)
+
+source_data <- list(
+  ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae, sc = datacutr_sc,
+  lb = datacutr_lb, fa = datacutr_fa, ts = datacutr_ts
+)
+```
+
+### Create DCUT Dataset
+
+The next step is to create the DCUT dataset containing the datacut date
+and description.
+
+``` r
+dcut <- create_dcut(
+  dataset_ds = source_data$ds,
+  ds_date_var = DSSTDTC,
+  filter = DSDECOD == "RANDOMIZATION",
+  cut_date = "2022-06-04",
+  cut_description = "Clinical Cutoff Date"
+)
+```
+
+### Preprocess Datasets
+
+If any pre-processing of SDTM datasets is needed, this should be done
+next. For example, in the case of FA, where both FASTDTC and FADTC date
+variables are used, we can combine these into one date variable.
+
+``` r
+source_data$fa <- source_data$fa %>%
+  mutate(DCUT_TEMP_FAXDTC = case_when(
+    FASTDTC != "" ~ FASTDTC,
+    FADTC != "" ~ FADTC,
+    TRUE ~ as.character(NA)
+  ))
+```
+
+### Process data cut
+
+Now, we can perform the datacut on each SDTM dataset. This is when we
+can specify the cut types for each domain (patient cut, date cut, or no
+cut). If a date cut is chosen, we must also specify the date variable
+which should be used. A “special” cut can be performed on the demography
+domain (dm) if the special_dm parameter is set to TRUE. As well as
+performing the standard patient cut, this will identify any deaths
+occurring after the datacut date, and set the death variables (DTHDTC,
+DTHFL) to missing. Please note that, if special_dm=TRUE, there is no
+need to specify the cut type for dm in any of the other inputs. Please
+ensure you have selected a cut type for all other SDTM domains.
+
+``` r
+cut_data <- process_cut(
+  source_sdtm_data = source_data,
+  patient_cut_v = c("sc", "ds"),
+  date_cut_m = rbind(
+    c("ae", "AESTDTC"),
+    c("lb", "LBDTC"),
+    c("fa", "DCUT_TEMP_FAXDTC")
+  ),
+  no_cut_v = c("ts"),
+  dataset_cut = dcut,
+  cut_var = DCUTDTM,
+  special_dm = TRUE
+)
+```

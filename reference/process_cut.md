@@ -1,0 +1,111 @@
+# Wrapper function to prepare and apply the datacut of SDTMv datasets
+
+Applies the selected type of datacut on each SDTMv dataset based on the
+chosen SDTMv date variable, and outputs the resulting cut datasets, as
+well as the datacut dataset, as a list. It provides an option to perform
+a "special" cut on the demography (dm) domain in which any deaths
+occurring after the datacut date are removed. It also provides an option
+to produce a .html file that summarizes the changes applied to the data
+during the cut, where you can inspect the records that have been removed
+and/or modified.
+
+## Usage
+
+``` r
+process_cut(
+  source_sdtm_data,
+  patient_cut_v = NULL,
+  date_cut_m = NULL,
+  no_cut_v = NULL,
+  dataset_cut,
+  cut_var,
+  special_dm = TRUE,
+  read_out = FALSE,
+  out_path = "."
+)
+```
+
+## Arguments
+
+- source_sdtm_data:
+
+  A list of uncut SDTMv dataframes
+
+- patient_cut_v:
+
+  A vector of quoted SDTMv domain names in which a patient cut should be
+  applied. To be left blank if a patient cut should not be performed on
+  any domains.
+
+- date_cut_m:
+
+  A 2 column matrix, where the first column is the quoted SDTMv domain
+  names in which a date cut should be applied and the second column is
+  the quoted SDTMv date variables used to carry out the date cut for
+  each SDTMv domain. To be left blank if a date cut should not be
+  performed on any domains.
+
+- no_cut_v:
+
+  A vector of quoted SDTMv domain names in which no cut should be
+  applied. To be left blank if no domains are to remain exactly as
+  source.
+
+- dataset_cut:
+
+  Input datacut dataset, e.g. dcut
+
+- cut_var:
+
+  Datacut date variable within the dataset_cut dataset, e.g. DCUTDTM
+
+- special_dm:
+
+  A logical input indicating whether the `special dm cut` should be
+  performed. Note that, if TRUE, dm should not be included in
+  `patient_cut_v`, `date_cut_m` or `no_cut_v` inputs.
+
+- read_out:
+
+  A logical input indicating whether a summary file for the datacut
+  should be produced. If `TRUE`, a .html file will be returned
+  containing a summary of the cut and records removed. Default set to
+  `FALSE`.
+
+- out_path:
+
+  A character vector of file save path for the summary file if
+  `read_out = TRUE`; the default corresponds to the working directory,
+  [`getwd()`](https://rdrr.io/r/base/getwd.html).
+
+## Value
+
+Returns a list of all input SDTMv datasets, plus the datacut dataset,
+after performing the selected datacut on each SDTMv domain.
+
+## Examples
+
+``` r
+dcut <- data.frame(
+  USUBJID = c("a", "b"),
+  DCUTDTC = c("2022-02-17", "2022-02-17")
+)
+dcut <- impute_dcutdtc(dcut, DCUTDTC, DCUTDTM)
+sc <- data.frame(USUBJID = c("a", "a", "b", "c"))
+ts <- data.frame(USUBJID = c("a", "a", "b", "c"))
+ae <- data.frame(
+  USUBJID = c("a", "a", "b", "c"),
+  AESTDTC = c("2022-02-16", "2022-02-18", "2022-02-16", "2022-02-16")
+)
+source_data <- list(sc = sc, ae = ae, ts = ts)
+
+cut_data <- process_cut(
+  source_sdtm_data = source_data,
+  patient_cut_v = c("sc"),
+  date_cut_m = rbind(c("ae", "AESTDTC")),
+  no_cut_v = c("ts"),
+  dataset_cut = dcut,
+  cut_var = DCUTDTM,
+  special_dm = FALSE
+)
+```

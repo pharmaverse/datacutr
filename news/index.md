@@ -1,0 +1,127 @@
+# Changelog
+
+## datacutr 0.2.4
+
+### Updates of Existing Functions
+
+- `create_dcut` updated to allow for cut_date in DDMMMYYYY format
+- `create_dcut` updated to fix a bug when the optional filter argument
+  is left as NULL
+- `apply_cut` updated to set reverted Death variables DTHFL and DTHDTC
+  to `NA` rather than `""`
+- `date_cut`, `pt_cut`, `special_dm_cut`, `apply_cut` and `read_out`
+  updated to handle empty SDTM datasets
+
+### Various
+
+- Updates suggested packages in NAMESPACE file
+- Changed some explicit returns to implicit in functions
+
+## datacutr 0.2.3
+
+### Updates of Existing Functions
+
+- `read_out` updated to control location of outputs of the read-out file
+
+## datacutr 0.2.2
+
+### Updates of Existing Functions
+
+None
+
+### Various
+
+Tests using temporary directories cleaned up
+
+## datacutr 0.2.1
+
+### Updates of Existing Functions
+
+- Update `read_out` to write to temporary drive
+
+## datacutr 0.2.0
+
+### New Features
+
+- Added a “Report a bug” link to
+  [datacutr](https://pharmaverse.github.io/datacutr/) website
+  ([\#182](https://github.com/pharmaverse/datacutr/issues/182))
+- Added a `read_out` function that enables the generation of a read-out
+  file (.html), to summarize changes applied to data during a datacut.
+  ([\#107](https://github.com/pharmaverse/datacutr/issues/107))
+
+### Updates of Existing Functions
+
+- Update to
+  [`impute_dcutdtc()`](https://pharmaverse.github.io/datacutr/reference/impute_dcutdtc.md),
+  [`date_cut()`](https://pharmaverse.github.io/datacutr/reference/date_cut.md)
+  and
+  [`special_dm_cut()`](https://pharmaverse.github.io/datacutr/reference/special_dm_cut.md)
+  functions to allow for datacut date to be null. In this case, all
+  records for this patient will be kept/left unchanged.
+  ([\#179](https://github.com/pharmaverse/datacutr/issues/179),
+  [\#189](https://github.com/pharmaverse/datacutr/issues/189),
+  [\#190](https://github.com/pharmaverse/datacutr/issues/190))
+- Warning added to `process_cut` if expected dataset `dm` is missing
+  ([\#172](https://github.com/pharmaverse/datacutr/issues/172))
+- Warning added to `create_dcut` if cut date being passed as `NULL`, and
+  not valid date or `NA`/`""`
+  ([\#181](https://github.com/pharmaverse/datacutr/issues/181))
+- `process_cut` updated so that the `patient_cut_v`, `date_cut_m` and
+  `no_cut_v` arguments have a default value of `NULL`
+  ([\#188](https://github.com/pharmaverse/datacutr/issues/188))
+- `process_cut` updated to have more detailed error messages when
+  incorrect datasets are fed in
+  ([\#180](https://github.com/pharmaverse/datacutr/issues/180))
+- `process_cut` updated to have arguments `read_out` and `out_path` to
+  integrate the `read_out` function into the wrapper function; enabling
+  auto-generation of the datacutr read-out file
+  ([\#107](https://github.com/pharmaverse/datacutr/issues/107))
+
+### Breaking Changes
+
+- Added dependency on `admiraldev` \>= 0.3.0
+  ([\#173](https://github.com/pharmaverse/datacutr/issues/173))
+- Added dependency on R version \>= 4.1 due to an update in `admiraldev`
+  to use R native pipe
+
+### Documentation
+
+- Added notes on SDTM compatibility
+  ([\#171](https://github.com/pharmaverse/datacutr/issues/171))
+- Cleaned install packages code format
+  ([\#177](https://github.com/pharmaverse/datacutr/issues/177))
+- Fixed broken link to source
+  ([\#184](https://github.com/pharmaverse/datacutr/issues/184))
+- Added report a bug link to site
+  ([\#182](https://github.com/pharmaverse/datacutr/issues/182))
+
+### Various
+
+- Added CRAN badge to site
+  ([\#174](https://github.com/pharmaverse/datacutr/issues/174))
+- Pull Request template updated
+  ([\#192](https://github.com/pharmaverse/datacutr/issues/192))
+
+## datacutr 0.1.0
+
+### New Features
+
+- First release of functions for SDTM datacut
+- New {datacutr} website created
+
+### Updates of Existing Functions
+
+- N/A
+
+### Breaking Changes
+
+- N/A
+
+### Documentation
+
+- N/A
+
+### Various
+
+- N/A

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datacutr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,8 +50,14 @@
 <div class="section level3">
 <h3 id="updates-of-existing-functions-0-2-4">Updates of Existing Functions<a class="anchor" aria-label="anchor" href="#updates-of-existing-functions-0-2-4"></a></h3>
 <ul><li>
+<code>create_dcut</code> updated to allow for cut_date in DDMMMYYYY format</li>
+<li>
+<code>create_dcut</code> updated to fix a bug when the optional filter argument is left as NULL</li>
+<li>
 <code>apply_cut</code> updated to set reverted Death variables DTHFL and DTHDTC to <code>NA</code> rather than <code>""</code>
 </li>
+<li>
+<code>date_cut</code>, <code>pt_cut</code>, <code>special_dm_cut</code>, <code>apply_cut</code> and <code>read_out</code> updated to handle empty SDTM datasets</li>
 </ul></div>
 <div class="section level3">
 <h3 id="various-0-2-4">Various<a class="anchor" aria-label="anchor" href="#various-0-2-4"></a></h3>
@@ -155,7 +161,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
