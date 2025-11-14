@@ -1,17 +1,14 @@
 # datacutr 0.2.4
 
-## New Features
-None
-
 ## Updates of Existing Functions
--   `create_dcut` updated to fix a bug when the optional filter argument is left as NULL
--   `apply_cut` updated to set reverted Death variables DTHFL and DTHDTC to `NA` rather than `""`
--   `date_cut`, `pt_cut`, `special_dm_cut`, `apply_cut` and `read_out` updated to handle empty SDTM datasets
+
+-  `create_dcut` updated to allow for cut_date in DDMMMYYYY format
+-  `create_dcut` updated to fix a bug when the optional filter argument is left as NULL
+-  `apply_cut` updated to set reverted Death variables DTHFL and DTHDTC to `NA` rather than `""`
+-  `date_cut`, `pt_cut`, `special_dm_cut`, `apply_cut` and `read_out` updated to handle empty SDTM datasets
 
 ## Various
-None
 
-## Various
 -   Updates suggested packages in NAMESPACE file 
 -   Changed some explicit returns to implicit in functions
 
