@@ -164,13 +164,17 @@ used."
       )
     }
   }
+
+  # Ensure out_path is absolute
+  absolute_out_path <- normalizePath(out_path, mustWork = FALSE)
+
   rmarkdown::render(
     paste0(system.file(package = "datacutr"),
       path = "/read-out/read_out.Rmd"
     ),
     output_file = paste0("datacut_", format(Sys.time(), "%Y-%m-%d_%H%M%S", ".html")),
-    output_dir = out_path,
-    intermediates_dir = out_path,
-    knit_root_dir = out_path
+    output_dir = absolute_out_path,
+    intermediates_dir = absolute_out_path,
+    knit_root_dir = absolute_out_path
   )
 }
