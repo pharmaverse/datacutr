@@ -24,7 +24,6 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Tim Barnett \email{timothy.barnett@roche.com} [copyright holder]
   \item Nathan Rees \email{nathan.rees@roche.com}
   \item Alana Harris \email{alana.harris@roche.com}
   \item Cara Andrews \email{cara.andrews@roche.com}
