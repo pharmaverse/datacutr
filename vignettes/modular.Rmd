@@ -75,7 +75,7 @@ dataset_vignette(
 ## Preprocess Datasets {#preprocess}
 If any pre-processing of datasets is needed, for example in the case of FA, where there are multiple date variables, this should be done next. 
 ```{r, message=FALSE, warning=FALSE}
-source_data$fa <- source_data$fa %>%
+source_data$fa <- source_data$fa |>
   mutate(DCUT_TEMP_FAXDTC = case_when(
     FASTDTC != "" ~ FASTDTC,
     FADTC != "" ~ FADTC,

@@ -58,7 +58,7 @@ dcut <- create_dcut(
 # Pre-processing of FA ----------------------------------------------------
 
 # Update FA
-source_data$fa <- source_data$fa %>%
+source_data$fa <- source_data$fa |>
   mutate(DCUT_TEMP_FAXDTC = case_when(
     FASTDTC != "" ~ FASTDTC,
     FADTC != "" ~ FADTC,

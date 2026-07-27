@@ -1,3 +1,12 @@
+# datacutr 1.0.0
+
+## Updates of Existing Functions
+- `read_out` updated to resolve relative path to absolute in `out_path`
+
+## Various
+
+- Clarifies imputation approach for death dates in documentation
+
 # datacutr 0.2.4
 
 ## Updates of Existing Functions

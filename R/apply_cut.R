@@ -50,14 +50,14 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
     )
 
     # Remove any rows where datacut flagging variable (dcutvar) is "Y"
-    out <- dsin %>%
+    out <- dsin |>
       filter(is.na(!!dcutvar) | !!dcutvar != "Y")
 
     # Overwrite death variables if death change variable (dthchangevar) is "Y"
     if (any(names(dsin) == expr_name(dthchangevar))) {
       assert_symbol(dthchangevar)
       if (any(names(dsin) == "DTHFL")) {
-        out <- out %>%
+        out <- out |>
           mutate(DTHFL = case_when(
             as.character(!!dthchangevar) == "Y" ~ NA_character_,
             TRUE ~ as.character(DTHFL)
@@ -65,7 +65,7 @@ apply_cut <- function(dsin, dcutvar, dthchangevar) {
         attributes(out$DTHFL)$label <- attributes(dsin$DTHFL)$label
       }
       if (any(names(dsin) == "DTHDTC")) {
-        out <- out %>%
+        out <- out |>
           mutate(DTHDTC = case_when(
             as.character(!!dthchangevar) == "Y" ~ NA_character_,
             TRUE ~ as.character(DTHDTC)
