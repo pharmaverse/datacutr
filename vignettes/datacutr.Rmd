@@ -52,7 +52,7 @@ Any SDTMv records where the chosen SDTMv date/time variable is missing (or is mi
 All other partial date/times are imputed to the minimum possible date/time, i.e; we impute with 01 for missing month, 01 for missing day, 00 for missing hours, 00 for missing minutes, and 00 for missing seconds.  
 By imputing any missing components of the data cutoff date/time to their maximum possible value and any missing components of the SDTMv date/time variable to their minimum possible value, we ensure that a record is only cut if it is clear that the SDTMv date/time variable is after the data cutoff date/time.  
 - Handling of Deaths  
-For deaths, the derived DM death information is updated to reflect the state at the time of the data cutoff date. The Death Flag (DM.DTHFL) and associated variables (e.g., DM.DTHDT) are set to missing if the subject died after the data cutoff date.
+For deaths, the derived DM death information is updated to reflect the state at the time of the data cutoff date. The Death Flag (DM.DTHFL) and associated variables (e.g., DM.DTHDTC) are set to missing if the subject died after the data cutoff date.
 The handling of partial death dates is the same as set out in the previous "Missing or Partial Date/Times" section when 
 comparing to data cutoff date.
 
