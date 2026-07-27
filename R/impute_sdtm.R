@@ -112,7 +112,7 @@ impute_sdtm <- function(dsin, varin, varout) {
   imputed_dtc_final <- gsub("\\..*", "", imputed_dtc_2)
 
   # Add our new imputed datetime variable back to dsin + convert to datetime object
-  out <- dsin %>%
+  out <- dsin |>
     mutate(!!varout := ymd_hms(imputed_dtc_final))
 
   # Drop temporary variables

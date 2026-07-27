@@ -147,7 +147,7 @@ df_tabs <- function(data) {
       cat(paste("Number of records removed in DM: ", x, " \n"))
       y <- length(which(data$DCUT_TEMP_DTHCHANGE == "Y"))
       cat(paste("Number of records modified in DM: ", y, " \n", " \n"))
-      removed <- data %>% filter(data$DCUT_TEMP_REMOVE == "Y" | data$DCUT_TEMP_DTHCHANGE == "Y")
+      removed <- data |> filter(data$DCUT_TEMP_REMOVE == "Y" | data$DCUT_TEMP_DTHCHANGE == "Y")
       print(htmltools::tagList(reactable(removed,
         rowStyle = function(index) {
           row <- removed[index, ]
@@ -172,7 +172,7 @@ df_tabs <- function(data) {
         cat("####", toupper(name), " \n")
         x <- length(which(df$DCUT_TEMP_REMOVE == "Y"))
         cat(paste("Number of records removed in ", toupper(name), ": ", x, " \n", " \n"))
-        removed <- df %>% filter(df$DCUT_TEMP_REMOVE == "Y")
+        removed <- df |> filter(df$DCUT_TEMP_REMOVE == "Y")
         print(htmltools::tagList(reactable(removed,
           bordered = TRUE, filterable = TRUE, searchable = TRUE, pagination = TRUE,
           showPageSizeOptions = TRUE, showSortable = TRUE,
@@ -215,7 +215,7 @@ sum_test <- function(data) {
         `After Cut` = numeric(),
         Removed = numeric(),
         Modified = numeric()
-      ) %>%
+      ) |>
         add_row(Dataset = "DM", `Before Cut` = uncut, `After Cut` = cut, Removed = x, Modified = y)
       print(htmltools::tagList(reactable(sum_t,
         columnGroups = list(

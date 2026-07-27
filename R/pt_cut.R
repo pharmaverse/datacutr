@@ -51,8 +51,8 @@ pt_cut <- function(dataset_sdtm,
     msg = "Duplicate patients in the DCUT (dataset_cut) dataset, please update."
   )
 
-  dcut <- dataset_cut %>%
-    subset(select = c(USUBJID)) %>%
+  dcut <- dataset_cut |>
+    subset(select = c(USUBJID)) |>
     mutate(TEMP_FLAG = "Y")
 
   attributes(dcut$USUBJID)$label <- attributes(dataset_sdtm$USUBJID)$label
@@ -72,7 +72,7 @@ pt_cut <- function(dataset_sdtm,
       )
 
     # Flag records to be removed - patients not in dcut dataset
-    dataset <- dataset_sdtm_pt %>%
+    dataset <- dataset_sdtm_pt |>
       mutate(DCUT_TEMP_REMOVE = ifelse(is.na(TEMP_FLAG), "Y", NA_character_))
 
     dataset <- drop_temp_vars(dsin = dataset, drop_dcut_temp = FALSE)

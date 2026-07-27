@@ -69,9 +69,9 @@ special_dm_cut <- function(dataset_dm,
     dm_temp <- pt_cut(
       dataset_sdtm = dataset_dm,
       dataset_cut = dataset_cut
-    ) %>%
-      impute_sdtm(DTHDTC, DCUT_TEMP_DTHDT) %>%
-      left_join((dataset_cut %>% select(USUBJID, DCUT_TEMP_DCUTDTM = !!cut_var)),
+    ) |>
+      impute_sdtm(DTHDTC, DCUT_TEMP_DTHDT) |>
+      left_join((dataset_cut |> select(USUBJID, DCUT_TEMP_DCUTDTM = !!cut_var)),
         by = "USUBJID"
       )
 
@@ -80,7 +80,7 @@ special_dm_cut <- function(dataset_dm,
     ), NA)
 
     # Flag records with Death Date after Cut date
-    dataset_updatedth <- dm_temp %>%
+    dataset_updatedth <- dm_temp |>
       mutate(DCUT_TEMP_DTHCHANGE = case_when(
         !is.na(DCUT_TEMP_DCUTDTM) & (DCUT_TEMP_DTHDT > DCUT_TEMP_DCUTDTM) ~ "Y",
         TRUE ~ as.character(NA)

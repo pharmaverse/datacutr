@@ -73,7 +73,7 @@ dataset_vignette(
 If any pre-processing of SDTM datasets is needed, this should be done next. For example, in the case of FA, where both FASTDTC and FADTC date variables are used, we can combine these into one date variable.  
 
 ```{r, message=FALSE, warning=FALSE}
-source_data$fa <- source_data$fa %>%
+source_data$fa <- source_data$fa |>
   mutate(DCUT_TEMP_FAXDTC = case_when(
     FASTDTC != "" ~ FASTDTC,
     FADTC != "" ~ FADTC,

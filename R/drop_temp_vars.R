@@ -40,12 +40,12 @@ drop_temp_vars <- function(dsin, drop_dcut_temp = TRUE) {
     msg = "drop_dcut_temp must be either TRUE or FALSE"
   )
 
-  out <- dsin %>%
+  out <- dsin |>
     select(-starts_with("TEMP_"))
 
   if (drop_dcut_temp) {
-    out <- out %>%
+    out <- out |>
       select(-starts_with("DCUT_TEMP_"))
   }
-  return(out)
+  out
 }
