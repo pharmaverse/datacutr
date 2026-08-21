@@ -88,3 +88,26 @@ test_that("Test that impute_sdtm function errors when varin contains dates
     regexp = "The varin variable contains datetimes in the incorrect format"
   )
 })
+
+
+# Standalone test for the missing-year-produces-NA path
+
+input_missing_year <- data.frame(
+  USUBJID = "UXYZ123a",
+  EXSTDTC = "--06-23T16:57:30",
+  stringsAsFactors = FALSE
+)
+
+expected_missing_year <- data.frame(
+  USUBJID = "UXYZ123a",
+  EXSTDTC = "--06-23T16:57:30",
+  DCUT_TEMP_EXSTDTC = ymd_hms(NA_character_),
+  stringsAsFactors = FALSE
+)
+
+test_that("Missing year in varin results in NA for the imputed variable", {
+  expect_equal(
+    impute_sdtm(dsin = input_missing_year, varin = EXSTDTC, varout = DCUT_TEMP_EXSTDTC),
+    expected_missing_year
+  )
+})

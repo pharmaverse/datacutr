@@ -149,3 +149,56 @@ test_that("SDTM data is empty", {
     expected_ae5
   )
 })
+
+
+# Test 6 - Duplicate USUBJIDs in dataset_cut errors
+
+input_dcut_dups <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
+  "my_study", "subject1", ymd_hms("2020-10-11T23:59:59"),
+  "my_study", "subject1", ymd_hms("2020-10-11T23:59:59")
+)
+
+test_that("Error thrown when dataset_cut contains duplicate USUBJIDs", {
+  expect_error(
+    pt_cut(
+      dataset_sdtm = input_ae,
+      dataset_cut = input_dcut_dups
+    ),
+    regexp = "Duplicate patients in the DCUT"
+  )
+})
+
+
+# Test 7 - USUBJID missing from dataset_sdtm errors
+
+input_ae_no_id <- tibble::tribble(
+  ~STUDYID, ~AESEQ, ~AESTDTC,
+  "my_study", 1, "2020-01-02"
+)
+
+test_that("Error thrown when USUBJID is missing from dataset_sdtm", {
+  expect_error(
+    pt_cut(
+      dataset_sdtm = input_ae_no_id,
+      dataset_cut = input_dcut
+    )
+  )
+})
+
+
+# Test 8 - USUBJID missing from dataset_cut errors
+
+input_dcut_no_id <- tibble::tribble(
+  ~STUDYID, ~DCUTDTM,
+  "my_study", ymd_hms("2020-10-11T23:59:59")
+)
+
+test_that("Error thrown when USUBJID is missing from dataset_cut", {
+  expect_error(
+    pt_cut(
+      dataset_sdtm = input_ae,
+      dataset_cut = input_dcut_no_id
+    )
+  )
+})

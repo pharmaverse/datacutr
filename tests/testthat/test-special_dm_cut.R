@@ -2,29 +2,28 @@ library(stringr)
 library(dplyr)
 library(lubridate)
 
-dm_expect <- tibble::tribble(
-  ~USUBJID, ~DTHDTC, ~DTHFL,
-)
-
-dm <- dm_expect
-
-dcut <- tibble::tribble(
-  ~USUBJID, ~DCUTDTC,
-  "01-701-1015", "2014-10-20T23:59:59",
-  "01-701-1023", "2014-10-20T23:59:59",
-  "01-701-1028", "2014-10-20T23:59:59",
-) %>%
-  mutate(DCUTDTM = ymd_hms(DCUTDTC))
-
-test_that("Outcome if DM is empty", {
-  testthat::expect_equal(
-    special_dm_cut(
-      dataset_dm = dm,
-      dataset_cut = dcut,
-      cut_var = DCUTDTM
-    ),
-    dm_expect
+local({
+  dm_empty <- tibble::tribble(
+    ~USUBJID, ~DTHDTC, ~DTHFL,
   )
+  dcut_empty_dm <- tibble::tribble(
+    ~USUBJID, ~DCUTDTC,
+    "01-701-1015", "2014-10-20T23:59:59",
+    "01-701-1023", "2014-10-20T23:59:59",
+    "01-701-1028", "2014-10-20T23:59:59",
+  ) %>%
+    mutate(DCUTDTM = ymd_hms(DCUTDTC))
+
+  test_that("Outcome if DM is empty", {
+    testthat::expect_equal(
+      special_dm_cut(
+        dataset_dm = dm_empty,
+        dataset_cut = dcut_empty_dm,
+        cut_var = DCUTDTM
+      ),
+      dm_empty
+    )
+  })
 })
 
 
@@ -134,5 +133,45 @@ test_that("Tests all expected outcomes when datacut date is NA", {
       cut_var = DCUTDTM
     ),
     dm_expect_na
+  )
+})
+
+
+# Test 5 - Error when DTHDTC is missing from a non-empty dataset_dm
+
+dm_no_dthdtc <- tibble::tribble(
+  ~USUBJID, ~DTHFL,
+  "01-701-1015", "Y",
+  "01-701-1023", "Y"
+)
+
+test_that("Error thrown when DTHDTC is missing from a non-empty dataset_dm", {
+  expect_error(
+    special_dm_cut(
+      dataset_dm = dm_no_dthdtc,
+      dataset_cut = dcut,
+      cut_var = DCUTDTM
+    )
+  )
+})
+
+
+# Test 6 - Error when dataset_cut contains duplicate USUBJIDs
+
+dcut_dups <- tibble::tribble(
+  ~USUBJID, ~DCUTDTC,
+  "01-701-1015", "2014-10-20T23:59:59",
+  "01-701-1015", "2014-10-20T23:59:59"
+) %>%
+  mutate(DCUTDTM = ymd_hms(DCUTDTC))
+
+test_that("Error thrown when dataset_cut contains duplicate USUBJIDs", {
+  expect_error(
+    special_dm_cut(
+      dataset_dm = dm,
+      dataset_cut = dcut_dups,
+      cut_var = DCUTDTM
+    ),
+    regexp = "Duplicate patients in the DCUT"
   )
 })

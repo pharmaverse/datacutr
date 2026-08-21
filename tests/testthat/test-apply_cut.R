@@ -132,3 +132,41 @@ test_that("Test when input dataset is empty", {
     expected_dm
   )
 })
+
+
+### Test that error is thrown when dcutvar column is absent from a non-empty dsin ###
+
+input_no_flag <- data.frame(
+  USUBJID = c("UXYZ123a", "UXYZ123b"),
+  stringsAsFactors = FALSE
+)
+
+test_that("Error thrown when dcutvar column is absent from a non-empty dsin", {
+  expect_error(
+    apply_cut(dsin = input_no_flag, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = NULL)
+  )
+})
+
+
+### Test that DTHDTC and DTHFL attribute labels are preserved after apply_cut ###
+
+input_labels <- data.frame(
+  USUBJID = c("UXYZ123a", "UXYZ123b"),
+  DTHDTC = c("23MAR2022", "24MAR2022"),
+  DTHFL = c("Y", "Y"),
+  DCUT_TEMP_REMOVE = c("", ""),
+  DCUT_TEMP_DTHCHANGE = c("Y", ""),
+  stringsAsFactors = FALSE
+)
+attr(input_labels$DTHDTC, "label") <- "Date of Death"
+attr(input_labels$DTHFL, "label") <- "Death Flag"
+
+test_that("Attribute labels on DTHDTC and DTHFL are preserved after apply_cut", {
+  result <- apply_cut(
+    dsin = input_labels,
+    dcutvar = DCUT_TEMP_REMOVE,
+    dthchangevar = DCUT_TEMP_DTHCHANGE
+  )
+  expect_equal(attr(result$DTHDTC, "label"), "Date of Death")
+  expect_equal(attr(result$DTHFL, "label"), "Death Flag")
+})
