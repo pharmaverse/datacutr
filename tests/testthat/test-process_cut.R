@@ -363,8 +363,10 @@ local({
 
 min_source_data <- list(
   ds = data.frame(USUBJID = "AB12345-001", DSSTDTC = "2022-06-01", stringsAsFactors = FALSE),
-  dm = data.frame(USUBJID = "AB12345-001", DTHDTC = NA_character_, DTHFL = NA_character_,
-                  stringsAsFactors = FALSE),
+  dm = data.frame(
+    USUBJID = "AB12345-001", DTHDTC = NA_character_, DTHFL = NA_character_,
+    stringsAsFactors = FALSE
+  ),
   ae = data.frame(USUBJID = "AB12345-001", AESTDTC = "2022-06-01", stringsAsFactors = FALSE),
   sc = data.frame(USUBJID = "AB12345-001", stringsAsFactors = FALSE),
   ts = data.frame(USUBJID = "AB12345-001", stringsAsFactors = FALSE)
@@ -491,8 +493,10 @@ test_that("Error thrown when special_dm=TRUE but dm is absent from source_sdtm_d
 
 min_source_data_dup_names <- c(
   min_source_data,
-  list(ds = data.frame(USUBJID = "AB12345-001", DSSTDTC = "2022-06-01",
-                       stringsAsFactors = FALSE))
+  list(ds = data.frame(
+    USUBJID = "AB12345-001", DSSTDTC = "2022-06-01",
+    stringsAsFactors = FALSE
+  ))
 )
 
 test_that("Error thrown when source_sdtm_data contains duplicate dataset names", {
@@ -509,4 +513,3 @@ test_that("Error thrown when source_sdtm_data contains duplicate dataset names",
     regexp = "exists more than once in source_sdtm_data"
   )
 })
-
