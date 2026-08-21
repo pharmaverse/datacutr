@@ -197,14 +197,37 @@ test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE"
 
 # Test that every type of datacut gives the expected result, when special_dm=FALSE -----------
 
-# Remove dm from the source data list and expected data list
-source_data["dm"] <- NULL
-expected["dm"] <- NULL
+local({
+  source_data_no_dm <- source_data
+  source_data_no_dm["dm"] <- NULL
+  expected_no_dm <- expected
+  expected_no_dm["dm"] <- NULL
 
-test_that("Test that every type of datacut gives the expected result, when special_dm=FALSE", {
-  expect_equal(
+  test_that("Test that every type of datacut gives the expected result, when special_dm=FALSE", {
+    expect_equal(
+      process_cut(
+        source_sdtm_data = source_data_no_dm,
+        patient_cut_v = c("sc", "ds"),
+        date_cut_m = rbind(
+          c("ae", "AESTDTC"),
+          c("lb", "LBDTC")
+        ),
+        no_cut_v = c("ts"),
+        dataset_cut = dcut,
+        cut_var = DCUTDTM,
+        special_dm = FALSE
+      ),
+      expected_no_dm
+    )
+  })
+
+  # Test that Read-out file is ran successfully when special_dm = FALSE
+  test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE", {
+    # Create temporary directory for testing output file
+    temp_dir <- tempdir()
+    # Run test
     process_cut(
-      source_sdtm_data = source_data,
+      source_sdtm_data = source_data_no_dm,
       patient_cut_v = c("sc", "ds"),
       date_cut_m = rbind(
         c("ae", "AESTDTC"),
@@ -213,159 +236,277 @@ test_that("Test that every type of datacut gives the expected result, when speci
       no_cut_v = c("ts"),
       dataset_cut = dcut,
       cut_var = DCUTDTM,
+      special_dm = FALSE,
+      read_out = TRUE,
+      out_path = temp_dir
+    )
+    expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
+    unlink(temp_dir, recursive = TRUE)
+  })
+})
+
+
+# Testing when ae dataset is empty
+local({
+  ae_empty <- tibble::tribble(
+    ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
+  )
+  source_data_empty_ae <- list(
+    ds = datacutr_ds, dm = datacutr_dm, ae = ae_empty,
+    sc = datacutr_sc, lb = datacutr_lb, ts = datacutr_ts
+  )
+
+  test_that("Test if a date_cut dataset is null and creating report", {
+    # Create temporary directory for testing output file
+    temp_dir <- tempdir()
+    # Run test
+    process_cut(
+      source_sdtm_data = source_data_empty_ae,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(
+        c("ae", "AESTDTC"),
+        c("lb", "LBDTC")
+      ),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE,
+      read_out = TRUE,
+      out_path = temp_dir
+    )
+    expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
+    unlink(temp_dir, recursive = TRUE)
+  })
+
+
+  test_that("Test if a pt_cut dataset is null and creating report", {
+    # Create temporary directory for testing output file
+    temp_dir <- tempdir()
+    # Run test
+    process_cut(
+      source_sdtm_data = source_data_empty_ae,
+      patient_cut_v = c("sc", "ds", "ae"),
+      date_cut_m = rbind(
+        c("lb", "LBDTC")
+      ),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE,
+      read_out = TRUE,
+      out_path = temp_dir
+    )
+    expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
+    unlink(temp_dir, recursive = TRUE)
+  })
+
+
+  test_that("Test if a no_cut dataset is null and creating report", {
+    # Create temporary directory for testing output file
+    temp_dir <- tempdir()
+    # Run test
+    process_cut(
+      source_sdtm_data = source_data_empty_ae,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(
+        c("lb", "LBDTC")
+      ),
+      no_cut_v = c("ae", "ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE,
+      read_out = TRUE,
+      out_path = temp_dir
+    )
+    expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
+    unlink(temp_dir, recursive = TRUE)
+  })
+})
+
+
+# Testing when dm dataset is empty
+local({
+  dm_empty <- tibble::tribble(
+    ~STUDYID, ~USUBJID, ~DTHFL, ~DTHDTC,
+  )
+  source_data_empty_dm <- list(
+    ds = datacutr_ds, dm = dm_empty,
+    sc = datacutr_sc, lb = datacutr_lb, ts = datacutr_ts
+  )
+
+  test_that("Test if a dm dataset is null and creating report", {
+    # Create temporary directory for testing output file
+    temp_dir <- tempdir()
+    # Run test
+    process_cut(
+      source_sdtm_data = source_data_empty_dm,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(
+        c("lb", "LBDTC")
+      ),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE,
+      read_out = TRUE,
+      out_path = temp_dir
+    )
+    expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
+    unlink(temp_dir, recursive = TRUE)
+  })
+})
+
+
+# Input validation tests -------------------------------------------------------
+# Fresh minimal datasets so the tests below are not affected by state mutations
+# earlier in this file.
+
+min_source_data <- list(
+  ds = data.frame(USUBJID = "AB12345-001", DSSTDTC = "2022-06-01", stringsAsFactors = FALSE),
+  dm = data.frame(USUBJID = "AB12345-001", DTHDTC = NA_character_, DTHFL = NA_character_,
+                  stringsAsFactors = FALSE),
+  ae = data.frame(USUBJID = "AB12345-001", AESTDTC = "2022-06-01", stringsAsFactors = FALSE),
+  sc = data.frame(USUBJID = "AB12345-001", stringsAsFactors = FALSE),
+  ts = data.frame(USUBJID = "AB12345-001", stringsAsFactors = FALSE)
+)
+
+# Test: source_sdtm_data is not a list
+
+test_that("Error thrown when source_sdtm_data is not a list", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = "not_a_list",
+      patient_cut_v = NULL,
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
       special_dm = FALSE
     ),
-    expected
+    regexp = "source_sdtm_data must be of class list"
   )
 })
 
-# Test that Read-out file is ran successfully when special_dm = FALSE
-test_that("Test that Correct .Rmd file is ran successfully when read_out = TRUE", {
-  # Create temporary directory for testing output file
-  temp_dir <- tempdir()
-  # Run test
-  process_cut(
-    source_sdtm_data = source_data,
-    patient_cut_v = c("sc", "ds"),
-    date_cut_m = rbind(
-      c("ae", "AESTDTC"),
-      c("lb", "LBDTC")
+# Test: source_sdtm_data contains non-data-frame elements
+
+test_that("Error thrown when source_sdtm_data contains non-data-frame elements", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = list(ds = "not_a_dataframe"),
+      patient_cut_v = c("ds"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = FALSE
     ),
-    no_cut_v = c("ts"),
-    dataset_cut = dcut,
-    cut_var = DCUTDTM,
-    special_dm = FALSE,
-    read_out = TRUE,
-    out_path = temp_dir
+    regexp = "All elements of source_sdtm_data must be a dataframe"
   )
-  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
-  unlink(temp_dir, recursive = TRUE)
 })
 
+# Test: patient_cut_v contains an empty string
 
-# Testing when a dataset is null
-datacutr_ae <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
-)
-
-source_data <- list(
-  ds = datacutr_ds, dm = datacutr_dm, ae = datacutr_ae,
-  sc = datacutr_sc, lb = datacutr_lb, ts = datacutr_ts
-)
-
-ae_cut <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~AESEQ, ~AESTDTC,
-)
-
-# Store all expected data as a list
-expected <- list(
-  dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
-  ae = ae_cut, lb = lb_cut, ts = ts_cut
-)
-
-test_that("Test if a date_cut dataset is null and creating report", {
-  # Create temporary directory for testing output file
-  temp_dir <- tempdir()
-  # Run test
-  process_cut(
-    source_sdtm_data = source_data,
-    patient_cut_v = c("sc", "ds"),
-    date_cut_m = rbind(
-      c("ae", "AESTDTC"),
-      c("lb", "LBDTC")
+test_that("Error thrown when patient_cut_v contains an empty string", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = min_source_data,
+      patient_cut_v = c("sc", ""),
+      date_cut_m = rbind(c("ae", "AESTDTC")),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE
     ),
-    no_cut_v = c("ts"),
-    dataset_cut = dcut,
-    cut_var = DCUTDTM,
-    special_dm = TRUE,
-    read_out = TRUE,
-    out_path = temp_dir
+    regexp = "patient_cut_v must be a vector or NULL"
   )
-  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
-  unlink(temp_dir, recursive = TRUE)
 })
 
+# Test: date_cut_m has the wrong number of columns (not 2)
 
-test_that("Test if a pt_cut dataset is null and creating report", {
-  # Create temporary directory for testing output file
-  temp_dir <- tempdir()
-  # Run test
-  process_cut(
-    source_sdtm_data = source_data,
-    patient_cut_v = c("sc", "ds", "ae"),
-    date_cut_m = rbind(
-      c("lb", "LBDTC")
+test_that("Error thrown when date_cut_m does not have exactly two columns", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = min_source_data,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = matrix(c("ae", "AESTDTC", "extra"), nrow = 1, ncol = 3),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE
     ),
-    no_cut_v = c("ts"),
-    dataset_cut = dcut,
-    cut_var = DCUTDTM,
-    special_dm = TRUE,
-    read_out = TRUE,
-    out_path = temp_dir
+    regexp = "date_cut_m must be a matrix with two columns or NULL"
   )
-  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
-  unlink(temp_dir, recursive = TRUE)
 })
 
+# Test: no_cut_v contains an empty string
 
-test_that("Test if a no_cut dataset is null and creating report", {
-  # Create temporary directory for testing output file
-  temp_dir <- tempdir()
-  # Run test
-  process_cut(
-    source_sdtm_data = source_data,
-    patient_cut_v = c("sc", "ds"),
-    date_cut_m = rbind(
-      c("lb", "LBDTC")
+test_that("Error thrown when no_cut_v contains an empty string", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = min_source_data,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(c("ae", "AESTDTC")),
+      no_cut_v = c("ts", ""),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE
     ),
-    no_cut_v = c("ae", "ts"),
-    dataset_cut = dcut,
-    cut_var = DCUTDTM,
-    special_dm = TRUE,
-    read_out = TRUE,
-    out_path = temp_dir
+    regexp = "no_cut_v must be a vector or NULL"
   )
-  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
-  unlink(temp_dir, recursive = TRUE)
 })
 
+# Test: special_dm is not logical
 
-datacutr_dm <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DTHFL, ~DTHDTC,
-)
-
-source_data <- list(
-  ds = datacutr_ds, dm = datacutr_dm,
-  sc = datacutr_sc, lb = datacutr_lb, ts = datacutr_ts
-)
-
-dm_cut <- tibble::tribble(
-  ~STUDYID, ~USUBJID, ~DTHFL, ~DTHDTC,
-)
-
-# Store all expected data as a list
-expected <- list(
-  dcut = dcut, dm = dm_cut, sc = sc_cut, ds = ds_cut,
-  lb = lb_cut, ts = ts_cut
-)
-
-test_that("Test if a dm dataset is null and creating report", {
-  # Create temporary directory for testing output file
-  temp_dir <- tempdir()
-  # Run test
-  process_cut(
-    source_sdtm_data = source_data,
-    patient_cut_v = c("sc", "ds"),
-    date_cut_m = rbind(
-      c("lb", "LBDTC")
+test_that("Error thrown when special_dm is not logical", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = min_source_data,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(c("ae", "AESTDTC")),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = "TRUE"
     ),
-    no_cut_v = c("ts"),
-    dataset_cut = dcut,
-    cut_var = DCUTDTM,
-    special_dm = TRUE,
-    read_out = TRUE,
-    out_path = temp_dir
+    regexp = "special_dm must be either TRUE or FALSE"
   )
-  expect_true(dir.exists(temp_dir) & (length(list.files(temp_dir)) > 0))
-  unlink(temp_dir, recursive = TRUE)
 })
+
+# Test: special_dm = TRUE but dm absent from source_sdtm_data
+
+min_source_data_no_dm <- min_source_data[names(min_source_data) != "dm"]
+
+test_that("Error thrown when special_dm=TRUE but dm is absent from source_sdtm_data", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = min_source_data_no_dm,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(c("ae", "AESTDTC")),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE
+    ),
+    regexp = "dataset `dm` is missing from source_sdtm_data"
+  )
+})
+
+# Test: source_sdtm_data contains duplicate dataset names
+
+min_source_data_dup_names <- c(
+  min_source_data,
+  list(ds = data.frame(USUBJID = "AB12345-001", DSSTDTC = "2022-06-01",
+                       stringsAsFactors = FALSE))
+)
+
+test_that("Error thrown when source_sdtm_data contains duplicate dataset names", {
+  expect_error(
+    process_cut(
+      source_sdtm_data = min_source_data_dup_names,
+      patient_cut_v = c("sc", "ds"),
+      date_cut_m = rbind(c("ae", "AESTDTC")),
+      no_cut_v = c("ts"),
+      dataset_cut = dcut,
+      cut_var = DCUTDTM,
+      special_dm = TRUE
+    ),
+    regexp = "exists more than once in source_sdtm_data"
+  )
+})
+

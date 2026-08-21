@@ -298,3 +298,64 @@ test_that("Test that read_out() errors when elements in the no_cut_list list are
   )
   unlink(temp_dir, recursive = TRUE)
 })
+
+
+# Empty data frame branch tests ------------------------------------------------
+# These cover the nrow == 0 code paths that inject flag columns before the
+# assertion checks run, exercised directly rather than only via process_cut.
+
+## patient_cut_data empty frame ----
+empty_pt_df <- data.frame(USUBJID = character(), stringsAsFactors = FALSE)
+
+test_that("read_out handles an empty data frame in patient_cut_data", {
+  temp_dir <- tempdir()
+  read_out(
+    dcut = dcut,
+    patient_cut_data = list(ae = empty_pt_df),
+    out_path = temp_dir
+  )
+  expect_true(dir.exists(temp_dir) & length(list.files(temp_dir)) > 0)
+  unlink(temp_dir, recursive = TRUE)
+})
+
+## date_cut_data empty frame ----
+empty_dt_df <- data.frame(USUBJID = character(), stringsAsFactors = FALSE)
+
+test_that("read_out handles an empty data frame in date_cut_data", {
+  temp_dir <- tempdir()
+  read_out(
+    dcut = dcut,
+    date_cut_data = list(ae = empty_dt_df),
+    out_path = temp_dir
+  )
+  expect_true(dir.exists(temp_dir) & length(list.files(temp_dir)) > 0)
+  unlink(temp_dir, recursive = TRUE)
+})
+
+## dm_cut empty frame ----
+empty_dm_df <- data.frame(USUBJID = character(), stringsAsFactors = FALSE)
+
+test_that("read_out handles an empty dm_cut data frame", {
+  temp_dir <- tempdir()
+  read_out(
+    dcut = dcut,
+    dm_cut = empty_dm_df,
+    out_path = temp_dir
+  )
+  expect_true(dir.exists(temp_dir) & length(list.files(temp_dir)) > 0)
+  unlink(temp_dir, recursive = TRUE)
+})
+
+## no_cut_list empty frame ----
+empty_no_cut_df <- data.frame(USUBJID = character(), stringsAsFactors = FALSE)
+
+test_that("read_out handles an empty data frame in no_cut_list", {
+  temp_dir <- tempdir()
+  read_out(
+    dcut = dcut,
+    no_cut_list = list(ts = empty_no_cut_df),
+    out_path = temp_dir
+  )
+  expect_true(dir.exists(temp_dir) & length(list.files(temp_dir)) > 0)
+  unlink(temp_dir, recursive = TRUE)
+})

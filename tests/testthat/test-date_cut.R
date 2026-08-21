@@ -247,3 +247,65 @@ test_that("SDTM data is empty", {
     expected_ae6
   )
 })
+
+
+# Test 7 - Duplicate USUBJIDs in dataset_cut errors
+
+input_dcut_dups <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~DCUTDTM,
+  "my_study", "subject1", ymd_hms("2020-10-11T23:59:59"),
+  "my_study", "subject1", ymd_hms("2020-10-11T23:59:59")
+)
+
+test_that("Error thrown when dataset_cut contains duplicate USUBJIDs", {
+  expect_error(
+    date_cut(
+      dataset_sdtm = input_ae,
+      sdtm_date_var = AESTDTC,
+      dataset_cut = input_dcut_dups,
+      cut_var = DCUTDTM
+    ),
+    regexp = "Duplicate patients in the DCUT"
+  )
+})
+
+
+# Test 8 - Non-POSIXt cut_var errors
+
+input_dcut_char <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~DCUTDTC,
+  "my_study", "subject1", "2020-10-11T23:59:59",
+  "my_study", "subject2", "2020-10-11T23:59:59",
+  "my_study", "subject4", "2020-10-11T23:59:59"
+)
+
+test_that("Error thrown when cut_var is not a POSIXt type", {
+  expect_error(
+    date_cut(
+      dataset_sdtm = input_ae,
+      sdtm_date_var = AESTDTC,
+      dataset_cut = input_dcut_char,
+      cut_var = DCUTDTC
+    ),
+    regexp = "cut_var is expected to be of date type POSIXt"
+  )
+})
+
+
+# Test 9 - USUBJID missing from dataset_sdtm errors
+
+input_ae_no_id <- tibble::tribble(
+  ~STUDYID, ~AESEQ, ~AESTDTC,
+  "my_study", 1, "2020-01-02"
+)
+
+test_that("Error thrown when USUBJID is missing from dataset_sdtm", {
+  expect_error(
+    date_cut(
+      dataset_sdtm = input_ae_no_id,
+      sdtm_date_var = AESTDTC,
+      dataset_cut = input_dcut,
+      cut_var = DCUTDTM
+    )
+  )
+})
