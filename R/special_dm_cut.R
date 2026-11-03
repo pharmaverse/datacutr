@@ -183,11 +183,11 @@ special_dm_cut <- function(dataset_dm,
 # Returns "complete", "partial_day", "partial_month_day", or "missing".
 dthdtc_partial_type <- function(dthdtc) {
   case_when(
-    is.na(dthdtc) | dthdtc == ""                    ~ "missing",
-    str_detect(dthdtc, "^\\d{4}-\\d{2}-\\d{2}")     ~ "complete",
-    str_detect(dthdtc, "^\\d{4}-\\d{2}$")           ~ "partial_day",
-    str_detect(dthdtc, "^\\d{4}$")                  ~ "partial_month_day",
-    TRUE                                             ~ "missing"
+    is.na(dthdtc) | dthdtc == "" ~ "missing",
+    str_detect(dthdtc, "^\\d{4}-\\d{2}-\\d{2}") ~ "complete",
+    str_detect(dthdtc, "^\\d{4}-\\d{2}$") ~ "partial_day",
+    str_detect(dthdtc, "^\\d{4}$") ~ "partial_month_day",
+    TRUE ~ "missing"
   )
 }
 
@@ -196,7 +196,7 @@ dthdtc_partial_type <- function(dthdtc) {
 #   "partial_month_day"  -> 31 December of the reported year
 #   "complete" / "missing" -> NA
 dthdtc_last_permitted <- function(dthdtc) {
-  ptype  <- dthdtc_partial_type(dthdtc)
+  ptype <- dthdtc_partial_type(dthdtc)
   result <- rep(as.Date(NA_character_), length(dthdtc))
 
   is_pd <- ptype == "partial_day"
