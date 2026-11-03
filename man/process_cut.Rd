@@ -36,7 +36,8 @@ left blank if no domains are to remain exactly as source.}
 
 \item{special_dm}{A logical input indicating whether the \verb{special dm cut} should be performed.
 Note that, if TRUE, dm should not be included in \code{patient_cut_v}, \code{date_cut_m} or \code{no_cut_v}
-inputs.}
+inputs. When TRUE and a DS domain is present in \code{source_sdtm_data}, \code{special_ds_cut()} is
+also applied automatically to remove corresponding DS death records.}
 
 \item{read_out}{A logical input indicating whether a summary file for the datacut should be
 produced. If \code{TRUE}, a .html file will be returned containing a summary of the cut and
@@ -53,9 +54,12 @@ performing the selected datacut on each SDTMv domain.
 Applies the selected type of datacut on each SDTMv dataset based on the chosen
 SDTMv date variable, and outputs the resulting cut datasets, as well as the datacut dataset,
 as a list. It provides an option to perform a "special" cut on the demography (dm) domain
-in which any deaths occurring after the datacut date are removed. It also provides an option
-to produce a .html file that summarizes the changes applied to the data during the cut, where
-you can inspect the records that have been removed and/or modified.
+in which any deaths occurring after the datacut date are removed. When this special DM cut is
+performed and a DS domain is present in \code{source_sdtm_data}, any DS records with
+\code{DSDECOD = "DEATH"} for the affected subjects are also automatically removed via
+\code{special_ds_cut()}. It also provides an option to produce a .html file that summarizes the
+changes applied to the data during the cut, where you can inspect the records that have been
+removed and/or modified.
 }
 \examples{
 dcut <- data.frame(
