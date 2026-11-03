@@ -21,5 +21,8 @@ globalVariables(c(
   "source_data",
   "DCUT_TEMP_REMOVE",
   "DCUT_TEMP_DTHCHANGE",
-  "TEMP_DCUT_KEEP"
+  "TEMP_DCUT_KEEP",
+  "LALIVEDT",
+  "DCUT_TEMP_DTHCONFLICT",
+  "DCUT_TEMP_DTHDT_LAST"
 ))

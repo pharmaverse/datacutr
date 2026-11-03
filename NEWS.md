@@ -1,3 +1,19 @@
+# datacutr 0.2.5
+
+## New Features
+
+-   Added `special_ds_cut()` function to flag DS records where `DSDECOD = "DEATH"` for removal when the corresponding subject's death was cleared by `special_dm_cut()`, keeping DM and DS consistent after the cut.
+-   `special_dm_cut()` now supports an optional `LALIVEDT` column (last known alive date, derived from uncut SDTM data) in `dataset_cut`. When present, Rule B imputation (`LALIVEDT + 1 day`) is applied to partial `DTHDTC` values alongside the existing Rule A (earliest consistent date), and conflict detection is activated — setting `DCUT_TEMP_DTHCONFLICT = "Y"` where `LALIVEDT` is logically inconsistent with `DTHDTC`. Backward compatible: behaviour is unchanged when `LALIVEDT` is absent.
+
+## Updates of Existing Functions
+
+-   `process_cut()` now automatically calls `special_ds_cut()` on the DS domain when `special_dm = TRUE` and DS is present in `source_sdtm_data`. No change to existing call signatures.
+-   `read_out()` updated to convert `out_path` to an absolute path before rendering, resolving failures when a relative path is supplied (#271).
+
+## Documentation
+
+-   Added vignette *Using LALIVEDT to Refine Partial Death Date Imputation* covering partial death date imputation rules (Rule A / Rule B), conflict detection, and the end-to-end `special_ds_cut()` workflow for both the modular and wrapped approaches.
+
 # datacutr 0.2.4
 
 ## Updates of Existing Functions

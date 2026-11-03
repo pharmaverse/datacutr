@@ -330,6 +330,83 @@ test_that("Test if a no_cut dataset is null and creating report", {
 })
 
 
+# Test special_ds_cut integration via process_cut ---------------------------------
+
+dm_dth_test <- tibble::tribble(
+  ~USUBJID,      ~DTHFL,        ~DTHDTC,
+  "AB12345-001", "Y",           "2022-06-01",
+  "AB12345-002", NA_character_, NA_character_,
+  "AB12345-003", "Y",           "2022-07-01",
+  "AB12345-004", NA_character_, NA_character_,
+  "AB12345-005", "Y",           "2022-12-01",
+)
+
+ds_with_death <- tibble::tribble(
+  ~USUBJID,      ~DSDECOD,        ~DSSTDTC,
+  "AB12345-001", "RANDOMIZATION", "2022-06-01",
+  "AB12345-001", "DEATH",         "2022-06-01",
+  "AB12345-002", "RANDOMIZATION", "2022-06-02",
+  "AB12345-003", "RANDOMIZATION", "2022-06-03",
+  "AB12345-003", "DEATH",         "2022-07-01",
+  "AB12345-004", "RANDOMIZATION", "2022-06-04",
+  "AB12345-005", "RANDOMIZATION", "2022-10-05",
+)
+
+source_data_dth <- list(
+  ds = ds_with_death, dm = dm_dth_test,
+  sc = datacutr_sc, lb = datacutr_lb, ts = datacutr_ts
+)
+
+# AB12345-003 DEATH removed (death after cutoff); AB12345-001 DEATH kept; AB12345-005 removed by pt_cut
+ds_expected_special <- tibble::tribble(
+  ~USUBJID,      ~DSDECOD,        ~DSSTDTC,
+  "AB12345-001", "RANDOMIZATION", "2022-06-01",
+  "AB12345-001", "DEATH",         "2022-06-01",
+  "AB12345-002", "RANDOMIZATION", "2022-06-02",
+  "AB12345-003", "RANDOMIZATION", "2022-06-03",
+  "AB12345-004", "RANDOMIZATION", "2022-06-04",
+)
+
+test_that("special_ds_cut removes DS DEATH records for cleared deaths when special_dm = TRUE", {
+  result <- process_cut(
+    source_sdtm_data = source_data_dth,
+    patient_cut_v = c("sc", "ds"),
+    date_cut_m = rbind(c("lb", "LBDTC")),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = TRUE
+  )
+  expect_equal(result[["ds"]], ds_expected_special)
+})
+
+test_that("DS DEATH records are NOT removed when special_dm = FALSE", {
+  source_data_no_dm <- source_data_dth[names(source_data_dth) != "dm"]
+
+  ds_expected_no_special <- tibble::tribble(
+    ~USUBJID,      ~DSDECOD,        ~DSSTDTC,
+    "AB12345-001", "RANDOMIZATION", "2022-06-01",
+    "AB12345-001", "DEATH",         "2022-06-01",
+    "AB12345-002", "RANDOMIZATION", "2022-06-02",
+    "AB12345-003", "RANDOMIZATION", "2022-06-03",
+    "AB12345-003", "DEATH",         "2022-07-01",
+    "AB12345-004", "RANDOMIZATION", "2022-06-04",
+  )
+
+  result <- process_cut(
+    source_sdtm_data = source_data_no_dm,
+    patient_cut_v = c("sc", "ds"),
+    date_cut_m = rbind(c("lb", "LBDTC")),
+    no_cut_v = c("ts"),
+    dataset_cut = dcut,
+    cut_var = DCUTDTM,
+    special_dm = FALSE
+  )
+  expect_equal(result[["ds"]], ds_expected_no_special)
+})
+
+# Testing when a dm dataset is null -----------------------------------------------
+
 datacutr_dm <- tibble::tribble(
   ~STUDYID, ~USUBJID, ~DTHFL, ~DTHDTC,
 )

@@ -1,0 +1,218 @@
+---
+title: "Using LALIVEDT to Refine Partial Death Date Imputation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using LALIVEDT to Refine Partial Death Date Imputation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+When applying a data cut, `special_dm_cut()` must decide whether a subject's death occurred before or after the cut date. For subjects with a **complete** `DTHDTC` (e.g. `"2024-03-15"`) this comparison is straightforward. For subjects with a **partial** `DTHDTC` — where only the year (`"2024"`) or year-month (`"2024-03"`) is recorded — the function must impute a usable date before making that comparison.
+
+By default (`LALIVEDT` absent), **Rule A** is applied: the earliest date consistent with the partial string is used as the imputed death date. This is conservative in the sense that it retains records when in doubt, but it can under-flag deaths that clearly occurred after the cut.
+
+Supplying a `LALIVEDT` column (last known alive date) in `dataset_cut` (incoming DCUT dataset) activates **Rule B**, which uses subject-level evidence of when a subject was last known to be alive to push the imputed death date later when that is better supported by the data.
+
+# Imputation Rules
+
+## Rule A — Earliest consistent date (always applied)
+
+| Partial type                      | Example `DTHDTC` | Rule A imputed date |
+|-----------------------------------|------------------|---------------------|
+| Year and month known, day missing | `"2024-03"`      | `2024-03-01`        |
+| Year only known                   | `"2024"`         | `2024-01-01`        |
+
+## Rule B — Last known alive date + 1 day (requires `LALIVEDT`)
+
+Where `LALIVEDT` is available and the subject has a partial `DTHDTC`, the imputed death date is the **later** of Rule A and `LALIVEDT + 1 day`.
+
+The logic is: if we know a subject was alive on `LALIVEDT`, the earliest they could have died is `LALIVEDT + 1`. Keeping Rule A as a floor ensures the imputed date is always at least as late as the earliest consistent date.
+
+## Conflict detection
+
+A conflict arises when `LALIVEDT` is logically inconsistent with `DTHDTC`. Two cases apply:
+
+**Partial `DTHDTC`:** conflict when `LALIVEDT` is on or after the last date the partial string can possibly represent (e.g. `LALIVEDT >= 2024-03-31` for `DTHDTC = "2024-03"`). `LALIVEDT + 1 day` is still used as the imputed death date and takes precedence over the partial date range.
+
+**Complete `DTHDTC`:** conflict when `LALIVEDT` is on or after the recorded death date (e.g. `LALIVEDT >= 2024-03-15` for `DTHDTC = "2024-03-15"`). The recorded death date is **not** changed — it is specific and authoritative — but the record is flagged for querying.
+
+In both cases `DCUT_TEMP_DTHCONFLICT = "Y"` is set. These records should be queried and resolved in source data before the cut is applied.
+
+| `DTHDTC` | `LALIVEDT` | Conflict? | `DCUT_TEMP_DTHDT` | Note |
+|---|---|---|---|---|
+| `"2014-10"` | `2014-10-15` | No | `2014-10-16` (Rule B) | |
+| `"2014-10"` | `2014-10-31` | **Yes** (partial) | `2014-11-01` (`LALIVEDT + 1`) | LALIVDEDT+1 used |
+| `"2014"` | `2014-12-31` | **Yes** (partial) | `2015-01-01` (`LALIVEDT + 1`) | LALIVDEDT+1 used |
+| `"2014-10-20"` | `2014-10-25` | **Yes** (complete) | `2014-10-20` (unchanged) | DTHDTC used |
+
+## Decision summary
+
+```         
+Partial DTHDTC?
+├── No  → use complete date directly
+└── Yes → Rule A: earliest consistent date
+           ├── LALIVEDT absent → use Rule A
+           └── LALIVEDT present → use later of (Rule A, LALIVEDT + 1)
+                 └── LALIVEDT >= last permitted date?
+                       → yes: also flag DCUT_TEMP_DTHCONFLICT = "Y"
+                         (LALIVEDT + 1 still used as imputed date)
+```
+
+# Deriving LALIVEDT
+
+`LALIVEDT` is the last date on which there is positive evidence the subject was alive, derived from **uncut** SDTM data. It is independent of `ADSL.LSTALVDT`, which is derived from cut data and cannot be used here. Study teams must define which domains and records constitute evidence of being alive, and derive a single complete `Date` or `POSIXt` value per subject (one row per `USUBJID`, no partial dates).
+
+# Adding LALIVEDT to DCUT
+
+Once derived, join `LALIVEDT` onto `dataset_cut` (incoming DCUT dataset) before passing it to `special_dm_cut()`.
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+dcut <- create_dcut(
+  dataset_ds = datacutr_ds,
+  ds_date_var = DSSTDTC,
+  filter = DSDECOD == "RANDOMIZATION",
+  cut_date = "2014-10-20",
+  cut_description = "Clinical Cut-off"
+) |>
+  left_join(lalivedt, by = "USUBJID")
+```
+
+`LALIVEDT` will be `NA` for subjects with no evidence of being alive in the source data. For those subjects, only Rule A applies.
+
+# Applying the Cut
+
+Pass the enriched `dataset_cut` to `special_dm_cut()` as normal. The function detects the presence of `LALIVEDT` automatically.
+
+```{r, eval=FALSE}
+dm_cut <- special_dm_cut(
+  dataset_dm  = datacutr_dm,
+  dataset_cut = dcut,
+  cut_var     = DCUTDTM
+)
+```
+
+# Removing the Corresponding DS Death Record
+
+`special_dm_cut()` clears death-related fields (`DTHFL`, `DTHDTC`) from the DM record for subjects whose death is determined to have occurred after the cut date (`DCUT_TEMP_DTHCHANGE = "Y"`). However, the matching DS record where `DSDECOD = "DEATH"` still exists in the disposition domain and should also be removed to keep DM and DS consistent.
+
+`special_ds_cut()` handles this. It takes the output of `special_dm_cut()` and flags the corresponding DS DEATH records for removal by setting `DCUT_TEMP_REMOVE = "Y"`, consistent with the output of `pt_cut()` and `date_cut()` so that `apply_cut()` can handle the actual removal.
+
+## Modular approach
+
+Call `special_ds_cut()` immediately after `special_dm_cut()`, passing the DM cut output as `dataset_dm_cut`:
+
+```{r, eval=FALSE}
+dm_cut <- special_dm_cut(
+  dataset_dm  = datacutr_dm,
+  dataset_cut = dcut,
+  cut_var     = DCUTDTM
+)
+
+ds_flagged <- special_ds_cut(
+  dataset_ds     = datacutr_ds,
+  dataset_dm_cut = dm_cut
+)
+
+ds_cut <- apply_cut(ds_flagged, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
+```
+
+## Wrapped approach
+
+When using `process_cut()` with `special_dm = TRUE`, `special_ds_cut()` is called automatically on the DS domain if it is present in `source_sdtm_data`. No additional steps are required.
+
+# Worked Example
+
+The following self-contained example demonstrates all three scenarios: Rule A only, Rule B overriding Rule A, and a conflict. It also shows `special_ds_cut()` removing the matching DS DEATH record for the subject whose death was cleared.
+
+```{r, message=FALSE, warning=FALSE}
+library(datacutr)
+library(dplyr)
+library(lubridate)
+library(tibble)
+
+dm_ex <- tribble(
+  ~USUBJID,      ~DTHDTC,     ~DTHFL,
+  "SUBJ-01",    "2014-10-21",  "Y",   # complete date — no imputation needed
+  "SUBJ-02",    "2014-10",     "Y",   # partial: Rule B pushes date later
+  "SUBJ-03",    "2014-10",     "Y",   # partial: LALIVEDT conflicts with partial range
+  "SUBJ-04",    NA_character_, NA     # no death recorded
+)
+
+dcut_ex <- tribble(
+  ~USUBJID,   ~DCUTDTM,                                   ~LALIVEDT,
+  "SUBJ-01",  lubridate::ymd_hms("2014-10-20 23:59:59"), as.Date("2014-09-01"),
+  "SUBJ-02",  lubridate::ymd_hms("2014-10-20 23:59:59"), as.Date("2014-10-10"),
+  "SUBJ-03",  lubridate::ymd_hms("2014-10-20 23:59:59"), as.Date("2014-10-31"),
+  "SUBJ-04",  lubridate::ymd_hms("2014-10-20 23:59:59"), as.Date("2014-10-15")
+)
+
+dm_cut_ex <- special_dm_cut(
+  dataset_dm  = dm_ex,
+  dataset_cut = dcut_ex,
+  cut_var     = DCUTDTM
+)
+
+dm_cut_ex |>
+  left_join(select(dcut_ex, USUBJID, LALIVEDT), by = "USUBJID") |>
+  select(
+    USUBJID, DTHDTC, LALIVEDT, DCUT_TEMP_DCUTDTM,
+    DCUT_TEMP_DTHDT, DCUT_TEMP_DTHCHANGE, DCUT_TEMP_DTHCONFLICT
+  )
+```
+
+What to observe in the output:
+
+-   **SUBJ-01** — complete `DTHDTC` of `2014-10-21` is after the cut; flagged `DCUT_TEMP_DTHCHANGE = "Y"`.
+-   **SUBJ-02** — partial `"2014-10"`: Rule A gives `2014-10-01`; Rule B gives `2014-10-11` (`LALIVEDT + 1`). Rule B wins. `2014-10-11` is before the cut so no change flag.
+-   **SUBJ-03** — partial `"2014-10"`: `LALIVEDT = 2014-10-31` is on or after the last permitted date for `"2014-10"` (`2014-10-31`), so conflict is detected and `DCUT_TEMP_DTHCONFLICT = "Y"` is set. `LALIVEDT + 1 = 2014-11-01` takes precedence as the imputed death date. `2014-11-01` is after the cut so `DCUT_TEMP_DTHCHANGE = "Y"`. This record should be queried with data management.
+-   **SUBJ-04** — no death recorded; no imputation or flags applied.
+
+Records flagged `DCUT_TEMP_DTHCONFLICT = "Y"` indicate a data quality issue that should be queried with the data management team and resolved in source data before the cut is finalised.
+
+## Removing DS DEATH records for cleared deaths
+
+SUBJ-01 and SUBJ-03 both had their death cleared from DM (`DCUT_TEMP_DTHCHANGE = "Y"`). If DS contains a `DSDECOD = "DEATH"` record for either subject, `special_ds_cut()` will flag it for removal.
+
+```{r, message=FALSE, warning=FALSE}
+ds_ex <- tribble(
+  ~USUBJID,   ~DSDECOD,
+  "SUBJ-01",  "RANDOMIZATION",
+  "SUBJ-01",  "DEATH",          # death after cut → will be removed
+  "SUBJ-02",  "RANDOMIZATION",
+  "SUBJ-03",  "RANDOMIZATION",
+  "SUBJ-03",  "DEATH",          # death after cut (conflict case) → will be removed
+  "SUBJ-04",  "RANDOMIZATION"
+)
+
+ds_flagged_ex <- special_ds_cut(
+  dataset_ds     = ds_ex,
+  dataset_dm_cut = dm_cut_ex
+)
+
+ds_flagged_ex
+```
+
+The two DEATH records flagged `DCUT_TEMP_REMOVE = "Y"` are then removed by `apply_cut()`:
+
+```{r, message=FALSE, warning=FALSE}
+apply_cut(ds_flagged_ex, dcutvar = DCUT_TEMP_REMOVE, dthchangevar = DCUT_TEMP_DTHCHANGE)
+```
+
+SUBJ-01 and SUBJ-03 retain their `RANDOMIZATION` records but lose the `DEATH` record, consistent with the cleared death fields in DM.
+
+# Reviewing Conflicts in Your Cut
+
+```{r, eval=FALSE}
+dm_cut |>
+  filter(!is.na(DCUT_TEMP_DTHCONFLICT)) |>
+  select(USUBJID, DTHDTC, DCUT_TEMP_DTHDT, DCUT_TEMP_DCUTDTM, DCUT_TEMP_DTHCONFLICT)
+```

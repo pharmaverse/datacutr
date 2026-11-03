@@ -9,18 +9,68 @@ special_dm_cut(dataset_dm, dataset_cut, cut_var = DCUTDTM)
 \arguments{
 \item{dataset_dm}{Input DM SDTMv dataset}
 
-\item{dataset_cut}{Input datacut dataset}
+\item{dataset_cut}{Input datacut dataset. May optionally include a \code{LALIVEDT}
+column (complete Date or POSIXt, one row per USUBJID) representing the last known
+alive date derived from uncut SDTM data. When present, Rule B imputation and
+conflict detection are applied to partial \code{DTHDTC} values. When absent,
+only Rule A is applied (current behaviour, backward compatible).}
 
-\item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset, default is \code{DCUTDTM}}
+\item{cut_var}{Datacut date variable found in the \code{dataset_cut} dataset,
+default is \code{DCUTDTM}}
 }
 \value{
-Input dataset plus a flag \code{DCUT_TEMP_REMOVE} to indicate which observations would be
-dropped when a datacut is applied, and a flag \code{DCUT_TEMP_DTHCHANGE} to indicate which
-observations have death occurring after data cut date for clearing
+Input dataset plus:
+\itemize{
+\item \code{DCUT_TEMP_REMOVE} — "Y" for subjects not in \code{dataset_cut}
+\item \code{DCUT_TEMP_DTHDT} — imputed death datetime (Rule A or Rule B)
+\item \code{DCUT_TEMP_DCUTDTM} — datacut datetime
+\item \code{DCUT_TEMP_DTHCHANGE} — "Y" when imputed death date is after the
+datacut date
+\item \code{DCUT_TEMP_DTHCONFLICT} — "Y" when a conflict between \code{LALIVEDT}
+and \code{DTHDTC} is detected (partial dates: \code{LALIVEDT} on or after the
+last permitted date of the range; complete dates: \code{LALIVEDT} on or after
+the recorded death date); only present when \code{LALIVEDT} is supplied in
+\code{dataset_cut}
+}
 }
 \description{
 Applies patient cut if patient not in source DCUT, as well as
-clearing death information within DM if death occurred after datacut date
+clearing death information within DM if death occurred after datacut date.
+When \code{LALIVEDT} (the last known alive date, derived from uncut SDTM data)
+is supplied as a column in \code{dataset_cut}, a two-rule imputation is applied
+to partial \code{DTHDTC} values (see Details).
+}
+\details{
+For partial \code{DTHDTC} values, the imputed death date is the later of:
+\itemize{
+\item \strong{Rule A} — earliest date consistent with the partial date:
+missing day imputed as the 1st of the reported month; missing month and day
+imputed as 1 January of the reported year.
+\item \strong{Rule B} — \code{LALIVEDT} + 1 day (only when \code{LALIVEDT} is
+present in \code{dataset_cut}).
+}
+
+\strong{Conflict — partial dates:} Where \code{LALIVEDT} is on or after the last
+date the reported partial date permits (last day of the reported month where the day
+is missing, or 31 December of the reported year where the month and day are missing),
+the reported death date and the last known alive date are in conflict. In this case
+\code{LALIVEDT + 1 day} still takes precedence — it is applied as the imputed death
+date and the record is flagged \code{DCUT_TEMP_DTHCONFLICT = "Y"}.
+
+\strong{Conflict — complete dates:} Where \code{LALIVEDT} is on or after a complete
+\code{DTHDTC}, the recorded death date and the last known alive date are in conflict.
+The recorded death date is \strong{not} changed (it is specific and authoritative), but
+the record is flagged \code{DCUT_TEMP_DTHCONFLICT = "Y"}.
+
+All conflict records should be queried and resolved before applying the cut.
+
+\strong{Completely missing death dates} (\code{DTHDTC} with no date components)
+are never flagged and are always retained (section 5.4.3).
+
+\code{LALIVEDT} must be a complete (non-partial) Date or POSIXt column. It is
+derived from uncut SDTM data and is therefore independent of \code{ADSL.LSTALVDT},
+which uses cut data. Study teams must explicitly define which records constitute
+evidence of being alive.
 }
 \examples{
 

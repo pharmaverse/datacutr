@@ -3,7 +3,8 @@ linters: linters_with_defaults(
     object_usage_linter=NULL,
     infix_spaces_linter=NULL,
     indentation_linter=NULL,
-    cyclocomp_linter(complexity_limit = 34)
+    cyclocomp_linter(complexity_limit = 34),
+    pipe_consistency_linter=NULL
   )
 exclusions: list(
     "R/data.R",
